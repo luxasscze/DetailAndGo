@@ -7,25 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DetailAndGo.Models;
 using DetailAndGoAdmin.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DetailAndGoAdmin.Pages.Customers
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<Customer> Customer { get;set; } = default!;
+        public IList<Customer> Customers { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Customers != null)
             {
-                Customer = await _context.Customers.ToListAsync();
+                Customers = await _context.Customers.ToListAsync();
             }
         }
     }
