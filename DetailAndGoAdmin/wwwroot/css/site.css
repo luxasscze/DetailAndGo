@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans');
+
 html {
   font-size: 14px;
 }
@@ -15,4 +17,5 @@ html {
 
 body {
   margin-bottom: 60px;
+  font-family: 'Leelawadee UI'
 }
