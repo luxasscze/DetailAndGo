@@ -9,9 +9,7 @@
     <link rel="stylesheet" href="~/DetailAndGoAdmin.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        @if (User.Identity.IsAuthenticated)
-        {
+    <header>       
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
                 <div class="container">
                     <a class="navbar-brand" asp-area="" asp-page="/Index">Detail&Go Admin</a>
@@ -31,8 +29,7 @@
                         <partial name="_LoginPartial" />
                     </div>
                 </div>
-            </nav>
-        }
+            </nav>       
     </header>
     <div class="container">
         <main role="main" class="pb-3">

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DetailAndGo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221023005154_Mig1")]
-    partial class Mig1
+    [Migration("20221023112212_NewDB")]
+    partial class NewDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

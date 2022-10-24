@@ -31,7 +31,7 @@ else
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseHttpsRedirection();
+    //app.UseHttpsRedirection();
 }
 app.UseStaticFiles();
 
