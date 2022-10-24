@@ -21,6 +21,7 @@ using Microsoft.Extensions.Logging;
 
 namespace DetailAndGoAdmin.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
@@ -121,7 +122,7 @@ namespace DetailAndGoAdmin.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    //await _userManager.AddToRoleAsync(user, "Admin"); //REGISTER AS ADMIN
+                    await _userManager.AddToRoleAsync(user, "Admin"); //REGISTER AS ADMIN
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
