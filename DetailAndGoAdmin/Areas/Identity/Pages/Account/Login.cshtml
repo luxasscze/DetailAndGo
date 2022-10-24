@@ -19,10 +19,10 @@
                         <use xlink:href="#icon-user"></use>
                     </svg><span class="hidden">Username</span>
                 </label>
-                <input asp-for="Input.Email" class="form__input" autocomplete="username" aria-required="true" placeholder="Email" type="text" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input asp-for="Input.Email" class="form__input" autocomplete="username" aria-required="true" placeholder="Email" type="text" />          
                 <!--<input autocomplete="username" id="login__username" type="text" name="username" class="form__input" placeholder="Username" required>-->
             </div>
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
 
             <div class="form__field">
                 <label for="login__password">
@@ -31,16 +31,18 @@
                     </svg><span class="hidden">Password</span>
                 </label>
                 <input asp-for="Input.Password" class="form__input" autocomplete="current-password" aria-required="true" type="password" placeholder="Password" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                
                 <!--<input id="login__password" type="password" name="password" class="form__input" placeholder="Password" required>-->
             </div>
-
-            @{/*<div class="form__field">
-                <label asp-for="Input.RememberMe" class="form-label">
-                    <input class="form__input" asp-for="Input.RememberMe" />
-                    @Html.DisplayNameFor(m => m.Input.RememberMe)
-                </label>
-            </div>*/}
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+            @{
+                /*<div class="form__field">
+        <label asp-for="Input.RememberMe" class="form-label">
+        <input class="form__input" asp-for="Input.RememberMe" />
+        @Html.DisplayNameFor(m => m.Input.RememberMe)
+        </label>
+                </div>*/
+            }
 
 
             <div class="form__field">
@@ -124,7 +126,7 @@
                             <p>
                             There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
                             about setting up this ASP.NET application to support logging in via external services</a>.
-                </p>
+                    </p>
                     </div>
                     }
                     else
@@ -135,10 +137,10 @@
                                 @foreach (var provider in Model.ExternalLogins)
                                     {
                                     <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                }
-        </p>
-    </div>
-            </form>
+    }
+            </p>
+            </div>
+    </form>
     }
     }
     </section>
