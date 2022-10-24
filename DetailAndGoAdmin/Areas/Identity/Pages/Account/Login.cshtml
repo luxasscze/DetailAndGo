@@ -9,20 +9,22 @@
 
 
 <body class="align">
-    <h1 style="text-align: center;">DETAIL & GO ADMIN</h1>
+    <div class="row">
+        <h1 style="text-align: center; color: #fff;">DETAIL & GO</h1><h2 style="text-align: center;"> ADMIN</h2>
+    </div>
     <div class="grid">
         <form id="account" method="post" class="form login">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-warning"></div>
             <div class="form__field">
                 <label for="login__username">
                     <svg class="icon">
                         <use xlink:href="#icon-user"></use>
                     </svg><span class="hidden">Username</span>
                 </label>
-                <input asp-for="Input.Email" class="form__input" autocomplete="username" aria-required="true" placeholder="Email" type="text" />          
+                <input asp-for="Input.Email" class="form__input" autocomplete="username" aria-required="true" placeholder="Email" type="text" />
                 <!--<input autocomplete="username" id="login__username" type="text" name="username" class="form__input" placeholder="Username" required>-->
             </div>
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
+            <span asp-validation-for="Input.Email" class="text-warning"></span>
 
             <div class="form__field">
                 <label for="login__password">
@@ -31,16 +33,16 @@
                     </svg><span class="hidden">Password</span>
                 </label>
                 <input asp-for="Input.Password" class="form__input" autocomplete="current-password" aria-required="true" type="password" placeholder="Password" />
-                
+
                 <!--<input id="login__password" type="password" name="password" class="form__input" placeholder="Password" required>-->
             </div>
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <span asp-validation-for="Input.Password" class="text-warning"></span>
             @{
                 /*<div class="form__field">
-        <label asp-for="Input.RememberMe" class="form-label">
-        <input class="form__input" asp-for="Input.RememberMe" />
-        @Html.DisplayNameFor(m => m.Input.RememberMe)
-        </label>
+                <label asp-for="Input.RememberMe" class="form-label">
+                <input class="form__input" asp-for="Input.RememberMe" />
+                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
                 </div>*/
             }
 
@@ -137,9 +139,9 @@
                                 @foreach (var provider in Model.ExternalLogins)
                                     {
                                     <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-    }
+            }
             </p>
-            </div>
+    </div>
     </form>
     }
     }
