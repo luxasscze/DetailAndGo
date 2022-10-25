@@ -8,7 +8,7 @@ namespace DetailAndGoAdmin.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        private readonly Utility _utility = new Utility();
+        private DetailAndGoServices.Utility _utility = new DetailAndGoServices.Utility();
         private IWebHostEnvironment _webHostEnvironment;
 
         public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment webHostEnvironment)
@@ -17,11 +17,9 @@ namespace DetailAndGoAdmin.Pages
             _webHostEnvironment = webHostEnvironment;
         }
 
-        
-
-
         public void OnGet()
-        {            
+        {
+                        
             ViewData["Greeting"] = _utility.GetGreetings();
             string[] quote = _utility.GetRandomQuote(_webHostEnvironment.WebRootPath).Result;
             ViewData["Quote"] = quote[0];
