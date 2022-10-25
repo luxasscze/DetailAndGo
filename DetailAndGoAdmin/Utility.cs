@@ -36,7 +36,7 @@ namespace DetailAndGoAdmin
             string[] quotes = await File.ReadAllLinesAsync(rootPath + "/text/Quotes.txt");            
             string selectedQuote = quotes[random.Next(0, quotes.Length - 1)];
             string[] result = selectedQuote.Split(';');
-            return result;
+            return result;            
         }
     }
 }

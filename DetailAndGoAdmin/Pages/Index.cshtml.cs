@@ -21,10 +21,9 @@ namespace DetailAndGoAdmin.Pages
 
 
         public void OnGet()
-        {
-            string rootPath = _webHostEnvironment.WebRootPath;
+        {            
             ViewData["Greeting"] = _utility.GetGreetings();
-            string[] quote = _utility.GetRandomQuote(rootPath).Result;
+            string[] quote = _utility.GetRandomQuote(_webHostEnvironment.WebRootPath).Result;
             ViewData["Quote"] = quote[0];
             ViewData["QuoteAuthor"] = quote[1];
         }
