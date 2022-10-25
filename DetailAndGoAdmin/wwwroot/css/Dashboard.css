@@ -82,10 +82,14 @@ body {
         padding: .7rem 1.75rem;
     }
 
-    .sidebar a:hover {
-        color: #fff;
-        font-size: 25px;
+    .sidebar a {
+        transition: all .2s ease-in-out;
     }
+
+        .sidebar a:hover {
+            color: #fff;
+            transform: scale(1.5);
+        }
 
     .sidebar i:hover {
         color: #fff;
@@ -132,7 +136,7 @@ body {
     }
 
         .sidebar ul .sidebar-dropdown.active {
-            display: block;
+            display: flex;
         }
 
         .sidebar ul .sidebar-dropdown > li > a {
