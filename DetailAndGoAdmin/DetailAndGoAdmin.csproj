@@ -24,4 +24,10 @@
 		<ProjectReference Include="..\DetailAndGo\DetailAndGo.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="wwwroot\text\Quotes.txt">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
 </Project>
