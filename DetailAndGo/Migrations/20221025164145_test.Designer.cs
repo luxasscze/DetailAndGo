@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DetailAndGo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221023112212_NewDB")]
-    partial class NewDB
+    [Migration("20221025164145_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,6 +70,26 @@ namespace DetailAndGo.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
+                });
+
+            modelBuilder.Entity("DetailAndGo.Models.Lukas", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Lukases");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

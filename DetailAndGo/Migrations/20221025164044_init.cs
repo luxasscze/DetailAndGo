@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DetailAndGo.Migrations
 {
-    public partial class NewDB : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,6 +67,20 @@ namespace DetailAndGo.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Customers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lukases",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lukases", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,6 +248,9 @@ namespace DetailAndGo.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "Lukases");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

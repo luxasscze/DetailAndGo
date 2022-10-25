@@ -21,7 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DetailAndGo\DetailAndGo.csproj" />
+	  <ProjectReference Include="..\DetailAndGo\DetailAndGo.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
