@@ -1,5 +1,5 @@
-﻿using DetailAndGoServices;
-using DetailAndGoServices.DAL;
+﻿using DetailAndGoAdmin.Data;
+using DetailAndGoServices;
 using DetailAndGoServices.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +13,9 @@ namespace DetailAndGoAdmin.Pages
         private readonly ILogger<IndexModel> _logger;
         private Utility _utility = new Utility();
         private IWebHostEnvironment _webHostEnvironment;
-        private ContentContext _context;
+        private ApplicationDbContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment webHostEnvironment, ContentContext context)
+        public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment webHostEnvironment, ApplicationDbContext context)
         {
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
@@ -24,8 +24,7 @@ namespace DetailAndGoAdmin.Pages
 
         public void OnGet()
         {
-            CustomerService customerService = new CustomerService(_context);
-            Customer customer = customerService.Test();
+            
             ViewData["Greeting"] = _utility.GetGreetings();
             string[] quote = _utility.GetRandomQuote(_webHostEnvironment.WebRootPath).Result;
             ViewData["Quote"] = quote[0];

@@ -1,4 +1,4 @@
-﻿using DetailAndGoServices.DAL;
+﻿
 using DetailAndGoServices.Models;
 using System;
 using System.Collections.Generic;
@@ -10,17 +10,6 @@ namespace DetailAndGoServices
 {
     public class CustomerService
     {
-        ContentContext _context;
-
-        public CustomerService(ContentContext context = null)
-        {
-            _context = context;
-        }
-
-        public Customer Test()
-        {
-            Customer customer = _context.Customers.First();
-            return customer;
-        }
+        
     }
 }
