@@ -103,11 +103,20 @@
                     </div>
                 </div>
             </nav>
+            }
+
             <main role="main" class="">
                 @RenderBody()
             </main>
-        </section>        
+        </section>
     }
+    else
+    {
+        <main role="main" class="">
+            @RenderBody()
+        </main>
+    }
+
 
 
     <footer class="footer text-muted">

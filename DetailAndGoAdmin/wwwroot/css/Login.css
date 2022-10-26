@@ -77,18 +77,10 @@ html {
     font-size: var(--htmlFontSize);*/
 }
 
-body {
-    /*background-color: #2c3338;
-    background-color: var(--bodyBackgroundColor);*/
+body {    
     background: linear-gradient(113deg, rgba(44,51,56,1) 0%, rgba(10,10,10,1) 100%);
     color: #606468;
-    color: var(--bodyColor);
-    /*font-family: "Open Sans", sans-serif;
-    font-family: var(--bodyFontFamily), var(--bodyFontFamilyFallback);
-    font-size: 0.875rem;
-    font-size: var(--bodyFontSize);
-    font-weight: 400;
-    font-weight: var(--bodyFontWeight);*/
+    color: var(--bodyColor);    
     line-height: 1.5;
     line-height: var(--bodyLineHeight);
     margin: 0;
