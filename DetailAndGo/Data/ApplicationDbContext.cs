@@ -12,5 +12,7 @@ namespace DetailAndGo.Data
         }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Lukas> Lukases { get; set; }
+        public DbSet<TestingDb> TestingDb { get; set; }
     }
 }

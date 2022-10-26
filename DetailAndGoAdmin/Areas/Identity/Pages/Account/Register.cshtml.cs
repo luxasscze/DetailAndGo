@@ -21,24 +21,25 @@ using Microsoft.Extensions.Logging;
 
 namespace DetailAndGoAdmin.Areas.Identity.Pages.Account
 {
+    [Authorize(Roles = "Admin")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly IUserStore<IdentityUser> _userStore;        
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;        
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
+            IUserStore<IdentityUser> userStore,            
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
-            _userStore = userStore;
+            _userStore = userStore;            
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
@@ -121,7 +122,7 @@ namespace DetailAndGoAdmin.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    await _userManager.AddToRoleAsync(user, "Admin"); //REGISTER AS ADMIN
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
