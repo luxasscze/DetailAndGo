@@ -1,0 +1,75 @@
+﻿@page
+@model DetailAndGoAdmin.Pages.Jobs.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Job</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Job.Created" class="control-label"></label>
+                <input asp-for="Job.Created" class="form-control" />
+                <span asp-validation-for="Job.Created" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.WhenAccepted" class="control-label"></label>
+                <input asp-for="Job.WhenAccepted" class="form-control" />
+                <span asp-validation-for="Job.WhenAccepted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.WhenFinished" class="control-label"></label>
+                <input asp-for="Job.WhenFinished" class="form-control" />
+                <span asp-validation-for="Job.WhenFinished" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.Updated" class="control-label"></label>
+                <input asp-for="Job.Updated" class="form-control" />
+                <span asp-validation-for="Job.Updated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.LocationLat" class="control-label"></label>
+                <input asp-for="Job.LocationLat" class="form-control" />
+                <span asp-validation-for="Job.LocationLat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.LocationLon" class="control-label"></label>
+                <input asp-for="Job.LocationLon" class="form-control" />
+                <span asp-validation-for="Job.LocationLon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.CustomerNotes" class="control-label"></label>
+                <input asp-for="Job.CustomerNotes" class="form-control" />
+                <span asp-validation-for="Job.CustomerNotes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.Status" class="control-label"></label>
+                <input asp-for="Job.Status" class="form-control" />
+                <span asp-validation-for="Job.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Job.Notes" class="control-label"></label>
+                <input asp-for="Job.Notes" class="form-control" />
+                <span asp-validation-for="Job.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
