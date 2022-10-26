@@ -6,7 +6,11 @@
 
 <link rel="stylesheet" href="~/css/Dashboard.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js" integrity="sha512-d6nObkPJgV791iTGuBoVC9Aa2iecqzJRE0Jiqvk85BhLHAPhWqkuBiQb1xz2jvuHNqHLYoN3ymPfpiB1o+Zgpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
+<link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
+<script type="module" src="~/js/GoogleMaps.js"></script>
 <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
     <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
     <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
@@ -16,34 +20,37 @@
              alt="">
         <div class="ms-2">
             <h5 class="fs-6 mb-0">
-                <a class="text-decoration-none" href="#">@User.Identity.Name</a>
+                <a class="text-decoration-none" style="font-size: 12px;" href="#">@User.Identity.Name</a>
             </h5>
             <p class="mt-1 mb-0">Administrator</p>
         </div>
-    </div>    
+    </div>
 
     <ul class="categories list-unstyled">
         <li class="">
-            <i class="fa fa-gauge"></i><a href="#"> Dashboard</a>            
+            <i class="fa fa-gauge"></i><a href="#"> Dashboard</a>
         </li>
         <li class="">
             <i class="fa fa-users"></i><a href="#"> Customers</a>
         </li>
         <li class="">
-            <i class="fa fa-car"></i><a href="#"> Orders</a>            
+            <i class="fa fa-car"></i><a href="#"> Jobs</a>
         </li>
         <li class="">
-            <i class="fas fa-soap"></i><a href="#"> Services</a>            
+            <i class="fas fa-soap"></i><a href="#"> Services</a>
         </li>
         <li class="">
-            <i class="fa fa-newspaper"></i><a href="#"> Articles</a>            
+            <i class="fa fa-newspaper"></i><a href="#"> Articles</a>
         </li>
         <li class="">
-            <i class="fa fa-chart-simple"></i><a href="#"> Statistics</a>            
+            <i class="fa fa-chart-simple"></i><a href="#"> Statistics</a>
         </li>
         <li class="">
-            <i class="fa fa-money-bill"></i><a href="#"> Payments</a>            
-        </li>        
+            <i class="fa fa-money-bill"></i><a href="#"> Payments</a>
+        </li>
+        <li class="">
+            <i class="fa fa-arrow-left"></i><a id="hideside" href="#"> Hide Menu</a>
+        </li>
     </ul>
 </aside>
 
@@ -54,7 +61,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars text-white"></i>
                 </button>
-                <a class="navbar-brand" href="#">admin<span class="main-color">DETAIL&GO</span></a>
+                <a class="navbar-brand" href="#">DETAIL&GO<span class="main-color">ADMIN</span></a>
             </div>
             <div class="collapse navbar-collapse" id="toggle-navbar">
                 <ul class="navbar-nav ms-auto">
@@ -64,16 +71,20 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#">My account</a>
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="#">My inbox</a>
+                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Manage">Add New Admin</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#">Help</a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Log out</a></li>
+                            <li>
+                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                </form>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -84,7 +95,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <i data-show="show-side-navigation1" class="fa fa-bars show-side-btn"></i>
+                            <i data-show="show-side-navigation1" id="sideShow" class="fa fa-bars show-side-btn"></i>
                         </a>
                     </li>
                 </ul>
@@ -97,16 +108,16 @@
             <div class="content rounded-3 p-3">
                 <h1 class="fs-3">@ViewData["Greeting"]</h1>
                 <p class="mb-0">@ViewData["Quote"]</p>
-                <p class="mb-0 text-muted">@ViewData["QuoteAuthor"]</p>                
+                <p class="mb-0 text-muted">@ViewData["QuoteAuthor"]</p>
             </div>
         </div>
-        
+
 
         <section class="statistics mt-4">
             <div class="row">
                 <div class="col-lg-4">
                     <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                        <i class="uil-envelope-shield fs-2 text-center bg-primary rounded-circle"></i>
+                        <i class="fa fa-users fs-2 text-center bg-dark rounded-circle"></i>
                         <div class="ms-3">
                             <div class="d-flex align-items-center">
                                 <h3 class="mb-0">152</h3> <span class="d-block ms-2">Customers</span>
@@ -117,7 +128,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                        <i class="uil-file fs-2 text-center bg-warning rounded-circle"></i>
+                        <i class="fa fa-check fs-2 text-center bg-dark rounded-circle"></i>
                         <div class="ms-3">
                             <div class="d-flex align-items-center">
                                 <h3 class="mb-0">34</h3> <span class="d-block ms-2">Jobs Done In This Month</span>
@@ -128,7 +139,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="box d-flex rounded-2 align-items-center p-3">
-                        <i class="uil-users-alt fs-2 text-center bg-success rounded-circle"></i>
+                        <i class="fa fa-coins fs-2 text-center bg-dark rounded-circle"></i>
                         <div class="ms-3">
                             <div class="d-flex align-items-center">
                                 <h3 class="mb-0">£5285.63</h3> <span class="d-block ms-2">This Month Profit</span>
@@ -136,6 +147,20 @@
                             <p class="fs-normal mb-0">£3458.21 in previous month</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+        <section class="charts mt-4">
+            <div class="chart-container p-3">
+                <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
+                <div classclass="row">
+                    
+                        <a class="btn btn-dark" href="#">All Jobs</a>
+                        <a class="btn btn-dark" href="#">Near Jobs</a>
+                        <a class="btn btn-dark" href="#">Next Closest Job</a>
+                                        
+                        <div id="map"></div>
+                    
                 </div>
             </div>
         </section>
@@ -247,29 +272,29 @@
         <section class="statis mt-4 text-center">
             <div class="row">
                 <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="box bg-primary p-3">
-                        <i class="uil-eye"></i>
+                    <div class="box bg-dark p-3">
+                        <i class="fa fa-eye"></i>
                         <h3>5,154</h3>
                         <p class="lead">Page views</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="box bg-danger p-3">
-                        <i class="uil-user"></i>
+                    <div class="box bg-dark p-3">
+                        <i class="fa fa-user"></i>
                         <h3>245</h3>
                         <p class="lead">User registered</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                    <div class="box bg-warning p-3">
-                        <i class="uil-shopping-cart"></i>
+                    <div class="box bg-dark p-3">
+                        <i class="fa fa-dollar"></i>
                         <h3>5,154</h3>
                         <p class="lead">Product sales</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-3">
-                    <div class="box bg-success p-3">
-                        <i class="uil-feedback"></i>
+                    <div class="box bg-dark p-3">
+                        <i class="fa fa-coins"></i>
                         <h3>5,154</h3>
                         <p class="lead">Transactions</p>
                     </div>
@@ -279,13 +304,157 @@
 
         <section class="charts mt-4">
             <div class="chart-container p-3">
-                <h3 class="fs-6 mb-3">Chart title number three</h3>
-                <div style="height: 300px">
-                    <canvas id="chart3"></canvas>
+                <h3 class="fs-6 mb-3">Testing Chart</h3>
+                <div>
+                    <div><canvas id="chart3"></canvas></div>
                 </div>
             </div>
         </section>
     </div>
 </section>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>
+<script>
+    // The bar chart
+    var myChart = new Chart(document.getElementById('myChart'), {
+        type: 'bar',
+        data: {
+            labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
+            datasets: [{
+                label: "Lost",
+                data: [45, 25, 40, 20, 60, 20, 35, 25],
+                backgroundColor: "#0d6efd",
+                borderColor: 'transparent',
+                borderWidth: 2.5,
+                barPercentage: 0.4,
+            }, {
+                label: "Succes",
+                startAngle: 2,
+                data: [20, 40, 20, 50, 25, 40, 25, 10],
+                backgroundColor: "#dc3545",
+                borderColor: 'transparent',
+                borderWidth: 2.5,
+                barPercentage: 0.4,
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    gridLines: {},
+                    ticks: {
+                        stepSize: 15,
+                    },
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }]
+            }
+        }
+    })
+
+    // The line chart
+    var chart = new Chart(document.getElementById('myChart2'), {
+        type: 'line',
+        data: {
+            labels: ["January", "February", "March", "April", 'May', 'June', 'August', 'September'],
+            datasets: [{
+                label: "My First dataset",
+                data: [4, 20, 5, 20, 5, 25, 9, 18],
+                backgroundColor: 'transparent',
+                borderColor: '#0d6efd',
+                lineTension: .4,
+                borderWidth: 1.5,
+            }, {
+                label: "Month",
+                data: [11, 25, 10, 25, 10, 30, 14, 23],
+                backgroundColor: 'transparent',
+                borderColor: '#dc3545',
+                lineTension: .4,
+                borderWidth: 1.5,
+            }, {
+                label: "Month",
+                data: [16, 30, 16, 30, 16, 36, 21, 35],
+                backgroundColor: 'transparent',
+                borderColor: '#f0ad4e',
+                lineTension: .4,
+                borderWidth: 1.5,
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false
+                    },
+                    ticks: {
+                        stepSize: 12,
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                }]
+            }
+        }
+    })
+
+    var chart = document.getElementById('chart3');
+    var myChart = new Chart(chart, {
+        type: 'line',
+        data: {
+            labels: ["One", "Two", "Three", "Four", "Five", 'Six', "Seven", "Eight"],
+            datasets: [{
+                label: "Lost",
+                lineTension: 0.2,
+                borderColor: '#d9534f',
+                borderWidth: 1.5,
+                showLine: true,
+                data: [3, 30, 16, 30, 16, 36, 21, 40, 20, 30],
+                backgroundColor: 'transparent'
+            }, {
+                label: "Lost",
+                lineTension: 0.2,
+                borderColor: '#5cb85c',
+                borderWidth: 1.5,
+                data: [6, 20, 5, 20, 5, 25, 9, 18, 20, 15],
+                backgroundColor: 'transparent'
+            },
+            {
+                label: "Lost",
+                lineTension: 0.2,
+                borderColor: '#f0ad4e',
+                borderWidth: 1.5,
+                data: [12, 20, 15, 20, 5, 35, 10, 15, 35, 25],
+                backgroundColor: 'transparent'
+            },
+            {
+                label: "Lost",
+                lineTension: 0.2,
+                borderColor: '#337ab7',
+                borderWidth: 1.5,
+                data: [16, 25, 10, 25, 10, 30, 14, 23, 14, 29],
+                backgroundColor: 'transparent'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    gridLines: {
+                        drawBorder: false
+                    },
+                    ticks: {
+                        stepSize: 12
+                    }
+                }],
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    },
+                }],
+            }
+        }
+    })
+</script>
 <script src="~/js/Dashboard.js"></script>

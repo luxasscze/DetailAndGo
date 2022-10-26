@@ -20,21 +20,45 @@ function siblings(el) {
 }
 
 const showAsideBtn = $('.show-side-btn')
+const hideside = $('#hideside');
 const sidebar = $('.sidebar')
 const wrapper = $('#wrapper')
 
 showAsideBtn.addEventListener('click', function () {
-    $(`#${this.dataset.show}`).classList.toggle('show-sidebar')
+    
     wrapper.classList.toggle('fullwidth')
+    if (sidebar.style.display == "none") {
+        sidebar.style.display = "";
+    }
+    else {
+        sidebar.style.display = "none";
+    }
+    console.log('clicked');
+})
+
+hideside.addEventListener('click', function () {
+
+    wrapper.classList.toggle('fullwidth')
+    if (sidebar.style.display == "none") {
+        sidebar.style.display = "";
+    }
+    else {
+        sidebar.style.display = "none";
+    }
+    console.log('clicked');
 })
 
 if (window.innerWidth < 767) {
-    sidebar.classList.add('show-sidebar');
+    sidebar.style.display = "none";
 }
 
 window.addEventListener('resize', function () {
     if (window.innerWidth > 767) {
-        sidebar.classList.remove('show-sidebar')
+        //sidebar.classList.remove('show-sidebar')
+        sidebar.style.display = "";
+    }
+    else {
+        sidebar.style.display = "none";
     }
 })
 
