@@ -104,7 +104,7 @@ $('.sidebar .close-aside').addEventListener('click', function () {
     wrapper.classList.remove('margin')
 })
 
-
+/*
 // Global defaults
 Chart.defaults.global.animation.duration = 2000; // Animation duration
 Chart.defaults.global.title.display = false; // Remove title
@@ -278,4 +278,4 @@ var myChart = new Chart(chart, {
             }],
         }
     }
-})
+})*/
