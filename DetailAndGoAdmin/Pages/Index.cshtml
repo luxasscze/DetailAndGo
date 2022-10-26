@@ -11,307 +11,217 @@
 
 <link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
 <script type="module" src="~/js/GoogleMaps.js"></script>
-<aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
-    <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
-    <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
-        <img class="rounded-pill img-fluid"
-             width="65"
-             src="~/images/marek.jpg"
-             alt="">
-        <div class="ms-2">
-            <h5 class="fs-6 mb-0">
-                <a class="text-decoration-none" style="font-size: 12px;" href="#">@User.Identity.Name</a>
-            </h5>
-            <p class="mt-1 mb-0">Administrator</p>
-        </div>
-    </div>
 
-    <ul class="categories list-unstyled">
-        <li class="">
-            <i class="fa fa-gauge"></i><a href="#"> Dashboard</a>
-        </li>
-        <li class="">
-            <i class="fa fa-users"></i><a href="#"> Customers</a>
-        </li>
-        <li class="">
-            <i class="fa fa-car"></i><a href="#"> Jobs</a>
-        </li>
-        <li class="">
-            <i class="fas fa-soap"></i><a href="#"> Services</a>
-        </li>
-        <li class="">
-            <i class="fa fa-newspaper"></i><a href="#"> Articles</a>
-        </li>
-        <li class="">
-            <i class="fa fa-chart-simple"></i><a href="#"> Statistics</a>
-        </li>
-        <li class="">
-            <i class="fa fa-money-bill"></i><a href="#"> Payments</a>
-        </li>
-        <li class="">
-            <i class="fa fa-arrow-left"></i><a id="hideside" href="#"> Hide Menu</a>
-        </li>
-    </ul>
-</aside>
-
-<section id="wrapper">
-    <nav class="navbar navbar-expand-md">
-        <div class="container-fluid mx-2">
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars text-white"></i>
-                </button>
-                <a class="navbar-brand" href="#">DETAIL&GO<span class="main-color">ADMIN</span></a>
+    
+        <div class="p-4">
+            <div class="welcome">
+                <div class="content rounded-3 p-3">
+                    <h1 class="fs-3">@ViewData["Greeting"]</h1>
+                    <p class="mb-0">@ViewData["Quote"]</p>
+                    <p class="mb-0 text-muted">@ViewData["QuoteAuthor"]</p>
+                </div>
             </div>
-            <div class="collapse navbar-collapse" id="toggle-navbar">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Settings
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
-                            </li>
-                            <li>
-                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Manage">Add New Admin</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Help</a>
-                            </li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-bell"></i><span>23</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa fa-exclamation"></i><span>98</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i data-show="show-side-navigation1" id="sideShow" class="fa fa-bars show-side-btn"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="p-4">
-        <div class="welcome">
-            <div class="content rounded-3 p-3">
-                <h1 class="fs-3">@ViewData["Greeting"]</h1>
-                <p class="mb-0">@ViewData["Quote"]</p>
-                <p class="mb-0 text-muted">@ViewData["QuoteAuthor"]</p>
-            </div>
-        </div>
 
 
-        <section class="statistics mt-4">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                        <i class="fa fa-users fs-2 text-center bg-dark rounded-circle"></i>
-                        <div class="ms-3">
-                            <div class="d-flex align-items-center">
-                                <h3 class="mb-0">152</h3> <span class="d-block ms-2">Customers</span>
+            <section class="statistics mt-4">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+                            <i class="fa fa-users fs-2 text-center bg-dark rounded-circle"></i>
+                            <div class="ms-3">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="mb-0">152</h3> <span class="d-block ms-2">Customers</span>
+                                </div>
+                                <p class="fs-normal mb-0">newest customer: Katarina Badiova</p>
                             </div>
-                            <p class="fs-normal mb-0">newest customer: Katarina Badiova</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+                            <i class="fa fa-check fs-2 text-center bg-dark rounded-circle"></i>
+                            <div class="ms-3">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="mb-0">34</h3> <span class="d-block ms-2">Jobs Done In This Month</span>
+                                </div>
+                                <p class="fs-normal mb-0">Previous month you did 12 jobs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="box d-flex rounded-2 align-items-center p-3">
+                            <i class="fa fa-coins fs-2 text-center bg-dark rounded-circle"></i>
+                            <div class="ms-3">
+                                <div class="d-flex align-items-center">
+                                    <h3 class="mb-0">£5285.63</h3> <span class="d-block ms-2">This Month Profit</span>
+                                </div>
+                                <p class="fs-normal mb-0">£3458.21 in previous month</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                        <i class="fa fa-check fs-2 text-center bg-dark rounded-circle"></i>
-                        <div class="ms-3">
-                            <div class="d-flex align-items-center">
-                                <h3 class="mb-0">34</h3> <span class="d-block ms-2">Jobs Done In This Month</span>
-                            </div>
-                            <p class="fs-normal mb-0">Previous month you did 12 jobs</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="box d-flex rounded-2 align-items-center p-3">
-                        <i class="fa fa-coins fs-2 text-center bg-dark rounded-circle"></i>
-                        <div class="ms-3">
-                            <div class="d-flex align-items-center">
-                                <h3 class="mb-0">£5285.63</h3> <span class="d-block ms-2">This Month Profit</span>
-                            </div>
-                            <p class="fs-normal mb-0">£3458.21 in previous month</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="charts mt-4">
-            <div class="chart-container p-3">
-                <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
-                <div classclass="row">
-                    
+            </section>
+            <section class="charts mt-4">
+                <div class="chart-container p-3">
+                    <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
+                    <div classclass="row">
+
                         <a class="btn btn-dark" href="#">All Jobs</a>
                         <a class="btn btn-dark" href="#">Near Jobs</a>
                         <a class="btn btn-dark" href="#">Next Closest Job</a>
-                                        
+
                         <div id="map"></div>
-                    
-                </div>
-            </div>
-        </section>
 
-        <section class="charts mt-4">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="chart-container rounded-2 p-3">
-                        <h3 class="fs-6 mb-3">Chart title number one</h3>
-                        <canvas id="myChart"></canvas>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="chart-container rounded-2 p-3">
-                        <h3 class="fs-6 mb-3">Chart title number two</h3>
-                        <canvas id="myChart2"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="admins mt-4">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="box">
-                        <!-- <h4>Admins:</h4> -->
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="img">
-                                <img class="img-fluid rounded-pill"
-                                     width="75" height="75"
-                                     src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
-                                     alt="admin">
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                            </div>
+            <section class="charts mt-4">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="chart-container rounded-2 p-3">
+                            <h3 class="fs-6 mb-3">Chart title number one</h3>
+                            <canvas id="myChart"></canvas>
                         </div>
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="img">
-                                <img class="img-fluid rounded-pill"
-                                     width="75" height="75"
-                                     src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance"
-                                     alt="admin">
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                            </div>
-                        </div>
-                        <div class="admin d-flex align-items-center rounded-2 p-3">
-                            <div class="img">
-                                <img class="img-fluid rounded-pill"
-                                     width="75" height="75"
-                                     src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance"
-                                     alt="admin">
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                            </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="chart-container rounded-2 p-3">
+                            <h3 class="fs-6 mb-3">Chart title number two</h3>
+                            <canvas id="myChart2"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="box">
-                        <!-- <h4>Moderators:</h4> -->
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="img">
-                                <img class="img-fluid rounded-pill"
-                                     width="75" height="75"
-                                     src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
-                                     alt="admin">
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                            </div>
-                        </div>
-                        <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                            <div class="img">
-                                <img class="img-fluid rounded-pill"
-                                     width="75" height="75"
-                                     src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
-                                     alt="admin">
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                            </div>
-                        </div>
-                        <div class="admin d-flex align-items-center rounded-2 p-3">
-                            <div class="img">
-                                <img class="img-fluid rounded-pill"
-                                     width="75" height="75"
-                                     src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-                                     alt="admin">
-                            </div>
-                            <div class="ms-3">
-                                <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="statis mt-4 text-center">
-            <div class="row">
-                <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="box bg-dark p-3">
-                        <i class="fa fa-eye"></i>
-                        <h3>5,154</h3>
-                        <p class="lead">Page views</p>
+            <section class="admins mt-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="box">
+                            <!-- <h4>Admins:</h4> -->
+                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                                <div class="img">
+                                    <img class="img-fluid rounded-pill"
+                                         width="75" height="75"
+                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
+                                         alt="admin">
+                                </div>
+                                <div class="ms-3">
+                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                </div>
+                            </div>
+                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                                <div class="img">
+                                    <img class="img-fluid rounded-pill"
+                                         width="75" height="75"
+                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance"
+                                         alt="admin">
+                                </div>
+                                <div class="ms-3">
+                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                </div>
+                            </div>
+                            <div class="admin d-flex align-items-center rounded-2 p-3">
+                                <div class="img">
+                                    <img class="img-fluid rounded-pill"
+                                         width="75" height="75"
+                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance"
+                                         alt="admin">
+                                </div>
+                                <div class="ms-3">
+                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="box">
+                            <!-- <h4>Moderators:</h4> -->
+                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                                <div class="img">
+                                    <img class="img-fluid rounded-pill"
+                                         width="75" height="75"
+                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
+                                         alt="admin">
+                                </div>
+                                <div class="ms-3">
+                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                </div>
+                            </div>
+                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                                <div class="img">
+                                    <img class="img-fluid rounded-pill"
+                                         width="75" height="75"
+                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
+                                         alt="admin">
+                                </div>
+                                <div class="ms-3">
+                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                </div>
+                            </div>
+                            <div class="admin d-flex align-items-center rounded-2 p-3">
+                                <div class="img">
+                                    <img class="img-fluid rounded-pill"
+                                         width="75" height="75"
+                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
+                                         alt="admin">
+                                </div>
+                                <div class="ms-3">
+                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                    <div class="box bg-dark p-3">
-                        <i class="fa fa-user"></i>
-                        <h3>245</h3>
-                        <p class="lead">User registered</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                    <div class="box bg-dark p-3">
-                        <i class="fa fa-dollar"></i>
-                        <h3>5,154</h3>
-                        <p class="lead">Product sales</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3">
-                    <div class="box bg-dark p-3">
-                        <i class="fa fa-coins"></i>
-                        <h3>5,154</h3>
-                        <p class="lead">Transactions</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="charts mt-4">
-            <div class="chart-container p-3">
-                <h3 class="fs-6 mb-3">Testing Chart</h3>
-                <div>
-                    <div><canvas id="chart3"></canvas></div>
+            <section class="statis mt-4 text-center">
+                <div class="row">
+                    <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                        <div class="box bg-dark p-3">
+                            <i class="fa fa-eye"></i>
+                            <h3>5,154</h3>
+                            <p class="lead">Page views</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                        <div class="box bg-dark p-3">
+                            <i class="fa fa-user"></i>
+                            <h3>245</h3>
+                            <p class="lead">User registered</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
+                        <div class="box bg-dark p-3">
+                            <i class="fa fa-dollar"></i>
+                            <h3>5,154</h3>
+                            <p class="lead">Product sales</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="box bg-dark p-3">
+                            <i class="fa fa-coins"></i>
+                            <h3>5,154</h3>
+                            <p class="lead">Transactions</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </div>
-</section>
+            </section>
+
+            <section class="charts mt-4">
+                <div class="chart-container p-3">
+                    <h3 class="fs-6 mb-3">Testing Chart</h3>
+                    <div>
+                        <div><canvas id="chart3"></canvas></div>
+                    </div>
+                </div>
+            </section>
+        </div>    
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>
 <script>
     // The bar chart
