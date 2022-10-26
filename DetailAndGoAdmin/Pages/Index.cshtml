@@ -7,6 +7,10 @@
 <link rel="stylesheet" href="~/css/Dashboard.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.js" integrity="sha512-d6nObkPJgV791iTGuBoVC9Aa2iecqzJRE0Jiqvk85BhLHAPhWqkuBiQb1xz2jvuHNqHLYoN3ymPfpiB1o+Zgpw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+<link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
+<script type="module" src="~/js/GoogleMaps.js"></script>
 <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
     <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
     <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
@@ -30,7 +34,7 @@
             <i class="fa fa-users"></i><a href="#"> Customers</a>
         </li>
         <li class="">
-            <i class="fa fa-car"></i><a href="#"> Orders</a>
+            <i class="fa fa-car"></i><a href="#"> Jobs</a>
         </li>
         <li class="">
             <i class="fas fa-soap"></i><a href="#"> Services</a>
@@ -143,6 +147,20 @@
                             <p class="fs-normal mb-0">£3458.21 in previous month</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+        <section class="charts mt-4">
+            <div class="chart-container p-3">
+                <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
+                <div classclass="row">
+                    
+                        <a class="btn btn-secondary" href="#">All Jobs</a>
+                        <a class="btn btn-secondary" href="#">Near Jobs</a>
+                        <a class="btn btn-secondary" href="#">Next Closest Job</a>
+                                        
+                        <div id="map"></div>
+                    
                 </div>
             </div>
         </section>
@@ -294,6 +312,7 @@
         </section>
     </div>
 </section>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>
 <script>
     // The bar chart
     var myChart = new Chart(document.getElementById('myChart'), {
