@@ -8,6 +8,13 @@ function initMap() {
     const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 11,
         center: marekHome,
+        
+        zoomControl: false,
+        mapTypeControl: false,
+        scaleControl: false,
+        streetViewControl: false,
+        rotateControl: false,
+        fullscreenControl: false,
         styles: [
             { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
             { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
@@ -86,6 +93,10 @@ function initMap() {
                 featureType: "water",
                 elementType: "labels.text.stroke",
                 stylers: [{ color: "#17263c" }],
+            },
+            {
+                featureType: "poi",                
+                stylers: [{ visibility: "off" }],
             },
         ],    
 });
