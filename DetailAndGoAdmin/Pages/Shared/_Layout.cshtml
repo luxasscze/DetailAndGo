@@ -13,7 +13,7 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
-        <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1">
+        <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1" style="z-index: 1000;">
             <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
             <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
                 <img class="rounded-pill img-fluid"
@@ -28,30 +28,30 @@
                 </div>
             </div>
 
-            <ul class="categories list-unstyled">
+            <ul class="list-unstyled">
                 <li class="">
-                    <i class="fa fa-gauge"></i><a href="#"> Dashboard</a>
+                    <a asp-page="/Index"><i class="fa fa-gauge"></i>&emsp; Dashboard</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-users"></i>&emsp; Customers</a>
+                </li>
+                <li>
+                    <a asp-page="/Jobs/Index"><i class="fa fa-car"></i>&emsp; Jobs</a>
                 </li>
                 <li class="">
-                    <i class="fa fa-users"></i><a href="https://www.seznam.cz"> Customers</a>
+                    <a href="#"><i class="fas fa-soap"></i>&emsp; Services</a>
                 </li>
                 <li class="">
-                    <i class="fa fa-car"></i><a asp-page="/Jobs/Index"> Jobs</a>
+                    <a href="#"> <i class="fa fa-newspaper"></i>&emsp; Articles</a>
                 </li>
                 <li class="">
-                    <i class="fas fa-soap"></i><a href="#"> Services</a>
+                    <a href="#"><i class="fa fa-chart-simple"></i>&emsp; Statistics</a>
                 </li>
                 <li class="">
-                    <i class="fa fa-newspaper"></i><a href="#"> Articles</a>
+                    <a href="#"><i class="fa fa-money-bill"></i>&emsp; Payments</a>
                 </li>
                 <li class="">
-                    <i class="fa fa-chart-simple"></i><a href="#"> Statistics</a>
-                </li>
-                <li class="">
-                    <i class="fa fa-money-bill"></i><a href="#"> Payments</a>
-                </li>
-                <li class="">
-                    <i class="fa fa-arrow-left"></i><a id="hideside" href="#"> Hide Menu</a>
+                    <a id="hideside" href="#"><i class="fa fa-arrow-left"></i>&emsp; Hide Menu</a>
                 </li>
             </ul>
         </aside>
