@@ -6,45 +6,75 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="~/css/MasterTable.css" />
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
+<script type="module" src="~/js/GoogleMaps.js"></script>
 
-<h1>Jobs</h1>
 
-<table class="container">
-    <thead>
-        <tr>
-            <th>
+<h1 style="color: #fff; text-align: center;">Jobs</h1>
+
+<div class="row">
+
+    @foreach (var item in Model.Jobs)
+    {
+        <div class="col-6">
+            <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
+                <div class="card-header text-light">
+                    <h2>@item.CustomerId</h2>
+                </div>
+                <div class="card-body">
+                    <!--<div id="map"></div>-->
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-sm btn-outline-success">Accept</a>
+                    <a href="#" class="btn btn-sm btn-outline-danger">Decline</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@{
+    /*<table class="container">
+                <thead>
+                <tr>
+                <th>
                 @Html.DisplayNameFor(model => model.Jobs[0].Created)
-            </th>
-            <th>
+                </th>
+                <th>
                 @Html.DisplayNameFor(model => model.Jobs[0].Updated)
-            </th>
-            <th>
+                </th>
+                <th>
                 @Html.DisplayNameFor(model => model.Jobs[0].Status)
-            </th>
+        </th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         @foreach (var item in Model.Jobs)
-        {
-            <tr>
-                <td>
+                    {
+                    <tr>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Created)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Updated)
-                </td>
-                <td>
+                    </td>
+                    <td>
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
-                @{
-                /*<td>
+
+                <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>*/
-                }
-            </tr>
-        }
+            </td>
+
+    </tr>
+    }
     </tbody>
-</table>
+    </table>*/
+}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>

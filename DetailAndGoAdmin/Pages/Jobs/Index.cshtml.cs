@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using DetailAndGo.Models;
 using DetailAndGoAdmin.Data;
 using DetailAndGo.Enums;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DetailAndGoAdmin.Pages.Jobs
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
