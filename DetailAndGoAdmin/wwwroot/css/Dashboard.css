@@ -82,18 +82,9 @@ body {
         padding: .7rem 1.75rem;
     }
 
-    .sidebar a {
-        transition: all .2s ease-in-out;
-    }
+        
 
-        .sidebar a:hover {
-            color: #fff;
-            transform: scale(1.5);
-        }
-
-    .sidebar i:hover {
-        color: #fff;
-    }
+    
 
     .sidebar ul > li > a {
         color: var(--dk-gray-400);

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DetailAndGo.Models;
 using DetailAndGoAdmin.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DetailAndGoAdmin.Pages.Jobs
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;

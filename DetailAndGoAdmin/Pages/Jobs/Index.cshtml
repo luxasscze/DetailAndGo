@@ -6,80 +6,75 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
+<script type="module" src="~/js/GoogleMaps.js"></script>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
+
+<h1 style="color: #fff; text-align: center;">Jobs</h1>
+
+<div class="row">
+
+    @foreach (var item in Model.Jobs)
+    {
+        <div class="col-6">
+            <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
+                <div class="card-header text-light">
+                    <h2>@item.CustomerId</h2>
+                </div>
+                <div class="card-body">
+                    <!--<div id="map"></div>-->
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-sm btn-outline-success">Accept</a>
+                    <a href="#" class="btn btn-sm btn-outline-danger">Decline</a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+@{
+    /*<table class="container">
+                <thead>
+                <tr>
+                <th>
                 @Html.DisplayNameFor(model => model.Jobs[0].Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].WhenAccepted)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].WhenFinished)
-            </th>
-            <th>
+                </th>
+                <th>
                 @Html.DisplayNameFor(model => model.Jobs[0].Updated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].LocationLat)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].LocationLon)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].CustomerNotes)
-            </th>
-            <th>
+                </th>
+                <th>
                 @Html.DisplayNameFor(model => model.Jobs[0].Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].Notes)
-            </th>
-            <th></th>
+        </th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Jobs) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Created)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WhenAccepted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WhenFinished)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Updated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationLat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationLon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerNotes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Jobs)
+                    {
+                    <tr>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Created)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Updated)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+
+                <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
-        </tr>
-}
+
+    </tr>
+    }
     </tbody>
-</table>
+    </table>*/
+}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>

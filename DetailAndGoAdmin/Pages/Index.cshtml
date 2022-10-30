@@ -10,217 +10,355 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 <link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
-<script type="module" src="~/js/GoogleMaps.js"></script>
+<script>
+    function GetMarkers() {
+        var markers = [];
+    @foreach (var item in Model.Jobs)
+    {
+        <text>
+                    const markers[@item.Id] = new google.maps.Marker({
+                    position: marekHome,
+                    map: map,
+                    title: @item.CustomerId,
+                    label: 'H'
+                });
+        </text>
+    }
 
+            console.log("markers: " + markers);
+    }
+
+    console.log(markers);
+</script>
+<script>
     
-        <div class="p-4">
-            <div class="welcome">
-                <div class="content rounded-3 p-3">
-                    <h1 class="fs-3">@ViewData["Greeting"]</h1>
-                    <p class="mb-0">@ViewData["Quote"]</p>
-                    <p class="mb-0 text-muted">@ViewData["QuoteAuthor"]</p>
+
+    // Initialize and add the map
+    function initMap() {
+        
+        // The location of Uluru
+        const marekHome = { lat: 52.9709311, lng: -1.1982185 };
+        const testLocation = { lat: 52.9719311, lng: -1.1592185 };
+
+        // The map, centered at Uluru
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 11,
+            center: marekHome,
+
+            zoomControl: false,
+            mapTypeControl: false,
+            scaleControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false,
+            styles: [
+                { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
+                { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
+                { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
+                {
+                    featureType: "administrative.locality",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#d59563" }],
+                },
+                {
+                    featureType: "poi",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#d59563" }],
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "geometry",
+                    stylers: [{ color: "#263c3f" }],
+                },
+                {
+                    featureType: "poi.park",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#6b9a76" }],
+                },
+                {
+                    featureType: "road",
+                    elementType: "geometry",
+                    stylers: [{ color: "#38414e" }],
+                },
+                {
+                    featureType: "road",
+                    elementType: "geometry.stroke",
+                    stylers: [{ color: "#212a37" }],
+                },
+                {
+                    featureType: "road",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#9ca5b3" }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry",
+                    stylers: [{ color: "#746855" }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "geometry.stroke",
+                    stylers: [{ color: "#1f2835" }],
+                },
+                {
+                    featureType: "road.highway",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#f3d19c" }],
+                },
+                {
+                    featureType: "transit",
+                    elementType: "geometry",
+                    stylers: [{ color: "#2f3948" }],
+                },
+                {
+                    featureType: "transit.station",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#d59563" }],
+                },
+                {
+                    featureType: "water",
+                    elementType: "geometry",
+                    stylers: [{ color: "#17263c" }],
+                },
+                {
+                    featureType: "water",
+                    elementType: "labels.text.fill",
+                    stylers: [{ color: "#515c6d" }],
+                },
+                {
+                    featureType: "water",
+                    elementType: "labels.text.stroke",
+                    stylers: [{ color: "#17263c" }],
+                },
+                {
+                    featureType: "poi",
+                    stylers: [{ visibility: "off" }],
+                },
+            ],
+        });
+        GetMarkers();
+    }
+
+
+    window.initMap = initMap;
+
+
+</script>
+
+
+
+<div class="p-4">
+    <div class="welcome">
+        <div class="content rounded-3 p-3">
+            <h1 class="fs-3">@ViewData["Greeting"]</h1>
+            <p class="mb-0">@ViewData["Quote"]</p>
+            <p class="mb-0 text-muted">@ViewData["QuoteAuthor"]</p>
+        </div>
+    </div>
+
+
+    <section class="statistics mt-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+                    <i class="fa fa-users fs-2 text-center bg-dark rounded-circle"></i>
+                    <div class="ms-3">
+                        <div class="d-flex align-items-center">
+                            <h3 class="mb-0">152</h3> <span class="d-block ms-2">Customers</span>
+                        </div>
+                        <p class="fs-normal mb-0">newest customer: Katarina Badiova</p>
+                    </div>
                 </div>
             </div>
+            <div class="col-lg-4">
+                <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
+                    <i class="fa fa-check fs-2 text-center bg-dark rounded-circle"></i>
+                    <div class="ms-3">
+                        <div class="d-flex align-items-center">
+                            <h3 class="mb-0">34</h3> <span class="d-block ms-2">Jobs Done In This Month</span>
+                        </div>
+                        <p class="fs-normal mb-0">Previous month you did 12 jobs</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="box d-flex rounded-2 align-items-center p-3">
+                    <i class="fa fa-coins fs-2 text-center bg-dark rounded-circle"></i>
+                    <div class="ms-3">
+                        <div class="d-flex align-items-center">
+                            <h3 class="mb-0">£5285.63</h3> <span class="d-block ms-2">This Month Profit</span>
+                        </div>
+                        <p class="fs-normal mb-0">£3458.21 in previous month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="charts mt-4">
+        <div class="chart-container p-3">
+            <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
+            @foreach(var item in Model.GoogleMapsEntities)
+            {
+                <h6 class="text-warning">@item.LocationId, @item.Latitude, @item.Longitude</h6>
+            }
+            <div classclass="row">
 
+                <a class="btn btn-dark" href="#">All Jobs</a>
+                <a class="btn btn-dark" href="#">Near Jobs</a>
+                <a class="btn btn-dark" href="#">Next Closest Job</a>
 
-            <section class="statistics mt-4">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                            <i class="fa fa-users fs-2 text-center bg-dark rounded-circle"></i>
-                            <div class="ms-3">
-                                <div class="d-flex align-items-center">
-                                    <h3 class="mb-0">152</h3> <span class="d-block ms-2">Customers</span>
-                                </div>
-                                <p class="fs-normal mb-0">newest customer: Katarina Badiova</p>
-                            </div>
+                <div id="map"></div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="charts mt-4">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="chart-container rounded-2 p-3">
+                    <h3 class="fs-6 mb-3">Chart title number one</h3>
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="chart-container rounded-2 p-3">
+                    <h3 class="fs-6 mb-3">Chart title number two</h3>
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="admins mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box">
+                    <!-- <h4>Admins:</h4> -->
+                    <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                        <div class="img">
+                            <img class="img-fluid rounded-pill"
+                                 width="75" height="75"
+                                 src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
+                                 alt="admin">
+                        </div>
+                        <div class="ms-3">
+                            <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="box d-flex rounded-2 align-items-center mb-4 mb-lg-0 p-3">
-                            <i class="fa fa-check fs-2 text-center bg-dark rounded-circle"></i>
-                            <div class="ms-3">
-                                <div class="d-flex align-items-center">
-                                    <h3 class="mb-0">34</h3> <span class="d-block ms-2">Jobs Done In This Month</span>
-                                </div>
-                                <p class="fs-normal mb-0">Previous month you did 12 jobs</p>
-                            </div>
+                    <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                        <div class="img">
+                            <img class="img-fluid rounded-pill"
+                                 width="75" height="75"
+                                 src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance"
+                                 alt="admin">
+                        </div>
+                        <div class="ms-3">
+                            <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="box d-flex rounded-2 align-items-center p-3">
-                            <i class="fa fa-coins fs-2 text-center bg-dark rounded-circle"></i>
-                            <div class="ms-3">
-                                <div class="d-flex align-items-center">
-                                    <h3 class="mb-0">£5285.63</h3> <span class="d-block ms-2">This Month Profit</span>
-                                </div>
-                                <p class="fs-normal mb-0">£3458.21 in previous month</p>
-                            </div>
+                    <div class="admin d-flex align-items-center rounded-2 p-3">
+                        <div class="img">
+                            <img class="img-fluid rounded-pill"
+                                 width="75" height="75"
+                                 src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance"
+                                 alt="admin">
+                        </div>
+                        <div class="ms-3">
+                            <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
                         </div>
                     </div>
                 </div>
-            </section>
-            <section class="charts mt-4">
-                <div class="chart-container p-3">
-                    <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
-                    <div classclass="row">
-
-                        <a class="btn btn-dark" href="#">All Jobs</a>
-                        <a class="btn btn-dark" href="#">Near Jobs</a>
-                        <a class="btn btn-dark" href="#">Next Closest Job</a>
-
-                        <div id="map"></div>
-
-                    </div>
-                </div>
-            </section>
-
-            <section class="charts mt-4">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="chart-container rounded-2 p-3">
-                            <h3 class="fs-6 mb-3">Chart title number one</h3>
-                            <canvas id="myChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <div class="box">
+                    <!-- <h4>Moderators:</h4> -->
+                    <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                        <div class="img">
+                            <img class="img-fluid rounded-pill"
+                                 width="75" height="75"
+                                 src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
+                                 alt="admin">
+                        </div>
+                        <div class="ms-3">
+                            <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="chart-container rounded-2 p-3">
-                            <h3 class="fs-6 mb-3">Chart title number two</h3>
-                            <canvas id="myChart2"></canvas>
+                    <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
+                        <div class="img">
+                            <img class="img-fluid rounded-pill"
+                                 width="75" height="75"
+                                 src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
+                                 alt="admin">
+                        </div>
+                        <div class="ms-3">
+                            <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
                         </div>
                     </div>
-                </div>
-            </section>
-
-            <section class="admins mt-4">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="box">
-                            <!-- <h4>Admins:</h4> -->
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <img class="img-fluid rounded-pill"
-                                         width="75" height="75"
-                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148906966/small/1501685402/enhance"
-                                         alt="admin">
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <img class="img-fluid rounded-pill"
-                                         width="75" height="75"
-                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907137/small/1501685404/enhance"
-                                         alt="admin">
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3">
-                                <div class="img">
-                                    <img class="img-fluid rounded-pill"
-                                         width="75" height="75"
-                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907019/small/1501685403/enhance"
-                                         alt="admin">
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
+                    <div class="admin d-flex align-items-center rounded-2 p-3">
+                        <div class="img">
+                            <img class="img-fluid rounded-pill"
+                                 width="75" height="75"
+                                 src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
+                                 alt="admin">
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="box">
-                            <!-- <h4>Moderators:</h4> -->
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <img class="img-fluid rounded-pill"
-                                         width="75" height="75"
-                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907114/small/1501685404/enhance"
-                                         alt="admin">
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3 mb-4">
-                                <div class="img">
-                                    <img class="img-fluid rounded-pill"
-                                         width="75" height="75"
-                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907086/small/1501685404/enhance"
-                                         alt="admin">
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
-                            <div class="admin d-flex align-items-center rounded-2 p-3">
-                                <div class="img">
-                                    <img class="img-fluid rounded-pill"
-                                         width="75" height="75"
-                                         src="https://uniim1.shutterfly.com/ng/services/mediarender/THISLIFE/021036514417/media/23148907008/medium/1501685726/enhance"
-                                         alt="admin">
-                                </div>
-                                <div class="ms-3">
-                                    <h3 class="fs-5 mb-1">Joge Lucky</h3>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
-                                </div>
-                            </div>
+                        <div class="ms-3">
+                            <h3 class="fs-5 mb-1">Joge Lucky</h3>
+                            <p class="mb-0">Lorem ipsum dolor sit amet consectetur elit.</p>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            <section class="statis mt-4 text-center">
-                <div class="row">
-                    <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <div class="box bg-dark p-3">
-                            <i class="fa fa-eye"></i>
-                            <h3>5,154</h3>
-                            <p class="lead">Page views</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
-                        <div class="box bg-dark p-3">
-                            <i class="fa fa-user"></i>
-                            <h3>245</h3>
-                            <p class="lead">User registered</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
-                        <div class="box bg-dark p-3">
-                            <i class="fa fa-dollar"></i>
-                            <h3>5,154</h3>
-                            <p class="lead">Product sales</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="box bg-dark p-3">
-                            <i class="fa fa-coins"></i>
-                            <h3>5,154</h3>
-                            <p class="lead">Transactions</p>
-                        </div>
-                    </div>
+    <section class="statis mt-4 text-center">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <div class="box bg-dark p-3">
+                    <i class="fa fa-eye"></i>
+                    <h3>5,154</h3>
+                    <p class="lead">Page views</p>
                 </div>
-            </section>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4 mb-lg-0">
+                <div class="box bg-dark p-3">
+                    <i class="fa fa-user"></i>
+                    <h3>245</h3>
+                    <p class="lead">User registered</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4 mb-md-0">
+                <div class="box bg-dark p-3">
+                    <i class="fa fa-dollar"></i>
+                    <h3>5,154</h3>
+                    <p class="lead">Product sales</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="box bg-dark p-3">
+                    <i class="fa fa-coins"></i>
+                    <h3>5,154</h3>
+                    <p class="lead">Transactions</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <section class="charts mt-4">
-                <div class="chart-container p-3">
-                    <h3 class="fs-6 mb-3">Testing Chart</h3>
-                    <div>
-                        <div><canvas id="chart3"></canvas></div>
-                    </div>
-                </div>
-            </section>
-        </div>    
+    <section class="charts mt-4">
+        <div class="chart-container p-3">
+            <h3 class="fs-6 mb-3">Testing Chart</h3>
+            <div>
+                <div><canvas id="chart3"></canvas></div>
+            </div>
+        </div>
+    </section>
+</div>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>
 <script>
