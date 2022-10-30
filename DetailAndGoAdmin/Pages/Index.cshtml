@@ -10,47 +10,12 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
 <link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
-<script>
-    function GetMarkers() {
-        var markers = [];
-    @foreach (var item in Model.Jobs)
-    {
-        <text>
-                    const markers[@item.Id] = new google.maps.Marker({
-                    position: marekHome,
-                    map: map,
-                    title: @item.CustomerId,
-                    label: 'H'
-                });
-        </text>
-    }
-
-            console.log("markers: " + markers);
-    }
-
-    console.log(markers);
-</script>
-<script>
-    
-
-    // Initialize and add the map
+<script>    
     function initMap() {
-        
-        // The location of Uluru
-        const marekHome = { lat: 52.9709311, lng: -1.1982185 };
-        const testLocation = { lat: 52.9719311, lng: -1.1592185 };
-
-        // The map, centered at Uluru
         const map = new google.maps.Map(document.getElementById("map"), {
-            zoom: 11,
-            center: marekHome,
-
-            zoomControl: false,
-            mapTypeControl: false,
-            scaleControl: false,
-            streetViewControl: false,
-            rotateControl: false,
-            fullscreenControl: false,
+            zoom: 8,
+            center: { lat: 52.954784, lng: -1.158109 },
+            disableDefaultUI: true,
             styles: [
                 { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
                 { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
@@ -130,15 +95,89 @@
                     elementType: "labels.text.stroke",
                     stylers: [{ color: "#17263c" }],
                 },
-                {
-                    featureType: "poi",
-                    stylers: [{ visibility: "off" }],
-                },
             ],
         });
-        GetMarkers();
-    }
+               
 
+        const contentString =
+            '<div id="content">' +
+            '<div id="siteNotice">' +
+            "</div>" +
+            '<h1 id="firstHeading" class="firstHeading">Job</h1>' +
+            '<div id="bodyContent">' +
+            "<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large " +
+            "sandstone rock formation in the southern part of the " +
+            "Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) " +
+            "south west of the nearest large town, Alice Springs; 450&#160;km " +
+            "(280&#160;mi) by road. Kata Tjuta and Uluru are the two major " +
+            "features of the Uluru - Kata Tjuta National Park. Uluru is " +
+            "sacred to the Pitjantjatjara and Yankunytjatjara, the " +
+            "Aboriginal people of the area. It has many springs, waterholes, " +
+            "rock caves and ancient paintings. Uluru is listed as a World " +
+            "Heritage Site.</p>" +
+            '<p>Attribution: Uluru, <a href="https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+            "https://en.wikipedia.org/w/index.php?title=Uluru</a> " +
+            "(last visited June 22, 2009).</p>" +
+            "</div>" +
+            "</div>";
+
+        const tourStops = [
+            @foreach(var item in Model.Jobs)
+            {
+                <text>
+                [{ lat: @item.LocationLat, lng: @item.LocationLon}, '@item.BookingDate.ToShortTimeString()'],
+                </text>
+                <text>
+
+                </text>
+            }            
+        ];
+        // Create an info window to share between markers.
+        const infoWindow = new google.maps.InfoWindow();
+        const image = {
+            url: "/images/mapmarker.png",
+            // This marker is 20 pixels wide by 32 pixels high.
+            size: new google.maps.Size(64, 64), 
+            // The origin for this image is (0, 0).
+            origin: new google.maps.Point(0, 0),
+            // The anchor for this image is the base of the flagpole at (0, 32).
+            anchor: new google.maps.Point(32, 32),
+        };
+        // Create the markers.
+        tourStops.forEach(([position, title], i) => {
+            const marker = new google.maps.Marker({
+                position,
+                map,
+                icon: image,
+                animation: google.maps.Animation.DROP,
+                title: `${i + 1}. ${title}`,
+                label: `${i + 1}`,
+                optimized: false,
+            });
+
+            const infowindow = new google.maps.InfoWindow({
+            content: title,
+            ariaLabel: "Uluru",
+        });
+
+            // Add a click listener for each marker, and set up the info window.
+            /*marker.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(marker.getTitle());
+                infoWindow.open(marker.getMap(), marker);
+            });*/
+            marker.addListener("click", () => {
+                infowindow.open({
+                    anchor: marker,
+                    map,
+                });
+            });
+
+        });
+        
+
+        
+    }
 
     window.initMap = initMap;
 
@@ -196,16 +235,12 @@
     </section>
     <section class="charts mt-4">
         <div class="chart-container p-3">
-            <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
-            @foreach(var item in Model.GoogleMapsEntities)
-            {
-                <h6 class="text-warning">@item.LocationId, @item.Latitude, @item.Longitude</h6>
-            }
+            <h3 class="fs-6 mb-3">TODAY'S JOBS ON THE MAP</h3>            
             <div classclass="row">
 
-                <a class="btn btn-dark" href="#">All Jobs</a>
-                <a class="btn btn-dark" href="#">Near Jobs</a>
-                <a class="btn btn-dark" href="#">Next Closest Job</a>
+                <a class="btn btn-dark" asp-page-handler="Index">All Jobs</a>
+                <a class="btn btn-dark" asp-page-handler="NearJobs">Near Jobs</a>
+                <a class="btn btn-dark" asp-page-handler="NextClosestJob">Next Closest Job</a>
 
                 <div id="map"></div>
 

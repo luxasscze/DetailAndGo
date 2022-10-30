@@ -16,5 +16,6 @@ namespace DetailAndGo.Models
         public string CustomerNotes { get; set; }
         public string Status { get; set; }
         public string Notes { get; set; }
+        public DateTime BookingDate { get; set; }
     }
 }
