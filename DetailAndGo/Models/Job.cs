@@ -11,8 +11,8 @@ namespace DetailAndGo.Models
         public DateTime WhenAccepted { get; set; }
         public DateTime WhenFinished { get; set; }
         public DateTime Updated { get; set; }
-        public decimal LocationLat { get; set; }
-        public decimal LocationLon { get; set; }
+        public double LocationLat { get; set; }
+        public double LocationLon { get; set; }
         public string CustomerNotes { get; set; }
         public string Status { get; set; }
         public string Notes { get; set; }

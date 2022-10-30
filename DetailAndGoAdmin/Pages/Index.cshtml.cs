@@ -23,6 +23,7 @@ namespace DetailAndGoAdmin.Pages
         }
 
         public IList<Job> Jobs { get; set; }
+        public List<GoogleMapEntities> GoogleMapsEntities { get; set; } = new List<GoogleMapEntities>();
 
 
         public async Task OnGetAsync()
@@ -30,6 +31,18 @@ namespace DetailAndGoAdmin.Pages
             if (_context.Jobs != null)
             {
                 Jobs = _context.Jobs.ToList();
+
+                
+
+                foreach(var item in Jobs)
+                {
+                    GoogleMapEntities entity = new GoogleMapEntities() 
+                    { 
+                        Latitude = item.LocationLat,
+                        Longitude = item.LocationLon
+                    };
+                    GoogleMapsEntities.Add(entity);
+                }               
             }
             ViewData["Greeting"] = _utility.GetGreetings();
             string[] quote = await _utility.GetRandomQuote(_webHostEnvironment.WebRootPath);

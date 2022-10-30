@@ -197,6 +197,10 @@
     <section class="charts mt-4">
         <div class="chart-container p-3">
             <h3 class="fs-6 mb-3">JOBS ON THE MAP</h3>
+            @foreach(var item in Model.GoogleMapsEntities)
+            {
+                <h6 class="text-warning">@item.LocationId, @item.Latitude, @item.Longitude</h6>
+            }
             <div classclass="row">
 
                 <a class="btn btn-dark" href="#">All Jobs</a>
