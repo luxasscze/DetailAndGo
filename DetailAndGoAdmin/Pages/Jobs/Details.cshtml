@@ -1,0 +1,21 @@
+﻿@page
+@model DetailAndGoAdmin.Pages.Jobs.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="p-4">
+    <div class="welcome">
+        <div class="content rounded-3 p-3">
+            <h4 class="text-light text-center">Job #@Model.Job.Id</h4>
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Job?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

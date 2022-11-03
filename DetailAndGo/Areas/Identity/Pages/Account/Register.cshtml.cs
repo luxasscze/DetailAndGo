@@ -10,6 +10,9 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using DetailAndGo.Models;
+using DetailAndGo.Services;
+using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -29,13 +32,18 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ICustomerService _customerService;
+        private readonly IStripeService _stripeService;
+        private readonly Data.ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ICustomerService customerService,
+            IStripeService stripeService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +51,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _customerService = customerService;
+            _stripeService = stripeService;
+
+            //_customerService = new CustomerService();
         }
 
         /// <summary>
@@ -78,6 +90,32 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+            [Required]            
+            [Display(Name = "First Line Address")]
+            public string Address1 { get; set; }
+            
+            [Display(Name = "Second Line Address")]
+            public string Address2 { get; set; }
+
+            [Display(Name = "Third Line Address")]
+            public string Address3 { get; set; }
+
+            [Required]
+            [Display(Name = "Post Code")]
+            public string PostCode { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "Car Model")]
+            public string CarModel { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -133,6 +171,26 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    Customer customerToRegister = new Customer()
+                    {
+                        AspNetUserId = userId,
+                        Email = Input.Email,
+                        Registered = DateTime.Now,
+                        Address1 = Input.Address1,
+                        Address2 = Input.Address2,
+                        Address3 = Input.Address3,
+                        PostCode = Input.PostCode,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        CarModel = Input.CarModel,
+                    };
+
+                    string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
+                    customerToRegister.StripeId = stripeId;
+                    await _customerService.RegisterCustomerAsync(customerToRegister);
+
+                    
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
