@@ -236,15 +236,26 @@
     <section class="charts mt-4">
         <div class="chart-container p-3">
             <h3 class="fs-6 mb-3">TODAY'S JOBS ON THE MAP</h3>            
-            <div classclass="row">
-
+            <div classclass="row">            
                 <a class="btn btn-dark" asp-page-handler="Index">All Jobs</a>
                 <a class="btn btn-dark" asp-page-handler="NearJobs">Near Jobs</a>
-                <a class="btn btn-dark" asp-page-handler="NextClosestJob">Next Closest Job</a>
-
+                <a class="btn btn-dark" asp-page-handler="NextClosestJob">Next Closest Job</a>                
+                </div>
+                <div class="row">
+                <div class="col-lg-3">
+                @foreach(var itm in Model.Jobs)
+                {
+                <div class="row" style="margin: 10px;">
+                <a class="btn btn-outline-secondary btn-block text-end">@itm.CustomerId | Lukas Slivka</a>
+                </div>
+                }
+                </div>
+                <div class="col-lg-9">
                 <div id="map"></div>
+                </div>
+                </div>
 
-            </div>
+            
         </div>
     </section>
 

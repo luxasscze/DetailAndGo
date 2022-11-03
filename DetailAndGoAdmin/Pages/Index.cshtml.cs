@@ -28,7 +28,7 @@ namespace DetailAndGoAdmin.Pages
         {
             if (_context.Jobs != null)
             {
-                Jobs = _context.Jobs.Where(s => s.BookingDate.Date == DateTime.Now.Date).OrderBy(r => r.BookingDate).ToList();     
+                Jobs = _context.Jobs.OrderBy(r => r.BookingDate).ToList();     
             }
             await GreetingHeader();            
         }
