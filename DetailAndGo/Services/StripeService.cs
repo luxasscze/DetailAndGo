@@ -10,17 +10,17 @@ namespace DetailAndGo.Services
     public class StripeService : IStripeService
     {
         public ApplicationDbContext _context;
+        private readonly string _stripeApiKey;
 
         public StripeService(ApplicationDbContext context)
         {
-
             _context = context;
-
+            _stripeApiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Stripe")["ApiKey"];
         }
 
         public Task<string> CreateCustomerAsync(Models.Customer customer)
         {
-            StripeConfiguration.ApiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Stripe")["ApiKey"];
+            StripeConfiguration.ApiKey = _stripeApiKey;
             AddressOptions addressOptions = new AddressOptions()
             {
                 PostalCode = customer.PostCode,
