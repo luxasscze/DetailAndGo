@@ -3,6 +3,7 @@ using DetailAndGo.Models;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace DetailAndGo.Services
 {
