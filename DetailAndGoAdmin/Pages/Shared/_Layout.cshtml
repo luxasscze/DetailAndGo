@@ -13,6 +13,7 @@
 <body>
     @if (User.Identity.IsAuthenticated)
     {
+        
         <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1" style="z-index: 1000;">
             <i class="uil-bars close-aside d-md-none d-lg-none" data-close="show-side-navigation1"></i>
             <div class="sidebar-header d-flex justify-content-center align-items-center px-3 py-4">
@@ -55,64 +56,67 @@
                 </li>
             </ul>
         </aside>
+
         <section id="wrapper">
-            <nav class="navbar navbar-expand-md">
-                <div class="container-fluid mx-2">
-                    <div class="navbar-header">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
-                            <i class="fa fa-bars text-white"></i>
-                        </button>
-                        <a class="navbar-brand" href="#">DETAIL&GO<span class="main-color">ADMIN</span></a>
+            <div class="">
+                <nav class="navbar navbar-expand-md">
+                    <div class="container-fluid mx-2">
+                        <div class="navbar-header">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggle-navbar" aria-controls="toggle-navbar" aria-expanded="false" aria-label="Toggle navigation">
+                                <i class="fa fa-bars text-white"></i>
+                            </button>
+                            <a class="navbar-brand" href="#">DETAIL&GO<span class="main-color">ADMIN</span></a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="toggle-navbar">
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Settings
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li>
+                                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Manage">Add New Admin</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#">Help</a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
+                                                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fa fa-bell"></i><span>23</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#"><i class="fa fa-exclamation"></i><span>98</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <i data-show="show-side-navigation1" id="sideShow" class="fa fa-bars show-side-btn"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="collapse navbar-collapse" id="toggle-navbar">
-                        <ul class="navbar-nav ms-auto">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Settings
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Account</a>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Manage">Add New Admin</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="#">Help</a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">
-                                            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-bell"></i><span>23</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-exclamation"></i><span>98</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i data-show="show-side-navigation1" id="sideShow" class="fa fa-bars show-side-btn"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>          
+                </nav>
+            </div>
             <main role="main" class="">
                 @RenderBody()
-            </main>            
+            </main>
         </section>
     }
     else
     {
         <main role="main" class="">
             @RenderBody()
-        </main>        
+        </main>
     }
 
     <footer class="footer text-muted">
@@ -121,7 +125,7 @@
         </div>
     </footer>
 
-    
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
