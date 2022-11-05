@@ -1,8 +1,10 @@
-﻿body {
+﻿@import url('https://fonts.googleapis.com/css?family=Stick%20No%20Bills&display=swap');
+body {
     margin: 0;
-    background: #333;
-    font-family: 'Noto Sans', sans-serif;
+    background: #333;    
     overflow-x: hidden;
+    font-family: Stick No Bills;
+    
 }
 
 h1 {
@@ -15,7 +17,7 @@ h1 {
 #progress {
     position: absolute;
     justify-content: center;
-    background: #c49000;
+    background: rgba(0, 255, 255, 0.1);
     height: 3%;
     width: 0;
     transition: width 0.3s ease-in-out;
@@ -30,9 +32,10 @@ h1 {
 
 
 #register {
-    background: #fff;
+    background: rgba(0, 0, 0, 0.5);
     position: relative;
-    width: 550px;
+    width: 30%;
+    border-radius: 20px;
     box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
     transition: transform .1s ease-in-out;
 }
@@ -50,7 +53,7 @@ h1 {
     right: 20px;
     bottom: 5px;
     font-size: 40px;
-    color: #fbc02d;
+    color: rgba(0, 255, 255, 0.4);
     float: right;
     cursor: pointer;
     z-index: 20
@@ -72,7 +75,7 @@ h1 {
     }
 
 #forwardButton:hover {
-    color: #c49000
+    color: rgba(0, 255, 255, 0.6)
 }
 
 .wrong #forwardButton {
@@ -96,11 +99,11 @@ h1 {
         width: 100%;
         border: none;
         font-size: 20px;
-        font-weight: bold;
+        font-family: Stick No Bills;
         outline: 0;
         background: transparent;
         box-shadow: none;
-        font-family: 'Noto Sans', sans-serif;
+        color: #fff;
     }
 
 #inputLabel {
@@ -111,6 +114,7 @@ h1 {
     font-size: 20px;
     font-weight: bold;
     transition: .2s ease-in-out;
+    color: #fff;
 }
 
 #inputContainer input:valid + #inputLabel {
