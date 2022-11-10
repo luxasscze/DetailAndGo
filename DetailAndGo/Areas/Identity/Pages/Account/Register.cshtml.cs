@@ -117,6 +117,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             [Display(Name = "Car Model")]
             public string CarModel { get; set; }
 
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -148,6 +152,11 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            var test = Input;
+
+            var errors = ModelState.Values;
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -184,6 +193,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
                         CarModel = Input.CarModel,
+                        PhoneNumber = Input.PhoneNumber,
                     };
 
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);

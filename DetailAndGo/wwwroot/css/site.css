@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Stick%20No%20Bills&display=swap');
 html {
   font-size: 14px;
 }
@@ -14,5 +15,21 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: Stick No Bills;
+    
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
