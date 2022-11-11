@@ -1,0 +1,16 @@
+﻿.center {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.register-card {
+    width: 50%;    
+}
+
+@media (max-width: 900px) {
+    .register-card {
+        width: 95%;        
+    }
+}

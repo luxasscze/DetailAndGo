@@ -5,478 +5,413 @@
     Layout = null;
 }
 
-<link rel="stylesheet" href="~/css/Register.css" />
+
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="~/css/CreditCard.css" />
+<link rel="stylesheet" href="~/css/NewRegister.css" />
+<link rel="stylesheet" href="~/css/Background.css" />
 
 
 
-<div class="text-center">
-    <h2 style="color: rgba(0, 0, 0, 0.4); font-size: 72px; text-align: center; margin-bottom: -100px;" id="captionText">Register - Your Details</h2>
-</div>
 
-@{
-    /*<div class="row">
-    <div class="col-md-4">
-    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-        <h2>Create a new account.</h2>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-            <label asp-for="Input.Email"></label>
-            <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.Password"></label>
-            <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.ConfirmPassword"></label>
-            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.FirstName" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.FirstName"></label>
-            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.LastName" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.LastName"></label>
-            <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.Address1" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.Address1"></label>
-            <span asp-validation-for="Input.Address1" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.Address2" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.Address2"></label>
-            <span asp-validation-for="Input.Address2" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.Address3" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.Address3"></label>
-            <span asp-validation-for="Input.Address3" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.PostCode" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.PostCode"></label>
-            <span asp-validation-for="Input.PostCode" class="text-danger"></span>
-            </div>
-            <div class="form-floating">
-            <input asp-for="Input.CarModel" class="form-control" autocomplete="new-password" aria-required="true" />
-            <label asp-for="Input.CarModel"></label>
-            <span asp-validation-for="Input.CarModel" class="text-danger"></span>
+<div class="area">
+    <form id="regForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+        <h1 class="text-light text-center">REGISTER WITH DETAIL&GO</h1>
+
+        <!-- One "tab" for each step in the form: -->
+        <div class="tab">            
+            <p><input asp-for="Input.Email" placeholder="E-Mail" oninput="this.className = ''" type="email"></p>
+            <span id="emailError" class="text-danger"></span>
+            <p><input asp-for="Input.Password" placeholder="Password" oninput="this.className = ''" type="password"></p>
+            <p><input asp-for="Input.ConfirmPassword" placeholder="Confirm Password" oninput="this.className = ''" type="password"></p>
+            <p><span class="text-secondary"><i class="fa fa-info-circle"></i> Password needs to be between 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.</span><p />
+            <span id="passwordError" class="text-danger"></span>
         </div>
-        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
+
+        <div class="tab">            
+            <p><input asp-for="Input.FirstName" placeholder="First Name" oninput="this.className = ''" type="text"></p>
+            <p><input asp-for="Input.LastName" placeholder="Last Name" oninput="this.className = ''" type="text"></p>
+            <p><input asp-for="Input.PhoneNumber" placeholder="Phone Number" oninput="this.className = ''" type="number"></p>
+            <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text"></p>
         </div>
-        <div class="col-md-6 col-md-offset-2">
-        <section>
-        <h3>Use another service to register.</h3>
-        <hr />
-        @{
-                            if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                            {
-                            <div>
-                            <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                    </p>
-                    </div>
-                    }
-                    else
-                    {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                                <div>
-                                <p>
-                                    @foreach (var provider in Model.ExternalLogins)
-                                    {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-    }
-            </p>
-            </div>
-    </form>
-    }
-    }
-    </section>
-    </div>
-    </div>*/
-}
 
-<div id="progress" class="center" style="box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 6px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);"></div>
-
-<div class="center">
-    @{
-        /*<div id="register"> <!--REGISTER PART-->
-
-        <i id="previousButton" class="fa fa-arrow-left"></i>
-        <i id="forwardButton" class="fa fa-arrow-right" style="margin-bottom: 7px;"></i>
-
-        <div id="inputContainer">
-        <input id="inputField" required multiple />
-        <label id="inputLabel"></label>
-        <div id="inputProgress"></div>
+        <div class="tab">            
+            <p><input asp-for="Input.PostCode" placeholder="Post Code" oninput="this.className = ''" type="text"></p>
+            <p><input asp-for="Input.Address1" placeholder="Street" oninput="this.className = ''" type="text"></p>
+            <p><input asp-for="Input.Address2" placeholder="District" oninput="this.className = ''" type="text"></p>
+            <p><input asp-for="Input.Address3" placeholder="City" oninput="this.className = ''" type="text"></p>
         </div>
-        </div>*/
-    }
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="text-dark">REGISTRATION</h2>
-        </div>
-        <div class="card-body">
-            <h3 class="text-dark">TEXT</h3>
-        </div>
-    </div>
-
-
-    <div class="row" id="creditCard" style="display: none; margin-top: -30px;">
-        <!--CREDIT CARD PART-->
-        <div class="payment-title">
-            <h1>Payment Information</h1>
-        </div>
-        <div class="container preload">
-            <div class="creditcard">
-                <div class="front">
-                    <div id="ccsingle"></div>
-                    <svg version="1.1" id="cardfront" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                         x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
-                    <g id="Front">
-                    <g id="CardBackground">
-                    <g id="Page-1_1_">
-                    <g id="amex_1_">
-                    <path id="Rectangle-1_1_" class="lightcolor grey" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
+        <div class="tab">            
+            <div class="row" id="creditCard">
+                <!--CREDIT CARD PART-->                
+                <div class="container preload">
+                    <div class="creditcard">
+                        <div class="front">
+                            <div id="ccsingle"></div>
+                            <svg version="1.1" id="cardfront" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
+                            <g id="Front">
+                            <g id="CardBackground">
+                            <g id="Page-1_1_">
+                            <g id="amex_1_">
+                            <path id="Rectangle-1_1_" class="lightcolor grey" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
                             C0,17.9,17.9,0,40,0z" />
                                 </g>
                             </g>
-                    <path class="darkcolor greydark" d="M750,431V193.2c-217.6-57.5-556.4-13.5-750,24.9V431c0,22.1,17.9,40,40,40h670C732.1,471,750,453.1,750,431z" />
+                            <path class="darkcolor greydark" d="M750,431V193.2c-217.6-57.5-556.4-13.5-750,24.9V431c0,22.1,17.9,40,40,40h670C732.1,471,750,453.1,750,431z" />
                         </g>
-                    <text transform="matrix(1 0 0 1 60.106 295.0121)" id="svgnumber" class="st2 st3 st4">0123 4567 8910 1112</text>
-                    <text transform="matrix(1 0 0 1 54.1064 428.1723)" id="svgname" class="st2 st5 st6">JOHN DOE</text>
-                    <text transform="matrix(1 0 0 1 54.1074 389.8793)" class="st7 st5 st8">cardholder name</text>
-                    <text transform="matrix(1 0 0 1 479.7754 388.8793)" class="st7 st5 st8">expiration</text>
-                    <text transform="matrix(1 0 0 1 65.1054 241.5)" class="st7 st5 st8">card number</text>
-                    <g>
-                    <text transform="matrix(1 0 0 1 574.4219 433.8095)" id="svgexpire" class="st2 st5 st9">01/23</text>
-                    <text transform="matrix(1 0 0 1 479.3848 417.0097)" class="st2 st10 st11">VALID</text>
-                    <text transform="matrix(1 0 0 1 479.3848 435.6762)" class="st2 st10 st11">THRU</text>
-                    <polygon class="st2" points="554.5,421 540.4,414.2 540.4,427.9 		" />
+                            <text transform="matrix(1 0 0 1 60.106 295.0121)" id="svgnumber" class="st2 st3 st4">0123 4567 8910 1112</text>
+                            <text transform="matrix(1 0 0 1 54.1064 428.1723)" id="svgname" class="st2 st5 st6">JOHN DOE</text>
+                            <text transform="matrix(1 0 0 1 54.1074 389.8793)" class="st7 st5 st8">cardholder name</text>
+                            <text transform="matrix(1 0 0 1 479.7754 388.8793)" class="st7 st5 st8">expiration</text>
+                            <text transform="matrix(1 0 0 1 65.1054 241.5)" class="st7 st5 st8">card number</text>
+                            <g>
+                            <text transform="matrix(1 0 0 1 574.4219 433.8095)" id="svgexpire" class="st2 st5 st9">01/23</text>
+                            <text transform="matrix(1 0 0 1 479.3848 417.0097)" class="st2 st10 st11">VALID</text>
+                            <text transform="matrix(1 0 0 1 479.3848 435.6762)" class="st2 st10 st11">THRU</text>
+                            <polygon class="st2" points="554.5,421 540.4,414.2 540.4,427.9 		" />
                         </g>
-                    <g id="cchip">
-                    <g>
-                    <path class="st2" d="M168.1,143.6H82.9c-10.2,0-18.5-8.3-18.5-18.5V74.9c0-10.2,8.3-18.5,18.5-18.5h85.3
+                            <g id="cchip">
+                            <g>
+                            <path class="st2" d="M168.1,143.6H82.9c-10.2,0-18.5-8.3-18.5-18.5V74.9c0-10.2,8.3-18.5,18.5-18.5h85.3
                         c10.2,0,18.5,8.3,18.5,18.5v50.2C186.6,135.3,178.3,143.6,168.1,143.6z" />
                             </g>
-                    <g>
-                    <g>
-                    <rect x="82" y="70" class="st12" width="1.5" height="60" />
+                            <g>
+                            <g>
+                            <rect x="82" y="70" class="st12" width="1.5" height="60" />
                                 </g>
-                    <g>
-                    <rect x="167.4" y="70" class="st12" width="1.5" height="60" />
+                            <g>
+                            <rect x="167.4" y="70" class="st12" width="1.5" height="60" />
                                 </g>
-                    <g>
-                    <path class="st12" d="M125.5,130.8c-10.2,0-18.5-8.3-18.5-18.5c0-4.6,1.7-8.9,4.7-12.3c-3-3.4-4.7-7.7-4.7-12.3
+                            <g>
+                            <path class="st12" d="M125.5,130.8c-10.2,0-18.5-8.3-18.5-18.5c0-4.6,1.7-8.9,4.7-12.3c-3-3.4-4.7-7.7-4.7-12.3
                             c0-10.2,8.3-18.5,18.5-18.5s18.5,8.3,18.5,18.5c0,4.6-1.7,8.9-4.7,12.3c3,3.4,4.7,7.7,4.7,12.3
                             C143.9,122.5,135.7,130.8,125.5,130.8z M125.5,70.8c-9.3,0-16.9,7.6-16.9,16.9c0,4.4,1.7,8.6,4.8,11.8l0.5,0.5l-0.5,0.5
                             c-3.1,3.2-4.8,7.4-4.8,11.8c0,9.3,7.6,16.9,16.9,16.9s16.9-7.6,16.9-16.9c0-4.4-1.7-8.6-4.8-11.8l-0.5-0.5l0.5-0.5
                             c3.1-3.2,4.8-7.4,4.8-11.8C142.4,78.4,134.8,70.8,125.5,70.8z" />
                                 </g>
-                    <g>
-                    <rect x="82.8" y="82.1" class="st12" width="25.8" height="1.5" />
+                            <g>
+                            <rect x="82.8" y="82.1" class="st12" width="25.8" height="1.5" />
                                 </g>
-                    <g>
-                    <rect x="82.8" y="117.9" class="st12" width="26.1" height="1.5" />
+                            <g>
+                            <rect x="82.8" y="117.9" class="st12" width="26.1" height="1.5" />
                                 </g>
-                    <g>
-                    <rect x="142.4" y="82.1" class="st12" width="25.8" height="1.5" />
+                            <g>
+                            <rect x="142.4" y="82.1" class="st12" width="25.8" height="1.5" />
                                 </g>
-                    <g>
-                    <rect x="142" y="117.9" class="st12" width="26.2" height="1.5" />
+                            <g>
+                            <rect x="142" y="117.9" class="st12" width="26.2" height="1.5" />
                                 </g>
                             </g>
                         </g>
                     </g>
-                    <g id="Back">
+                            <g id="Back">
                     </g>
                 </svg>
-                </div>
-                <div class="back">
-                    <svg version="1.1" id="cardback" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                         x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
-                    <g id="Front">
-                    <line class="st0" x1="35.3" y1="10.4" x2="36.7" y2="11" />
+                        </div>
+                        <div class="back">
+                            <svg version="1.1" id="cardback" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
+                            <g id="Front">
+                            <line class="st0" x1="35.3" y1="10.4" x2="36.7" y2="11" />
                     </g>
-                    <g id="Back">
-                    <g id="Page-1_2_">
-                    <g id="amex_2_">
-                    <path id="Rectangle-1_2_" class="darkcolor greydark" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
+                            <g id="Back">
+                            <g id="Page-1_2_">
+                            <g id="amex_2_">
+                            <path id="Rectangle-1_2_" class="darkcolor greydark" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
                         C0,17.9,17.9,0,40,0z" />
                             </g>
                         </g>
-                    <rect y="61.6" class="st2" width="750" height="78" />
-                    <g>
-                    <path class="st3" d="M701.1,249.1H48.9c-3.3,0-6-2.7-6-6v-52.5c0-3.3,2.7-6,6-6h652.1c3.3,0,6,2.7,6,6v52.5
+                            <rect y="61.6" class="st2" width="750" height="78" />
+                            <g>
+                            <path class="st3" d="M701.1,249.1H48.9c-3.3,0-6-2.7-6-6v-52.5c0-3.3,2.7-6,6-6h652.1c3.3,0,6,2.7,6,6v52.5
                     C707.1,246.4,704.4,249.1,701.1,249.1z" />
-                    <rect x="42.9" y="198.6" class="st4" width="664.1" height="10.5" />
-                    <rect x="42.9" y="224.5" class="st4" width="664.1" height="10.5" />
-                    <path class="st5" d="M701.1,184.6H618h-8h-10v64.5h10h8h83.1c3.3,0,6-2.7,6-6v-52.5C707.1,187.3,704.4,184.6,701.1,184.6z" />
+                            <rect x="42.9" y="198.6" class="st4" width="664.1" height="10.5" />
+                            <rect x="42.9" y="224.5" class="st4" width="664.1" height="10.5" />
+                            <path class="st5" d="M701.1,184.6H618h-8h-10v64.5h10h8h83.1c3.3,0,6-2.7,6-6v-52.5C707.1,187.3,704.4,184.6,701.1,184.6z" />
                         </g>
-                    <text transform="matrix(1 0 0 1 621.999 227.2734)" id="svgsecurity" class="st6 st7">985</text>
-                    <g class="st8">
-                    <text transform="matrix(1 0 0 1 518.083 280.0879)" class="st9 st6 st10">security code</text>
+                            <text transform="matrix(1 0 0 1 621.999 227.2734)" id="svgsecurity" class="st6 st7">985</text>
+                            <g class="st8">
+                            <text transform="matrix(1 0 0 1 518.083 280.0879)" class="st9 st6 st10">security code</text>
                         </g>
-                    <rect x="58.1" y="378.6" class="st11" width="375.5" height="13.5" />
-                    <rect x="58.1" y="405.6" class="st11" width="421.7" height="13.5" />
-                    <text transform="matrix(1 0 0 1 59.5073 228.6099)" id="svgnameback" class="st12 st13">John Doe</text>
+                            <rect x="58.1" y="378.6" class="st11" width="375.5" height="13.5" />
+                            <rect x="58.1" y="405.6" class="st11" width="421.7" height="13.5" />
+                            <text transform="matrix(1 0 0 1 59.5073 228.6099)" id="svgnameback" class="st12 st13">John Doe</text>
                     </g>
                 </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container">
+                    <div class="field-container">
+                        <label for="name">Name</label>
+                        <input id="name" maxlength="20" type="text">
+                    </div>
+                    <div class="field-container">
+                        <label for="cardnumber">Card Number</label>
+                        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+                        <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                        </svg>
+                    </div>
+                    <div class="field-container">
+                        <label for="expirationdate">Expiration (mm/yy)</label>
+                        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+                    </div>
+                    <div class="field-container">
+                        <label for="securitycode">Security Code</label>
+                        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="form-container">
-            <div class="field-container">
-                <label for="name">Name</label>
-                <input id="name" maxlength="20" type="text">
-            </div>
-            <div class="field-container">
-                <label for="cardnumber">Card Number</label>
-                <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
-                <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                     xmlns:xlink="http://www.w3.org/1999/xlink">
-                </svg>
-            </div>
-            <div class="field-container">
-                <label for="expirationdate">Expiration (mm/yy)</label>
-                <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
-            </div>
-            <div class="field-container">
-                <label for="securitycode">Security Code</label>
-                <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+
+        <div style="overflow:auto;">
+            <div style="float:right;">
+                <button class="btn btn-lg btn-success" type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+                <button class="btn btn-lg btn-success" type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
             </div>
         </div>
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <input type="hidden" asp-for="@Model.Input.FirstName" id="firstNameInput" />
-            <input type="hidden" asp-for="@Model.Input.LastName" id="lastNameInput" />
-            <input type="hidden" asp-for="@Model.Input.Email" id="emailInput" />
-            <input type="hidden" asp-for="@Model.Input.Password" id="passwordInput" />
-            <input type="hidden" asp-for="@Model.Input.ConfirmPassword" id="confirmPasswordInput" />
-            <input type="hidden" asp-for="@Model.Input.PhoneNumber" id="phoneNumberInput" />
-            <input type="hidden" asp-for="@Model.Input.Address1" id="address1Input" />
-            <input type="hidden" asp-for="@Model.Input.Address2" id="address2Input" />
-            <input type="hidden" asp-for="@Model.Input.Address3" id="address3Input" />
-            <input type="hidden" asp-for="@Model.Input.PostCode" id="postCodeInput" />
-            <input type="hidden" asp-for="@Model.Input.CarModel" id="carModelInput" />
-            <input type="submit" value="Register" class="btn btn-success" />
-        </form>
-    </div>
+
+        <!-- Circles which indicates the steps of the form: -->
+        <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+        </div>
+
+    </form>
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
 </div>
+
+
+
+@{/*<div class="row" style="margin-left: 15px;">
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div class="col-md-4">
+
+            <h2>Create a new account.</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <label asp-for="Input.Email"></label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Password"></label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.ConfirmPassword"></label>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <hr class="bg-light" />
+            <div class="form-floating">
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.FirstName"></label>
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.LastName" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.LastName"></label>
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+            <hr class="bg-light" />
+            <div class="form-floating">
+                <input asp-for="Input.Address1" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Address1"></label>
+                <span asp-validation-for="Input.Address1" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Address2" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Address2"></label>
+                <span asp-validation-for="Input.Address2" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.Address3" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.Address3"></label>
+                <span asp-validation-for="Input.Address3" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="Input.PostCode" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.PostCode"></label>
+                <span asp-validation-for="Input.PostCode" class="text-danger"></span>
+            </div>
+            <hr class="bg-light" />
+            <div class="form-floating">
+                <input asp-for="Input.CarModel" class="form-control" autocomplete="new-password" aria-required="true" />
+                <label asp-for="Input.CarModel"></label>
+                <span asp-validation-for="Input.CarModel" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+
+        </div>
+        <div class="col-md-6">
+            <div class="row" id="creditCard">
+                <!--CREDIT CARD PART-->
+                <div class="payment-title">
+                    <h1>Payment Information</h1>
+                </div>
+                <div class="container preload">
+                    <div class="creditcard">
+                        <div class="front">
+                            <div id="ccsingle"></div>
+                            <svg version="1.1" id="cardfront" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
+                            <g id="Front">
+                            <g id="CardBackground">
+                            <g id="Page-1_1_">
+                            <g id="amex_1_">
+                            <path id="Rectangle-1_1_" class="lightcolor grey" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
+                            C0,17.9,17.9,0,40,0z" />
+                                </g>
+                            </g>
+                            <path class="darkcolor greydark" d="M750,431V193.2c-217.6-57.5-556.4-13.5-750,24.9V431c0,22.1,17.9,40,40,40h670C732.1,471,750,453.1,750,431z" />
+                        </g>
+                            <text transform="matrix(1 0 0 1 60.106 295.0121)" id="svgnumber" class="st2 st3 st4">0123 4567 8910 1112</text>
+                            <text transform="matrix(1 0 0 1 54.1064 428.1723)" id="svgname" class="st2 st5 st6">JOHN DOE</text>
+                            <text transform="matrix(1 0 0 1 54.1074 389.8793)" class="st7 st5 st8">cardholder name</text>
+                            <text transform="matrix(1 0 0 1 479.7754 388.8793)" class="st7 st5 st8">expiration</text>
+                            <text transform="matrix(1 0 0 1 65.1054 241.5)" class="st7 st5 st8">card number</text>
+                            <g>
+                            <text transform="matrix(1 0 0 1 574.4219 433.8095)" id="svgexpire" class="st2 st5 st9">01/23</text>
+                            <text transform="matrix(1 0 0 1 479.3848 417.0097)" class="st2 st10 st11">VALID</text>
+                            <text transform="matrix(1 0 0 1 479.3848 435.6762)" class="st2 st10 st11">THRU</text>
+                            <polygon class="st2" points="554.5,421 540.4,414.2 540.4,427.9 		" />
+                        </g>
+                            <g id="cchip">
+                            <g>
+                            <path class="st2" d="M168.1,143.6H82.9c-10.2,0-18.5-8.3-18.5-18.5V74.9c0-10.2,8.3-18.5,18.5-18.5h85.3
+                        c10.2,0,18.5,8.3,18.5,18.5v50.2C186.6,135.3,178.3,143.6,168.1,143.6z" />
+                            </g>
+                            <g>
+                            <g>
+                            <rect x="82" y="70" class="st12" width="1.5" height="60" />
+                                </g>
+                            <g>
+                            <rect x="167.4" y="70" class="st12" width="1.5" height="60" />
+                                </g>
+                            <g>
+                            <path class="st12" d="M125.5,130.8c-10.2,0-18.5-8.3-18.5-18.5c0-4.6,1.7-8.9,4.7-12.3c-3-3.4-4.7-7.7-4.7-12.3
+                            c0-10.2,8.3-18.5,18.5-18.5s18.5,8.3,18.5,18.5c0,4.6-1.7,8.9-4.7,12.3c3,3.4,4.7,7.7,4.7,12.3
+                            C143.9,122.5,135.7,130.8,125.5,130.8z M125.5,70.8c-9.3,0-16.9,7.6-16.9,16.9c0,4.4,1.7,8.6,4.8,11.8l0.5,0.5l-0.5,0.5
+                            c-3.1,3.2-4.8,7.4-4.8,11.8c0,9.3,7.6,16.9,16.9,16.9s16.9-7.6,16.9-16.9c0-4.4-1.7-8.6-4.8-11.8l-0.5-0.5l0.5-0.5
+                            c3.1-3.2,4.8-7.4,4.8-11.8C142.4,78.4,134.8,70.8,125.5,70.8z" />
+                                </g>
+                            <g>
+                            <rect x="82.8" y="82.1" class="st12" width="25.8" height="1.5" />
+                                </g>
+                            <g>
+                            <rect x="82.8" y="117.9" class="st12" width="26.1" height="1.5" />
+                                </g>
+                            <g>
+                            <rect x="142.4" y="82.1" class="st12" width="25.8" height="1.5" />
+                                </g>
+                            <g>
+                            <rect x="142" y="117.9" class="st12" width="26.2" height="1.5" />
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                            <g id="Back">
+                    </g>
+                </svg>
+                        </div>
+                        <div class="back">
+                            <svg version="1.1" id="cardback" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                 x="0px" y="0px" viewBox="0 0 750 471" style="enable-background:new 0 0 750 471;" xml:space="preserve">
+                            <g id="Front">
+                            <line class="st0" x1="35.3" y1="10.4" x2="36.7" y2="11" />
+                    </g>
+                            <g id="Back">
+                            <g id="Page-1_2_">
+                            <g id="amex_2_">
+                            <path id="Rectangle-1_2_" class="darkcolor greydark" d="M40,0h670c22.1,0,40,17.9,40,40v391c0,22.1-17.9,40-40,40H40c-22.1,0-40-17.9-40-40V40
+                        C0,17.9,17.9,0,40,0z" />
+                            </g>
+                        </g>
+                            <rect y="61.6" class="st2" width="750" height="78" />
+                            <g>
+                            <path class="st3" d="M701.1,249.1H48.9c-3.3,0-6-2.7-6-6v-52.5c0-3.3,2.7-6,6-6h652.1c3.3,0,6,2.7,6,6v52.5
+                    C707.1,246.4,704.4,249.1,701.1,249.1z" />
+                            <rect x="42.9" y="198.6" class="st4" width="664.1" height="10.5" />
+                            <rect x="42.9" y="224.5" class="st4" width="664.1" height="10.5" />
+                            <path class="st5" d="M701.1,184.6H618h-8h-10v64.5h10h8h83.1c3.3,0,6-2.7,6-6v-52.5C707.1,187.3,704.4,184.6,701.1,184.6z" />
+                        </g>
+                            <text transform="matrix(1 0 0 1 621.999 227.2734)" id="svgsecurity" class="st6 st7">985</text>
+                            <g class="st8">
+                            <text transform="matrix(1 0 0 1 518.083 280.0879)" class="st9 st6 st10">security code</text>
+                        </g>
+                            <rect x="58.1" y="378.6" class="st11" width="375.5" height="13.5" />
+                            <rect x="58.1" y="405.6" class="st11" width="421.7" height="13.5" />
+                            <text transform="matrix(1 0 0 1 59.5073 228.6099)" id="svgnameback" class="st12 st13">John Doe</text>
+                    </g>
+                </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container">
+                    <div class="field-container">
+                        <label for="name">Name</label>
+                        <input id="name" maxlength="20" type="text">
+                    </div>
+                    <div class="field-container">
+                        <label for="cardnumber">Card Number</label>
+                        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric">
+                        <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                        </svg>
+                    </div>
+                    <div class="field-container">
+                        <label for="expirationdate">Expiration (mm/yy)</label>
+                        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric">
+                    </div>
+                    <div class="field-container">
+                        <label for="securitycode">Security Code</label>
+                        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>*/}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="~/js/NewRegister.js"></script>
 <script src="~/js/CreditCard.js"></script>
-
-<script>
-    /**********
-     *
-    This Pen uses no libraries except fonts and should
-    work on all modern browsers
-
-    The answers are stored in the `questions` array
-    with the key `answer`.
-
-    inspired by XavierCoulombeM
-    https://dribbble.com/shots/2510592-Simple-register-form
-
-    **********/
-
-    var questions = [
-        { question: "What's your first name?" },
-        { question: "What's your last name?" },
-        { question: "What's your email?", pattern: /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/ },
-        { question: "Create your password", type: "password" },
-        { question: "Repeat the password", type: "password" },
-        { question: "What's your phone number?" },
-        { question: "What's your first line address?" },
-        { question: "What's your second line address?" },
-        { question: "What's your city?" },
-        { question: "What's your post code?" },
-        { question: "What's your car model?" }
-    ]
-
-    /*
-      do something after the questions have been answered
-    */
-    var onComplete = function () {
-
-        /*console.log(questions);
-        var h1 = document.createElement('h1')
-        h1.appendChild(document.createTextNode('Thanks ' + questions[0].answer + ' for checking this pen out!'))
-        */
-
-        $('#firstNameInput').val(questions[0].answer);
-        $('#lastNameInput').val(questions[1].answer);
-        $('#emailInput').val(questions[2].answer);
-        $('#passwordInput').val(questions[3].answer);
-        $('#confirmPasswordInput').val(questions[3].answer);
-        $('#phoneNumberInput').val(questions[5].answer);
-        $('#address1Input').val(questions[6].answer);
-        $('#address2Input').val(questions[7].answer);
-        $('#address3Input').val(questions[8].answer);
-        $('#postCodeInput').val(questions[9].answer);
-        $('#carModelInput').val(questions[10].answer);
-
-        setTimeout(function () {
-            document.getElementById('creditCard').style.display = "";
-            document.getElementById('captionText').innerHTML = "Register - Final Step";
-        }, 1000);
-
-
-    }
-
-        ; (function (questions, onComplete) {
-
-            var tTime = 100 // transition transform time from #register in ms
-            var wTime = 200 // transition width time from #register in ms
-            var eTime = 1000 // transition width time from inputLabel in ms
-
-            // init
-            // --------------
-            if (questions.length == 0) return
-
-            var position = 0
-
-            putQuestion()
-
-            forwardButton.addEventListener('click', validate)
-            inputField.addEventListener('keyup', function (e) {
-                transform(0, 0) // ie hack to redraw
-                if (e.keyCode == 13) validate()
-            })
-
-            previousButton.addEventListener('click', function (e) {
-                if (position === 0) return
-                position -= 1
-                hideCurrent(putQuestion)
-            })
-
-
-            // functions
-            // --------------
-
-            // load the next question
-            function putQuestion() {
-                inputLabel.innerHTML = questions[position].question
-                inputField.type = questions[position].type || 'text'
-                inputField.value = questions[position].answer || ''
-                inputField.focus()
-
-                // set the progress of the background
-                progress.style.width = position * 100 / questions.length + '%'
-
-                previousButton.className = position ? 'fa fa-arrow-left' : 'fa fa-user'
-
-                showCurrent()
-
-            }
-
-            // when submitting the current question
-            function validate() {
-
-                var validateCore = function () {
-                    return inputField.value.match(questions[position].pattern || /.+/)
-                }
-
-                // CALL AJAX HERE TO VALIDATE THE EMAIL IF EXISTS OR NOT
-                if (position == 2) {
-                    console.log('email reached...');
-                }
-
-                //CHECK FOR PASSWORD MATCH, IF NOT TRY TO SHAKE THE BOX
-                if (position == 4) {
-                    if (questions[3].answer === $('#inputField').val()) {
-                        console.log('Password match');
-                    }
-                    else {
-                        console.log('1: ' + questions[3].answer + ' 1: ' + $('#inputField').val());
-                        console.log('Password not match');
-                        wrong(inputField.focus.bind(inputField));
-
-                    }
-                }
-
-                if (!questions[position].validate) questions[position].validate = validateCore
-
-                // check if the pattern matches
-                if (!questions[position].validate()) wrong(inputField.focus.bind(inputField))
-                else ok(function () {
-
-                    // execute the custom end function or the default value set
-                    if (questions[position].done) questions[position].done()
-                    else questions[position].answer = inputField.value
-
-                    ++position
-
-                    // if there is a new question, hide current and load next
-                    if (questions[position]) hideCurrent(putQuestion)
-                    else hideCurrent(function () {
-                        // remove the box if there is no next question
-                        register.className = 'close'
-                        progress.style.width = '100%'
-
-                        onComplete()
-
-                    })
-
-                })
-
-            }
-
-
-            // helper
-            // --------------
-
-            function hideCurrent(callback) {
-                inputContainer.style.opacity = 0
-                inputLabel.style.marginLeft = 0
-                inputProgress.style.width = 0
-                inputProgress.style.transition = 'none'
-                inputContainer.style.border = null
-                setTimeout(callback, wTime)
-            }
-
-            function showCurrent(callback) {
-                inputContainer.style.opacity = 1
-                inputProgress.style.transition = ''
-                inputProgress.style.width = '100%'
-                setTimeout(callback, wTime)
-            }
-
-            function transform(x, y) {
-                register.style.transform = 'translate(' + x + 'px ,  ' + y + 'px)'
-            }
-
-            function ok(callback) {
-                register.className = ''
-                setTimeout(transform, tTime * 0, 0, 10)
-                setTimeout(transform, tTime * 1, 0, 0)
-                setTimeout(callback, tTime * 2)
-            }
-
-            function wrong(callback) {
-                register.className = 'wrong'
-                for (var i = 0; i < 6; i++) // shaking motion
-                    setTimeout(transform, tTime * i, (i % 2 * 2 - 1) * 20, 0)
-                setTimeout(transform, tTime * 6, 0, 0)
-                setTimeout(callback, tTime * 7)
-            }
-
-        }(questions, onComplete))
-</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
