@@ -70,6 +70,8 @@ h1 {
 
 .content {
     z-index: 2;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn {

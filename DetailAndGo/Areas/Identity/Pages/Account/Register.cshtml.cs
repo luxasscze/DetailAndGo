@@ -180,7 +180,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    _userManager.Options.SignIn.RequireConfirmedEmail = false;
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -217,9 +217,9 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     }
                     _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
-                    await _customerService.RegisterCustomerAsync(customerToRegister);                    
+                    await _customerService.RegisterCustomerAsync(customerToRegister);
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    /*if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
@@ -227,7 +227,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }
+                    }*/
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    return LocalRedirect(returnUrl);
                 }
                 foreach (var error in result.Errors)
                 {

@@ -24,8 +24,8 @@
             <span id="emailExists" class="text-warning"></span>
             <p><span id="emailError" class="text-danger"></span></p>
             <p><input asp-for="Input.Email" placeholder="E-Mail" oninput="this.className = ''" type="email" id="emailInput"></p>            
-            <p><input asp-for="Input.Password" placeholder="Password" oninput="this.className = ''" type="password"></p>
-            <p><input asp-for="Input.ConfirmPassword" placeholder="Confirm Password" oninput="this.className = ''" type="password"></p>
+            <p><input asp-for="Input.Password" placeholder="Password" oninput="this.className = ''" type="password" id="passwordInput"></p>
+            <p><input asp-for="Input.ConfirmPassword" placeholder="Confirm Password" oninput="this.className = ''" type="password" id="confrimPasswordInput"></p>
             <span id="passwordError" class="text-danger"></span>
             <p><span class="text-secondary"><i class="fa fa-info-circle"></i> Password needs to be between 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character.</span><p />
             

@@ -4,48 +4,211 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DetailAndGo</title>
+    <link rel="stylesheet" href="~/css/Background.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DetailAndGo.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MainMenu.css" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <style>
+        /* Tooltip container */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+        }
+
+            /* Tooltip text */
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: 120px;
+                background-color: #555;
+                color: #fff;
+                text-align: center;
+                padding: 5px 0;
+                border-radius: 6px;
+                /* Position the tooltip text */
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -60px;
+                /* Fade in tooltip */
+                opacity: 0;
+                transition: opacity 0.3s;
+            }
+
+                /* Tooltip arrow */
+                .tooltip .tooltiptext::after {
+                    content: "";
+                    position: absolute;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -5px;
+                    border-width: 5px;
+                    border-style: solid;
+                    border-color: #555 transparent transparent transparent;
+                }
+
+            /* Show the tooltip text when you mouse over the tooltip container */
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
+    </style>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">DetailAndGo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
+    <div class="xs-menu-cont">
+        <a id="menutoggle"><i class="fa fa-align-justify"></i> </a>
+        <nav class="xs-menu displaynone">
+            <ul>
+                <li class="active">
+                    <a href="#">Home</a>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                </li>
+                <li>
+                    <a href="#">Services</a>
+                </li>
+                <li>
+                    <a href="#">Team</a>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Blog</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+
+            </ul>
         </nav>
-    </header>
+    </div>
+    <nav class="menu">
+        <ul>
+            <li class="active">
+                <a href="#">Home</a>
+            </li>
+            <li class="drop-down">
+                <a href="#">Valeting</a>
+
+                <div class="mega-menu fadeIn animated">
+                    <div class="mm-6column">
+                        <span class="left-images">
+                            <img src="~/images/logo.png" class="img-fluid" height="250" width="250">
+
+                        </span>
+                        <div class="card bg-dark" style="margin: 10px;">
+                            <div class="card-header">
+                                <label>Entry Valet</label> 
+                                <div class="tooltip">
+                                     bla bla
+                                    <span class="tooltiptext">Tooltip text</span>
+                                </div>
+                                <div class="float-end"><i class="fa fa-clock"></i>Up to 4-6 hours</div>
+                            </div>
+                            <div class="card-body">
+                               
+                            </div>                        
+                        <div class="card-footer">
+                            <a class="mm-view-more" href="#">View more →</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mm-3column">
+                    <div class="card bg-dark" style="margin: 10px;">
+                        <div class="card-header">
+                            <label>Entry Valeting</label>
+                        </div>
+                        <div class="card-body">
+                            bla bla <p />
+                            bla bla <p />
+                            bla bkla <p />
+                        </div>
+                        <div class="card-footer">
+                            <a class="mm-view-more" href="#">View more →</a>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="mm-3column">
+
+
+                    <div class="card bg-dark" style="margin: 10px;">
+                        <div class="card-header">
+                            <label>Entry Valeting</label>
+                        </div>
+                        <div class="card-body">
+                            bla bla <p />
+                            bla bla <p />
+                            bla bkla <p />
+                        </div>
+                        <div class="card-footer">
+                            <a class="mm-view-more" href="#">View more →</a>
+                        </div>
+                    </div>
+
+
+                </div>
+                </div>
+
+            </li>
+            <li>
+                <a href="#">Detailing</a>
+            </li>
+            <li>
+                <a href="#">Gallery</a>
+            </li>
+            <li>
+                <a href="#">About</a>
+
+            </li>
+            <li>
+                <a target="_blank" href="http://www.mywebtricks.com/">Contact</a>
+            </li>
+            <li style="float:right;">
+                <a href="#" id="carModelMainMenu"><i class="fa fa-car"></i> Skoda 120L</a>
+            </li>
+            <li style="float:right;">
+                <a href="http://www.mywebtricks.com/">My Account</a>
+            </li>
+
+        </ul>
+
+    </nav>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
         </main>
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
     </div>
 
-    <footer class="border-top footer text-muted" style="background-color: rgba(1, 1, 1, 0.5)">
-        <div class="container">
-            &copy; 2022 - DetailAndGo - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
+    <script src="~/js/MainMenu.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

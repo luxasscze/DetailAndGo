@@ -39,9 +39,20 @@ function nextPrev(n) {
     showTab(currentTab);
 }
 
-document.addEventListener("keyup", () => {
+$('#emailInput').on('focusout', function () {
+    if ($('#emailInput').val() != null) {
+        validateForm();
+    }
+});
+
+$('#passwordInput').on('focusout', function () {
     validateForm();
 });
+
+$('#confirmPasswordInput').on('focusout', function () {
+    validateForm();
+});
+
 
 function validateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
