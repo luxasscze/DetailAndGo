@@ -134,3 +134,10 @@ body {
         border-radius: 50%;
     }
 }
+
+@media (max-width: 308px) {
+    .area {
+        width: 100%;
+        min-width: 100%;
+    }
+}

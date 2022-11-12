@@ -121,6 +121,18 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
+            [Required]
+            [Display(Name = "Card number")]
+            public string CardNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Expiry")]
+            public string Expiry { get; set; }
+
+            [Required]
+            [Display(Name = "CVC")]
+            public string CVC { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -195,12 +207,17 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarModel = Input.CarModel,
                         PhoneNumber = Input.PhoneNumber,
                     };
-
+                    int expM = int.Parse(Input.Expiry.Split('/')[0]);
+                    int expY = int.Parse(Input.Expiry.Split('/')[1]);
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
+                    string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);                    
+                    if(paymentMethod == "invalid_card")
+                    {
+                        RedirectToPage("Register", new { error = "invalid_card"});
+                    }
+                    _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
-                    await _customerService.RegisterCustomerAsync(customerToRegister);
-
-                    
+                    await _customerService.RegisterCustomerAsync(customerToRegister);                    
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -243,6 +260,21 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
+        }
+
+        
+        [ValidateAntiForgeryToken]
+        public JsonResult OnGetCheckEmailExists(string email)
+        {
+            bool result = _customerService.CheckEmailExists(email);
+            if(result)
+            {
+                return new JsonResult(true);
+            }
+            else
+            {
+                return new JsonResult(false);
+            }
         }
     }
 }

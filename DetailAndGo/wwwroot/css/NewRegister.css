@@ -9,11 +9,7 @@
     box-shadow: 10px 15px 20px 10px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 768px) {
-    #regForm {
-        width: 95%;
-    }
-}
+
 
 /* Style the input fields */
 input {
@@ -57,5 +53,14 @@ input {
     .step.finish {
         background-color: #04AA6D;
     }
+
+@media (max-width: 768px) {
+    #regForm {
+        margin-top: 50px;
+        width: 100%;
+        min-width: 100%;
+        font-size: 48px;
+    }
+}
 
 

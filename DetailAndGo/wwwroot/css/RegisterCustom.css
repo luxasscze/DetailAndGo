@@ -11,6 +11,7 @@
 
 @media (max-width: 900px) {
     .register-card {
-        width: 95%;        
+        width: 95%;
+        font-size: 24px;
     }
 }
