@@ -5,11 +5,20 @@
 
 	});
 	//add active class on menu
-	$('ul li').click(function (e) {
-		e.preventDefault();
+	/*$('li').click(function (e) {
+		//e.preventDefault();
 		$('li').removeClass('active');
 		$(this).addClass('active');
-	});
+	});*/
+	if (document.baseURI.includes('Valeting')) {
+		$('li').removeClass('active');
+		$('#menuValeting').addClass('active');
+	}
+	else {
+		$('li').removeClass('active');
+		$('#menuHome').addClass('active');
+	}
+	
 	//drop down menu	
 	$(".drop-down").hover(function () {
 		$('.mega-menu').addClass('display-on');
