@@ -10,6 +10,11 @@
 @if (User.Identity.IsAuthenticated)
 {
     <h1 class="text-light">USER WITH EMAIL @User.Identity.Name IS LOGGED IN...</h1>
+    <script>
+        $('#carModel').text('@ViewData["CarModel"]');
+        $('#carModelMobile').text('@ViewData["CarModel"]');
+        console.log('Car model: ' + '@ViewData["CarModel"]');
+    </script>
 
     
 

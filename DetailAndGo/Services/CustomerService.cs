@@ -27,6 +27,11 @@ namespace DetailAndGo.Services
             return _context.Customers.Where(s => s.AspNetUserId == customerId).FirstOrDefault();
         }
 
+        public Customer GetCustomerByEmail(string? email)
+        {
+            return _context.Customers.Where(s => s.Email == email).FirstOrDefault();
+        }
+
         public async Task<bool> RegisterCustomerAsync(Customer customer)
         {
             if (customer != null)

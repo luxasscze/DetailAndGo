@@ -19,29 +19,32 @@
         
         <div class="xs-menu-cont">
             
-            <a id="menutoggle"><i class="fa fa-align-justify"></i> </a>
+            <a id="menutoggle" class="float-end"><i class="fa fa-align-justify"></i> </a>
             <nav class="xs-menu displaynone">
                 <ul>
                     <li class="active">
-                        <a asp-page="Index">Home</a>
+                        <i class="fa fa-home"></i><a asp-page="Index"> Home</a>
                     </li>
                     <li>
-                        <a asp-page="Valeting">Valeting</a>
+                        <i class="fa fa-car-wash"></i><a asp-page="Valeting"> Valeting</a>
                     </li>
                     <li>
-                        <a href="#">Services</a>
+                        <a href="#">Detailing</a>
                     </li>
                     <li>
-                        <a href="#">Team</a>
+                        <a href="#">Gallery</a>
                     </li>
                     <li>
-                        <a href="#">Portfolio</a>
-                    </li>
-                    <li>
-                        <a href="#">Blog</a>
+                        <a href="#">About</a>
                     </li>
                     <li>
                         <a href="#">Contact</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-car"></i> <span id="carModelMobile">No Car</span>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-user"></i> My Account</a>
                     </li>
 
                 </ul>
@@ -70,7 +73,7 @@
                     <a target="_blank" href="http://www.mywebtricks.com/">Contact</a>
                 </li>
                 <li style="float:right;">
-                    <a href="#" id="carModelMainMenu"><i class="fa fa-car"></i> Skoda 120L</a>
+                    <a href="#" id="carModelMainMenu"><i class="fa fa-car"></i> <span id="carModel">No Car</span></a>
                 </li>
                 <li style="float:right;">
                     <a href="http://www.mywebtricks.com/"><i class="fa fa-user"></i> My Account</a>

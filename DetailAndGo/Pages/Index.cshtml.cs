@@ -19,7 +19,10 @@ namespace DetailAndGo.Pages
 
         public void OnGetAsync()
         {
-            Customer customer = _customerService.GetCustomerById("abcdef");
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewData["CarModel"] = _customerService.GetCustomerByEmail(User.Identity.Name).CarModel;
+            }
         }
     }
 }
