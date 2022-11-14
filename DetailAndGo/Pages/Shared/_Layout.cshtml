@@ -22,29 +22,29 @@
             <a id="menutoggle" class="float-end"><i class="fa fa-align-justify"></i> </a>
             <nav class="xs-menu displaynone">
                 <ul>
-                    <li class="active">
+                    <li>
                         <i class="fa fa-home"></i><a asp-page="Index"> Home</a>
                     </li>
                     <li>
                         <i class="fa fa-car-wash"></i><a asp-page="Valeting"> Valeting</a>
                     </li>
                     <li>
-                        <a href="#">Detailing</a>
+                        <a asp-page="Detailing">Detailing</a>
                     </li>
                     <li>
-                        <a href="#">Gallery</a>
+                        <a asp-page="Gallery">Gallery</a>
                     </li>
                     <li>
-                        <a href="#">About</a>
+                        <a asp-page="About">About</a>
                     </li>
                     <li>
-                        <a href="#">Contact</a>
+                        <a asp-page="Contact">Contact</a>
                     </li>
                     <li>
-                        <i class="fa fa-car"></i> <span id="carModelMobile">No Car</span>
+                        <a asp-page="MyCar"><i class="fa fa-car"></i> <span id="carModelMobile">No Car</span></a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-user"></i> My Account</a>
+                        <a asp-page="MyAccount"><i class="fa fa-user"></i> My Account</a>
                     </li>
 
                 </ul>
@@ -53,30 +53,29 @@
         <nav class="menu">
             
             <ul>                
-                <li class="active" id="menuHome">
+                <li id="menuHome">
                     <a asp-page="Index">Home</a>
                 </li>
                 <li id="menuValeting">
                     <a asp-page="Valeting">Valeting</a>
                 </li>
-                <li>
-                    <a href="#">Detailing</a>
+                <li id="menuDetailing">
+                    <a asp-page="Detailing">Detailing</a>
                 </li>
-                <li>
-                    <a href="#">Gallery</a>
+                <li id="menuGallery">
+                    <a asp-page="Gallery">Gallery</a>
                 </li>
-                <li>
-                    <a href="#">About</a>
-
+                <li id="menuAbout">
+                    <a asp-page="About">About</a>
                 </li>
-                <li>
-                    <a target="_blank" href="http://www.mywebtricks.com/">Contact</a>
+                <li id="menuContact">
+                    <a asp-page="Contact">Contact</a>
                 </li>
-                <li style="float:right;">
-                    <a href="#" id="carModelMainMenu"><i class="fa fa-car"></i> <span id="carModel">No Car</span></a>
+                <li style="float:right;" id="menuMyCar">
+                    <a asp-page="MyCar" id="carModelMainMenu"><i class="fa fa-car"></i> <span id="carModel">No Car</span></a>
                 </li>
-                <li style="float:right;">
-                    <a href="http://www.mywebtricks.com/"><i class="fa fa-user"></i> My Account</a>
+                <li style="float:right;" id="menuMyAccount">
+                    <a asp-page="MyAccount"><i class="fa fa-user"></i> My Account</a>
                 </li>
 
             </ul>

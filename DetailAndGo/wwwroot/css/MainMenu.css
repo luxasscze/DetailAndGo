@@ -82,7 +82,7 @@ nav.menu {
 
 .active {
     background: #000 !important;
-    box-shadow: 0 5px 15px rgba(255,255,255,0.8);
+    box-shadow: 0 5px 15px rgba(255,216,0,0.5);
 }
 
 .displaynone {
