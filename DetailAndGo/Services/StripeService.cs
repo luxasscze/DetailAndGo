@@ -77,7 +77,7 @@ namespace DetailAndGo.Services
                 return Task.FromResult(paymentMethod.Id);
             }
             return Task.FromResult("");
-        }
+        }        
 
         public void AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
         {

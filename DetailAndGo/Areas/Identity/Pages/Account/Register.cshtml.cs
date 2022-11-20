@@ -210,11 +210,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     int expM = int.Parse(Input.Expiry.Split('/')[0]);
                     int expY = int.Parse(Input.Expiry.Split('/')[1]);
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
-                    string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);                    
-                    if(paymentMethod == "invalid_card")
-                    {
-                        RedirectToPage("Register", new { error = "invalid_card"});
-                    }
+                    string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);                  
                     _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
                     await _customerService.RegisterCustomerAsync(customerToRegister);
@@ -265,8 +261,24 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             return (IUserEmailStore<IdentityUser>)_userStore;
         }
 
-        
-        [ValidateAntiForgeryToken]
+        public JsonResult OnGetCheckCreditCard(string cardNumber, string expiry, string cvc)
+        {
+            if(string.IsNullOrEmpty(cardNumber) || string.IsNullOrEmpty(expiry) || string.IsNullOrEmpty(cvc))
+            {
+                return new JsonResult(false);
+            }
+            int expM = int.Parse(expiry.Split('/')[0]);
+            int expY = int.Parse(expiry.Split('/')[1]);
+            if(_stripeService.CreatePaymentMethod(cardNumber, expM, expY, cvc).Result == "invalid_card")
+            {
+                return new JsonResult(false);
+            }
+            else
+            {
+                return new JsonResult(true);
+            }
+        }
+
         public JsonResult OnGetCheckEmailExists(string email)
         {
             bool result = _customerService.CheckEmailExists(email);
@@ -278,6 +290,6 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             {
                 return new JsonResult(false);
             }
-        }
+        }        
     }
 }

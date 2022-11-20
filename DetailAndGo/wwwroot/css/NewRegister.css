@@ -54,12 +54,27 @@ input {
         background-color: #04AA6D;
     }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
     #regForm {
-        margin-top: 50px;
-        width: 100%;
-        min-width: 100%;
-        font-size: 48px;
+        margin-top: 150px;
+        width: 100%;        
+        font-size: 3rem;
+    }
+
+    input {
+        font-size: 5rem;
+    }
+
+    .register-caption {
+        font-size: 6rem;
+    }
+
+    #nextBtn {
+        font-size: 4rem;
+    }
+
+    #prevBtn {
+        font-size: 4rem;
     }
 }
 

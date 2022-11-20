@@ -1,4 +1,5 @@
 ﻿var currentTab = 0; // Current tab is set to be the first tab (0)
+var emailResult = false;
 showTab(currentTab); // Display the current tab
 
 function showTab(n) {
@@ -29,6 +30,8 @@ function nextPrev(n) {
     x[currentTab].style.display = "none";
     // Increase or decrease the current tab by 1:
     currentTab = currentTab + n;
+
+
     // if you have reached the end of the form... :
     if (currentTab >= x.length) {
         //...the form gets submitted:
@@ -66,7 +69,57 @@ function CheckPassword(inputtxt) {
         return (true)
     }
     return (false)
-} 
+}
+
+function getResult(input) {
+    return input;
+}
+
+function checkEmailExists(email) {
+    $.ajax({
+        url: "?handler=CheckEmailExists",
+        data: { email: email },
+        dataType: 'json',
+        type: "GET",
+        beforeSend: function () {
+
+        },
+        success: function (data) {            
+            emailResult = data;
+        },
+        error: function () {
+            console.log("Error");
+        }
+    });    
+    return emailResult;
+}
+
+function checkCreditCard() {
+
+    var cardNumber = $('#cardnumber').val();
+    var expiry = $('#expirationdate').val();
+    var cvc = $('#securitycode').val();
+    var result;
+
+
+    console.log('card number: ' + cardNumber + ' Expiry: ' + expiry + ' cvc: ' + cvc);
+
+    $.ajax({
+        url: "?handler=CheckCreditCard",
+        type: "GET",
+        data: { cardNumber: cardNumber, expiry: expiry, cvc: cvc },
+        dataType: 'json',
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+            getResult(data);
+        },
+        error: function () {
+            console.log("Error");
+        }
+    });
+}
 
 function validateForm() {
     // This function deals with validation of the form fields
@@ -74,54 +127,65 @@ function validateForm() {
     x = document.getElementsByClassName("tab");
     y = x[currentTab].getElementsByTagName("input");
     // A loop that checks every input field in the current tab: 
-    for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        if (y[i].value == "") {
-            // add an "invalid" class to the field:
-            y[i].className += " invalid";
-            document.getElementById('emailError').innerHTML = "E-Mail can't be empty";
-            document.getElementById('passwordError').innerHTML = "Password can't be empty";
-            // and set the current valid status to false:
-            valid = false;
-        }
-        else {
-            document.getElementById('emailError').innerHTML = ""; 
-            document.getElementById('passwordError').innerHTML = "";
-        }
-        if (currentTab == 0) {
-            if (!validateEmail(y[0].value)) {
-                y[i].className += " invalid";
-                document.getElementById('emailError').innerHTML = "E-Mail is not in correct format"; 
-                // and set the current valid status to false:
-                valid = false;
+    for (i = 0; i < y.length; i++) {       
+        if (currentTab == 0) {            
+            if (y[0].value != "") {
+                if (!validateEmail(y[0].value)) {
+                    y[i].className += " invalid";
+                    document.getElementById('emailError').innerHTML = "E-Mail is not in correct format";                    
+                    valid = false;
+                }
+                else {
+                    if (checkEmailExists(y[0].value) == true) {
+                        y[i].className = 'invalid';
+                        document.getElementById('emailError').innerHTML = "E-Mail already taken...";
+                        valid = false;
+                    }
+                    else {
+                        document.getElementById('emailError').innerHTML = "";
+                        y[i].className = '';
+                        valid = true;
+                    }
+                }
             }
             else {
-                document.getElementById('emailError').innerHTML = "";               
+                document.getElementById('emailError').innerHTML = "E-Mail can't be empty";
+                y[i].className = 'invalid';
+                valid = false;
             }
-                
+            
+            
+
             if (y[1].value != y[2].value) {
-                y[1].className += " invalid";
-                y[2].className += " invalid";
+                y[1].className = " invalid";
+                y[2].className = " invalid";
                 document.getElementById('passwordError').innerHTML = "Passwords do not match";
                 // and set the current valid status to false:
                 valid = false;
             }
             else {
                 if (!CheckPassword(y[1].value) || !CheckPassword(y[2].value)) {
-                    y[1].className += " invalid";
-                    y[2].className += " invalid";
+                    y[1].className = " invalid";
+                    y[2].className = " invalid";
                     document.getElementById('passwordError').innerHTML = "Password is not in correct format";
                     // and set the current valid status to false:
                     valid = false;
                 }
                 else {
                     document.getElementById('passwordError').innerHTML = "";
-                }        
-            }
+                    y[1].className = "";
+                    y[2].className = "";
+                }
+            }            
+        }
+        if (currentTab == 3) {
+            checkCreditCard();
+            console.log('is valid: ' + getResult());
+            valid = getResult();
         }
     }
     // If the valid status is true, mark the step as finished and valid:
-    if (valid) {
+    if (valid) {        
         document.getElementsByClassName("step")[currentTab].className += " finish";
     }
     return valid; // return the valid status
