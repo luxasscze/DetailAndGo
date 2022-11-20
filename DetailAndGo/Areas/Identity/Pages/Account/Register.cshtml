@@ -13,6 +13,7 @@
 <link rel="stylesheet" href="~/css/NewRegister.css" />
 <link rel="stylesheet" href="~/css/Background.css" />
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&libraries=places"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.3/base64.min.js"></script>
 
 <div class="area">
     <form id="regForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -35,7 +36,9 @@
             <p><input asp-for="Input.FirstName" placeholder="First Name" oninput="this.className = ''" type="text"></p>
             <p><input asp-for="Input.LastName" placeholder="Last Name" oninput="this.className = ''" type="text"></p>
             <p><input asp-for="Input.PhoneNumber" placeholder="Phone Number" oninput="this.className = ''" type="number"></p>
-            <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text"></p>
+            <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text" id="carInput"></p>
+            <p><input placeholder="Car Family" type="text" oninput="this.className = ''" id="carFamily"></p>
+            <p><img id="carImage" height="300" style="position: absolute; top: -50px; left: 0;" /></p>
         </div>
 
         <div class="tab">
@@ -215,20 +218,12 @@
 
 
 <script>
-    $('input').focusout(function () {
-        console.log('validating form...');
-        validateForm();
-    });
-
-
     var input = document.getElementById('autocomplete');
     var autocomplete = new google.maps.places.Autocomplete(input);
 
     autocomplete.addListener('place_changed', function () {
 
-        var place = autocomplete.getPlace();
-
-        // place variable will have all the information you are looking for.
+        var place = autocomplete.getPlace();       
 
         console.log(place);
         $('#inputAddress1').val(place.address_components[1].long_name);

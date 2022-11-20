@@ -27,6 +27,17 @@ input {
         background-color: rgba(255, 0, 0, 0.05);
     }
 
+    input.valid {
+        border: 1px solid rgba(0, 255, 0, 0.3);
+        background-color: rgba(0, 255, 0, 0.05);
+    }
+
+    /* Mark input boxes that gets an error on validation: */
+    input.invalidEmail {
+        border: 1px solid rgba(255, 255, 0, 0.3);
+        background-color: rgba(255, 255, 0, 0.05);
+    }
+
 /* Hide all steps by default: */
 .tab {
     display: none;
@@ -62,7 +73,7 @@ input {
     }
 
     input {
-        font-size: 5rem;
+        font-size: 3rem;
     }
 
     .register-caption {
