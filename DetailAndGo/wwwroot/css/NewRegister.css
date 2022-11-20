@@ -7,6 +7,11 @@
     min-width: 300px;
     border-radius: 10px;
     box-shadow: 10px 15px 20px 10px rgba(0, 0, 0, 0.5);
+    z-index: 50;
+}
+
+.register-caption {
+    z-index: 99999;
 }
 
 
@@ -19,6 +24,7 @@ input {
     border: 0px;
     background-color: rgba(0, 0, 0, 0.3);
     color: #fff;
+    z-index: 100;
 }
 
     /* Mark input boxes that gets an error on validation: */
@@ -78,6 +84,7 @@ input {
 
     .register-caption {
         font-size: 6rem;
+        z-index: 9999999;
     }
 
     #nextBtn {
