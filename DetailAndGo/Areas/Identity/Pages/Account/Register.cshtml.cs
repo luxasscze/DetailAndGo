@@ -183,7 +183,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    _userManager.Options.SignIn.RequireConfirmedEmail = false;
+                    _userManager.Options.SignIn.RequireConfirmedEmail = true;
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -195,7 +195,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
                     Email confirmEmail = new Email()
                     {
-                        Body = "<h1>CONFIRM EMAIL</h1>",
+                        Body = "<html><h1>CONFIRM EMAIL</h1><br />" + $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</html>",
                         From = "info@detailandgo.co.uk",
                         IsHtml = true,
                         Subject = Input.FirstName + ", Confirm your account on Detail&Go",
