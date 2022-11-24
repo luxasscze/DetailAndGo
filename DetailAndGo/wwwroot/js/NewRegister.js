@@ -1,5 +1,6 @@
 ﻿var currentTab = 0; // Current tab is set to be the first tab (0)
 var emailResult = false;
+var creditCardResult = false;
 showTab(currentTab); // Display the current tab
 
 function showTab(n) {
@@ -90,11 +91,9 @@ function checkEmailExists(email) {
     return emailResult;
 }
 
-function checkCreditCard() {
+function checkCreditCard(cardNumber, expiry, cvc) {
 
-    var cardNumber = $('#cardnumber').val();
-    var expiry = $('#expirationdate').val();
-    var cvc = $('#securitycode').val();
+    
     var result;
 
 
@@ -110,7 +109,7 @@ function checkCreditCard() {
 
         },
         success: function (data) {
-            getResult(data);
+            creditCardResult = data;
         },
         error: function () {
             console.log("Error");
@@ -230,9 +229,9 @@ function validateForm() {
             console.log(checkCar('A1'));
         }
         if (currentTab == 3) {
-            checkCreditCard();
-            console.log('is valid: ' + getResult());
-            valid = getResult();
+            checkCreditCard(y[0], y[1], y[2]);
+            console.log('is valid: ' + creditCardResult);
+            valid = creditCardResult;
         }
     }
     // If the valid status is true, mark the step as finished and valid:
