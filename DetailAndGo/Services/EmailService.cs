@@ -22,7 +22,8 @@ namespace DetailAndGo.Services
                 {
                     Body = email.Body,
                     Subject = email.Subject,
-                    From = new MailAddress(email.From)
+                    From = new MailAddress(email.From),
+                    IsBodyHtml = email.IsHtml
                 };
                 message.To.Add(email.To);
                 await smtp.SendMailAsync(message);
