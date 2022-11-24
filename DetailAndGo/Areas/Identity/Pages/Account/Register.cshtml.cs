@@ -195,7 +195,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
                     Email confirmEmail = new Email()
                     {
-                        Body = "<html><h1>CONFIRM EMAIL</h1><br />" + $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</html>",
+                        Body = "<html><img src=\"http://detailandgo.co.uk/images/logo.png\" /><br /><h1>CONFIRM EMAIL</h1><br />" + $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</html>",
                         From = "info@detailandgo.co.uk",
                         IsHtml = true,
                         Subject = Input.FirstName + ", Confirm your account on Detail&Go",
