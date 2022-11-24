@@ -92,13 +92,7 @@ function checkEmailExists(email) {
 }
 
 function checkCreditCard(cardNumber, expiry, cvc) {
-
-    
-    var result;
-
-
     console.log('card number: ' + cardNumber + ' Expiry: ' + expiry + ' cvc: ' + cvc);
-
     $.ajax({
         url: "?handler=CheckCreditCard",
         type: "GET",
@@ -113,8 +107,12 @@ function checkCreditCard(cardNumber, expiry, cvc) {
         },
         error: function () {
             console.log("Error");
+        },
+        coplete: function () {
+            creditCardResult = data;
         }
     });
+    return creditCardResult;
 }
 
 function checkCar(registrationPlate) {
@@ -228,8 +226,8 @@ function validateForm() {
             }
             console.log(checkCar('A1'));
         }
-        if (currentTab == 3) {
-            checkCreditCard(y[0], y[1], y[2]);
+        if (currentTab == 3) {            
+            checkCreditCard(y[1].value, y[2].value, y[3].value);
             console.log('is valid: ' + creditCardResult);
             valid = creditCardResult;
         }

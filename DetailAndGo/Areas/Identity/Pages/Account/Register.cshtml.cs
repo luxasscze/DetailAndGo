@@ -32,6 +32,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
         private readonly ICustomerService _customerService;
         private readonly IStripeService _stripeService;
         private readonly Data.ApplicationDbContext _context;
@@ -43,7 +44,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             ICustomerService customerService,
-            IStripeService stripeService)
+            IStripeService stripeService,
+            IEmailService emailService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -51,6 +53,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _emailService = emailService;
             _customerService = customerService;
             _stripeService = stripeService;
 
@@ -91,10 +94,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]            
+            [Required]
             [Display(Name = "First Line Address")]
             public string Address1 { get; set; }
-            
+
             [Display(Name = "Second Line Address")]
             public string Address2 { get; set; }
 
@@ -155,7 +158,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
 
         public async Task OnGetAsync(string returnUrl = null)
-        {
+        {            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -190,8 +193,16 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    Email confirmEmail = new Email()
+                    {
+                        Body = "<h1>CONFIRM EMAIL</h1>",
+                        From = "info@detailandgo.co.uk",
+                        IsHtml = true,
+                        Subject = Input.FirstName + ", Confirm your account on Detail&Go",
+                        To = Input.Email
+                    };
+
+                    await _emailService.SendSingleEmail(confirmEmail);                    
 
                     Customer customerToRegister = new Customer()
                     {
@@ -210,12 +221,12 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     int expM = int.Parse(Input.Expiry.Split('/')[0]);
                     int expY = int.Parse(Input.Expiry.Split('/')[1]);
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
-                    string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);                  
+                    string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);
                     _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
                     await _customerService.RegisterCustomerAsync(customerToRegister);
 
-                    /*if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
                     }
@@ -223,7 +234,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }*/
+                    }
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
@@ -263,13 +274,13 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
         public JsonResult OnGetCheckCreditCard(string cardNumber, string expiry, string cvc)
         {
-            if(string.IsNullOrEmpty(cardNumber) || string.IsNullOrEmpty(expiry) || string.IsNullOrEmpty(cvc))
+            if (string.IsNullOrEmpty(cardNumber) || string.IsNullOrEmpty(expiry) || string.IsNullOrEmpty(cvc))
             {
                 return new JsonResult(false);
             }
             int expM = int.Parse(expiry.Split('/')[0]);
             int expY = int.Parse(expiry.Split('/')[1]);
-            if(_stripeService.CreatePaymentMethod(cardNumber, expM, expY, cvc).Result == "invalid_card")
+            if (_stripeService.CreatePaymentMethod(cardNumber, expM, expY, cvc).Result == "invalid_card")
             {
                 return new JsonResult(false);
             }
@@ -282,7 +293,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         public JsonResult OnGetCheckEmailExists(string email)
         {
             bool result = _customerService.CheckEmailExists(email);
-            if(result)
+            if (result)
             {
                 return new JsonResult(true);
             }
@@ -290,6 +301,6 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             {
                 return new JsonResult(false);
             }
-        }        
+        }
     }
 }
