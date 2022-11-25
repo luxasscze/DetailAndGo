@@ -161,17 +161,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
 
         public async Task OnGetAsync(string returnUrl = null)
-        {
-            Email email = new Email();
-            using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
-            {
-                email.From = "info@detailandgo.co.uk";
-                email.Body = reader.ReadToEnd().Replace("{callbackUrl}", "https://www.seznam.cz");
-                email.IsHtml = true;
-                email.Subject = "test";
-                email.To = "lukas2slivka@gmail.com";
-            }
-            await _emailService.SendSingleEmail(email);
+        {            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -204,18 +194,18 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                        protocol: Request.Scheme);                    
 
-                    Email confirmEmail = new Email()
+                    Email email = new Email();
+                    using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
                     {
-                        Body = "<html><img src=\"http://detailandgo.co.uk/images/logo.png\" /><br /><h1>CONFIRM EMAIL</h1><br />" + $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</html>",
-                        From = "info@detailandgo.co.uk",
-                        IsHtml = true,
-                        Subject = Input.FirstName + ", Confirm your account on Detail&Go",
-                        To = Input.Email
-                    };
-
-                    await _emailService.SendSingleEmail(confirmEmail);                    
+                        email.From = "info@detailandgo.co.uk";
+                        email.Body = reader.ReadToEnd().Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl));
+                        email.IsHtml = true;
+                        email.Subject = Input.FirstName + ", confirm your Detail&Go account";
+                        email.To = "lukas2slivka@gmail.com";
+                    }
+                    await _emailService.SendSingleEmail(email);
 
                     Customer customerToRegister = new Customer()
                     {
