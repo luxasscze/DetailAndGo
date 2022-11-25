@@ -200,10 +200,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
                     {
                         email.From = "info@detailandgo.co.uk";
-                        email.Body = reader.ReadToEnd().Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl));
+                        email.Body = reader.ReadToEnd().Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl)).Replace("{firstName}", Input.FirstName);
                         email.IsHtml = true;
                         email.Subject = Input.FirstName + ", confirm your Detail&Go account";
-                        email.To = "lukas2slivka@gmail.com";
+                        email.To = Input.Email;
                     }
                     await _emailService.SendSingleEmail(email);
 
