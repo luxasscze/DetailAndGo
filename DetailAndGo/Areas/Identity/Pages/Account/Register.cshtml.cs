@@ -166,7 +166,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
             {
                 email.From = "info@detailandgo.co.uk";
-                email.Body = reader.ReadToEnd();
+                email.Body = reader.ReadToEnd().Replace("{callbackUrl}", "https://www.seznam.cz");
                 email.IsHtml = true;
                 email.Subject = "test";
                 email.To = "lukas2slivka@gmail.com";
