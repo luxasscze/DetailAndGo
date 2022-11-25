@@ -36,6 +36,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         private readonly ICustomerService _customerService;
         private readonly IStripeService _stripeService;
         private readonly Data.ApplicationDbContext _context;
+        private IWebHostEnvironment _webHostEnvironment;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -45,7 +46,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             IEmailSender emailSender,
             ICustomerService customerService,
             IStripeService stripeService,
-            IEmailService emailService)
+            IEmailService emailService,
+            IWebHostEnvironment webHostEnvironment)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -56,6 +58,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             _emailService = emailService;
             _customerService = customerService;
             _stripeService = stripeService;
+            _webHostEnvironment = webHostEnvironment;
 
             //_customerService = new CustomerService();
         }
@@ -158,7 +161,17 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
 
         public async Task OnGetAsync(string returnUrl = null)
-        {            
+        {
+            Email email = new Email();
+            using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
+            {
+                email.From = "info@detailandgo.co.uk";
+                email.Body = reader.ReadToEnd();
+                email.IsHtml = true;
+                email.Subject = "test";
+                email.To = "lukas2slivka@gmail.com";
+            }
+            await _emailService.SendSingleEmail(email);
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
