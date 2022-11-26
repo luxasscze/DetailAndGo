@@ -36,6 +36,7 @@ function nextPrev(n) {
     // if you have reached the end of the form... :
     if (currentTab >= x.length) {
         //...the form gets submitted:
+        document.getElementById("regForm").style.display = "none";
         document.getElementById("regForm").submit();
         return false;
     }
@@ -100,16 +101,17 @@ function checkCreditCard(cardNumber, expiry, cvc) {
         data: { cardNumber: cardNumber, expiry: expiry, cvc: cvc },
         dataType: 'json',
         beforeSend: function () {
-
+            document.getElementById('checkingMessage').style.display = "";
         },
         success: function (data) {
             creditCardResult = data;
+            document.getElementById('checkingMessage').style.display = "none";
         },
         error: function () {
             console.log("Error");
         },
         coplete: function () {
-            creditCardResult = data;
+            creditCardResult = data;            
         }
     });
     return creditCardResult;
