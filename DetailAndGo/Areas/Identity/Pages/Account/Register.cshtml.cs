@@ -293,9 +293,9 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             }
         }
 
-        public JsonResult OnGetCheckEmailExists(string email)
+        public async Task<JsonResult> OnGetCheckEmailExists(string email)
         {
-            bool result = _customerService.CheckEmailExists(email);
+            bool result = await _customerService.CheckEmailExists(email);
             if (result)
             {
                 return new JsonResult(true);

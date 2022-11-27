@@ -43,10 +43,10 @@ namespace DetailAndGo.Services
             return false;
         }
 
-        public bool CheckEmailExists(string email)
+        public async Task<bool> CheckEmailExists(string email)
         {
-            Customer customer = _context.Customers.Where(s => s.Email == email).FirstOrDefault();            
-            IdentityUser user = _userManager.Users.Where(s => s.Email == email).FirstOrDefault();
+            Customer customer = await _context.Customers.Where(s => s.Email == email).FirstOrDefaultAsync();            
+            IdentityUser user = await _userManager.Users.Where(s => s.Email == email).FirstOrDefaultAsync();
             
             return customer != null || user != null ? true : false;
         }

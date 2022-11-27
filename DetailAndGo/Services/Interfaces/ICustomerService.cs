@@ -7,6 +7,6 @@ namespace DetailAndGo.Services.Interfaces
         public Customer GetCustomerById(string? customerId);
         public Customer GetCustomerByEmail(string? email);
         public Task<bool> RegisterCustomerAsync(Customer customer);
-        public bool CheckEmailExists(string email);
+        public Task<bool> CheckEmailExists(string email);
     }
 }
