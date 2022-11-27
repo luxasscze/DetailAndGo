@@ -7,17 +7,116 @@
 
 <link rel="stylesheet" href="~/css/LandingPage.css" />
 
+<style>
+    .dashboard-card {
+        background-color: rgba(200, 200, 100, 0.5);
+        color: #fff;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+
 @if (User.Identity.IsAuthenticated)
 {
-    <h1 class="text-light">USER WITH EMAIL @User.Identity.Name IS LOGGED IN...</h1>
+    <div class="row" style="width: 100%;">
+        <div class="col-md-12">
+            <div class="card dashboard-card">
+                
+                <div class="card-header">                    
+                   <h1 style="font-size: 32px;">Good evening Marek!</h1>
+                </div>
+                <div class="card-body">
+                    <span><i class="fa fa-gift text-warning"></i> We have some special offers for you! <a href="#" class="text-warning">Check it out!</a></span>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <div class="row align-content-stretch" style="width: 100%">
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                
+                <div class="card-header">
+                    <h1 style="margin-top: 50px; position:absolute; z-index: -90; opacity: 0.5;">PORSCHE 911</h1>
+                    <hr class="text-warning" />
+                    <img class="car-image card-img-top"                      src="https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=porsche&modelFamily=911" />
+                </div>
+                <div class="card-body">
+                    <span><i class="fa fa-soap"></i> Serviced 48 days ago</span>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning">Change Car</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-header">
+                    <h1 style="margin-top: 50px; margin-left: 0px; position:absolute;">SUBSCRIPTION</h1>
+                    <hr class="text-warning" />
+                    <span style="margin-top: 100px; margin-left: 0px; position:absolute; font-size: 28px;">ELITE</span>
+                    <i class="fa fa-check text-warning" style="font-size: 200px; margin-top: 0px; margin-bottom: 0px; z-index: -90; opacity: 0.1;"></i>
+                </div>
+                <div class="card-body">
+                    <label>Renewal: @DateTime.Now.AddDays(7).ToShortDateString()</label>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning">Manage</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card dashboard-card">
+                <div class="card-header">
+                    <h1 style="margin-top: 50px; margin-left: 50px; position:absolute;">INVOICES</h1>
+                    <hr class="text-warning" />
+                    <i class="fa fa-list text-warning" style="font-size: 200px; margin-top: 0px; margin-bottom: 0px; z-index: -90; opacity: 0.1;"></i>
+                </div>
+                <div class="card-body">
+                    <label>Last invoice paid: £250.00</label>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning">Billing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-content-stretch" style="width: 100%">
+        <div class="col-md-6">
+            <div class="card dashboard-card">
+
+                <div class="card-header">
+                    <hr class="text-warning" />
+                    <h1>VALETING</h1>                    
+                </div>
+                <div class="card-body">
+                    <label>Book valeting right now!</label>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning">Book Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card dashboard-card">
+                <div class="card-header">
+                    <hr class="text-warning" />
+                    <h1>DETAILING</h1>                    
+                </div>
+                <div class="card-body">
+                    <label>Book car detailing right now!</label>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning">Book Now</a>
+                </div>
+            </div>
+        </div>        
+    </div>
+
     <script>
         $('#carModel').text('@ViewData["CarModel"]');
         $('#carModelMobile').text('@ViewData["CarModel"]');
         console.log('Car model: ' + '@ViewData["CarModel"]');
     </script>
-
-    
-
 }
 else
 {
@@ -45,8 +144,8 @@ else
 
         <h2 class="text-secondary">Follow Detail&Go On Social Media</h2>
 
-        <div class="social">            
-            <a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook fa-3x"></i></a>            
+        <div class="social">
+            <a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook fa-3x"></i></a>
             <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube fa-3x"></i></a>
         </div>
     </section>
