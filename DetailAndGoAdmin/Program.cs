@@ -2,6 +2,7 @@ using DetailAndGoAdmin;
 using DetailAndGoAdmin.Data;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,7 @@ if (!app.Environment.IsDevelopment())
 {
     //app.UseHttpsRedirection();
 }
+//app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent().AddRedirectToHttpsPermanent()); //CONTINUE HERE TO SORT OUT THE SSL PROBLEM
 app.UseStaticFiles();
 
 app.UseRouting();
