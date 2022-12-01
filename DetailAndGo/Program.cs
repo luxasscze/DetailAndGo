@@ -3,6 +3,7 @@ using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -32,13 +33,14 @@ else
 {
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    //app.UseHsts();
 }
 
 if (!app.Environment.IsDevelopment())
 {
     //app.UseHttpsRedirection();
 }
+app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());
 app.UseStaticFiles();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
