@@ -17,7 +17,9 @@ html {
 body {
     margin-bottom: 60px;
     font-family: Stick No Bills;
-    
+    background: linear-gradient(287deg, rgb(0, 0, 0) 0%, rgba(0,0,0,1) 100%);
+    background-size: 400% 400%;
+    animation: gradient 50s ease infinite;
 }
 
 @keyframes gradient {

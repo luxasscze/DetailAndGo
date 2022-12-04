@@ -4,48 +4,110 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DetailAndGo</title>
+    <link rel="stylesheet" href="~/css/Background.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DetailAndGo.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MainMenu.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">DetailAndGo</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        
+        <div class="xs-menu-cont">
+            
+            <a id="menutoggle" class="float-end"><i class="fa fa-align-justify"></i> </a>
+            <nav class="xs-menu displaynone">
+                <ul>
+                    <li>
+                        <i class="fa fa-home"></i><a asp-page="Index"> Home</a>
+                    </li>
+                    <li>
+                        <i class="fa fa-car-wash"></i><a asp-page="Valeting"> Valeting</a>
+                    </li>
+                    <li>
+                        <a asp-page="Detailing">Detailing</a>
+                    </li>
+                    <li>
+                        <a asp-page="Gallery">Gallery</a>
+                    </li>
+                    <li>
+                        <a asp-page="About">About</a>
+                    </li>
+                    <li>
+                        <a asp-page="Contact">Contact</a>
+                    </li>
+                    <li>
+                        <a asp-page="MyCar"><i class="fa fa-car"></i> <span id="carModelMobile">No Car</span></a>
+                    </li>
+                    <li>
+                        <a asp-page="MyAccount"><i class="fa fa-user"></i> My Account</a>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+        <nav class="menu">
+            
+            <ul>                
+                <li id="menuHome">
+                    <a asp-page="Index">Home</a>
+                </li>
+                <li id="menuValeting">
+                    <a asp-page="Valeting">Valeting</a>
+                </li>
+                <li id="menuDetailing">
+                    <a asp-page="Detailing">Detailing</a>
+                </li>
+                <li id="menuGallery">
+                    <a asp-page="Gallery">Gallery</a>
+                </li>
+                <li id="menuAbout">
+                    <a asp-page="About">About</a>
+                </li>
+                <li id="menuContact">
+                    <a asp-page="Contact">Contact</a>
+                </li>
+                <li style="float:right;" id="menuMyCar">
+                    <a asp-page="MyCar" id="carModelMainMenu"><i class="fa fa-car"></i> <span id="carModel">No Car</span></a>
+                </li>
+                <li style="float:right;" id="menuMyAccount">
+                    <a asp-page="MyAccount"><i class="fa fa-user"></i> My Account</a>
+                </li>
+
+            </ul>
+
         </nav>
-    </header>
+    }
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
         </main>
+        <ul class="circles">
+            <li><img src="~/images/logo.png" height="100" style="opacity: 0.3"/></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li><img src="~/images/logo.png" height="100" style="opacity: 0.3"/></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li><img src="~/images/logo.png" height="100" style="opacity: 0.3" /></li>
+            <li></li>
+        </ul>
     </div>
 
-    <footer class="border-top footer text-muted" style="background-color: rgba(1, 1, 1, 0.5)">
-        <div class="container">
-            &copy; 2022 - DetailAndGo - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer>
-
+    <script src="~/js/MainMenu.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

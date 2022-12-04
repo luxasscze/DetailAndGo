@@ -46,5 +46,51 @@ namespace DetailAndGo.Services
 
             return Task.FromResult("");
         }
+
+        public Task<string> CreatePaymentMethod(string cardNumber, int expMonth, int expYear, string cvc)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            var options = new PaymentMethodCreateOptions
+            {
+                Type = "card",
+                Card = new PaymentMethodCardOptions
+                {
+                    Number = cardNumber,
+                    ExpMonth = expMonth,
+                    ExpYear = expYear,
+                    Cvc = cvc                    
+                },
+            };
+            var service = new PaymentMethodService();
+            PaymentMethod paymentMethod = new PaymentMethod();
+            try
+            {
+                paymentMethod = service.Create(options);
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult("invalid_card");
+            }
+            if (paymentMethod != null)
+            {
+                return Task.FromResult(paymentMethod.Id);
+            }
+            return Task.FromResult("");
+        }        
+
+        public void AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            var options = new PaymentMethodAttachOptions
+            {
+                Customer = customerId,
+            };
+            var service = new PaymentMethodService();
+            service.Attach(
+              paymentMethodId,
+              options);
+        }
     }
 }
