@@ -17,11 +17,15 @@ namespace DetailAndGo.Pages
             _customerService = customerService;
         }
 
+        public Customer Customer { get; set; }
+
         public void OnGetAsync()
         {
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            
             if (User.Identity.IsAuthenticated)
             {
-                ViewData["CarModel"] = _customerService.GetCustomerByEmail(User.Identity.Name).CarModel;
+                
             }
         }
     }

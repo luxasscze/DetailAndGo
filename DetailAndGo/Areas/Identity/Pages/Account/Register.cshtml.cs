@@ -124,6 +124,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             public string CarModel { get; set; }
 
             [Required]
+            [Display(Name = "Car Family")]
+            public string CarFamily { get; set; }
+
+            [Required]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
@@ -219,6 +223,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
                         CarModel = Input.CarModel,
+                        CarFamily = Input.CarFamily,
                         PhoneNumber = Input.PhoneNumber,
                     };
                     int expM = int.Parse(Input.Expiry.Split('/')[0]);

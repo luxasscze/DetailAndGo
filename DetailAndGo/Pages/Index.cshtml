@@ -36,9 +36,12 @@
             <div class="card dashboard-card">
                 
                 <div class="card-header">
-                    <h1 style="margin-top: 50px; position:absolute; z-index: -90; opacity: 0.5;">PORSCHE 911</h1>
+                    <h1 style="margin-top: 50px; position:absolute; z-index: -90; opacity: 0.5;">@Model.Customer.CarModel @Model.Customer.CarFamily</h1>
                     <hr class="text-warning" />
-                    <img class="car-image card-img-top"                      src="https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=porsche&modelFamily=911" />
+                    @{
+                        string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.Customer.CarModel.Replace(" ", "%20")}&modelFamily={Model.Customer.CarFamily.Replace(" ", "%20")}";
+                    }
+                    <img class="car-image card-img-top" src="@carImage" />
                 </div>
                 <div class="card-body">
                     <span><i class="fa fa-soap"></i> Serviced 48 days ago</span>
