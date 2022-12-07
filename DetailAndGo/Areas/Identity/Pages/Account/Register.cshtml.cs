@@ -173,11 +173,11 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var test = Input;
+            //var test = Input;
 
-            var errors = ModelState.Values;
+            //var errors = ModelState.Values;
 
             if (ModelState.IsValid)
             {
