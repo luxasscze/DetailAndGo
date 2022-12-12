@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Home page";
     Layout = "~/Pages/Shared/_Layout.cshtml";
-    string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.Customer.CarModel.Replace(" ", "%20")}&modelFamily={Model.Customer.CarFamily.Replace(" ", "%20")}";
 }
 
 <link rel="stylesheet" href="~/css/LandingPage.css" />
@@ -14,14 +13,36 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="row">
-        <div class="jumbotron">
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-12 card-item">
+            <div class="row">
+                <div class="col-md-2" style="vertical-align: central;">
+                    <img src="~/images/logo.png" style="height: 150px; margin: auto auto;" />
+                </div>
+                <div class="col-md-10">
+                    <h2 class="display-4 text-light text-center">Good evening Marek</h2>
+                    <hr />
+                    <p class="text-light">
+                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
+    <div class="row" style="margin-bottom: 20px;">
+        <div class="col-md-6" style="margin-bottom: 20px;">
             <div class="card-item">
-                <h1 class="text-light" style="font-size: 24px;">YOUR CAR</h1>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h1 class="text-light" style="font-size: 24px;">YOUR CAR</h1>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="text-light" style="font-size: 24px;">YOUR BOOKINGS</h1>
+                    </div>
+                </div>
                 <hr class="bg-light" />
                 <div class="row">
                     <div class="col-sm-6">
@@ -29,38 +50,64 @@
                             <div class="container">
                                 <h6 class="text-light">Your active car</h6>
                                 <h6 class="badge bg-warning text-dark" style="font-size: 18px;">@Model.Customer.CarModel @Model.Customer.CarFamily</h6>
+                                @{
+                                    string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.Customer.CarModel.Replace(" ", "%20")}&modelFamily={Model.Customer.CarFamily.Replace(" ", "%20")}";
+                                }
                                 <img class="car-image" src="@carImage" />
+                                <div class="row">
+                                    <a class="btn-dark btn-sm text-center" href="#" style="width: 80%;"><i class="fa fa-car"></i> Your Cars</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="move-car">
                             <div class="container">
-                                <h6 class="text-light">History</h6>
+                                <h6 class="text-light">Upcoming booking</h6>
                                 <div class="row text-light" style="margin-bottom: 5px;">
                                     <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                        <i class="fa fa-check text-warning"></i>
+                                        <i class="fa fa-times text-danger"></i>
                                     </div>
-                                    <div class="col-10" style="background-color: #444; padding: 5px;">
-                                        <label>Car registered with us</label>
+                                    <div class="col-10" style="background-color: #333; padding: 5px;">
+                                        <label>no future booking</label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <a class="btn-success btn-sm text-center" href="#"><i class="fa fa-check"></i> Make Booking</a>
+                                </div>
+                                <h6 class="text-light" style="margin-top: 10px;">History</h6>
+                                <div class="row text-light" style="margin-bottom: 5px;">
+                                    <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
+                                        <i class="fa fa-check text-success"></i>
+                                    </div>
+                                    <div class="col-10" style="background-color: #333; padding: 5px;">
+                                        <label>11/12/22 | <span class="text-warning">Exterior Valet</span></label>
+                                    </div>
+                                </div>
+                                <div class="row text-light" style="margin-bottom: 5px;">
+                                    <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
+                                        <i class="fa fa-check text-success"></i>
+                                    </div>
+                                    <div class="col-10" style="background-color: #333; padding: 5px;">
+                                        <label>12/06/22 | <span class="text-warning">Maintenance Wash</span></label>
                                     </div>
                                 </div>
                                 <div class="row text-light">
                                     <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                        <i class="fa fa-info-circle text-warning"></i>
+                                        <i class="fa fa-check text-success"></i>
                                     </div>
-                                    <div class="col-10" style="background-color: #444; padding: 5px;">
-                                        <label>Subscription ELITE created</label>
+                                    <div class="col-10" style="background-color: #333; padding: 5px;">
+                                        <label>18/07/21 | <span class="text-warning">Entry Valet</span></label>
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-bottom: 20px;">
             <div class="card-item">
                 <h1 class="text-light" style="font-size: 24px;">YOUR SUBSCRIPTION</h1>
                 <hr class="bg-light" />
@@ -72,6 +119,33 @@
                                 <h5 class="badge bg-warning text-dark" style="font-size: 18px;">ELITE</h5><br />
                                 <i class="fa fa-check" style="font-size: 64px;"></i>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="">
+        <div class="col-12 card-item">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="display-4 text-light text-center"><i class="fa fa-info-circle"></i> What's new</h2>
+                    <hr />
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="~/images/test.jpg" style="height: 200px;" class="zoom-on-hover img-fluid" />
+                        </div>
+                        <div class="col-md-8">
+                            <p class="text-light">
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so <span class="text-warning">whatever you want</span> it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -117,4 +191,6 @@ else
             <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube fa-3x"></i></a>
         </div>
     </section>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 }
