@@ -1,25 +1,26 @@
 @import url('https://fonts.googleapis.com/css?family=Stick%20No%20Bills&display=swap');
+
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-    margin-bottom: 60px;
+    margin-bottom: 0px;
     font-family: Stick No Bills;
-    background: linear-gradient(287deg, rgb(0, 0, 0) 0%, rgba(0,0,0,1) 100%);
+    background: linear-gradient(287deg, rgba(69,69,69,1) 0%, rgba(33,33,33,1) 100%);
     background-size: 400% 400%;
-    animation: gradient 50s ease infinite;
+    animation: gradient 30s  backwards infinite;
 }
 
 @keyframes gradient {
@@ -28,10 +29,60 @@ body {
     }
 
     50% {
-        background-position: 100% 50%;
+        background-position: 100% 100%;
     }
 
     100% {
         background-position: 0% 50%;
     }
+}
+
+.card-item {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(287deg, rgba(140,140,140,0.1) 0%, rgba(255,255,255,0.1) 100%);
+    box-shadow: 2px 2px 15px 4px #222;
+    transition: transform .2s;
+    padding: 15px;
+}
+
+    .card-item:hover {
+        box-shadow: 2px 2px 15px 2px #111;
+    }
+
+.car-image {
+    display: flex;
+    position: relative;
+    margin-top: -60px;
+    margin-left: -80px;
+    height: 200px;
+}
+
+@media (max-width: 768px) {
+    .card-item {
+        margin-top: 10px;
+    }
+
+        .card-item:hover {
+            transform: scale(1);
+        }
+}
+
+.move-car {
+    transition: ease-in-out;
+    transition-duration: 0.5s;
+}
+
+    .move-car:hover {
+        transform: translateX(-20px);
+        transform: scale(1.08);
+    }
+
+.zoom-on-hover {
+    transition: ease-in-out;
+    transition-duration: 0.5s;
+}
+
+.zoom-on-hover:hover {
+    transform: scale(1.05);
 }

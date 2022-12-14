@@ -15,6 +15,7 @@
         public string? Notes { get; set; }
         public string? StripeId { get; set; }
         public string? CarModel { get; set; }
+        public string? CarFamily { get; set; }
         public string? PhoneNumber { get; set; }
 
     }

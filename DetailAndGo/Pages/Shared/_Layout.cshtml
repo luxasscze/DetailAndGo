@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - DetailAndGo</title>
-    <link rel="stylesheet" href="~/css/Background.css" />
+    <!--<link rel="stylesheet" href="~/css/Background.css" />-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DetailAndGo.styles.css" asp-append-version="true" />
@@ -18,70 +18,7 @@
     @if (User.Identity.IsAuthenticated)
     {
         
-        <div class="xs-menu-cont">
-            
-            <a id="menutoggle" class="float-end"><i class="fa fa-align-justify"></i> </a>
-            <nav class="xs-menu displaynone">
-                <ul>
-                    <li>
-                        <i class="fa fa-home"></i><a asp-page="Index"> Home</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-car-wash"></i><a asp-page="Valeting"> Valeting</a>
-                    </li>
-                    <li>
-                        <a asp-page="Detailing">Detailing</a>
-                    </li>
-                    <li>
-                        <a asp-page="Gallery">Gallery</a>
-                    </li>
-                    <li>
-                        <a asp-page="About">About</a>
-                    </li>
-                    <li>
-                        <a asp-page="Contact">Contact</a>
-                    </li>
-                    <li>
-                        <a asp-page="MyCar"><i class="fa fa-car"></i> <span id="carModelMobile">No Car</span></a>
-                    </li>
-                    <li>
-                        <a asp-page="MyAccount"><i class="fa fa-user"></i> My Account</a>
-                    </li>
-
-                </ul>
-            </nav>
-        </div>
-        <nav class="menu">
-            
-            <ul>                
-                <li id="menuHome">
-                    <a asp-page="Index">Home</a>
-                </li>
-                <li id="menuValeting">
-                    <a asp-page="Valeting">Valeting</a>
-                </li>
-                <li id="menuDetailing">
-                    <a asp-page="Detailing">Detailing</a>
-                </li>
-                <li id="menuGallery">
-                    <a asp-page="Gallery">Gallery</a>
-                </li>
-                <li id="menuAbout">
-                    <a asp-page="About">About</a>
-                </li>
-                <li id="menuContact">
-                    <a asp-page="Contact">Contact</a>
-                </li>
-                <li style="float:right;" id="menuMyCar">
-                    <a asp-page="MyCar" id="carModelMainMenu"><i class="fa fa-car"></i> <span id="carModel">No Car</span></a>
-                </li>
-                <li style="float:right;" id="menuMyAccount">
-                    <a asp-page="MyAccount"><i class="fa fa-user"></i> My Account</a>
-                </li>
-
-            </ul>
-
-        </nav>
+        
     }
 
     <div class="container">
@@ -89,7 +26,7 @@
             @RenderBody()
 
         </main>
-        <ul class="circles">
+        @{/*<ul class="circles">
             <li><img src="~/images/logo.png" height="100" style="opacity: 0.3"/></li>
             <li></li>
             <li></li>
@@ -100,7 +37,7 @@
             <li></li>
             <li><img src="~/images/logo.png" height="100" style="opacity: 0.3" /></li>
             <li></li>
-        </ul>
+        </ul>*/}
     </div>
 
     <script src="~/js/MainMenu.js"></script>

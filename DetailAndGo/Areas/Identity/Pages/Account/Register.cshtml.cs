@@ -124,6 +124,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             public string CarModel { get; set; }
 
             [Required]
+            [Display(Name = "Car Family")]
+            public string CarFamily { get; set; }
+
+            [Required]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
@@ -169,11 +173,11 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            var test = Input;
+            //var test = Input;
 
-            var errors = ModelState.Values;
+            //var errors = ModelState.Values;
 
             if (ModelState.IsValid)
             {
@@ -219,6 +223,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         FirstName = Input.FirstName,
                         LastName = Input.LastName,
                         CarModel = Input.CarModel,
+                        CarFamily = Input.CarFamily,
                         PhoneNumber = Input.PhoneNumber,
                     };
                     int expM = int.Parse(Input.Expiry.Split('/')[0]);
@@ -237,10 +242,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
-                    }
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    }                    
                 }
                 foreach (var error in result.Errors)
                 {
