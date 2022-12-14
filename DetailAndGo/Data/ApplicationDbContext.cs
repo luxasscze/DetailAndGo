@@ -16,5 +16,6 @@ namespace DetailAndGo.Data
         public DbSet<TestingDb> TestingDb { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Job> Jobs { get; set; }
+        public DbSet<Car> Cars { get; set; }
     }
 }

@@ -10,22 +10,38 @@ namespace DetailAndGo.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly ICustomerService _customerService;
+        private readonly ICarService _carService;
 
-        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService)
+        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService)
         {
             _logger = logger;
             _customerService = customerService;
+            _carService = carService;
         }
 
         public Customer Customer { get; set; }
+        public Car CustomerCar { get; set; }
+        public List<Car> CustomerCars { get; set; }
 
         public void OnGetAsync()
         {
-            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
-            
             if (User.Identity.IsAuthenticated)
             {
-                
+                Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+                CustomerCar = _carService.GetCustomerActiveCar(Customer.AspNetUserId).Result;
+                CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
+                if(CustomerCar == null)
+                {
+                    CustomerCar = new Car()
+                    {
+                        AspNetUserId = Customer.AspNetUserId,
+                        CarModel = "No",
+                        CarFamily = "Car",
+                        Created = DateTime.Now,
+                        IsPrimary = false,
+                        Notes = "nocar"
+                    };
+                }
             }
         }
     }
