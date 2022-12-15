@@ -44,5 +44,13 @@ namespace DetailAndGo.Pages
                 }
             }
         }
+
+        public async Task<ActionResult> OnPostMakeCarActiveAsync(int carIndex)
+        {
+            string aspNetUserId = _customerService.GetCustomerByEmail(User.Identity.Name).AspNetUserId;
+            Car car = await _carService.GetCarByIndex(aspNetUserId, carIndex);
+            await _carService.MakeCarActive(car.Id, aspNetUserId);
+            return RedirectToAction("Get");
+        }
     }
 }

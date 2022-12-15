@@ -1,8 +1,10 @@
 ﻿@page
 @model IndexModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
 @{
     ViewData["Title"] = "Home page";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    var token = antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
 }
 
 
@@ -176,61 +178,94 @@
                             </a>
                         </div>
                     </div>
-                    <hr class="bg-light" />
-
+                    <hr class="bg-light" />                    
                     <div class="row">
-                        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                        <div id="carCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                             <div class="carousel-inner" style="background-color: transparent !important">
                                 @{
                                     int count = 0;
+                                    int selectedCarIndex = 0;
+                                    
                                     foreach (var car in Model.CustomerCars)
                                     {
                                         string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
                                         string act = count > 0 ? "" : "active";
                                         <div class="carousel-item @act">
-                                            <img class="d-block w-50 m-auto" src="@carImg" alt="Second slide">
+                                            <img class="d-block w-50 m-auto" src="@carImg" alt="car">
                                             <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
                                         </div>
                                         count++;
 
-                                        <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
-
-                                            <a class="btn-outline-success btn-lg btn-block" href="#">Make Active</a>
-
-                                            <a class="btn-outline-success btn-lg" href="#">Add Car</a>
-
-                                            <a class="btn-outline-danger btn-lg" href="#">Remove Car</a>
-
-                                        </div>
+                                                                             
                                     }
+                                    <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
+
+                                        <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">                                           
+                                        </form>
+
+                                        <a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>
+
+                                        <a class="btn-outline-success btn-lg" href="#">Add Car</a>
+
+                                        <a class="btn-outline-danger btn-lg" href="#">Remove Car</a>
+
+                                    </div>
                                 }
                             </div>
                             @if (Model.CustomerCars.Count > 1)
                             {
-                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+                                <a class="carousel-control-prev" href="#carCarousel" role="button" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+                                <a class="carousel-control-next" href="#carCarousel" role="button" data-bs-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
+
                                 </a>
                             }
-
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
+        
     </div>
 
     <script>
-        $('#carModel').text('@ViewData["CarModel"]');
-        $('#carModelMobile').text('@ViewData["CarModel"]');
-        console.log('Car model: ' + '@ViewData["CarModel"]');
+        $(document).ready(function () {            
+            var currentIndex = 0;
+            $('#carCarousel').bind('slid.bs.carousel', function () {
+                currentIndex = $('div.active').index();                
+            });
+
+            $('#makeActBtn, .carousel-item').on('click', function () {
+                console.log('button clicked...');
+                $.ajax({
+                    url: "?handler=MakeCarActive",
+                    data: { carIndex: currentIndex },
+                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                    dataType: 'HTML',
+                    type: "POST",
+                    async: false,
+                    cache: true,
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function () {
+                        console.log("Error");
+                    },
+                    complete: function () {
+                        console.log('finished...');
+                    },
+                });
+            });            
+        });
+
+        
     </script>
 }
 else
