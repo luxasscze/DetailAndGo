@@ -68,7 +68,7 @@
                                 @{
                                     string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
                                 }
-                                <img class="car-image" src="@carImage" />
+                                <a data-bs-toggle="modal" data-bs-target="#carsModal" href="#"><img class="car-image" src="@carImage" /></a>
                                 <div class="row">
                                     <a class="btn-dark btn-sm text-center" data-bs-toggle="modal" data-bs-target="#carsModal" style="width: 80%;" href="#"><i class="fa fa-car"></i> Your Cars</a>
                                 </div>
@@ -186,8 +186,9 @@
                                         string act = count > 0 ? "" : "active";
                                         <div class="carousel-item @act">
                                             <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car"></a>
+                                            <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
                                             <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
-                                            <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToShortDateString()</p>
+                                            <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
                                         </div>
                                         count++;
 
