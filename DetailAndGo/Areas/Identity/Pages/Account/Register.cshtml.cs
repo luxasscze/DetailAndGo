@@ -34,6 +34,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly IEmailService _emailService;
         private readonly ICustomerService _customerService;
+        private readonly ICarService _carService;
         private readonly IStripeService _stripeService;
         private readonly Data.ApplicationDbContext _context;
         private IWebHostEnvironment _webHostEnvironment;
@@ -47,7 +48,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             ICustomerService customerService,
             IStripeService stripeService,
             IEmailService emailService,
-            IWebHostEnvironment webHostEnvironment)
+            IWebHostEnvironment webHostEnvironment,
+            ICarService carService)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -57,6 +59,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _emailService = emailService;
             _customerService = customerService;
+            _carService = carService;
             _stripeService = stripeService;
             _webHostEnvironment = webHostEnvironment;
 
@@ -226,6 +229,19 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarFamily = Input.CarFamily,
                         PhoneNumber = Input.PhoneNumber,
                     };
+
+                    Car initialCar = new Car()
+                    {
+                        Created = DateTime.Now,
+                        AspNetUserId = userId,
+                        CarFamily = Input.CarFamily,
+                        CarModel = Input.CarModel,
+                        IsPrimary = true,
+                        Notes = string.Empty
+                    };
+
+                    await _carService.SaveCar(initialCar);
+
                     int expM = int.Parse(Input.Expiry.Split('/')[0]);
                     int expY = int.Parse(Input.Expiry.Split('/')[1]);
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
