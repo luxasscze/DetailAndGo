@@ -7,11 +7,17 @@
     var token = antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
 }
 
-
-
 <style>
-
+    .car-input {
+        background-color: #222;
+        height: 40px;
+        color: #fff;
+        width: 50%;
+        margin: 10px auto;
+    }
 </style>
+
+
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -85,30 +91,18 @@
                                     <a class="btn-success btn-sm text-center" href="#"><i class="fa fa-check"></i> Make Booking</a>
                                 </div>
                                 <h6 class="text-light" style="margin-top: 10px;">History</h6>
-                                <div class="row text-light" style="margin-bottom: 5px;">
-                                    <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                        <i class="fa fa-check text-success"></i>
+
+                                @foreach (var carHistory in Model.CarHistory)
+                                {
+                                    <div class="row text-light" style="margin-bottom: 5px;">
+                                        <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
+                                            <i class="fa fa-check text-success"></i>
+                                        </div>
+                                        <div class="col-10" style="background-color: #333; padding: 5px;">
+                                            <label>@carHistory.BookingDate.ToShortDateString() | <span class="text-warning">@carHistory.Service</span></label>
+                                        </div>
                                     </div>
-                                    <div class="col-10" style="background-color: #333; padding: 5px;">
-                                        <label>11/12/22 | <span class="text-warning">Exterior Valet</span></label>
-                                    </div>
-                                </div>
-                                <div class="row text-light" style="margin-bottom: 5px;">
-                                    <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                        <i class="fa fa-check text-success"></i>
-                                    </div>
-                                    <div class="col-10" style="background-color: #333; padding: 5px;">
-                                        <label>12/06/22 | <span class="text-warning">Maintenance Wash</span></label>
-                                    </div>
-                                </div>
-                                <div class="row text-light">
-                                    <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                        <i class="fa fa-check text-success"></i>
-                                    </div>
-                                    <div class="col-10" style="background-color: #333; padding: 5px;">
-                                        <label>18/07/21 | <span class="text-warning">Entry Valet</span></label>
-                                    </div>
-                                </div>
+                                }
 
                             </div>
                         </div>
@@ -178,36 +172,37 @@
                             </a>
                         </div>
                     </div>
-                    <hr class="bg-light" />                    
+                    <hr class="bg-light" />
                     <div class="row">
                         <div id="carCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
                             <div class="carousel-inner" style="background-color: transparent !important">
                                 @{
                                     int count = 0;
                                     int selectedCarIndex = 0;
-                                    
+
                                     foreach (var car in Model.CustomerCars)
                                     {
                                         string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
                                         string act = count > 0 ? "" : "active";
                                         <div class="carousel-item @act">
-                                            <img class="d-block w-50 m-auto" src="@carImg" alt="car">
+                                            <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car"></a>
                                             <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
+                                            <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToShortDateString()</p>
                                         </div>
                                         count++;
 
-                                                                             
+
                                     }
                                     <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
 
-                                        <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">                                           
+                                        <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">
                                         </form>
 
-                                        <a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>
+                                        <!--<a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>-->
 
-                                        <a class="btn-outline-success btn-lg" href="#">Add Car</a>
+                                        <a class="btn-outline-success btn-lg text-center" id="addCarBtn" style="width: 80%;" href="#"><i class="fa fa-plus"></i> Add Car</a>
 
-                                        <a class="btn-outline-danger btn-lg" href="#">Remove Car</a>
+                                        <a class="btn-outline-danger btn-lg" href="#" id="removeCarBtn"><i class="fa fa-minus"></i> Remove Car</a>
 
                                     </div>
                                 }
@@ -229,17 +224,52 @@
                 </div>
             </div>
         </div>
-        
+
+    </div>
+
+    <!-- Add Car Modal -->
+    <div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Add New Car</h2>
+                        </div>
+                        <div class="col">
+                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <hr class="bg-light" />
+                    <div class="row">
+                        <input type="text" placeholder="Car Model" class="form-control car-input" id="addCarModel" />
+                    </div>
+                    <div class="row">
+                        <input type="text" placeholder="Car Family" class="form-control car-input" id="addCarFamily" />
+                    </div>
+                    <div class="row" style="display: none" id="emptyErrorMsg">
+                        <label class="text-warning text-center">Values cannot be empty</label>
+                    </div>
+                    <div class="row" style="margin: 20px 100px;">
+                        <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">ADD</a>
+                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        $(document).ready(function () {            
+        $(document).ready(function () {
             var currentIndex = 0;
             $('#carCarousel').bind('slid.bs.carousel', function () {
-                currentIndex = $('div.active').index();                
+                currentIndex = $('div.active').index();
             });
 
-            $('#makeActBtn, .carousel-item').on('click', function () {
+            $('.carousel-item').on('click', function () {
                 console.log('button clicked...');
                 $.ajax({
                     url: "?handler=MakeCarActive",
@@ -262,10 +292,80 @@
                         console.log('finished...');
                     },
                 });
-            });            
+            });
+
+            $('#addCarBtn').on('click', function () {
+                $('#carsModal').modal('hide');
+                $('#addCarModal').modal('show');
+            });
+
+            $('#addCarModal').on('hide.bs.modal', function () {
+                $('#carsModal').modal('show');
+            });
+
+            $('#cancelAddNewCarBtn').on('click', function () {
+                $('#addCarModal').modal('hide');
+            });
+
+            $('#addCarButton').on('click', function () {
+                let carModel = $('#addCarModel').val();
+                let carFamily = $('#addCarFamily').val();
+                if (carModel == "" || carFamily == "") {
+                    $('#emptyErrorMsg').show();
+                }
+                else {
+                    $('#emptyErrorMsg').hide();
+
+                    $.ajax({
+                        url: "?handler=AddNewCar",
+                        data: { carModel: carModel, carFamily: carFamily },
+                        headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                        dataType: 'HTML',
+                        type: "POST",
+                        async: false,
+                        cache: true,
+                        beforeSend: function () {
+
+                        },
+                        success: function (data) {
+                            location.reload();
+                        },
+                        error: function () {
+                            console.log("Error");
+                        },
+                        complete: function () {
+                            console.log('finished...');
+                        },
+                    });
+                }
+            });
+
+            $('#removeCarBtn').on('click', function () {
+                $.ajax({
+                    url: "?handler=RemoveCar",
+                    data: { carIndex: currentIndex },
+                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                    dataType: 'HTML',
+                    type: "POST",
+                    async: false,
+                    cache: true,
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function () {
+                        console.log("Error");
+                    },
+                    complete: function () {
+                        console.log('finished...');
+                    },
+                });
+            });
         });
 
-        
+
     </script>
 }
 else

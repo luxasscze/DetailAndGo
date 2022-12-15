@@ -22,7 +22,7 @@ namespace DetailAndGo.Services
         public async Task SaveCar(Car carToSave)
         {
             _context.Cars.Add(carToSave);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();            
         }
 
         public async Task<List<Car>> GetCustomerCars(string aspNetUserId)
@@ -37,10 +37,10 @@ namespace DetailAndGo.Services
             return car;
         }
 
-        public async Task RemoveCar(int carId)
+        public async Task RemoveCar(Car car)
         {
-            Car? car = await _context.Cars.FirstOrDefaultAsync(s => s.Id == carId);
-            _context.Remove(car);
+            
+            _context.Cars.Remove(car);
             _context.SaveChanges();
         }
 
@@ -62,6 +62,18 @@ namespace DetailAndGo.Services
         {
             List<Car> allCars = await GetCustomerCars(aspNetUserId);
             return allCars[index];
+        }
+
+        public async Task<List<CarHistory>> GetCarHistoryByCarId(int carId)
+        {
+            List<CarHistory> carHistories = await _context.CarHistories.Where(s => s.CarId == carId).ToListAsync();
+            return carHistories;
+        }
+
+        public async Task AddToCarHistory(CarHistory carHistory)
+        {
+            _context.CarHistories.Add(carHistory);
+            await _context.SaveChangesAsync();
         }
     }
 }
