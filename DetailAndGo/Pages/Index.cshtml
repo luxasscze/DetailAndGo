@@ -387,11 +387,16 @@
                             </a>
                         </div>
                     </div>
-                    <hr class="bg-light" />                    
-                        <div id="calendar" style="min-height: 600px;" class="text-light"></div>                                      
+                    <hr class="bg-light" />
+                    <div id="calendar" style="min-height: 600px;" class="text-light"></div>
                     <div class="row" style="margin: 20px 100px;">
-                        <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">SELECT DATE</a>
+                        <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">SELECT DATE & TIME</a>
                         <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                    </div>
+                    <div class="row">
+                    <label class="text-light">ALL BOOKINGS AS JSON:</label>
+                    <br />
+                    <label class="text-success">@Model.AllBookings</label>
                     </div>
                 </div>
             </div>
@@ -404,11 +409,21 @@
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                themeSystem: 'bootstrap',
+                themeSystem: 'bootstrap5',
                 weekends: true,
                 firstDay: 1,
-                navLinks: false,
-                selectable: true
+                navLinks: true,
+                selectable: true,
+                timeZone: 'local',
+                navLinkDayClick: function (date, jsEvent) {
+                    console.log('day', date.toISOString());
+                    console.log('coords', jsEvent.pageX, jsEvent.pageY);
+                },
+                dateClick: function (date) {
+                    console.log('date clicked: ', date);                    
+                    date.dayEl.style.backgroundColor = '#003366';
+                },
+                events: @Html.Raw(Model.AllBookings)
             });
             calendar.render();
         });

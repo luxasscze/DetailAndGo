@@ -11,23 +11,27 @@ namespace DetailAndGo.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ICustomerService _customerService;
         private readonly ICarService _carService;
+        private readonly IBookingService _bookingService;
 
-        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService)
+        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService)
         {
             _logger = logger;
             _customerService = customerService;
             _carService = carService;
+            _bookingService = bookingService;
         }
 
         public Customer Customer { get; set; }
         public Car CustomerCar { get; set; }
         public List<Car> CustomerCars { get; set; }
         public List<CarHistory> CarHistory { get; set; }
+        public string AllBookings { get; set; }
 
         public void OnGetAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
+                AllBookings = _bookingService.GetAllActiveBookingsAsCalendarEvents().Result;                
                 Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
                 CustomerCar = _carService.GetCustomerActiveCar(Customer.AspNetUserId).Result;
                 CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
@@ -108,6 +112,22 @@ namespace DetailAndGo.Pages
                 await _carService.RemoveCar(car);
                 return RedirectToAction("Get");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> OnPostCreateBookingAsync(Booking booking)
+        {
+            await _bookingService.CreateBooking(booking);
+            return RedirectToAction("Get");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> OnPostGetAllBookingsAsync()
+        {
+            await _bookingService.GetAllActiveBookinsAsJSON();
+            return RedirectToAction("Get");
         }
     }
 }

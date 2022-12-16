@@ -21,6 +21,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IStripeService, StripeService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 
 var app = builder.Build();
