@@ -9,6 +9,40 @@
 
 
 <style>
+    :root {
+        --fc-small-font-size: .85em;
+        --fc-page-bg-color: #fff;
+        --fc-neutral-bg-color: rgba(208, 208, 208, 0.3);
+        --fc-neutral-text-color: #808080;
+        --fc-border-color: #000;
+        --fc-button-text-color: #fff;
+        --fc-button-bg-color: #2C3E50;
+        --fc-button-border-color: #2C3E50;
+        --fc-button-hover-bg-color: #1e2b37;
+        --fc-button-hover-border-color: #1a252f;
+        --fc-button-active-bg-color: #1a252f;
+        --fc-button-active-border-color: #151e27;
+        --fc-event-bg-color: #3788d8;
+        --fc-event-border-color: #3788d8;
+        --fc-event-text-color: #fff;
+        --fc-event-selected-overlay-color: rgba(0, 0, 0, 0.25);
+        --fc-more-link-bg-color: #d0d0d0;
+        --fc-more-link-text-color: inherit;
+        --fc-event-resizer-thickness: 8px;
+        --fc-event-resizer-dot-total-width: 8px;
+        --fc-event-resizer-dot-border-width: 1px;
+        --fc-non-business-color: rgba(215, 215, 215, 0.3);
+        --fc-bg-event-color: rgb(143, 223, 130);
+        --fc-bg-event-opacity: 0.3;
+        --fc-highlight-color: rgba(188, 232, 241, 0.3);
+        --fc-today-bg-color: rgba(143, 223, 130, 0.3);
+        --fc-now-indicator-color: red;
+    }
+
+    a {
+        color: #fff;
+    }
+
     .car-input {
         background-color: #222;
         height: 40px;
@@ -23,6 +57,7 @@
 </style>
 
 <script src='~/lib/calendar/dist/index.global.js'></script>
+<script src="~/lib/moment/moment.js"></script>
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -286,8 +321,8 @@
                     <hr class="bg-light" />
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="card bg-dark zoom-on-hover">
+                        <div class="col-md-3" style="margin-bottom: 10px;">
+                            <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
                                 <div class="card-header">
                                     <div class="row">
                                         <label class="text-center text-light" style="font-size: 24px;">CAR</label>
@@ -295,6 +330,9 @@
                                 </div>
                                 <div class="card-body">
                                     <img src="@carImage" style="max-height: 100%; max-width: 100%;" />
+                                    <div class="row">
+                                        <a class="btn btn-success btn-sm" href="#" style="margin: 0px auto;" id="changeCarInBookingButton">Change Car</a>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
@@ -303,7 +341,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="margin-bottom: 10px;">
                             <div class="card bg-dark zoom-on-hover">
                                 <div class="card-header">
                                     <div class="row">
@@ -322,7 +360,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="margin-bottom: 10px;">
                             <div class="card bg-dark zoom-on-hover">
                                 <div class="card-header">
                                     <div class="row">
@@ -331,7 +369,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <a class="btn btn-success" href="#" style="margin: 25px auto;" id="selectDateBtn">Select Date</a>
+                                        <a class="btn btn-success disabled" href="#" style="margin: 25px auto;" id="selectDateBtn">Select Date</a>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -342,7 +380,7 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="card bg-dark zoom-on-hover">
+                            <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
                                 <div class="card-header">
                                     <div class="row">
                                         <label class="text-center text-light" style="font-size: 24px;">PAYMENT</label>
@@ -394,9 +432,9 @@
                         <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
                     </div>
                     <div class="row">
-                    <label class="text-light">ALL BOOKINGS AS JSON:</label>
-                    <br />
-                    <label class="text-success">@Model.AllBookings</label>
+                        <label class="text-light">ALL BOOKINGS AS JSON:</label>
+                        <br />
+                        <label class="text-success">@Model.AllBookings</label>
                     </div>
                 </div>
             </div>
@@ -420,10 +458,20 @@
                     console.log('coords', jsEvent.pageX, jsEvent.pageY);
                 },
                 dateClick: function (date) {
-                    console.log('date clicked: ', date);                    
-                    date.dayEl.style.backgroundColor = '#003366';
+                    console.log('DATE CLICK HAHAHA');
+                    calendar.changeView('dayGridDay', date.date);
                 },
-                events: @Html.Raw(Model.AllBookings)
+                eventClick: function () {
+                    console.log('event clicked...');
+                },
+                selectAllow: function (select) {
+                    console.log(calendar.getEvents());
+                    return moment().diff(select.start, 'days') < 1 && calendar.getEvents();
+                },
+                events: @Html.Raw(Model.AllBookings),
+                eventBackgroundColor: '#f00',
+                eventTextColor: 'red',
+                eventColor: '#378006'
             });
             calendar.render();
         });
@@ -540,6 +588,11 @@
 
             $('#dateModal').on('hide.bs.modal', function () {
                 $('#bookingModal').modal('show');
+            });
+
+            $('#changeCarInBookingButton').on('click', function () {
+                $('#bookingModal').modal('hide');
+                $('#carsModal').modal('show');
             });
 
         });

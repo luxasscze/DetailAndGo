@@ -15,6 +15,7 @@
         public string borderColor { get; set; }
         public string textColor { get; set; }
         public Dictionary<string, string> extendedProps { get; set; }
+        public string display { get; set; }
 
     }
 }

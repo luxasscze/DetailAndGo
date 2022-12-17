@@ -63,18 +63,19 @@ namespace DetailAndGo.Services
             {
                 calendarBookings.Add(new CalendarBooking()
                 {
-                     allDay = false,
-                     backgroundColor = "#333",
-                     borderColor = "#fff",
-                     classNames= new string[] {"", ""},
+                     allDay = true,
+                     backgroundColor = "transparent",
+                     borderColor = "#000",
+                     classNames= new string[] {"text-light", "bg-danger"},
                      editable = false,
                      end = booking.BookedFor.AddHours(8),
                      start = booking.BookedFor,
                      extendedProps = new Dictionary<string, string>() { },
                      groupId = "a",
-                     textColor = "green",
-                     title = booking.Status.ToString(),
-                     url = "#"
+                     textColor = "#fff",
+                     title = "Fully Booked",
+                     url = "#",
+                     display = "background"
                 });
             }
 
