@@ -9,6 +9,7 @@
         public DateTime CreatedDate { get; set; }
         public string Image { get; set; }
         public string Category { get; set; }
+        public bool IsActive { get; set; }
 
     }
 }

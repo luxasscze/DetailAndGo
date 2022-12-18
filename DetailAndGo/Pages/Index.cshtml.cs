@@ -12,13 +12,15 @@ namespace DetailAndGo.Pages
         private readonly ICustomerService _customerService;
         private readonly ICarService _carService;
         private readonly IBookingService _bookingService;
+        private readonly IDAGService _serviceService;
 
-        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService)
+        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService)
         {
             _logger = logger;
             _customerService = customerService;
             _carService = carService;
             _bookingService = bookingService;
+            _serviceService = serviceService;
         }
 
         public Customer Customer { get; set; }
@@ -26,6 +28,7 @@ namespace DetailAndGo.Pages
         public List<Car> CustomerCars { get; set; }
         public List<CarHistory> CarHistory { get; set; }
         public string AllBookings { get; set; }
+        public List<Service> AllServices { get; set; }
 
         public void OnGetAsync()
         {
@@ -36,6 +39,7 @@ namespace DetailAndGo.Pages
                 CustomerCar = _carService.GetCustomerActiveCar(Customer.AspNetUserId).Result;
                 CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
                 CarHistory = _carService.GetCarHistoryByCarId(CustomerCar.Id).Result.Where(s => s.BookingDate < DateTime.Now).OrderByDescending(s => s.BookingDate).Take(3).ToList();
+                AllServices = _serviceService.GetAllServices().Result.Where(s => s.IsActive == true).ToList();
                 if (CustomerCar == null)
                 {
                     CustomerCar = new Car()

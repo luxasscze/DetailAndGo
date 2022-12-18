@@ -130,7 +130,10 @@
                                 <div class="row">
                                     <a class="btn-success btn-sm text-center" href="#" id="bookingBtn"><i class="fa fa-check"></i> Make Booking</a>
                                 </div>
-                                <h6 class="text-light" style="margin-top: 10px;">History</h6>
+                                @if (Model.CarHistory.Count > 0)
+                                {
+                                    <h6 class="text-light" style="margin-top: 10px;">History</h6>
+                                }
 
                                 @foreach (var carHistory in Model.CarHistory)
                                 {
@@ -350,7 +353,8 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <i class="fa fa-list text-secondary text-center" style="margin: 20px auto; font-size: 48px;"></i>
+                                    <label id="selServices" class="text-light"></label>
+                                        <a class="btn btn-success" href="#" style="margin: 25px auto;" id="selectServiceBtn">Select Service</a>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -402,7 +406,7 @@
                     <hr class="bg-light" />
                     <div class="row" style="margin: 20px 100px;">
                         <a class="btn btn-outline-secondary btn-block disabled" href="#" id="addCarButton">CONFIRM BOOKING</a>
-                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="createBookingCancelBtn">Cancel</a>
                     </div>
                 </div>
             </div>
@@ -435,6 +439,80 @@
                         <label class="text-light">ALL BOOKINGS AS JSON:</label>
                         <br />
                         <label class="text-success">@Model.AllBookings</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Services Modal -->
+    <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Services</h2>
+                        </div>
+                        <div class="col">
+                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <hr class="bg-light" />
+                    <div class="row">
+                    <script>
+                        const selectedServices = [];
+                    </script>
+                        @foreach (var service in Model.AllServices)
+                        {
+                            <div class="col-md-4">
+                                <div class="card bg-dark text-light text-center zoom-on-hover" style="margin: 10px;" id="service-@service.Id">
+                                    <div class="card-header">
+                                        <label>@service.Name</label>
+                                    </div>
+                                    <div class="card-body">
+                                        <label>@service.Description</label>
+                                    </div>
+                                    <div class="card-footer">
+                                        <label class="text-warning">£@service.Price</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>                            
+                                $('#service-@service.Id').on('click', function () {
+                                    console.log('Service' + @service.Id + ' has been clicked');
+                                    if ($('#service-@service.Id').hasClass('bg-dark')) {
+                                        $('#service-@service.Id').removeClass('bg-dark');
+                                        $('#service-@service.Id').addClass('bg-success');
+                                        selectedServices.push('@service.Id');
+                                    }
+                                    else {
+                                        $('#service-@service.Id').removeClass('bg-success');
+                                        $('#service-@service.Id').addClass('bg-dark');
+                                        selectedServices.remove('@service.Id');
+                                    }
+                                    if ($('.bg-success').length > 0) {
+                                        $('#confirmServicesBtn').removeClass('disabled');
+                                        $('#confirmServicesBtn').removeClass('btn-outline-secondary');
+                                        $('#confirmServicesBtn').addClass('btn-success');
+                                    }
+                                    else {
+                                        $('#confirmServicesBtn').addClass('disabled');
+                                        $('#confirmServicesBtn').removeClass('btn-success');
+                                        $('#confirmServicesBtn').addClass('btn-outline-secondary');
+                                    }
+                                    console.log('Selected services: ' + selectedServices);
+                                });
+                            </script>
+                        }
+                    </div>
+                    <div class="row" style="margin: 20px 100px;">
+                        <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
+                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
                     </div>
                 </div>
             </div>
@@ -577,6 +655,14 @@
                 });
             });
 
+            $('#confirmServicesBtn').on('click', function () {
+                
+            });
+
+            $('#createBookingCancelBtn').on('click', function () {
+                $('#bookingModal').modal('hide');
+            });
+
             $('#bookingBtn').on('click', function () {
                 $('#bookingModal').modal('show');
             });
@@ -595,8 +681,37 @@
                 $('#carsModal').modal('show');
             });
 
+            $('#selectServiceBtn').on('click', function () {
+                $('#bookingModal').modal('hide');
+                $('#servicesModal').modal('show');
+            });
+
+            $('#servicesModal').on('hide.bs.modal', function () {
+                $('#bookingModal').modal('show');
+            });
+
+            $('#cancelServicesBtn').on('click', function () {
+                $('#servicesModal').modal('hide');
+                $('#bookingModal').modal('show');
+            });
+
+            $('#confirmServicesBtn').on('click', function () {
+                $('#servicesModal').modal('hide');
+                $('#selServices').text(selectedServices);
+            });
+
         });
 
+        Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
 
     </script>
 }
