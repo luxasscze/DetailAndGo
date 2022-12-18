@@ -345,7 +345,7 @@
                             </div>
                         </div>
                         <div class="col-md-3" style="margin-bottom: 10px;">
-                            <div class="card bg-dark zoom-on-hover">
+                            <div class="card bg-dark zoom-on-hover" id="cardService">
                                 <div class="card-header">
                                     <div class="row">
                                         <label class="text-center text-light" style="font-size: 24px;">SERVICE</label>
@@ -698,6 +698,9 @@
             $('#confirmServicesBtn').on('click', function () {
                 $('#servicesModal').modal('hide');
                 $('#selServices').text(selectedServices);
+                $('#cardService').removeClass('bg-dark');
+                $('#cardService').css('background-color', 'rgba(0, 100, 0, 0.2)');
+
             });
 
         });
