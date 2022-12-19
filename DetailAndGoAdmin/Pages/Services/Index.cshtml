@@ -1,0 +1,23 @@
+﻿@page
+@model DetailAndGoAdmin.Pages.Services.IndexModel
+@{
+}
+
+<h1 class="text-light text-center">Services</h1>
+
+<div class="row">
+    @foreach (var service in Model.AllServices)
+    {
+        <div class="col-md-3">
+            <div class="card bg-dark text-light text-center" style="margin: 20px;">
+                <div class="card-header">@service.Name</div>
+                <div class="card-body">
+                    @service.Description
+                </div>
+                <div class="card-footer">
+                    £@service.Price
+                </div>
+            </div>
+        </div>
+    }
+</div>
