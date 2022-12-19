@@ -3,21 +3,36 @@
 @{
 }
 
-<h1 class="text-light text-center">Services</h1>
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-6">
+        <h1 class="text-light" style="margin-left: 20px;">Services</h1>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-outline-success btn-lg float-end" href="#" style="margin-right: 20px;"><i class="fa fa-plus"></i> Add New Service</a>
+    </div>
+</div>
 
 <div class="row">
     @foreach (var service in Model.AllServices)
     {
+        string cardBgColor = service.IsActive ? "bg-success" : "bg-dark";
         <div class="col-md-3">
-            <div class="card bg-dark text-light text-center" style="margin: 20px;">
-                <div class="card-header">@service.Name</div>
-                <div class="card-body">
-                    @service.Description
+            <a href="#" style="text-decoration: none;">
+                <div class="card @cardBgColor text-light text-center" style="margin: 20px;">
+                    <div class="card-header">@service.Name</div>
+                    <div class="card-body">
+                        @service.Description
+                    </div>
+                    <div class="card-footer">
+
+                        <div class="badge text-dark bg-warning" style="font-size: 20px;">£@service.Price</div>
+
+                        <div class="text-center">
+                            Created: @service.CreatedDate.ToShortDateString()
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    £@service.Price
-                </div>
-            </div>
+            </a>
         </div>
     }
 </div>

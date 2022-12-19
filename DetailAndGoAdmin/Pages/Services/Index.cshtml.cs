@@ -24,7 +24,7 @@ namespace DetailAndGoAdmin.Pages.Services
         public async Task OnGetAsync()
         {
 
-            AllServices = await _context.Services.ToListAsync();
+            AllServices = await _context.Services.OrderByDescending(s => s.CreatedDate).ToListAsync();
         }
     }
 }
