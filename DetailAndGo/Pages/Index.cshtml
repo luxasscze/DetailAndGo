@@ -326,15 +326,15 @@
                     <hr class="bg-light" />
 
                     <div class="row">
-                        <div class="col-md-3" style="margin-bottom: 10px;">
-                            <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
+                        <div class="col-md-4" style="margin-bottom: 10px;">
+                            <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2);">
                                 <div class="card-header">
                                     <div class="row">
                                         <label class="text-center text-light" style="font-size: 24px;">CAR</label>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <img src="@carImage" style="max-height: 100%; max-width: 100%;" />
+                                    <img src="@carImage" style="max-height: 150%; max-width: 150%; margin-left: -50px; margin-bottom: 70px;" />
                                     <div class="row">
                                         <a class="btn btn-success btn-sm" href="#" style="margin: 0px auto;" id="changeCarInBookingButton">Change Car</a>
                                     </div>
@@ -354,22 +354,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3" style="margin-bottom: 10px;">
+                        <div class="col-md-4" style="margin-bottom: 10px;">
                             <div class="card bg-dark zoom-on-hover" id="cardService">
+
                                 <div class="card-header">
                                     <div class="row">
-                                        <label class="text-center text-light" style="font-size: 24px;">SERVICE</label>
+                                        <label class="text-center text-light" style="font-size: 24px;">SERVICES</label>
                                     </div>
                                 </div>
                                 <div class="card-body">
+                                    <img class="card-img show-on-desktop" src="~/images/logo.png" />
                                     <div class="row">
-                                        <label id="selServices" class="text-light"></label>
                                         <a class="btn btn-success" href="#" style="margin: 25px auto;" id="selectServiceBtn">Select Service</a>
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="row">
-                                        <label class="text-center text-warning"><i class="fa fa-times"></i> No service selected</label>
+                                        <label class="text-center text-warning" id="selServices"><i class="fa fa-times"></i> No service selected</label>
                                     </div>
                                 </div>
                             </div>
@@ -382,16 +383,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3" style="margin-bottom: 10px;">
+                        <div class="col-md-4" style="margin-bottom: 10px;">
                             <div class="card bg-dark zoom-on-hover">
                                 <div class="card-header">
                                     <div class="row">
-                                        <label class="text-center text-light" style="font-size: 24px;">DATE</label>
+                                        <label class="text-center text-light" style="font-size: 24px;">DATE & TIME</label>
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <a class="btn btn-success disabled" href="#" style="margin: 25px auto;" id="selectDateBtn">Select Date</a>
+                                    <div class="row" style="margin-top: 205px;">
+                                        <a class="btn btn-success" href="#" style="margin: 25px auto;" id="selectDateBtn">Select Date</a>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -409,16 +410,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
                                 <div class="card-header">
                                     <div class="row">
                                         <label class="text-center text-light" style="font-size: 24px;">PAYMENT</label>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <i class="fa fa-credit-card text-secondary text-center" style="margin: 20px auto; font-size: 48px;"></i>
                                     </div>
                                 </div>
                                 <div class="card-footer">
@@ -428,17 +426,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-8">
+                            <a href="">
+                                <div class="confirm-booking-button zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
+                                    <h1 class="text-center" style="margin: auto auto;">CONFIRM BOOKING</h1>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <hr class="bg-light" />
-                    <div class="row" style="margin: 20px 100px;">
-                        <a class="btn btn-outline-secondary btn-block disabled" href="#" id="addCarButton">CONFIRM BOOKING</a>
-                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="createBookingCancelBtn">Cancel</a>
-                    </div>
+                </div>
+                <hr class="bg-light" />
+                <div class="row" style="margin: 20px 100px;">
+                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="addCarButton">CONFIRM BOOKING</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="createBookingCancelBtn">Cancel</a>
                 </div>
             </div>
         </div>
-
     </div>
+
+
 
     <!-- Date Modal -->
     <div class="modal fade" id="dateModal" tabindex="-1" role="dialog" aria-labelledby="dateModalLabel" aria-hidden="true">
@@ -713,7 +719,7 @@
             });
 
             $('#servicesModal').on('hide.bs.modal', function () {
-                $('#bookingModal').modal('show');                
+                $('#bookingModal').modal('show');
             });
 
             $('#cancelServicesBtn').on('click', function () {

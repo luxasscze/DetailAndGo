@@ -102,3 +102,25 @@ a {
         display: flex;
     }
 }
+
+.show-on-desktop {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .show-on-desktop {
+        display: none;
+    }
+}
+
+very-big-modal {
+    width: 1200px;
+}
+
+.confirm-booking-button {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 100, 0, 0.5);
+}
+
+
