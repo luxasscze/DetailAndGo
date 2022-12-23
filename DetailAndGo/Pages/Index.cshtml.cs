@@ -3,6 +3,8 @@ using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using NuGet.Packaging;
 
 namespace DetailAndGo.Pages
 {
@@ -28,6 +30,7 @@ namespace DetailAndGo.Pages
         public List<Car> CustomerCars { get; set; }
         public List<CarHistory> CarHistory { get; set; }
         public string AllBookings { get; set; }
+        public List<string> SelectedServiceNames { get; set; }
         public List<Service> AllServices { get; set; }
 
         public void OnGetAsync()
@@ -132,6 +135,22 @@ namespace DetailAndGo.Pages
         {
             await _bookingService.GetAllActiveBookinsAsJSON();
             return RedirectToAction("Get");
+        }
+
+
+        [HttpGet]
+        public async Task<JsonResult> OnGetServiceNamesAsync(string sServices)
+        {
+            List<string> selServices = sServices.Split(',').ToList();
+            string serviceName = string.Empty;
+            List<Service> services = await _serviceService.GetAllServices();
+            List<string> result = new List<string>();
+            foreach (string serviceId in selServices)
+            {
+                result.Add(services.FirstOrDefault(s => s.Id == Convert.ToInt32(serviceId)).Name);
+            }
+            SelectedServiceNames = result;
+            return new JsonResult(result);            
         }
     }
 }

@@ -21,6 +21,6 @@ namespace DetailAndGo.Services
         {
             List<Service> allServices = await _context.Services.ToListAsync();
             return allServices;
-        }
+        }        
     }
 }

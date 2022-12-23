@@ -51,10 +51,6 @@
         width: 50%;
         margin: 10px auto;
     }
-
-    .modal-backdrop {
-        background-color: rgba(0, 0, 0, 1);
-    }
 </style>
 
 <script src='~/lib/calendar/dist/index.global.js'></script>
@@ -63,488 +59,493 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <div class="row" style="margin-bottom: 20px;">
-        <div class="col-12 card-item">
-            <div class="row">
-                <div class="col-md-2" style="vertical-align: central;">
-                    <img src="~/images/logo.png" style="height: 150px; margin: auto auto;" />
-                </div>
-                <div class="col-md-10">
-                    <h2 class="display-4 text-light text-center">Good evening Marek</h2>
-                    <hr />
-                    <p class="text-light">
-                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                        This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                    </p>
+    <div class="supreme-container">
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-12 card-item">
+                <div class="row">
+                    <div class="col-md-2" style="vertical-align: central;">
+                        <img src="~/images/logo.png" style="height: 150px; margin: auto auto;" />
+                    </div>
+                    <div class="col-md-10">
+                        <h2 class="display-4 text-light text-center">Good evening Marek</h2>
+                        <hr />
+                        <p class="text-light">
+                            This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                            This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                            This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                            This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="margin-bottom: 20px;">
-        <div class="col-md-6" style="margin-bottom: 20px;">
-            <div class="card-item">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h1 class="text-light" style="font-size: 24px;">YOUR CAR</h1>
+        <div class="row" style="margin-bottom: 20px;">
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="card-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1 class="text-light" style="font-size: 24px;">YOUR CAR</h1>
+                        </div>
+                        <div class="col-md-6">
+                            <h1 class="text-light" style="font-size: 24px;">YOUR BOOKINGS</h1>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <h1 class="text-light" style="font-size: 24px;">YOUR BOOKINGS</h1>
-                    </div>
-                </div>
-                <hr class="bg-light" />
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="move-car">
-                            <div class="container">
-                                <h6 class="text-light">Your active car</h6>
-                                @if (Model.CustomerCar.Notes == "nocar")
-                                {
-                                    <h6 class="badge bg-danger text-dark" style="font-size: 18px;">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
-                                }
-                                else
-                                {
-                                    <h6 class="badge bg-warning text-dark" style="font-size: 18px;">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
-                                }
-                                @{
-                                    string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
-                                }
-                                <a data-bs-toggle="modal" data-bs-target="#carsModal" href="#"><img class="car-image" src="@carImage" /></a>
-                                <div class="row">
-                                    <a class="btn-dark btn-sm text-center" data-bs-toggle="modal" data-bs-target="#carsModal" style="width: 80%;" href="#"><i class="fa fa-car"></i> Your Cars</a>
+                    <hr class="bg-light" />
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="move-car">
+                                <div class="container">
+                                    <h6 class="text-light">Your active car</h6>
+                                    @if (Model.CustomerCar.Notes == "nocar")
+                                    {
+                                        <h6 class="badge bg-danger text-dark" style="font-size: 18px;">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
+                                    }
+                                    else
+                                    {
+                                        <h6 class="badge bg-warning text-dark" style="font-size: 18px;">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
+                                    }
+                                    @{
+                                        string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
+                                    }
+                                    <a data-bs-toggle="modal" data-bs-target="#carsModal" href="#"><img class="car-image" src="@carImage" /></a>
+                                    <div class="row">
+                                        <a class="btn-dark btn-sm text-center" data-bs-toggle="modal" data-bs-target="#carsModal" style="width: 80%;" href="#"><i class="fa fa-car"></i> Your Cars</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="move-car">
-                            <div class="container">
-                                <h6 class="text-light">Upcoming booking</h6>
-                                <div class="row text-light" style="margin-bottom: 5px;">
-                                    <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                        <i class="fa fa-times text-danger"></i>
-                                    </div>
-                                    <div class="col-10" style="background-color: #333; padding: 5px;">
-                                        <label>no future booking</label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <a class="btn-success btn-sm text-center" href="#" id="bookingBtn"><i class="fa fa-check"></i> Make Booking</a>
-                                </div>
-                                @if (Model.CarHistory.Count > 0)
-                                {
-                                    <h6 class="text-light" style="margin-top: 10px;">History</h6>
-                                }
-
-                                @foreach (var carHistory in Model.CarHistory)
-                                {
+                        <div class="col-sm-6">
+                            <div class="move-car">
+                                <div class="container">
+                                    <h6 class="text-light">Upcoming booking</h6>
                                     <div class="row text-light" style="margin-bottom: 5px;">
                                         <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
-                                            <i class="fa fa-check text-success"></i>
+                                            <i class="fa fa-times text-danger"></i>
                                         </div>
                                         <div class="col-10" style="background-color: #333; padding: 5px;">
-                                            <label>@carHistory.BookingDate.ToShortDateString() | <span class="text-warning">@carHistory.Service</span></label>
+                                            <label>no future booking</label>
                                         </div>
                                     </div>
-                                }
+                                    <div class="row">
+                                        <a class="btn-success btn-sm text-center" id="bookingBtn"><i class="fa fa-check"></i> Make Booking</a>
+                                    </div>
+                                    @if (Model.CarHistory.Count > 0)
+                                    {
+                                        <h6 class="text-light" style="margin-top: 10px;">History</h6>
+                                    }
 
+                                    @foreach (var carHistory in Model.CarHistory)
+                                    {
+                                        <div class="row text-light" style="margin-bottom: 5px;">
+                                            <div class="col-2" style="background-color: #000; padding: 5px; text-align: center;">
+                                                <i class="fa fa-check text-success"></i>
+                                            </div>
+                                            <div class="col-10" style="background-color: #333; padding: 5px;">
+                                                <label>@carHistory.BookingDate.ToShortDateString() | <span class="text-warning">@carHistory.Service</span></label>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="margin-bottom: 20px;">
+                <div class="card-item">
+                    <h1 class="text-light" style="font-size: 24px;">YOUR SUBSCRIPTION</h1>
+                    <hr class="bg-light" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="move-car">
+                                <div class="container">
+                                    <h6 class="text-light">Your active subscription</h6>
+                                    <h5 class="badge bg-warning text-dark" style="font-size: 18px;">ELITE</h5><br />
+                                    <i class="fa fa-check" style="font-size: 64px;"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6" style="margin-bottom: 20px;">
-            <div class="card-item">
-                <h1 class="text-light" style="font-size: 24px;">YOUR SUBSCRIPTION</h1>
-                <hr class="bg-light" />
+        <div class="row" style="">
+            <div class="col-12 card-item">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="move-car">
-                            <div class="container">
-                                <h6 class="text-light">Your active subscription</h6>
-                                <h5 class="badge bg-warning text-dark" style="font-size: 18px;">ELITE</h5><br />
-                                <i class="fa fa-check" style="font-size: 64px;"></i>
+                        <h2 class="display-4 text-light text-center"><i class="fa fa-info-circle"></i> What's new</h2>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="~/images/test.jpg" style="height: 200px;" class="zoom-on-hover img-fluid" />
+                            </div>
+                            <div class="col-md-8">
+                                <p class="text-light">
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so <span class="text-warning">whatever you want</span> it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                    This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row" style="">
-        <div class="col-12 card-item">
-            <div class="row">
-                <div class="col-md-12">
-                    <h2 class="display-4 text-light text-center"><i class="fa fa-info-circle"></i> What's new</h2>
-                    <hr />
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="~/images/test.jpg" style="height: 200px;" class="zoom-on-hover img-fluid" />
-                        </div>
-                        <div class="col-md-8">
-                            <p class="text-light">
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so <span class="text-warning">whatever you want</span> it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                                This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-    <!-- Cars Modal -->
-    <div class="modal fade" id="carsModal" tabindex="-1" role="dialog" aria-labelledby="carsModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Your Cars</h2>
+        <!-- Cars Modal -->
+        <div class="modal fade" id="carsModal" tabindex="-1" role="dialog" aria-labelledby="carsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Your Cars</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col">
-                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="bg-light" />
-                    <div class="row">
-                        <div id="carCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
-                            <div class="carousel-inner" style="background-color: transparent !important">
-                                @{
-                                    int count = 0;
-                                    int selectedCarIndex = 0;
+                        <hr class="bg-light" />
+                        <div class="row">
+                            <div id="carCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                                <div class="carousel-inner" style="background-color: transparent !important">
+                                    @{
+                                        int count = 0;
+                                        int selectedCarIndex = 0;
 
-                                    foreach (var car in Model.CustomerCars)
-                                    {
-                                        string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
-                                        string act = count > 0 ? "" : "active";
-                                        <div class="carousel-item @act">
-                                            <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car"></a>
-                                            <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
-                                            <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
-                                            <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
+                                        foreach (var car in Model.CustomerCars)
+                                        {
+                                            string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
+                                            string act = count > 0 ? "" : "active";
+                                            <div class="carousel-item @act">
+                                                <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car"></a>
+                                                <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
+                                                <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
+                                                <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
+                                            </div>
+                                            count++;
+
+
+                                        }
+                                        <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
+
+                                            <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">
+                                            </form>
+
+                                            <!--<a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>-->
+
+                                            <a class="btn-outline-success btn-lg text-center" id="addCarBtn" style="width: 80%;" href="#"><i class="fa fa-plus"></i> Add Car</a>
+
+                                            <a class="btn-outline-danger btn-lg" href="#" id="removeCarBtn"><i class="fa fa-minus"></i> Remove Car</a>
+
                                         </div>
-                                        count++;
-
-
                                     }
-                                    <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
+                                </div>
+                                @if (Model.CustomerCars.Count > 1)
+                                {
+                                    <a class="carousel-control-prev" href="#carCarousel" role="button" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carCarousel" role="button" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
 
-                                        <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">
-                                        </form>
-
-                                        <!--<a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>-->
-
-                                        <a class="btn-outline-success btn-lg text-center" id="addCarBtn" style="width: 80%;" href="#"><i class="fa fa-plus"></i> Add Car</a>
-
-                                        <a class="btn-outline-danger btn-lg" href="#" id="removeCarBtn"><i class="fa fa-minus"></i> Remove Car</a>
-
-                                    </div>
+                                    </a>
                                 }
                             </div>
-                            @if (Model.CustomerCars.Count > 1)
-                            {
-                                <a class="carousel-control-prev" href="#carCarousel" role="button" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Previous</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add Car Modal -->
+        <div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Add New Car</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
                                 </a>
-                                <a class="carousel-control-next" href="#carCarousel" role="button" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="sr-only">Next</span>
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+                        <div class="row">
+                            <input type="text" placeholder="Car Model" class="form-control car-input" id="addCarModel" />
+                        </div>
+                        <div class="row">
+                            <input type="text" placeholder="Car Family" class="form-control car-input" id="addCarFamily" />
+                        </div>
+                        <div class="row" style="display: none" id="emptyErrorMsg">
+                            <label class="text-warning text-center">Values cannot be empty</label>
+                        </div>
+                        <div class="row" style="margin: 20px 100px;">
+                            <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">ADD</a>
+                            <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+
+        <!-- Booking Modal -->
+        <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Create New Booking</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
                                 </a>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Add Car Modal -->
-    <div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Add New Car</h2>
-                        </div>
-                        <div class="col">
-                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="bg-light" />
-                    <div class="row">
-                        <input type="text" placeholder="Car Model" class="form-control car-input" id="addCarModel" />
-                    </div>
-                    <div class="row">
-                        <input type="text" placeholder="Car Family" class="form-control car-input" id="addCarFamily" />
-                    </div>
-                    <div class="row" style="display: none" id="emptyErrorMsg">
-                        <label class="text-warning text-center">Values cannot be empty</label>
-                    </div>
-                    <div class="row" style="margin: 20px 100px;">
-                        <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">ADD</a>
-                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Booking Modal -->
-    <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Create New Booking</h2>
-                        </div>
-                        <div class="col">
-                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="bg-light" />
-
-                    <div class="row">
-                        <div class="col-md-4" style="margin-bottom: 10px;">
-                            <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2);">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <label class="text-center text-light" style="font-size: 24px;">CAR</label>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <img src="@carImage" style="max-height: 150%; max-width: 150%; margin-left: -50px; margin-bottom: 70px;" />
-                                    <div class="row">
-                                        <a class="btn btn-success btn-sm" href="#" style="margin: 0px auto;" id="changeCarInBookingButton">Change Car</a>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <label class="text-center text-success"><i class="fa fa-check"></i> @Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row show-on-mobile">
-                                <div class="col-6">
-                                    <i class="fa fa-arrow-down text-dark float-end" style="font-size: 42px;"></i>
-                                </div>
-                                <div class="col-6">
-                                    <i class="fa fa-arrow-down text-dark" style="font-size: 42px;"></i>
-                                </div>
                             </div>
                         </div>
-                        <div class="col-md-4" style="margin-bottom: 10px;">
-                            <div class="card bg-dark zoom-on-hover" id="cardService">
+                        <hr class="bg-light" />
 
-                                <div class="card-header">
-                                    <div class="row">
-                                        <label class="text-center text-light" style="font-size: 24px;">SERVICES</label>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <img class="card-img show-on-desktop" src="~/images/logo.png" />
-                                    <div class="row">
-                                        <a class="btn btn-success" href="#" style="margin: 25px auto;" id="selectServiceBtn">Select Service</a>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <label class="text-center text-warning" id="selServices"><i class="fa fa-times"></i> No service selected</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row show-on-mobile">
-                                <div class="col-6">
-                                    <i class="fa fa-arrow-down text-dark float-end" style="font-size: 42px;"></i>
-                                </div>
-                                <div class="col-6">
-                                    <i class="fa fa-arrow-down text-dark" style="font-size: 42px;"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4" style="margin-bottom: 10px;">
-                            <div class="card bg-dark zoom-on-hover">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <label class="text-center text-light" style="font-size: 24px;">DATE & TIME</label>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row" style="margin-top: 205px;">
-                                        <a class="btn btn-success" href="#" style="margin: 25px auto;" id="selectDateBtn">Select Date</a>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <label class="text-center text-warning"><i class="fa fa-times"></i> No date selected</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row show-on-mobile">
-                                <div class="col-6">
-                                    <i class="fa fa-arrow-down text-dark float-end" style="font-size: 42px;"></i>
-                                </div>
-                                <div class="col-6">
-                                    <i class="fa fa-arrow-down text-dark" style="font-size: 42px;"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="card zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
-                                <div class="card-header">
-                                    <div class="row">
-                                        <label class="text-center text-light" style="font-size: 24px;">PAYMENT</label>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <label class="text-center text-success"><i class="fa fa-check"></i> ending in 4478</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <a href="">
-                                <div class="confirm-booking-button zoom-on-hover" style="background-color: rgba(0, 100, 0, 0.2)">
-                                    <h1 class="text-center" style="margin: auto auto;"><i class="fa fa-check"></i> CONFIRM BOOKING</h1>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>                
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Date Modal -->
-    <div class="modal fade" id="dateModal" tabindex="-1" role="dialog" aria-labelledby="dateModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Date</h2>
-                        </div>
-                        <div class="col">
-                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="bg-light" />
-                    <div id="calendar" style="min-height: 600px;" class="text-light"></div>
-                    <div class="row" style="margin: 20px 100px;">
-                        <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">SELECT DATE & TIME</a>
-                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
-                    </div>
-                    <div class="row">
-                        <label class="text-light">ALL BOOKINGS AS JSON:</label>
-                        <br />
-                        <label class="text-success">@Model.AllBookings</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Services Modal -->
-    <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col">
-                            <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Services</h2>
-                        </div>
-                        <div class="col">
-                            <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                                <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="bg-light" />
-                    <div class="row">
-                        <script>
-                            const selectedServices = [];
-                        </script>
-                        @foreach (var service in Model.AllServices)
-                        {
-                            <div class="col-md-4">
-                                <div class="card bg-dark text-light text-center zoom-on-hover" style="margin: 10px;" id="service-@service.Id">
+                        <div class="row">
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="card bg-dark">
                                     <div class="card-header">
-                                        <label>@service.Name</label>
+                                        <div class="row">
+                                            <label class="text-center text-light" style="font-size: 24px;"><i class="fa fa-check text-success"></i> CAR</label>
+                                        </div>
                                     </div>
                                     <div class="card-body">
-                                        <label>@service.Description</label>
+                                        <img src="@carImage" style="max-height: 100%; max-width: 150%; margin-left: -50px; margin-bottom: 39px;" />
+                                        <div class="row" style="margin-bottom: 0px;">
+                                            <a class="btn btn-success" href="#" style="margin: 0px auto;" id="changeCarInBookingButton"><i class="fa fa-arrows-rotate"></i> Change Car</a>
+                                        </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <label class="text-warning">£@service.Price</label>
+                                </div>
+                                <div class="row show-on-mobile">
+                                    <div class="col-6">
+                                        <i class="fa fa-arrow-down text-dark float-end" style="font-size: 42px;"></i>
+                                    </div>
+                                    <div class="col-6">
+                                        <i class="fa fa-arrow-down text-dark" style="font-size: 42px;"></i>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="card bg-dark" id="cardService">
 
-                            <script>
-                                $('#service-@service.Id').on('click', function () {
-                                    console.log('Service' + @service.Id + ' has been clicked');
-                                    if ($('#service-@service.Id').hasClass('bg-dark')) {
-                                        $('#service-@service.Id').removeClass('bg-dark');
-                                        $('#service-@service.Id').addClass('bg-success');
-                                        selectedServices.push('@service.Id');
-                                    }
-                                    else {
-                                        $('#service-@service.Id').removeClass('bg-success');
-                                        $('#service-@service.Id').addClass('bg-dark');
-                                        selectedServices.remove('@service.Id');
-                                    }
-                                    if ($('.bg-success').length > 0) {
-                                        $('#confirmServicesBtn').removeClass('disabled');
-                                        $('#confirmServicesBtn').removeClass('btn-outline-secondary');
-                                        $('#confirmServicesBtn').addClass('btn-success');
-                                    }
-                                    else {
-                                        $('#confirmServicesBtn').addClass('disabled');
-                                        $('#confirmServicesBtn').removeClass('btn-success');
-                                        $('#confirmServicesBtn').addClass('btn-outline-secondary');
-                                    }
-                                    console.log('Selected services: ' + selectedServices);
-                                });
-                            </script>
-                        }
-                    </div>
-                    <div class="row" style="margin: 20px 100px;">
-                        <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
-                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <label class="text-center text-light" style="font-size: 24px;">SERVICES</label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <img class="card-img" src="~/images/logo.png" id="logoOnCard" />
+                                        <div class="row" style="position: absolute; top: 70px;">
+                                            <label id="selectedServicesText" class="text-warning"></label>
+                                        </div>
+                                        <div class="row">
+                                            <a class="btn btn-success" href="#" style="margin: 0px auto; margin-top: 25px; margin-bottom: 0px;" id="selectServiceBtn">Select Service</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row show-on-mobile">
+                                    <div class="col-6">
+                                        <i class="fa fa-arrow-down text-dark float-end" style="font-size: 42px;"></i>
+                                    </div>
+                                    <div class="col-6">
+                                        <i class="fa fa-arrow-down text-dark" style="font-size: 42px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="margin-bottom: 10px;">
+                                <div class="card bg-dark">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <label class="text-center text-light" style="font-size: 24px;">DATE & TIME</label>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="" style="margin: auto auto;">
+                                                <img src="~/images/calendar_empty.png" style="height: 150px; width: 150px; margin: 0px auto; display: block; opacity: 0.4" />
+                                            </div>
+                                            <div class="" style="margin: 0px auto;">
+                                                <img src="~/images/digital_clock_empty.png" style="height: 50px; width: 150px; margin: 0px auto; display: block;" />
+                                            </div>
+                                            <div class="row" style="position: absolute; top: 220px;">
+                                                <label class="text-info text-center" style="font-family: Digital-7; font-size: 32px;">14:00</label>
+                                                <i class="fa fa-bell text-info" style="margin-top: -35px; margin-left: 30px; font-size: 12px;"></i>
+                                            </div>
+                                            <div class="row" style="position: absolute; top: 130px;">
+                                                <label class="text-light text-center" style="font-size: 24px;">23 Oct</label>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top: 6px;">
+                                            <a class="btn btn-success" href="#" style="margin: 0px auto; margin-top: 25px; margin-bottom: 0px;" id="selectDateBtn">Select Date</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row show-on-mobile">
+                                    <div class="col-6">
+                                        <i class="fa fa-arrow-down text-dark float-end" style="font-size: 42px;"></i>
+                                    </div>
+                                    <div class="col-6">
+                                        <i class="fa fa-arrow-down text-dark" style="font-size: 42px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card bg-dark">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <label class="text-center text-light" style="font-size: 20px;"><i class="fa fa-check text-success"></i> <i class="fa fa-credit-card text-warning"></i> ending in 6645 <i class="fa fa-question-circle" style="font-size: 16px;" data-toggle="tooltip" data-placement="right" data-html="true" title="All information about your credit/debit card(s) is stored within the stripe.com and nowhere else. For further details visit https://www.stripe.com"></i></label>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="row">
+                                            <a class="btn btn-success" href="#" style="margin: 0px auto;" id="managePaymentMethodsButton">Manage Payment Methods</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8" style="margin-top: 15px;">
+                                <a href="" style="color: #333;">
+                                    <div class="confirm-booking-button bg-dark">
+                                        <h1 class="text-center text-secondary" style="margin: auto auto; margin-top: 10px;"><i class="fa fa-check"></i> CONFIRM BOOKING</h1>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
+
+
+        <!-- Date Modal -->
+        <div class="modal fade" id="dateModal" tabindex="-1" role="dialog" aria-labelledby="dateModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Date</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+                        <div id="calendar" style="min-height: 600px;" class="text-light"></div>
+                        <div class="row" style="margin: 20px 100px;">
+                            <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">SELECT DATE & TIME</a>
+                            <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                        </div>
+                        <div class="row">
+                            <label class="text-light">ALL BOOKINGS AS JSON:</label>
+                            <br />
+                            <label class="text-success">@Model.AllBookings</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Services Modal -->
+        <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Services</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+                        <div class="row">
+                            <script>
+                                const selectedServices = [];
+                            </script>
+                            @foreach (var service in Model.AllServices)
+                            {
+                                <div class="col-md-4">
+                                    <div class="card bg-dark text-light text-center zoom-on-hover" style="margin: 10px;" id="service-@service.Id">
+                                        <div class="card-header">
+                                            <label>@service.Name</label>
+                                        </div>
+                                        <div class="card-body">
+                                            <label>@service.Description</label>
+                                        </div>
+                                        <div class="card-footer">
+                                            <label class="text-warning">£@service.Price</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                    $('#service-@service.Id').on('click', function () {
+                                        console.log('Service' + @service.Id + ' has been clicked');
+                                        if ($('#service-@service.Id').hasClass('bg-dark')) {
+                                            $('#service-@service.Id').removeClass('bg-dark');
+                                            $('#service-@service.Id').addClass('bg-success');
+                                            selectedServices.push('@service.Id');
+                                        }
+                                        else {
+                                            $('#service-@service.Id').removeClass('bg-success');
+                                            $('#service-@service.Id').addClass('bg-dark');
+                                            selectedServices.remove('@service.Id');
+                                        }
+                                        if ($('.bg-success').length > 0) {
+                                            $('#confirmServicesBtn').removeClass('disabled');
+                                            $('#confirmServicesBtn').removeClass('btn-outline-secondary');
+                                            $('#confirmServicesBtn').addClass('btn-success');
+                                        }
+                                        else {
+                                            $('#confirmServicesBtn').addClass('disabled');
+                                            $('#confirmServicesBtn').removeClass('btn-success');
+                                            $('#confirmServicesBtn').addClass('btn-outline-secondary');
+                                        }
+                                        console.log('Selected services: ' + selectedServices);
+                                    });
+                                </script>
+                            }
+                        </div>
+                        <div class="row" style="margin: 20px 100px;">
+                            <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
+                            <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
@@ -725,9 +726,27 @@
             $('#confirmServicesBtn').on('click', function () {
                 $('#servicesModal').modal('hide');
                 $('#selServices').text(selectedServices);
-                $('#cardService').removeClass('bg-dark');
-                $('#cardService').css('background-color', 'rgba(0, 100, 0, 0.2)');
+                $('#logoOnCard').css('filter', 'blur(5px)');
+                $.ajax({
+                    url: "?handler=ServiceNames",
+                    data: { 'sServices': String(selectedServices) },
+                    dataType: 'JSON',
+                    type: "GET",
+                    async: false,
+                    cache: true,
+                    beforeSend: function () {
 
+                    },
+                    success: function (data) {
+                        $('#selectedServicesText').text(data);                        
+                    },
+                    error: function (err) {
+                        console.log("Error:", err);
+                    },
+                    complete: function () {
+                        console.log('finished...');
+                    },
+                });
             });
 
         });
@@ -741,7 +760,7 @@
                 }
             }
             return this;
-        };
+        };        
 
     </script>
 }

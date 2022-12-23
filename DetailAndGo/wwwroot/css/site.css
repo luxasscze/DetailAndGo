@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Stick%20No%20Bills&display=swap');
 
-
+@font-face {
+    font-family: 'Digital-7';
+    src: url('../fonts/Digital-7.woff2') format('woff2'), url('../fonts/Digital-7.woff') format('woff'), url('../fonts/Digital-7.ttf') format('truetype'), url('../fonts/Digital-7.svg#Digital-7') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 html {
     font-size: 14px;
@@ -119,8 +125,14 @@ very-big-modal {
 
 .confirm-booking-button {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 100, 0, 0.5);
+    height: 80%;    
+    background-color: rgba(60, 130, 50, 1);
+    border-radius: 5px;
+    border: 1px solid #222;
+    cursor: not-allowed;
 }
 
+.modal.fade.show {
+    backdrop-filter: blur(10px);
+}
 
