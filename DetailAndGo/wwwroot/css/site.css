@@ -134,5 +134,6 @@ very-big-modal {
 
 .modal.fade.show {
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 

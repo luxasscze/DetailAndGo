@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using NuGet.Packaging;
+using Stripe;
 
 namespace DetailAndGo.Pages
 {
@@ -15,17 +16,19 @@ namespace DetailAndGo.Pages
         private readonly ICarService _carService;
         private readonly IBookingService _bookingService;
         private readonly IDAGService _serviceService;
+        private readonly IStripeService _stripeService;
 
-        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService)
+        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService)
         {
             _logger = logger;
             _customerService = customerService;
             _carService = carService;
             _bookingService = bookingService;
             _serviceService = serviceService;
+            _stripeService = stripeService;
         }
 
-        public Customer Customer { get; set; }
+        public DetailAndGo.Models.Customer Customer { get; set; }
         public Car CustomerCar { get; set; }
         public List<Car> CustomerCars { get; set; }
         public List<CarHistory> CarHistory { get; set; }
@@ -151,6 +154,15 @@ namespace DetailAndGo.Pages
             }
             SelectedServiceNames = result;
             return new JsonResult(result);            
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> OnGetPaymentMethodsAsync()
+        {
+            string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
+            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);
+            var test = paymentMethods;
+            return new JsonResult(paymentMethods);
         }
     }
 }

@@ -55,7 +55,7 @@ namespace DetailAndGo.Services
 
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor > DateTime.Now).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor.Date >= DateTime.Now.Date).ToListAsync();
 
             List<CalendarBooking> calendarBookings = new List<CalendarBooking>();
 
@@ -65,7 +65,7 @@ namespace DetailAndGo.Services
                 {
                      allDay = true,
                      backgroundColor = "transparent",
-                     borderColor = "#000",
+                     borderColor = "#222",
                      classNames= new string[] {"text-light", "bg-danger"},
                      editable = false,
                      end = booking.BookedFor.AddHours(8),

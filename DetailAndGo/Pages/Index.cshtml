@@ -332,6 +332,7 @@
                                     </div>
                                     <div class="card-body">
                                         <img src="@carImage" style="max-height: 100%; max-width: 150%; margin-left: -50px; margin-bottom: 39px;" />
+                                        <label class="text-light" style="position: absolute; top: 80px; margin: 0px auto;">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</label>
                                         <div class="row" style="margin-bottom: 0px;">
                                             <a class="btn btn-success" href="#" style="margin: 0px auto;" id="changeCarInBookingButton"><i class="fa fa-arrows-rotate"></i> Change Car</a>
                                         </div>
@@ -351,13 +352,13 @@
 
                                     <div class="card-header">
                                         <div class="row">
-                                            <label class="text-center text-light" style="font-size: 24px;">SERVICES</label>
+                                            <label class="text-center text-light" style="font-size: 24px;"><i class="fa fa-check text-success" id="serviceCheck" style="display: none;"></i> SERVICES</label>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <img class="card-img" src="~/images/logo.png" id="logoOnCard" />
                                         <div class="row" style="position: absolute; top: 70px;">
-                                            <label id="selectedServicesText" class="text-warning"></label>
+                                            <label id="selectedServicesText" class="text-warning text-center" style="margin-top: 15px;"></label>
                                         </div>
                                         <div class="row">
                                             <a class="btn btn-success" href="#" style="margin: 0px auto; margin-top: 25px; margin-bottom: 0px;" id="selectServiceBtn">Select Service</a>
@@ -389,11 +390,11 @@
                                                 <img src="~/images/digital_clock_empty.png" style="height: 50px; width: 150px; margin: 0px auto; display: block;" />
                                             </div>
                                             <div class="row" style="position: absolute; top: 220px;">
-                                                <label class="text-info text-center" style="font-family: Digital-7; font-size: 32px;">14:00</label>
+                                                <label class="text-info text-center" style="font-family: Digital-7; font-size: 32px;">--:--</label>
                                                 <i class="fa fa-bell text-info" style="margin-top: -35px; margin-left: 30px; font-size: 12px;"></i>
                                             </div>
                                             <div class="row" style="position: absolute; top: 130px;">
-                                                <label class="text-light text-center" style="font-size: 24px;">23 Oct</label>
+                                                <label class="text-light text-center" style="font-size: 24px;">-- ---</label>
                                             </div>
                                         </div>
                                         <div class="row" style="margin-top: 6px;">
@@ -546,41 +547,72 @@
             </div>
 
         </div>
+
+        <!-- Payment Methods Modal -->
+        <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Payment Methods</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+                                            
+                                <div class="row text-light" id="cardContainer"><div class="col-md-4"><div class="card bg-dark"><div class="card-body"><h1>Add new card</h1></div></div></div></div>                            
+                       
+
+                        <div class="row" style="margin: 20px 100px;">
+                            <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">CONFIRM</a>
+                            <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                themeSystem: 'bootstrap5',
-                weekends: true,
-                firstDay: 1,
-                navLinks: true,
-                selectable: true,
-                timeZone: 'local',
-                navLinkDayClick: function (date, jsEvent) {
-                    console.log('day', date.toISOString());
-                    console.log('coords', jsEvent.pageX, jsEvent.pageY);
-                },
-                dateClick: function (date) {
-                    console.log('DATE CLICK HAHAHA');
-                    calendar.changeView('dayGridDay', date.date);
-                },
-                eventClick: function () {
-                    console.log('event clicked...');
-                },
-                selectAllow: function (select) {
-                    console.log(calendar.getEvents());
-                    return moment().diff(select.start, 'days') < 1 && calendar.getEvents();
-                },
-                events: @Html.Raw(Model.AllBookings),
-                eventBackgroundColor: '#f00',
-                eventTextColor: 'red',
-                eventColor: '#378006'
-            });
-            calendar.render();
+
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            themeSystem: 'bootstrap5',
+            weekends: true,
+            firstDay: 1,
+            navLinks: true,
+            selectable: true,
+            timeZone: 'local',
+            aspectRatio: 3,
+            navLinkDayClick: function (date, jsEvent) {
+                console.log('day', date.toISOString());
+                console.log('coords', jsEvent.pageX, jsEvent.pageY);
+            },
+            dateClick: function (date) {
+                console.log('DATE CLICK HAHAHA');
+                calendar.changeView('dayGridDay', date.date);
+            },
+            eventClick: function () {
+                console.log('event clicked...');
+            },
+            selectAllow: function (select) {
+                console.log(calendar.getEvents());
+                return moment().diff(select.start, 'days') < 1 && calendar.getEvents();
+            },
+            events: @Html.Raw(Model.AllBookings),
+            eventBackgroundColor: '#f00',
+            eventTextColor: 'red',
+            eventColor: '#378006'
         });
+        calendar.render();
+
 
         $(document).ready(function () {
             var currentIndex = 0;
@@ -723,8 +755,41 @@
                 $('#bookingModal').modal('show');
             });
 
+            $('#managePaymentMethodsButton').on('click', function () {
+                $('#bookingModal').modal('hide');
+                $('#paymentModal').modal('show');
+                $.ajax({
+                    url: "?handler=PaymentMethods",
+                    data: {},
+                    dataType: 'JSON',
+                    type: "GET",
+                    async: false,
+                    cache: true,
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+                        $('#cardContainer').empty();
+                        for (i = 0; i < data.length; i++) {
+                            console.log('brand: ' + data[i].card.brand);
+                            console.log('last 4:' + data[i].card.last4);
+                            console.log('expiry:' + data[i].card.expMonth + '/' + data[i].card.expYear);
+                            let htmlContent = "<div class=\"col-md-4\"><div class=\"card bg-dark text-center\" style=\"margin-bottom: 15px;\"><div class=\"card-header\">" + data[i].card.brand + "</div><div class=\"card-body\">xxxx xxxx xxxx " + data[i].card.last4 + "</div><div class=\"card-footer\">Expiry " + data[i].card.expMonth + "/" + data[i].card.expYear + "</div></div></div>";                            
+                            $('#cardContainer').prepend(htmlContent);
+                        }
+                    },
+                    error: function (err) {
+                        console.log("Error:", err);
+                    },
+                    complete: function () {
+                        console.log('finished...');
+                    },
+                });
+            });
+
             $('#confirmServicesBtn').on('click', function () {
                 $('#servicesModal').modal('hide');
+                $('#serviceCheck').show();
                 $('#selServices').text(selectedServices);
                 $('#logoOnCard').css('filter', 'blur(5px)');
                 $.ajax({
@@ -738,7 +803,7 @@
 
                     },
                     success: function (data) {
-                        $('#selectedServicesText').text(data);                        
+                        $('#selectedServicesText').text(data);
                     },
                     error: function (err) {
                         console.log("Error:", err);
@@ -760,7 +825,7 @@
                 }
             }
             return this;
-        };        
+        };
 
     </script>
 }

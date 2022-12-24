@@ -92,5 +92,19 @@ namespace DetailAndGo.Services
               paymentMethodId,
               options);
         }
+
+        public async Task<StripeList<PaymentMethod>> GetCustomerPaymentMethods(string stripeId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            PaymentMethodService paymentMethodService = new PaymentMethodService();
+            PaymentMethodListOptions listOptions = new PaymentMethodListOptions()
+            {
+                Customer = stripeId,
+                Type = "card"
+            };
+            StripeList<PaymentMethod> result = await paymentMethodService.ListAsync(listOptions);
+            return result;            
+        }
     }
 }
