@@ -14,5 +14,6 @@ namespace DetailAndGo.Models
         public BookingStatus Status { get; set; }
         public string Notes { get; set; }        
         public string Image { get; set; }
+        public string PaymentMethodId { get; set; }
     }
 }

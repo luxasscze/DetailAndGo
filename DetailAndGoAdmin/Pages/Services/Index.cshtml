@@ -2,17 +2,18 @@
 @model DetailAndGoAdmin.Pages.Services.IndexModel
 @{
     ViewData["Title"] = "Services";
-
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
 
 <div class="row" style="margin-top: 20px;">
     <div class="col-md-6">
         <h1 class="text-light" style="margin-left: 20px;">Services</h1>
     </div>
     <div class="col-md-6">
-        <a class="btn btn-outline-success btn-lg float-end" style="margin-right: 20px;" id="addNewServiceBtn"><i class="fa fa-plus"></i> Add New Service</a>
+        <a class="btn btn-outline-success btn-lg float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-plus"></i> Add New Service</a>
     </div>
 </div>
 
@@ -38,14 +39,16 @@ else
         {
             string cardBgColor = service.IsActive ? "bg-success" : "bg-dark";
             <div class="col-md-3">
-                <a href="#" style="text-decoration: none;">
+                <a asp-page="./Edit" asp-route-id="@service.Id" style="text-decoration: none;">
                     <div class="card @cardBgColor text-light text-center" style="margin: 20px;">
                         <div class="card-header">@service.Name</div>
                         <div class="card-body">
                             @service.Description
                         </div>
                         <div class="card-footer">
-                            <div class="badge text-dark bg-warning" style="font-size: 20px;">£@service.Price</div>
+                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">SMALL £@(service.Price)</div>
+                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">MEDIUM £@(Math.Round(service.Price * (decimal)1.2, 2))</div>
+                            <div class="badge text-dark bg-warning" style="font-size: 20px;">LARGE £@(Math.Round(service.Price * (decimal)1.4, 2))</div>
                             <div class="text-center">
                                 Created: @service.CreatedDate.ToShortDateString()
                             </div>
@@ -86,9 +89,11 @@ else
 
 <script>
     $('#addNewServiceBtn').on('click', function () {
+        console.log('new service clicked');
         $('#addNewServiceModal').modal('show');
     });
 </script>
+
 
 
 

@@ -164,5 +164,15 @@ namespace DetailAndGo.Pages
             var test = paymentMethods;
             return new JsonResult(paymentMethods);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> OnPostChargeCustomerAsync(double amount)
+        {
+            Models.Customer customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            long amountToCharge = (long)amount;
+            var test = await _stripeService.ChargeCustomerForBooking(customer, amountToCharge);
+
+            return RedirectToAction("Get");
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace DetailAndGo.Services
         public StripeService(ApplicationDbContext context)
         {
             _context = context;
-            _stripeApiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Stripe")["ApiKey"];
+            _stripeApiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("Stripe")["ApiKeyTest"];
         }
 
         public Task<string> CreateCustomerAsync(Models.Customer customer)
@@ -105,6 +105,70 @@ namespace DetailAndGo.Services
             };
             StripeList<PaymentMethod> result = await paymentMethodService.ListAsync(listOptions);
             return result;            
+        }
+
+        public async Task<Charge> ChargeCustomerForBooking(Models.Customer customer, long amount)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            ChargeCreateOptions options = new ChargeCreateOptions()
+            {
+                Amount = amount * 100,
+                Currency = "gbp",
+                Customer = customer.StripeId,
+                ReceiptEmail = customer.Email,                
+            };
+
+            ChargeService chargeService = new ChargeService();
+            Charge result = await chargeService.CreateAsync(options);
+            return result;
+        }
+
+        public async Task<Product> CreateProduct(string productName, string description, decimal price)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            ProductCreateOptions options = new ProductCreateOptions()
+            {
+                Active = true,                
+                DefaultPriceData = new ProductDefaultPriceDataOptions()
+                {
+                    Currency = "gbp",
+                    UnitAmountDecimal = price * 100,                    
+                },
+                Description = description,
+                Name = productName,
+                StatementDescriptor = "DETAIL&GO",                
+            };
+            ProductService service = new ProductService();
+            return await service.CreateAsync(options);
+        }
+
+        public async Task<Product> UpdateProduct(string productId, string productName, string description, decimal price)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            PriceCreateOptions priceOptions = new PriceCreateOptions()
+            {
+                Active = true,
+                Currency = "gbp",
+                Product = productId,
+                UnitAmountDecimal = price * 100,
+            };            
+
+            PriceService priceService = new PriceService();
+            Price newPrice = await priceService.CreateAsync(priceOptions);            
+
+            ProductUpdateOptions options = new ProductUpdateOptions()
+            {
+                Name = productName,
+                DefaultPrice = newPrice.Id,
+                Description = description
+            };
+
+            ProductService service = new ProductService();
+            Product updatedProduct = await service.UpdateAsync(productId, options);
+            return updatedProduct;
         }
     }
 }

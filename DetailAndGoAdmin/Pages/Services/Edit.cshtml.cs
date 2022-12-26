@@ -6,36 +6,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using DetailAndGo.Data;
 using DetailAndGo.Models;
-using DetailAndGoAdmin.Data;
 
-namespace DetailAndGoAdmin.Pages.Customers
+namespace DetailAndGoAdmin.Pages.Services
 {
     public class EditModel : PageModel
     {
         private readonly DetailAndGo.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Services.Interfaces.IStripeService _stripeService;
 
-        public EditModel(DetailAndGo.Data.ApplicationDbContext context)
+        public EditModel(DetailAndGo.Data.ApplicationDbContext context, DetailAndGo.Services.Interfaces.IStripeService stripeService)
         {
             _context = context;
+            _stripeService = stripeService;
         }
 
         [BindProperty]
-        public Customer Customer { get; set; } = default!;
+        public Service Service { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Customers == null)
+            if (id == null || _context.Services == null)
             {
                 return NotFound();
             }
 
-            var customer =  await _context.Customers.FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var service =  await _context.Services.FirstOrDefaultAsync(m => m.Id == id);
+            if (service == null)
             {
                 return NotFound();
             }
-            Customer = customer;
+            Service = service;
             return Page();
         }
 
@@ -48,15 +50,16 @@ namespace DetailAndGoAdmin.Pages.Customers
                 return Page();
             }
 
-            _context.Attach(Customer).State = EntityState.Modified;
+            _context.Attach(Service).State = EntityState.Modified;
 
             try
             {
+                await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CustomerExists(Customer.Id))
+                if (!ServiceExists(Service.Id))
                 {
                     return NotFound();
                 }
@@ -69,9 +72,9 @@ namespace DetailAndGoAdmin.Pages.Customers
             return RedirectToPage("./Index");
         }
 
-        private bool CustomerExists(int id)
+        private bool ServiceExists(int id)
         {
-          return _context.Customers.Any(e => e.Id == id);
+          return _context.Services.Any(e => e.Id == id);
         }
     }
 }

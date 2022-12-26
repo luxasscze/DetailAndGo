@@ -10,10 +10,10 @@ namespace DetailAndGoAdmin.Pages.Services
 {
     public class IndexModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public IndexModel(DetailAndGoAdmin.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public IndexModel(DetailAndGo.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _userManager = userManager;

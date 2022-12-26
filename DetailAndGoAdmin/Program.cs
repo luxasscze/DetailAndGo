@@ -11,11 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<DetailAndGo.Data.ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<DetailAndGo.Data.ApplicationDbContext>();
+builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IStripeService, DetailAndGo.Services.StripeService>();
 //builder.Services.AddTransient<IDAGService, DAGService>();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<Utility>();
