@@ -34,7 +34,8 @@ namespace DetailAndGo.Pages
         public List<CarHistory> CarHistory { get; set; }
         public string AllBookings { get; set; }
         public List<string> SelectedServiceNames { get; set; }
-        public List<Service> AllServices { get; set; }
+        public List<Service> AllServices { get; set; }   
+        public CreateBooking CreateBooking { get; set; }
 
         public void OnGetAsync()
         {
@@ -126,8 +127,21 @@ namespace DetailAndGo.Pages
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> OnPostCreateBookingAsync(Booking booking)
+        public async Task<ActionResult> OnPostCreateBookingAsync(int carIndex, string services, DateTime bookedFor, string paymentMethodId)
         {
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            Booking booking = new Booking()
+            {
+                AspNetUserId = Customer.AspNetUserId,
+                BookedFor = bookedFor,
+                CarId = _carService.GetCarByIndex(Customer.AspNetUserId, carIndex).Result.Id,
+                Created = DateTime.Now,
+                Image = "",
+                Notes = "",
+                PaymentMethodId = paymentMethodId,
+                Services = new List<Service>(),               
+                Status = Models.Enums.BookingStatus.Created
+            };
             await _bookingService.CreateBooking(booking);
             return RedirectToAction("Get");
         }

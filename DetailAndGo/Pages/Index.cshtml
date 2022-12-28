@@ -428,11 +428,12 @@
                                 </div>
                             </div>
                             <div class="col-md-8" style="margin-top: 15px;">
-                                <a href="" style="color: #333;">
-                                    <div class="confirm-booking-button bg-dark">
+                                <a style="color: #333;">
+                                    <div class="confirm-booking-button bg-dark" id="confirmBookingButton">
                                         <h1 class="text-center text-secondary" style="margin: auto auto; margin-top: 10px;"><i class="fa fa-check"></i> CONFIRM BOOKING</h1>
                                     </div>
                                 </a>
+
                             </div>
                         </div>
                     </div>
@@ -555,7 +556,7 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col">
-                                <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Payment Methods</h2>
+                                <h2 class="modal-title text-light" id="paymentMethodsModalLabel" style="font-size: 24px;">Payment Methods</h2>
                             </div>
                             <div class="col">
                                 <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
@@ -565,13 +566,14 @@
                         </div>
                         <hr class="bg-light" />
 
-                        <div class="row text-light" id="cardContainer"><div class="col-md-4 text-success"><i class="fa fa-plus"></i></div></div>
+
+                        <div class="row text-light" id="cardContainer"></div><div class="col-md-4"><div class="card bg-dark text-light"><div class="card-header">Add New Payment Method</div><div class="card-body text-center"><i class="fa fa-plus text-success" style="font-size: 48px;"></i></div></div></div>
 
 
                         <div class="row" style="margin: 20px 100px;">
                             <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">CONFIRM</a>
                             <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
-                            <a class="btn btn-outline-warning" style="margin-top: 20px;" href="#" id="testChargeBtn">Test Charge...</a>
+                            <!--<a class="btn btn-outline-warning" style="margin-top: 20px;" href="#" id="testChargeBtn">Test Charge...</a>-->
                         </div>
                     </div>
                 </div>
@@ -617,6 +619,7 @@
 
         $(document).ready(function () {
             var currentIndex = 0;
+            var bookingCar, bookingServices, bookingDate, bookingPayment;
             $('#carCarousel').bind('slid.bs.carousel', function () {
                 currentIndex = $('div.active').index();
             });
@@ -720,7 +723,33 @@
 
             });
 
-            $('#createBookingCancelBtn').on('click', function () {
+            $('#confirmBookingButton').on('click', function () {
+                let servicesToSend = selectedServices.map(x => x.Id).join(", ");
+                $.ajax({
+                    url: "?handler=CreateBooking",
+                    data: { carIndex: currentIndex, services: selectedServices, bookedFor: new Date(), paymentMethodId: 'paymentId' },
+                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                    dataType: 'HTML',
+                    type: "POST",
+                    async: false,
+                    cache: true,
+                    beforeSend: function () {
+
+                    },
+                    success: function (data) {
+                        console.log('Booking Created');
+                        console.log('services to send: ' + selectedServices);
+                    },
+                    error: function () {
+                        console.log("Error");
+                    },
+                    complete: function () {
+                        console.log('finished...');
+                    },
+                });
+
+                console.log(selectedServices);
+
                 $('#bookingModal').modal('hide');
             });
 
@@ -761,6 +790,7 @@
                 $('#paymentModal').modal('show');
                 $.ajax({
                     url: "?handler=PaymentMethods",
+                    url: "?handler=PaymentMethods",
                     data: {},
                     dataType: 'JSON',
                     type: "GET",
@@ -775,8 +805,19 @@
                             console.log('brand: ' + data[i].card.brand);
                             console.log('last 4:' + data[i].card.last4);
                             console.log('expiry:' + data[i].card.expMonth + '/' + data[i].card.expYear);
-                            let htmlContent = "<div class=\"col-md-4\"><div class=\"card bg-dark text-center\" style=\"margin-bottom: 15px;\"><div class=\"card-header\">" + data[i].card.brand + "</div><div class=\"card-body\">xxxx xxxx xxxx " + data[i].card.last4 + "</div><div class=\"card-footer\">Expiry " + data[i].card.expMonth + "/" + data[i].card.expYear + "</div></div></div>";
-                            $('#cardContainer').prepend(htmlContent);
+
+                            var htmlContent = "<div class=\"col-md-4\"><div class=\"card bg-dark text-center\" style=\"margin-bottom: 15px;\"><div class=\"card-header\"> <img style=\"height: 30px;\" src=\"{imageCard}\" /></div><div class=\"card-body\">xxxx xxxx xxxx " + data[i].card.last4 + "</div><div class=\"card-footer\">Expiry " + data[i].card.expMonth + "/" + data[i].card.expYear + "</div></div></div>";
+                            var newText;
+                            if (data[i].card.brand == 'visa') {
+                                newText = htmlContent.replace('{imageCard}', './images/creditcards/visa.png');
+                            }
+                            else if (data[i].card.brand == 'mastercard') {
+                                newText = htmlContent.replace('{imageCard}', './images/creditcards/mastercard2.png');
+                            }
+                            else if (data[i].card.brand == 'amex') {
+                                newText = htmlContent.replace('{imageCard}', './images/creditcards/amex2.png');
+                            }
+                            $('#cardContainer').prepend(newText);
                         }
                     },
                     error: function (err) {
@@ -838,7 +879,6 @@
                     },
                 });
             });
-
         });
 
         Array.prototype.remove = function () {
