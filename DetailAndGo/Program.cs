@@ -43,7 +43,7 @@ if (!app.Environment.IsDevelopment())
 {
     //app.UseHttpsRedirection();
 }
-app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());
+//app.UseRewriter(new RewriteOptions().AddRedirectToWwwPermanent());
 app.UseStaticFiles();
 
 app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -52,10 +52,10 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseRouting();
-
+//app.UseHttpsRedirection();
+app.UseHsts();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapRazorPages();
 
 app.Run();
