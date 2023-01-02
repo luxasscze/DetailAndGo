@@ -218,11 +218,11 @@ namespace DetailAndGo.Services
             return await service.DeleteAsync(stripeId, paymentMethodId);            
         }
 
-        public async Task<PaymentIntent> CreatePaymentIntent(string customer, string paymentMethodId)
+        public async Task<PaymentIntent> CreatePaymentIntent(string customer, string paymentMethodId, long amount)
         {
             PaymentIntentCreateOptions options = new PaymentIntentCreateOptions()
             {
-                Amount = 999,
+                Amount = amount,
                 Currency = "gbp",
                 Customer = customer,
                 Description = "paymnet intend test",
