@@ -6,12 +6,12 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1 class="text-light">Customers</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table text-light">
     <thead>
         <tr>
             <th>
@@ -21,29 +21,51 @@
                 @Html.DisplayNameFor(model => model.Customers[0].LastName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Customers[0].Email)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Customers[0].Registered)
             </th>
-            <th></th>
+            <th>Active Car</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Customers) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Registered)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Customers)
+        {
+            <tr>
+                <td>
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-light">@Html.DisplayFor(modelItem => item.FirstName)</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Registered)
+                </td>
+                <td>
+                    @{
+                        /*<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>*/
+                    }
+                    @{
+                        string carImage = string.Empty;
+                        if (item.CarModel != null && item.CarFamily != null)
+                        {
+                            carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={item.CarModel.Replace(" ", "%20")}&modelFamily={item.CarFamily.Replace(" ", "%20")}";
+                        }
+                        else
+                        {
+                            carImage = "";
+                        }
+                    }
+                    <img height="100" src="@carImage" />
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
