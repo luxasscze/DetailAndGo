@@ -36,17 +36,26 @@ namespace DetailAndGo.Pages
         public List<string> SelectedServiceNames { get; set; }
         public List<Service> AllServices { get; set; }   
         public CreateBooking CreateBooking { get; set; }
+        public string Greeting { get; set; }
+        public string DefaultPaymentMethod { get; set; }
+        public string Last4 { get; set; }
 
         public void OnGetAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
+                GetGreeting();
                 AllBookings = _bookingService.GetAllActiveBookingsAsCalendarEvents().Result;                
                 Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
                 CustomerCar = _carService.GetCustomerActiveCar(Customer.AspNetUserId).Result;
                 CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
                 CarHistory = _carService.GetCarHistoryByCarId(CustomerCar.Id).Result.Where(s => s.BookingDate < DateTime.Now).OrderByDescending(s => s.BookingDate).Take(3).ToList();
                 AllServices = _serviceService.GetAllServices().Result.Where(s => s.IsActive == true).ToList();
+
+                string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
+                DefaultPaymentMethod = _stripeService.GetCustomerDefaultPaymentMethod(stripeId);
+                Last4 = _stripeService.GetLast4(stripeId);
+
                 if (CustomerCar == null)
                 {
                     CustomerCar = new Car()
@@ -73,6 +82,26 @@ namespace DetailAndGo.Pages
                         }
                     };
                 }
+            }
+        }
+
+        public void GetGreeting()
+        {
+            if(DateTime.Now.Hour > 6 && DateTime.Now.Hour < 12)
+            {
+                Greeting = "Good morning";
+            }
+            else if(DateTime.Now.Hour > 12 && DateTime.Now.Hour < 17)
+            {
+                Greeting = "Good afternoon";
+            }
+            else if(DateTime.Now.Hour > 17 && DateTime.Now.Hour < 23)
+            {
+                Greeting = "Good evening";
+            }
+            else
+            {
+                Greeting = "Night night";
             }
         }
 
@@ -174,8 +203,7 @@ namespace DetailAndGo.Pages
         public async Task<JsonResult> OnGetPaymentMethodsAsync()
         {
             string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
-            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);
-            var test = paymentMethods;
+            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);            
             return new JsonResult(paymentMethods);
         }
 
@@ -186,6 +214,22 @@ namespace DetailAndGo.Pages
             long amountToCharge = (long)amount;
             var test = await _stripeService.ChargeCustomerForBooking(customer, amountToCharge);
 
+            return RedirectToAction("Get");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OnPostChangePaymentMethodAsync(string paymentMethodId)
+        {
+            string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
+            await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethodId);           
+            return RedirectToAction("Get");
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> OnPostRemovePaymentMethodAsync(string paymentMethodId)
+        {
+            string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
+            await _stripeService.RemovePaymentMethod(stripeId, paymentMethodId);
             return RedirectToAction("Get");
         }
     }

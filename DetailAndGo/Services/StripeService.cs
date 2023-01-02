@@ -4,6 +4,7 @@ using DetailAndGo.Services.Interfaces;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Stripe;
 using Microsoft.Extensions.Configuration;
+using Stripe.TestHelpers;
 
 namespace DetailAndGo.Services
 {
@@ -88,9 +89,7 @@ namespace DetailAndGo.Services
                 Customer = customerId,
             };
             var service = new PaymentMethodService();
-            service.Attach(
-              paymentMethodId,
-              options);
+            service.Attach(paymentMethodId, options);
         }
 
         public async Task<StripeList<PaymentMethod>> GetCustomerPaymentMethods(string stripeId)
@@ -101,7 +100,7 @@ namespace DetailAndGo.Services
             PaymentMethodListOptions listOptions = new PaymentMethodListOptions()
             {
                 Customer = stripeId,
-                Type = "card"
+                Type = "card",
             };
             StripeList<PaymentMethod> result = await paymentMethodService.ListAsync(listOptions);
             return result;            
@@ -170,5 +169,74 @@ namespace DetailAndGo.Services
             Product updatedProduct = await service.UpdateAsync(productId, options);
             return updatedProduct;
         }
+
+        public async Task<string> MakePaymentMethodDefault()
+        {
+           CardService service = new CardService();
+            CardUpdateOptions opt = new CardUpdateOptions()
+            {
+                
+            };
+            
+            return "";
+        }
+
+        public async Task<Stripe.Customer> SetCustomerDefaultPaymentMethod(string customerId, string paymentMethodId)
+        {
+            CustomerUpdateOptions options = new CustomerUpdateOptions()
+            {
+                DefaultSource = paymentMethodId
+            };
+            
+            Stripe.CustomerService service = new Stripe.CustomerService();
+            return await service.UpdateAsync(customerId, options);
+        }
+
+        public string GetCustomerDefaultPaymentMethod(string stripeId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            Stripe.CustomerService service = new Stripe.CustomerService();
+            var test = service.Get(stripeId).DefaultSourceId;
+            return service.Get(stripeId).DefaultSourceId;
+        }
+
+        public string GetLast4(string stripeId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+            Stripe.CustomerService service = new Stripe.CustomerService();
+            string defaultId = service.Get(stripeId).DefaultSourceId;
+            PaymentMethodService ser = new PaymentMethodService();
+            string result = ser.Get(defaultId).Card.Last4;
+            return result;
+        }
+
+        public async Task<Stripe.Card> RemovePaymentMethod(string stripeId, string paymentMethodId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+            CardService service = new CardService();
+            return await service.DeleteAsync(stripeId, paymentMethodId);            
+        }
+
+        public async Task<PaymentIntent> CreatePaymentIntent(string customer, string paymentMethodId)
+        {
+            PaymentIntentCreateOptions options = new PaymentIntentCreateOptions()
+            {
+                Amount = 999,
+                Currency = "gbp",
+                Customer = customer,
+                Description = "paymnet intend test",
+                PaymentMethod = paymentMethodId,
+                PaymentMethodTypes = new List<string>()
+                {
+                    "card"
+                },
+                ReceiptEmail = "lukas2slivka@gmail.com"                
+            };
+
+            PaymentIntentService service = new PaymentIntentService();
+            return await service.CreateAsync(options);
+        }
+
     }
 }

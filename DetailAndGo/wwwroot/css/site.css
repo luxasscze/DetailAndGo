@@ -32,7 +32,11 @@ body {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none;    
+}
+
+a:hover {
+    color: #fff;
 }
 
 @keyframes gradient {

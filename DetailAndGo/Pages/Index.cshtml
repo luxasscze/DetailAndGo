@@ -67,7 +67,7 @@
                         <img src="~/images/logo.png" style="height: 150px; margin: auto auto;" />
                     </div>
                     <div class="col-md-10">
-                        <h2 class="display-4 text-light text-center">Good evening Marek</h2>
+                        <h2 class="display-4 text-light text-center">@Model.Greeting @Model.Customer.FirstName</h2>
                         <hr />
                         <p class="text-light">
                             This is some text which will be printed here, so whatever you want it will be here. like something or like something or like something etc etc etc...
@@ -417,7 +417,7 @@
                                 <div class="card bg-dark">
                                     <div class="card-header">
                                         <div class="row">
-                                            <label class="text-center text-light" style="font-size: 20px;"><i class="fa fa-check text-success"></i> <i class="fa fa-credit-card text-warning"></i> ending in 6645 <i class="fa fa-question-circle" style="font-size: 16px;" data-toggle="tooltip" data-placement="right" data-html="true" title="All information about your credit/debit card(s) is stored within the stripe.com and nowhere else. For further details visit https://www.stripe.com"></i></label>
+                                            <label class="text-center text-light" style="font-size: 20px;"><i class="fa fa-check text-success"></i> <i class="fa fa-credit-card text-warning"></i> ending in @Model.Last4 <i class="fa fa-question-circle" style="font-size: 16px;" data-toggle="tooltip" data-placement="right" data-html="true" title="All information about your credit/debit card(s) is stored within the stripe.com and nowhere else. For further details visit https://www.stripe.com"></i></label>
                                         </div>
                                     </div>
                                     <div class="card-footer">
@@ -567,13 +567,85 @@
                         <hr class="bg-light" />
 
 
-                        <div class="row text-light" id="cardContainer"></div><div class="col-md-4"><div class="card bg-dark text-light"><div class="card-header">Add New Payment Method</div><div class="card-body text-center"><i class="fa fa-plus text-success" style="font-size: 48px;"></i></div></div></div>
+                        <div class="row text-light" id="cardContainer"></div>
 
 
                         <div class="row" style="margin: 20px 100px;">
-                            <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">CONFIRM</a>
-                            <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                            <a class="btn btn-outline-success btn-block" href="" id="addCardButton"><i class="fa fa-plus"></i> Add New Payment Method</a>
+                            <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="" id="cancelPaymentBtn">Cancel</a>
                             <!--<a class="btn btn-outline-warning" style="margin-top: 20px;" href="#" id="testChargeBtn">Test Charge...</a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Delete Card Modal -->
+        <div class="modal fade" id="deleteCardModal" tabindex="-1" role="dialog" aria-labelledby="deleteCardModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="paymentMethodsModalLabel" style="font-size: 24px;">Delete Card</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+
+
+                        <div class="card bg-dark text-light">
+                        <div class="card-header"><label id="cardToDelete"></label></div>
+                        </div>
+
+
+                        <div class="row" style="margin: 20px 100px;">
+                            <a href="" class="btn btn-danger" id="deleteCardButton">Delete Card</a>
+                            <a data-bs-dismiss="modal" class="btn btn-outline-secondary" style="margin-top: 20px;" href="" id="cancelPaymentBtn">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Add Card Modal -->
+        <div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="addCardModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <h2 class="modal-title text-light" id="paymentMethodsModalLabel" style="font-size: 24px;">Add New Payment Method</h2>
+                            </div>
+                            <div class="col">
+                                <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                                    <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                        <hr class="bg-light" />
+
+                        <div class="card bg-dark text-light">
+                        <div class="card-header">
+                        <input type="text" placeholder="Full Name"/>
+                        <input type="text" placeholder="Card Number"/>
+                        <input type="text" placeholder="Expiry Month"/>
+                        <input type="text" placeholder="Expiry Year"/>
+                        <input type="text" placeholder="CVC"/>
+                        </div>
+                        </div>
+                        
+
+
+                        <div class="row" style="margin: 20px 100px;">
+                            <a href="" class="btn btn-success" id="deleteCardButton">Add</a>
+                            <a data-bs-dismiss="modal" class="btn btn-outline-secondary" style="margin-top: 20px;" href="" id="cancelPaymentBtn">Cancel</a>
                         </div>
                     </div>
                 </div>
@@ -780,16 +852,32 @@
                 $('#bookingModal').modal('show');
             });
 
+            $('#paymentModal').on('hide.bs.modal', function () {
+                $('#bookingModal').modal('show');
+            });
+
             $('#cancelServicesBtn').on('click', function () {
                 $('#servicesModal').modal('hide');
                 $('#bookingModal').modal('show');
             });
 
+            $('#cancelPaymentBtn').on('click', function () {
+                $('#paymentModal').modal('hide');
+                $('#bookingModal').modal('show');
+            });
+
+            $('#addCardButton').on('click', function (e) {
+                e.preventDefault();
+                $('#paymentModal').modal('hide');
+                $('#addCardModal').modal('show');
+            });
+
+
             $('#managePaymentMethodsButton').on('click', function () {
+                const defaultPM = String('@Html.Raw(Model.DefaultPaymentMethod)');
                 $('#bookingModal').modal('hide');
                 $('#paymentModal').modal('show');
-                $.ajax({
-                    url: "?handler=PaymentMethods",
+                var xhr = $.ajax({
                     url: "?handler=PaymentMethods",
                     data: {},
                     dataType: 'JSON',
@@ -801,13 +889,22 @@
                     },
                     success: function (data) {
                         $('#cardContainer').empty();
+                        const paymentMethods = [];
+                        
                         for (i = 0; i < data.length; i++) {
+                            console.log(data);
                             console.log('brand: ' + data[i].card.brand);
                             console.log('last 4:' + data[i].card.last4);
                             console.log('expiry:' + data[i].card.expMonth + '/' + data[i].card.expYear);
+                            console.log('payment method ID: ' + data[i].id);
+                            paymentMethods.push(data[i].id);
 
-                            var htmlContent = "<div class=\"col-md-4\"><div class=\"card bg-dark text-center\" style=\"margin-bottom: 15px;\"><div class=\"card-header\"> <img style=\"height: 30px;\" src=\"{imageCard}\" /></div><div class=\"card-body\">xxxx xxxx xxxx " + data[i].card.last4 + "</div><div class=\"card-footer\">Expiry " + data[i].card.expMonth + "/" + data[i].card.expYear + "</div></div></div>";
+                            var htmlContent = "<div class=\"col-md-4\"><div id=\"" + paymentMethods[i] + "\" class=\"card bg-dark text-center\" style=\"margin-bottom: 15px;\"><div class=\"card-header\"> <img style=\"height: 30px;\" src=\"{imageCard}\" /><a href=\"\" id=\"delete-" + paymentMethods[i] + "\"><i class=\"fa fa-times float-end text-danger\" style=\"font-size: 24px;\"></i></div><div class=\"card-body\">xxxx xxxx xxxx " + data[i].card.last4 + " - " + data[i].card.expMonth + "/" + data[i].card.expYear + "</div><div class=\"card-footer\"><a id=\"" + paymentMethods[i] + "\" href=\"\" class=\"btn btn-success\">Make Active</a></div></div></div>";
                             var newText;
+                            var newText2;
+                            
+                            
+
                             if (data[i].card.brand == 'visa') {
                                 newText = htmlContent.replace('{imageCard}', './images/creditcards/visa.png');
                             }
@@ -817,8 +914,74 @@
                             else if (data[i].card.brand == 'amex') {
                                 newText = htmlContent.replace('{imageCard}', './images/creditcards/amex2.png');
                             }
-                            $('#cardContainer').prepend(newText);
+
+                            if (data[i].id == defaultPM) {
+                                newText2 = newText.replace('bg-dark', 'bg-success').replace('Make Active', 'Active');
+                            }
+                            else {
+                                newText2 = newText;
+                            }
+                            
+                            $('#cardContainer').prepend(newText2);
+                            $('#' + paymentMethods[i]).on('click', function () {
+                                //console.log($(this).attr('id'));
+                                $.ajax({
+                                    url: '?handler=ChangePaymentMethod',
+                                    data: { paymentMethodId: $(this).attr('id') },
+                                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                                    dataTupe: 'JSON',
+                                    type: 'POST',
+                                    async: false,
+                                    cache: true,
+                                    beforeSend: function () {
+
+                                    },
+                                    success: function (data2) {
+
+                                    },
+                                    error: function (err2) {
+
+                                    },
+                                    complete: function () {
+
+                                    },
+                                });
+                            });
+
+                            $('#delete-' + paymentMethods[i]).on('click', function (e) {
+                                e.preventDefault();
+                                let cardToRemove = $(this).attr('id').replace('delete-', '');
+                                console.log('payment delete - ' + $(this).attr('id').replace('delete-', ''));
+                                $('#cardToDelete').text($(this).attr('id').replace('delete-', ''));
+                                $('#deleteCardModal').modal('show');
+                                $('#deleteCardButton').on('click', function () {
+                                console.log('ready to delete....');
+                                    $.ajax({
+                                        url: '?handler=RemovePaymentMethod',
+                                        data: { paymentMethodId: cardToRemove },
+                                        headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                                        dataTupe: 'JSON',
+                                        type: 'POST',
+                                        async: false,
+                                        cache: true,
+                                        beforeSend: function () {
+
+                                        },
+                                        success: function (data2) {
+
+                                        },
+                                        error: function (err2) {
+
+                                        },
+                                        complete: function () {
+
+                                        },
+                                    });
+                                });
+                            });
                         }
+
+                        //console.log(paymentMethods);
                     },
                     error: function (err) {
                         console.log("Error:", err);
@@ -828,6 +991,8 @@
                     },
                 });
             });
+
+
 
             $('#confirmServicesBtn').on('click', function () {
                 $('#servicesModal').modal('hide');
