@@ -1,0 +1,100 @@
+﻿@page
+@model DetailAndGoAdmin.Pages.Services.IndexModel
+@{
+    ViewData["Title"] = "Services";
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col-md-6">
+        <h1 class="text-light" style="margin-left: 20px;">Services</h1>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-outline-success btn-lg float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-plus"></i> Add New Service</a>
+    </div>
+</div>
+
+@if (Model.AllServices.Count == 0)
+{
+    <div class="row">
+        <div class="card bg-danger text-center" style="width: 50%; margin: 20px auto;">
+            <div class="card-header">
+                <label class="text-light" style="font-size: 24px;"><i class="fa fa-circle-exclamation"></i> WARNING</label>
+            </div>
+            <div class="card-body">
+                <label class="text-light">
+                    There is no services defined. Please add one via "Add New Service" button.
+                </label>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var service in Model.AllServices)
+        {
+            string cardBgColor = service.IsActive ? "bg-success" : "bg-dark";
+            <div class="col-md-3">
+                <a asp-page="./Edit" asp-route-id="@service.Id" style="text-decoration: none;">
+                    <div class="card @cardBgColor text-light text-center" style="margin: 20px;">
+                        <div class="card-header">@service.Name</div>
+                        <div class="card-body">
+                            @service.Description
+                        </div>
+                        <div class="card-footer">
+                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">SMALL £@(service.Price)</div>
+                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">MEDIUM £@(Math.Round(service.Price * (decimal)1.4, 2))</div>
+                            <div class="badge text-dark bg-warning" style="font-size: 20px;">LARGE £@(Math.Round(service.Price * (decimal)1.6, 2))</div>
+                            <div class="text-center">
+                                Created: @service.CreatedDate.ToShortDateString()
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+}
+
+<!-- Add New Service Modal -->
+<div class="modal fade" id="addNewServiceModal" tabindex="-1" role="dialog" aria-labelledby="addNewServiceModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.95)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Date</h2>
+                    </div>
+                    <div class="col">
+                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <hr class="bg-light" />
+                <h1>ADD SERVICE</h1>
+                <div class="row" style="margin: 20px 100px;">
+                    <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">SELECT DATE & TIME</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $('#addNewServiceBtn').on('click', function () {
+        console.log('new service clicked');
+        $('#addNewServiceModal').modal('show');
+    });
+</script>
+
+
+
+
+

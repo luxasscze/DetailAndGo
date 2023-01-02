@@ -10,12 +10,12 @@ namespace DetailAndGoAdmin.Pages
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
         private readonly ILogger<IndexModel> _logger;
         private readonly Utility _utility = new Utility();
         private IWebHostEnvironment _webHostEnvironment;        
 
-        public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment webHostEnvironment, DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public IndexModel(ILogger<IndexModel> logger, IWebHostEnvironment webHostEnvironment, DetailAndGo.Data.ApplicationDbContext context)
         {
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;

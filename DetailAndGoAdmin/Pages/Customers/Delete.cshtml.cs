@@ -12,9 +12,9 @@ namespace DetailAndGoAdmin.Pages.Customers
 {
     public class DeleteModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
 
-        public DeleteModel(DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public DeleteModel(DetailAndGo.Data.ApplicationDbContext context)
         {
             _context = context;
         }

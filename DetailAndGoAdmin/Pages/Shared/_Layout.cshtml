@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
     {
         
         <aside class="sidebar position-fixed top-0 left-0 overflow-auto h-100 float-left" id="show-side-navigation1" style="z-index: 1000;">
@@ -40,7 +40,7 @@
                     <a asp-page="/Jobs/Index"><i class="fa fa-car"></i>&emsp; Jobs</a>
                 </li>
                 <li class="">
-                    <a href="#"><i class="fas fa-soap"></i>&emsp; Services</a>
+                    <a asp-page="/Services/Index"><i class="fas fa-soap"></i>&emsp; Services</a>
                 </li>
                 <li class="">
                     <a href="#"> <i class="fa fa-newspaper"></i>&emsp; Articles</a>
@@ -127,8 +127,8 @@
 
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/Dashboard.js"></script>
 

@@ -13,9 +13,9 @@ namespace DetailAndGoAdmin.Pages.Customers
 {
     public class EditModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
 
-        public EditModel(DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public EditModel(DetailAndGo.Data.ApplicationDbContext context)
         {
             _context = context;
         }

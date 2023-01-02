@@ -197,6 +197,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var test = Request.Scheme;
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
@@ -207,7 +208,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
                     {
                         email.From = "info@detailandgo.co.uk";
-                        email.Body = reader.ReadToEnd().Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl)).Replace("{firstName}", Input.FirstName).Replace("{callbackBook}", "www.pornhub.com");
+                        email.Body = reader.ReadToEnd().Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl)).Replace("{firstName}", Input.FirstName).Replace("{callbackBook}", Url.Page("/Index"));
                         email.IsHtml = true;
                         email.Subject = Input.FirstName + ", confirm your Detail&Go account";
                         email.To = Input.Email;

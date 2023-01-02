@@ -14,9 +14,9 @@ namespace DetailAndGoAdmin.Pages.Jobs
     [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
 
-        public CreateModel(DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public CreateModel(DetailAndGo.Data.ApplicationDbContext context)
         {
             _context = context;
         }

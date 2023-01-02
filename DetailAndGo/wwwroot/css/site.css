@@ -1,5 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Stick%20No%20Bills&display=swap');
 
+@font-face {
+    font-family: 'Digital-7';
+    src: url('../fonts/Digital-7.woff2') format('woff2'), url('../fonts/Digital-7.woff') format('woff'), url('../fonts/Digital-7.ttf') format('truetype'), url('../fonts/Digital-7.svg#Digital-7') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 html {
     font-size: 14px;
 }
@@ -24,7 +32,11 @@ body {
 }
 
 a {
-    text-decoration: none;
+    text-decoration: none;    
+}
+
+a:hover {
+    color: #fff;
 }
 
 @keyframes gradient {
@@ -90,3 +102,42 @@ a {
 .zoom-on-hover:hover {
     transform: scale(1.05);
 }
+
+.show-on-mobile {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .show-on-mobile {
+        display: flex;
+    }
+}
+
+.show-on-desktop {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .show-on-desktop {
+        display: none;
+    }
+}
+
+very-big-modal {
+    width: 1200px;
+}
+
+.confirm-booking-button {
+    width: 100%;
+    height: 80%;    
+    background-color: rgba(60, 130, 50, 1);
+    border-radius: 5px;
+    border: 1px solid #222;
+    cursor: not-allowed;
+}
+
+.modal.fade.show {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+

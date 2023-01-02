@@ -12,9 +12,9 @@ namespace DetailAndGoAdmin.Pages.Jobs
 {
     public class DetailsModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
 
-        public DetailsModel(DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public DetailsModel(DetailAndGo.Data.ApplicationDbContext context)
         {
             _context = context;
         }

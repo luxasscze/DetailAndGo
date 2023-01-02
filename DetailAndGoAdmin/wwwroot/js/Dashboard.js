@@ -65,7 +65,7 @@ window.addEventListener('resize', function () {
 // dropdown menu in the side nav
 var slideNavDropdown = $('.sidebar-dropdown');
 
-$('.sidebar .categories').addEventListener('click', function (event) {
+/*$('.sidebar .categories').addEventListener('click', function (event) { //REMOVED BY ME TO REMOVE THE ERROR IN THE CONSOLE. RE-ADD IF NECCESSARY
     event.preventDefault()
 
     const item = event.target.closest('.has-dropdown')
@@ -97,7 +97,7 @@ $('.sidebar .categories').addEventListener('click', function (event) {
     } else {
         find(item, '.sidebar-dropdown').classList.toggle('active')
     }
-})
+})*/
 
 $('.sidebar .close-aside').addEventListener('click', function () {
     $(`#${this.dataset.close}`).classList.add('show-sidebar')

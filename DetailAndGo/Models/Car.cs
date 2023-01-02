@@ -1,4 +1,6 @@
-﻿namespace DetailAndGo.Models
+﻿using DetailAndGo.Models.Enums;
+
+namespace DetailAndGo.Models
 {
     public class Car
     {
@@ -9,5 +11,6 @@
         public bool IsPrimary { get; set; }
         public DateTime Created { get; set; }
         public string Notes { get; set; }
+        public CarSize CarSize { get; set; }
     }
 }

@@ -15,9 +15,9 @@ namespace DetailAndGoAdmin.Pages.Jobs
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly DetailAndGoAdmin.Data.ApplicationDbContext _context;
+        private readonly DetailAndGo.Data.ApplicationDbContext _context;
 
-        public IndexModel(DetailAndGoAdmin.Data.ApplicationDbContext context)
+        public IndexModel(DetailAndGo.Data.ApplicationDbContext context)
         {
             _context = context;
         }
