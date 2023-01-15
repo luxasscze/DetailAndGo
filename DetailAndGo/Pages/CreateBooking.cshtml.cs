@@ -43,7 +43,7 @@ namespace DetailAndGo.Pages
 
             AllBookings = "";
             SelectedServiceNames = new List<string>();
-            AllServices = new List<Service>();
+            AllServices = await _serviceService.GetAllServices();
             CreateBooking = new CreateBooking();
             DefaultPaymentMethod = "";
             Last4 = _stripeService.GetLast4(Customer.StripeId);
