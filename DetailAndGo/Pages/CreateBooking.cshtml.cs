@@ -46,7 +46,7 @@ namespace DetailAndGo.Pages
             AllServices = await _serviceService.GetAllServices();
             CreateBooking = new CreateBooking();
             DefaultPaymentMethod = "";
-            Last4 = _stripeService.GetLast4(Customer.StripeId);
+            Last4 = _stripeService.GetLast4(Customer.StripeId);            
         }
     }
 }
