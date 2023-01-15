@@ -1,0 +1,105 @@
+﻿<!-- Cars Modal -->
+<div class="modal fade" id="carsModal" tabindex="-1" role="dialog" aria-labelledby="carsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Your Cars</h2>
+                    </div>
+                    <div class="col">
+                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <hr class="bg-light" />
+                <div class="row">
+                    <div id="carCarousel" class="carousel slide" data-bs-ride="false" data-bs-interval="false">
+                        <div class="carousel-inner" style="background-color: transparent !important">
+                            @{
+                                int count = 0;
+                                int selectedCarIndex = 0;
+
+                                foreach (var car in Model.CustomerCars)
+                                {
+                                    string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
+                                    string act = count > 0 ? "" : "active";
+                                    <div class="carousel-item @act">
+                                        <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car"></a>
+                                        <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
+                                        <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
+                                        <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
+                                    </div>
+                                    count++;
+
+
+                                }
+                                <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
+
+                                    <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">
+                                    </form>
+
+                                    <!--<a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>-->
+
+                                    <a class="btn-outline-success btn-lg text-center" id="addCarBtn" style="width: 80%;" href="#"><i class="fa fa-plus"></i> Add Car</a>
+
+                                    <a class="btn-outline-danger btn-lg" href="#" id="removeCarBtn"><i class="fa fa-minus"></i> Remove Car</a>
+
+                                </div>
+                            }
+                        </div>
+                        @if (Model.CustomerCars.Count > 1)
+                        {
+                            <a class="carousel-control-prev" href="#carCarousel" role="button" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carCarousel" role="button" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Add Car Modal -->
+<div class="modal fade" id="addCarModal" tabindex="-1" role="dialog" aria-labelledby="addCarModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Add New Car</h2>
+                    </div>
+                    <div class="col">
+                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <hr class="bg-light" />
+                <div class="row">
+                    <input type="text" placeholder="Car Model" class="form-control car-input" id="addCarModel" />
+                </div>
+                <div class="row">
+                    <input type="text" placeholder="Car Family" class="form-control car-input" id="addCarFamily" />
+                </div>
+                <div class="row" style="display: none" id="emptyErrorMsg">
+                    <label class="text-warning text-center">Values cannot be empty</label>
+                </div>
+                <div class="row" style="margin: 20px 100px;">
+                    <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">ADD</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

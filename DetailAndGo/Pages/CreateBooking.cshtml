@@ -1,0 +1,85 @@
+﻿@page
+@model DetailAndGo.Pages.CreateBookingModel
+@{
+    ViewData["Title"] = "Create New Booking";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<partial name="~/Pages/Modals/Car.cshtml" />
+
+<style>
+    h1 {
+        color: #fff;
+        text-align: center;
+    }
+
+    .booking-card {
+        text-align: center;
+        background-color: rgba(100, 100, 100, 0.5);
+    }
+</style>
+
+<div class="row" style="margin-top: 20px;">
+    <div class="col">
+        <h1>Create New Booking</h1>
+    </div>
+</div>
+<hr class="bg-light" />
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="card text-warning booking-card">
+            <div class="card-header">
+                <h2>CAR</h2>
+            </div>
+            <div class="card-body">
+                <h6>@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-warning btn-lg btn-block" data-bs-toggle="modal" data-bs-target="#carsModal"><i class="fa fa-arrows-rotate"></i> Change Car</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card text-warning booking-card">
+            <div class="card-header">
+                <h2>SERVICES</h2>
+            </div>
+            <div class="card-body">
+                <h6>No services selected...</h6>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-warning btn-lg btn-block"><i class="fa fa-list"></i> Choose Services</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card text-warning booking-card">
+            <div class="card-header">
+                <h2>DATE&TIME</h2>
+            </div>
+            <div class="card-body">
+                <h6>No date&time selected...</h6>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-warning btn-lg btn-block"><i class="fa fa-calendar"></i> Pick Date&Time</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card text-warning booking-card">
+            <div class="card-header">
+                <h2>PAYMENT</h2>
+            </div>
+            <div class="card-body">
+                <h6>Card ending in @Model.Last4</h6>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-warning btn-lg btn-block"><i class="fa fa-credit-card"></i> Manage Payment Methods</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin: 20px auto; width: 80%;">
+    <a class="btn btn-outline-warning btn-lg btn-block"><i class="fa fa-check"></i> CREATE BOOKING</a>
+</div>
