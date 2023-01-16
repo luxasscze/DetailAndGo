@@ -20,8 +20,8 @@
         margin-bottom: 20px;
     }
 
-    .card-header {        
-        background-color: #333;        
+    .card-header {
+        background-color: #333;
     }
 
     .card-button {
@@ -33,16 +33,16 @@
         padding: 0;
         font-size: 24px;
         color: #999;
-        padding: 10px 0px;        
+        padding: 10px 0px;
         transition-duration: 0.3s;
     }
 
-    .card-button:hover {
-        background-color: #999;
-        color: #333;
-        box-shadow: 0px 0px 100px 2px #999;
-        transform: scale(1.01);        
-    }
+        .card-button:hover {
+            background-color: #999;
+            color: #333;
+            box-shadow: 0px 0px 100px 2px #99999988;
+            transform: scale(1.01);
+        }
 </style>
 
 <div class="row" style="margin-top: 20px;">
@@ -62,14 +62,14 @@
                 @{
                     string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
                 }
-                <img src="@carImage" height="200" style="margin-top: -25px; margin-left: -15px;" />
-                <h6>@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
+                <img src="@carImage" height="200" style="margin-top: -25px; margin-left: -15px;" id="carImage" />
+                <h6 id="carText">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
             </div>
             <a href="" data-bs-toggle="modal" data-bs-target="#carsModal">
                 <div class="card-button">
-                   <i class="fa fa-arrows-rotate"></i> Change
+                    <i class="fa fa-arrows-rotate"></i> Change
                 </div>
-            </a>            
+            </a>
         </div>
     </div>
     <div class="col-lg-3">
@@ -82,7 +82,7 @@
                     <i class="fa fa-list" style="font-size: 24px;"></i>
                     <h6>No services selected...</h6>
                 </div>
-                
+
             </div>
             <a href="" data-bs-toggle="modal" data-bs-target="#servicesModal">
                 <div class="card-button">
@@ -115,7 +115,7 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2>PAYMENT</h2>
+                <h2><i class="fa fa-check"></i> PAYMENT</h2>
             </div>
             <div class="card-body">
                 <div class="" style="margin: 78px auto;">
@@ -133,13 +133,49 @@
         </div>
     </div>
 </div>
-<div class="row" style="margin: 40px auto; width: 50%;">    
+<div class="row" style="margin: 40px auto; width: 50%;">
     <a href="">
-        <div class="card-button" style="border-radius: 5px;">            
-            <i class="fa fa-circle-check text-warning"></i> CONFIRM BOOKING        
+        <div class="card-button" style="border-radius: 5px;">
+            <i class="fa fa-circle-check text-warning"></i> CONFIRM BOOKING
             <hr class="bg-light" />
-                TOTAL: £299.99
-            
+            TOTAL: £299.99 incl. VAT
+
         </div>
     </a>
 </div>
+<div class="row">
+    <h6 class="text-muted text-center">By confirming the booking you agree to our <a href="#">Terms&Conditions</a></h6>
+</div>
+
+<script>
+    let carImgUri;
+    const booking = {
+        carModel: '@Model.CustomerCar.CarModel',
+        carFamily: '@Model.CustomerCar.CarFamily',
+        services: {
+            
+        },
+        totalPrice: 0,
+        dateTime: new Date(),
+        paymentMethod: '@Model.DefaultPaymentMethod'
+    };
+
+    @foreach (var car in Model.CustomerCars)
+    {
+        <text>
+        $('#carImage-@car.Id').on('click', function() {            
+            booking.carModel = '@car.CarModel';
+            booking.carFamily = '@car.CarFamily';
+            carImgUri = 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + booking.carModel + '&modelFamily=' + booking.carFamily;
+            $('#carImage').attr('src', carImgUri);
+            $('#carText').text(booking.carModel + " " + booking.carFamily);
+            $('#carsModal').modal('hide');
+            console.log(booking);
+        });
+        
+        </text>
+
+    }
+        console.log(booking);
+    
+</script>

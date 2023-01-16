@@ -26,26 +26,20 @@
                                     string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
                                     string act = count > 0 ? "" : "active";
                                     <div class="carousel-item @act">
-                                        <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car"></a>
+                                        <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car" id="carImage-@car.Id"></a>
                                         <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
                                         <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
                                         <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
                                     </div>
                                     count++;
-
-
                                 }
-                                <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">
-
-                                    <form asp-page-handler="MakeCarActive" asp-route-carId="@Model.CustomerCars[selectedCarIndex].Id" asp-route-aspNetUserId="@Model.Customer.AspNetUserId" method="post">
-                                    </form>
+                                <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">                                    
 
                                     <!--<a id="makeActBtn" class="btn-outline-success btn-lg" href="#">Make car active</a>-->
 
                                     <a class="btn-outline-success btn-lg text-center" id="addCarBtn" style="width: 80%;" href="#"><i class="fa fa-plus"></i> Add Car</a>
 
                                     <a class="btn-outline-danger btn-lg" href="#" id="removeCarBtn"><i class="fa fa-minus"></i> Remove Car</a>
-
                                 </div>
                             }
                         </div>
@@ -103,3 +97,14 @@
     </div>
 
 </div>
+
+<script>
+    $('#addCarBtn').on('click', function () {
+        $('#carsModal').modal('hide');
+        $('#addCarModal').modal('show');
+    });
+
+    $('#addCarModal').on('hide.bs.modal', function () {
+        $('#carsModal').modal('show');
+    });
+</script>
