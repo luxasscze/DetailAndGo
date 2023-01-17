@@ -62,8 +62,9 @@
                 @{
                     string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
                 }
-                <img src="@carImage" height="200" style="margin-top: -25px; margin-left: -15px;" id="carImage" />
+                <img src="@carImage" height="200" style="margin-top: -57px; margin-left: -15px;" id="carImage" />
                 <h6 id="carText">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
+                <label class="badge bg-warning text-dark" id="sizeText" style="font-size: 18px;">@Model.CustomerCar.CarSize.ToString()</label>
             </div>
             <a href="" data-bs-toggle="modal" data-bs-target="#carsModal">
                 <div class="card-button">
@@ -136,9 +137,9 @@
 <div class="row" style="margin: 40px auto; width: 50%;">
     <a href="">
         <div class="card-button" style="border-radius: 5px;">
-            <i class="fa fa-circle-check text-warning"></i> CONFIRM BOOKING
+            <div style="font-size: 32px;"> CONFIRM BOOKING </div>
             <hr class="bg-light" />
-            TOTAL: £299.99 incl. VAT
+            <div style="font-size: 20px;">TOTAL: £299.99 incl. VAT</div>
 
         </div>
     </a>
@@ -152,8 +153,9 @@
     const booking = {
         carModel: '@Model.CustomerCar.CarModel',
         carFamily: '@Model.CustomerCar.CarFamily',
+        carSize: '@Model.CustomerCar.CarSize',
         services: {
-            
+
         },
         totalPrice: 0,
         dateTime: new Date(),
@@ -163,19 +165,21 @@
     @foreach (var car in Model.CustomerCars)
     {
         <text>
-        $('#carImage-@car.Id').on('click', function() {            
-            booking.carModel = '@car.CarModel';
-            booking.carFamily = '@car.CarFamily';
-            carImgUri = 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + booking.carModel + '&modelFamily=' + booking.carFamily;
-            $('#carImage').attr('src', carImgUri);
-            $('#carText').text(booking.carModel + " " + booking.carFamily);
-            $('#carsModal').modal('hide');
-            console.log(booking);
-        });
-        
+            $('#carImage-@car.Id').on('click', function () {
+                booking.carModel = '@car.CarModel';
+                booking.carFamily = '@car.CarFamily';
+                booking.carSize = '@car.CarSize';
+                carImgUri = 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + booking.carModel + '&modelFamily=' + booking.carFamily;
+                $('#carImage').attr('src', carImgUri);
+                $('#carText').text(booking.carModel + " " + booking.carFamily);
+                $('#sizeText').text(booking.carSize);
+                $('#carsModal').modal('hide');
+                console.log(booking);
+            });
+
         </text>
 
     }
         console.log(booking);
-    
+
 </script>

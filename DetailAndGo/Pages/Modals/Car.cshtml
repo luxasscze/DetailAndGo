@@ -1,4 +1,15 @@
-﻿<!-- Cars Modal -->
+﻿<style>
+    .car-input {
+        background-color: #222;
+        height: 40px;
+        color: #fff;
+        width: 50%;
+        margin: 10px auto;
+        border: 0px;
+    }
+</style>
+
+<!-- Cars Modal -->
 <div class="modal fade" id="carsModal" tabindex="-1" role="dialog" aria-labelledby="carsModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
@@ -89,8 +100,8 @@
                     <label class="text-warning text-center">Values cannot be empty</label>
                 </div>
                 <div class="row" style="margin: 20px 100px;">
-                    <a class="btn btn-outline-success btn-block" href="#" id="addCarButton">ADD</a>
-                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn">Cancel</a>
+                    <a class="btn btn-outline-success btn-block" href="#" id="addCarButton"><i class="fa fa-plus"></i> ADD</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn"><i class="fa fa-times"></i> Cancel</a>
                 </div>
             </div>
         </div>
@@ -105,6 +116,11 @@
     });
 
     $('#addCarModal').on('hide.bs.modal', function () {
+        $('#carsModal').modal('show');
+    });
+
+    $('#cancelAddNewCarBtn').on('click', function () {
+        $('#addCarModal').modal('hide');
         $('#carsModal').modal('show');
     });
 </script>
