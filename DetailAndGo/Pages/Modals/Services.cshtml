@@ -1,4 +1,21 @@
-﻿<!-- Services Modal -->
+﻿<style>
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+    
+    .customise-button {
+        background-color: #666;
+        transition-duration: .5s;
+    }
+
+        .customise-button:hover {
+            background-color: #999;
+            color: #000;
+        }
+</style>
+
+<!-- Services Modal -->
 <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
@@ -29,7 +46,19 @@
                                     <label>@service.Description</label>
                                 </div>
                                 <div class="card-footer">
-                                    <label class="text-warning">£@service.Price</label>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="text-warning">£@service.Price</label>
+                                        </div>
+                                        <div class="col-6">
+                                            @if (service.IsCustomisable)
+                                            {
+                                                <a href="">
+                                                    <div class="customise-button">Customise</div>
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

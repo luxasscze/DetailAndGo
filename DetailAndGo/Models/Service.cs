@@ -14,6 +14,7 @@
         public string Category { get; set; }
         public bool IsActive { get; set; }
         public string StripeServiceId { get; set; }
+        public bool IsCustomisable { get; set; }
 
     }
 }
