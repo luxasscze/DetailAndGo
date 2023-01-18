@@ -53,27 +53,28 @@
                         {
                             <div class="col-md-6" style="margin-bottom: 10px;">
                                 <div class="card bg-dark" style="margin-bottom: 20px; height: 100%;">
-                                    <div class="card-header">
-                                        <h2 class="text-light">@service.Name</h2>
+                                    <div class="card-header bg-dark" id="service-@service.Id">
+                                        <h2 class="text-warning">@service.Name</h2>
+                                        <label class="text-light">£@service.Price</label>
                                     </div>
-                                    <div class="card-body">
-                                        <label class="text-light">@service.Description</label>
+                                    <div class="card-body" style="background-color: #333;">
+                                        <label class="text-light">@service.Description</label>                                       
                                     </div>
                                     @if (service.IsCustomisable)
                                     {
-                                        <div class="card-footer">
+                                        <div class="card-footer" style="background-color: #222;">
                                             <div class="accordion" id="accordion-@service.Id">
                                                 <div class="accordion-item" style="background-color: rgba(70, 70, 70, .2);">
                                                     <h2 class="accordion-header" id="heading-@service.Id">
-                                                        <div class="accordion-button" style="color: #fff; background-color: rgba(70, 70, 70, .4)" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@service.Id" aria-expanded="false" aria-controls="collapse-@service.Id">
+                                                        <div class="accordion-button" style="color: #fff; background-color: #222;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@service.Id" aria-expanded="false" aria-controls="collapse-@service.Id">
                                                             <label class="text-light">Customise</label>
                                                         </div>
                                                     </h2>
                                                     <div id="collapse-@service.Id" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion-@service.Id">
-                                                        <div class="accordion-body">
-                                                            <a href="" class="btn btn-outline-secondary" style="width: 100%; margin: 5px;">SubService 1</a>
-                                                            <a href="" class="btn btn-outline-secondary" style="width: 100%; margin: 5px;">SubService 2</a>
-                                                            <a href="" class="btn btn-outline-secondary" style="width: 100%; margin: 5px;">SubService 3</a>
+                                                        <div class="accordion-body" style="font-size: 24px;">
+                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 24px;"><div class="float-start">Extra Soap</div> <div class="badge bg-warning float-end text-dark">+ £45</div></a>
+                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 24px;"><div class="float-start">Extra Finish</div> <div class="badge bg-warning float-end text-dark">+ £99</div></a>
+                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 24px;"><div class="float-start">Extra Vax</div> <div class="badge bg-warning float-end text-dark">+ £119</div></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -82,6 +83,32 @@
                                     }
                                 </div>
                             </div>
+                            <script>
+                                $('#service-@service.Id').on('click', function () {
+                                    console.log('Service' + @service.Id + ' has been clicked');
+                                    if ($('#service-@service.Id').hasClass('bg-dark')) {
+                                        $('#service-@service.Id').removeClass('bg-dark');
+                                        $('#service-@service.Id').addClass('bg-success');
+                                        selectedServices.push('@service.Id');
+                                    }
+                                    else {
+                                        $('#service-@service.Id').removeClass('bg-success');
+                                        $('#service-@service.Id').addClass('bg-dark');
+                                        selectedServices.remove('@service.Id');
+                                    }
+                                    if ($('.bg-success').length > 0) {
+                                        $('#confirmServicesBtn').removeClass('disabled');
+                                        $('#confirmServicesBtn').removeClass('btn-outline-secondary');
+                                        $('#confirmServicesBtn').addClass('btn-success');
+                                    }
+                                    else {
+                                        $('#confirmServicesBtn').addClass('disabled');
+                                        $('#confirmServicesBtn').removeClass('btn-success');
+                                        $('#confirmServicesBtn').addClass('btn-outline-secondary');
+                                    }
+                                    console.log('Selected services: ' + selectedServices);
+                                });
+                            </script>
                         }
                     </div>
                 </div>
