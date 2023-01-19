@@ -55,6 +55,11 @@
                     <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
                     <input asp-for="Service.TimeToFinishMinsL" class="form-control" />
                     <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
+                    
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Service.IsSubService" /> @Html.DisplayNameFor(model => model.Service.IsSubService)
+                    </label>
+                    <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Add" class="btn btn-success" />

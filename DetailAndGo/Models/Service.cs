@@ -18,6 +18,7 @@
         public int TimeToFinishMinsS { get; set; }
         public int TimeToFinishMinsM { get; set; }
         public int TimeToFinishMinsL { get; set; }
+        public bool IsSubService { get; set; } = false;
 
     }
 }
