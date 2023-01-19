@@ -15,6 +15,9 @@
         public bool IsActive { get; set; }
         public string StripeServiceId { get; set; }
         public bool IsCustomisable { get; set; }
+        public int TimeToFinishMinsS { get; set; }
+        public int TimeToFinishMinsM { get; set; }
+        public int TimeToFinishMinsL { get; set; }
 
     }
 }

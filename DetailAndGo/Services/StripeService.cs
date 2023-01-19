@@ -123,7 +123,7 @@ namespace DetailAndGo.Services
             return result;
         }
 
-        public async Task<Product> CreateProduct(string productName, string description, decimal price)
+        public async Task<Product> CreateProduct(string productName, string description, decimal price, Dictionary<string, string> metadata)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
 
@@ -137,13 +137,14 @@ namespace DetailAndGo.Services
                 },
                 Description = description,
                 Name = productName,
-                StatementDescriptor = "DETAIL&GO",                
+                StatementDescriptor = "DETAIL&GO",
+                Metadata = metadata
             };
             ProductService service = new ProductService();
             return await service.CreateAsync(options);
         }
 
-        public async Task<Product> UpdateProduct(string productId, string productName, string description, decimal price)
+        public async Task<Product> UpdateProduct(string productId, string productName, string description, decimal price, Dictionary<string, string> metadata)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
 
@@ -162,7 +163,8 @@ namespace DetailAndGo.Services
             {
                 Name = productName,
                 DefaultPrice = newPrice.Id,
-                Description = description
+                Description = description,
+                Metadata = metadata
             };
 
             ProductService service = new ProductService();

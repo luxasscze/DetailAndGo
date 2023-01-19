@@ -1,44 +1,13 @@
-﻿<style>
-    a {
-        text-decoration: none;
-        color: #fff;
-    }
-
-    .accordion-button {
-        transform: rotate(180) !important;
-    }
-
-        .accordion-button:after {
-            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
-            transform: rotate(0) !important;
-        }
-
-    .vert-center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .customise-button {
-        background-color: #666;
-        transition-duration: .5s;
-    }
-
-        .customise-button:hover {
-            background-color: #999;
-            color: #000;
-        }
-</style>
+﻿<link rel="stylesheet" href="~/css/Services.css" />
 
 <!-- Services Modal -->
 <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
-                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Select Services</h2>
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">What we can do for you?</h2>
                     </div>
                     <div class="col">
                         <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
@@ -49,16 +18,25 @@
                 <hr class="bg-light" />
                 <div class="row">
                     <div class="row text-light">
+                        <script>selectedServices = [];</script>
                         @foreach (var service in Model.AllServices)
                         {
-                            <div class="col-md-6" style="margin-bottom: 10px;">
-                                <div class="card bg-dark" style="margin-bottom: 20px; height: 100%;">
-                                    <div class="card-header bg-dark" id="service-@service.Id">
-                                        <h2 class="text-warning">@service.Name</h2>
-                                        <label class="text-light">£@service.Price</label>
-                                    </div>
+                            <div class="col-md-6" style="margin-bottom: 30px;">
+                                <div class="card bg-dark service-card">
+                                    <a href="#">
+                                        <div class="card-header bg-dark" id="service-@service.Id">                               
+                                            <div class="row">
+                                                <div class="col-9">
+                                                    <h2 class="text-warning">@service.Name</h2>
+                                                </div>
+                                                <div class="col-3">
+                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ @service.Price</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
                                     <div class="card-body" style="background-color: #333;">
-                                        <label class="text-light">@service.Description</label>                                       
+                                        <label class="text-light">@service.Description</label>
                                     </div>
                                     @if (service.IsCustomisable)
                                     {
@@ -72,9 +50,9 @@
                                                     </h2>
                                                     <div id="collapse-@service.Id" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion-@service.Id">
                                                         <div class="accordion-body" style="font-size: 24px;">
-                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 24px;"><div class="float-start">Extra Soap</div> <div class="badge bg-warning float-end text-dark">+ £45</div></a>
-                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 24px;"><div class="float-start">Extra Finish</div> <div class="badge bg-warning float-end text-dark">+ £99</div></a>
-                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 24px;"><div class="float-start">Extra Vax</div> <div class="badge bg-warning float-end text-dark">+ £119</div></a>
+                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">Extra Soap</div> <div class="badge bg-warning float-end text-dark">+ £45</div></a>
+                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">Extra Finish</div> <div class="badge bg-warning float-end text-dark">+ £99</div></a>
+                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">Extra Vax</div> <div class="badge bg-warning float-end text-dark">+ £119</div></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -121,3 +99,16 @@
     </div>
 
 </div>
+
+<script>
+    Array.prototype.remove = function () {
+        var what, a = arguments, L = a.length, ax;
+        while (L && this.length) {
+            what = a[--L];
+            while ((ax = this.indexOf(what)) !== -1) {
+                this.splice(ax, 1);
+            }
+        }
+        return this;
+    };
+</script>

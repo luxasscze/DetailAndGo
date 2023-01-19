@@ -38,17 +38,62 @@ else
         @foreach (var service in Model.AllServices)
         {
             string cardBgColor = service.IsActive ? "bg-success" : "bg-dark";
-            <div class="col-md-3">
+            <div class="col-md-3" style="margin-bottom: 40px;">
                 <a asp-page="./Edit" asp-route-id="@service.Id" style="text-decoration: none;">
-                    <div class="card @cardBgColor text-light text-center" style="margin: 20px;">
+                    <div class="card @cardBgColor text-light text-center" style="margin: 20px; height: 100%">
                         <div class="card-header">@service.Name</div>
                         <div class="card-body">
                             @service.Description
                         </div>
                         <div class="card-footer">
-                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">SMALL £@(service.Price)</div>
-                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">MEDIUM £@(Math.Round(service.Price * (decimal)1.4, 2))</div>
-                            <div class="badge text-dark bg-warning" style="font-size: 20px;">LARGE £@(Math.Round(service.Price * (decimal)1.6, 2))</div>
+                            <div class="row">
+                                <div class="badge text-light bg-success" style="font-size: 14px; margin-bottom: 5px; border: 1px solid #fff;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h3>S</h3>
+                                        </div>
+                                        <div class="col-5">
+                                            £@(service.Price)
+                                        </div>
+                                        <div class="col-5">
+                                            <label><i class="fa fa-clock"></i> @service.TimeToFinishMinsS mins</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="badge text-light bg-success" style="font-size: 14px; margin-bottom: 5px; border: 1px solid #fff;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h3>M</h3>
+                                        </div>
+                                        <div class="col-5">
+                                            £@(service.PriceMedium)
+                                        </div>
+                                        <div class="col-5">
+                                            <label><i class="fa fa-clock"></i> @service.TimeToFinishMinsM mins</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="badge text-light bg-success" style="font-size: 14px; margin-bottom: 5px; border: 1px solid #fff;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h3>L</h3>
+                                        </div>
+                                        <div class="col-5">
+                                            £@(service.PriceLarge)
+                                        </div>
+                                        <div class="col-5">
+                                            <label><i class="fa fa-clock"></i> @service.TimeToFinishMinsL mins</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="text-center">
                                 Created: @service.CreatedDate.ToShortDateString()
                             </div>

@@ -54,7 +54,13 @@ namespace DetailAndGoAdmin.Pages.Services
 
             try
             {
-                await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price);
+                Dictionary<string, string> metadata = new Dictionary<string, string>()
+                {
+                    { "timeToFinishMinsS", Service.TimeToFinishMinsS.ToString() },
+                    { "timeToFinishMinsM", Service.TimeToFinishMinsM.ToString() },
+                    { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
+                };
+                await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price, metadata);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

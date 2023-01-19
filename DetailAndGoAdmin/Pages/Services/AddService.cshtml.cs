@@ -34,8 +34,15 @@ namespace DetailAndGoAdmin.Pages.Services
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
-        {         
-            Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, Service.Price);
+        {
+            Dictionary<string, string> metadata = new Dictionary<string, string>
+            {
+                { "timeToFinishMinsS", Service.TimeToFinishMinsS.ToString() },
+                { "timeToFinishMinsM", Service.TimeToFinishMinsM.ToString() },
+                { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
+            };
+
+            Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, Service.Price, metadata);
             Service.StripeServiceId = product.Id;
             Service.CreatedDate = DateTime.Now;
             Service.IsActive = true;
