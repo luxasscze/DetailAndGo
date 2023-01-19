@@ -55,7 +55,7 @@ namespace DetailAndGoAdmin.Pages.Services
 
             if(Service.PriceLarge > 0)
             {
-                price.Add(Service.PriceLarge); //CONTINUE HERE!!!!!!!!!!
+                price.Add(Service.PriceLarge); //CONTINUE HERE!!!!!!!!!! NOT CREATING MULTIPLE PRICES ON STRIPE!!!!!
             }
             
 
