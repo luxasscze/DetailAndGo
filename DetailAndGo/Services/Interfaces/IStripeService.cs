@@ -9,7 +9,7 @@ namespace DetailAndGo.Services.Interfaces
         public void AttachPaymentMethodToCustomer(string customerId, string paymentMethodId);
         public Task<StripeList<PaymentMethod>> GetCustomerPaymentMethods(string aspNetUserId);
         public Task<Charge> ChargeCustomerForBooking(Models.Customer customer, long amount);
-        public Task<Product> CreateProduct(string productName, string description, decimal price, Dictionary<string, string> metadata);
+        public Task<Product> CreateProduct(string productName, string description, List<decimal> price, Dictionary<string, string> metadata);
         public Task<Product> UpdateProduct(string productId, string productName, string description, decimal price, Dictionary<string, string> metadata);
         public Task<Stripe.Customer> SetCustomerDefaultPaymentMethod(string customerId, string paymentMethodId);
         public Task<PaymentIntent> CreatePaymentIntent(string customer, string paymentMethodId, long amount);

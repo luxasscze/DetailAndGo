@@ -123,7 +123,7 @@ namespace DetailAndGo.Services
             return result;
         }
 
-        public async Task<Product> CreateProduct(string productName, string description, decimal price, Dictionary<string, string> metadata)
+        public async Task<Product> CreateProduct(string productName, string description, List<decimal> price, Dictionary<string, string> metadata)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
 
@@ -133,7 +133,7 @@ namespace DetailAndGo.Services
                 DefaultPriceData = new ProductDefaultPriceDataOptions()
                 {
                     Currency = "gbp",
-                    UnitAmountDecimal = price * 100,                    
+                    UnitAmountDecimal = price[0] * 100,                    
                 },
                 Description = description,
                 Name = productName,

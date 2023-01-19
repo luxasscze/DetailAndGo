@@ -42,7 +42,24 @@ namespace DetailAndGoAdmin.Pages.Services
                 { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
             };
 
-            Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, Service.Price, metadata);
+            List<decimal> price = new List<decimal>();            
+            if(Service.Price > 0)
+            {
+                price.Add(Service.Price);
+            }
+
+            if(Service.PriceMedium > 0)
+            {
+                price.Add(Service.PriceMedium);
+            }
+
+            if(Service.PriceLarge > 0)
+            {
+                price.Add(Service.PriceLarge); //CONTINUE HERE!!!!!!!!!!
+            }
+            
+
+            Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, price, metadata);
             Service.StripeServiceId = product.Id;
             Service.CreatedDate = DateTime.Now;
             Service.IsActive = true;
