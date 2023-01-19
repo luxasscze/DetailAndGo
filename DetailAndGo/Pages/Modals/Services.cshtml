@@ -24,7 +24,7 @@
                             <div class="col-md-6" style="margin-bottom: 30px;">
                                 <div class="card bg-dark service-card">
                                     <a href="#">
-                                        <div class="card-header bg-dark" id="service-@service.Id">                               
+                                        <div class="card-header bg-dark" id="service-@service.Id">
                                             <div class="row">
                                                 <div class="col-9">
                                                     <h2 class="text-warning">@service.Name</h2>
@@ -56,6 +56,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="card-footer" style="background-color: #222;">
+                                            <div class="" style="color: #fff; background-color: #222;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@service.Id" aria-expanded="false" aria-controls="collapse-@service.Id">
+                                                <label class="text-muted">No Customatisation</label>
                                             </div>
                                         </div>
                                     }
