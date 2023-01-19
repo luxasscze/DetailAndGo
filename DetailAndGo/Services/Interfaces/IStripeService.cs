@@ -16,5 +16,6 @@ namespace DetailAndGo.Services.Interfaces
         public string GetCustomerDefaultPaymentMethod(string stripeId);
         public string GetLast4(string stripeId);
         public Task<Stripe.Card> RemovePaymentMethod(string stripeId, string paymentMethodId);
+        public Task<StripeList<Price>> GetPricesByProductId(string productId);
     }
 }

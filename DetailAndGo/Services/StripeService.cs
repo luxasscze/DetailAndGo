@@ -127,10 +127,49 @@ namespace DetailAndGo.Services
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
             ProductService service = new ProductService();
+            PriceService priceService = new PriceService();
             ProductCreateOptions options = new ProductCreateOptions();
             if (price.Count > 1)
             {
-                //CONTINUE HERE!!! YOU GOT THE GIST!
+                options = new ProductCreateOptions()
+                {
+                    Active = true,                    
+                    Description = description,
+                    Name = productName,
+                    StatementDescriptor = "DETAIL&GO",
+                    Metadata = metadata
+                };
+
+                Product product = await service.CreateAsync(options);
+
+                int count = 0;
+                foreach (var singlePrice in price)
+                {
+                    var priceOptions = new PriceCreateOptions()
+                    {
+                        UnitAmount = (long)singlePrice * 100,
+                        Currency = "gbp",
+                        Product = product.Id,                        
+                    };
+
+                    if(count == 0)
+                    {
+                        priceOptions.Nickname = "small";
+                    }
+                    else if (count == 1)
+                    {
+                        priceOptions.Nickname = "medium";
+                    }
+                    else
+                    {
+                        priceOptions.Nickname = "large";
+                    }
+
+                    await priceService.CreateAsync(priceOptions);
+                    count++;
+                }                
+
+                return product;
             }
             else
             {
@@ -148,9 +187,9 @@ namespace DetailAndGo.Services
                     StatementDescriptor = "DETAIL&GO",
                     Metadata = metadata
                 };
-                
+                return await service.CreateAsync(options);
             }
-            return await service.CreateAsync(options);
+            
         }
 
         public async Task<Product> UpdateProduct(string productId, string productName, string description, decimal price, Dictionary<string, string> metadata)
@@ -247,6 +286,18 @@ namespace DetailAndGo.Services
 
             PaymentIntentService service = new PaymentIntentService();
             return await service.CreateAsync(options);
+        }
+
+        public async Task<StripeList<Price>> GetPricesByProductId(string productId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+            PriceService service = new PriceService();
+            PriceListOptions options = new PriceListOptions()
+            {
+                Product = productId
+            };
+
+            return await service.ListAsync(options);
         }
 
     }

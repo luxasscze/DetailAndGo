@@ -55,16 +55,20 @@ namespace DetailAndGoAdmin.Pages.Services
 
             if(Service.PriceLarge > 0)
             {
-                price.Add(Service.PriceLarge); //CONTINUE HERE!!!!!!!!!! NOT CREATING MULTIPLE PRICES ON STRIPE!!!!!
+                price.Add(Service.PriceLarge);
             }
             
 
             Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, price, metadata);
+            StripeList<Price> prices = await _stripeService.GetPricesByProductId(product.Id);
             Service.StripeServiceId = product.Id;
             Service.CreatedDate = DateTime.Now;
             Service.IsActive = true;
             Service.Category = "default";
             Service.Image = "none";
+            Service.PriceId = prices.FirstOrDefault(s => s.Nickname == "small").Id;
+            Service.PriceMediumId = prices.FirstOrDefault(s => s.Nickname == "medium").Id;
+            Service.PriceLargeId = prices.FirstOrDefault(s => s.Nickname == "large").Id;
 
             var test = ModelState.Values;
             /*if (!ModelState.IsValid)

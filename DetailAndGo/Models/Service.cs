@@ -7,6 +7,9 @@
         public decimal Price { get; set; }
         public decimal PriceMedium { get; set; }
         public decimal PriceLarge { get; set; }
+        public string PriceId { get; set; }
+        public string PriceMediumId { get; set; }
+        public string PriceLargeId { get; set; }
         public decimal Price4x4 { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
