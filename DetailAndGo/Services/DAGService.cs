@@ -21,6 +21,11 @@ namespace DetailAndGo.Services
         {
             List<Service> allServices = await _context.Services.ToListAsync();
             return allServices;
-        }        
+        }
+        
+        public async Task<List<Service>> GetAllSubServices()
+        {
+            return await _context.Services.Where(s => s.IsSubService).ToListAsync();
+        }
     }
 }

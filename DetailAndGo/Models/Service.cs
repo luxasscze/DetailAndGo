@@ -22,6 +22,7 @@
         public int TimeToFinishMinsM { get; set; }
         public int TimeToFinishMinsL { get; set; }
         public bool IsSubService { get; set; } = false;
+        public string SubServices { get; set; }
 
     }
 }

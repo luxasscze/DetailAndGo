@@ -129,6 +129,7 @@ namespace DetailAndGo.Services
             ProductService service = new ProductService();
             PriceService priceService = new PriceService();
             ProductCreateOptions options = new ProductCreateOptions();
+
             if (price.Count > 1)
             {
                 options = new ProductCreateOptions()

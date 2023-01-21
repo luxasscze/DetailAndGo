@@ -37,13 +37,32 @@ else
     <div class="row">
         @foreach (var service in Model.AllServices)
         {
-            string cardBgColor = service.IsActive ? "bg-success" : "bg-dark";
+            string cardBgColor = "";
+            if(service.IsSubService)
+            {
+                cardBgColor = service.IsActive ? "bg-dark border-primary" : "bg-dark border-danger";
+            }
+            else
+            {
+                cardBgColor = service.IsActive ? "bg-dark border-success" : "bg-dark border-danger";
+            }
+            
             <div class="col-md-3" style="margin-bottom: 40px;">
                 <a asp-page="./Edit" asp-route-id="@service.Id" style="text-decoration: none;">
                     <div class="card @cardBgColor text-light text-center" style="margin: 20px; height: 100%">
-                        <div class="card-header">@service.Name</div>
+                        <div class="card-header"><label style="font-size: 28px;">@service.Name </label></div>
                         <div class="card-body">
-                           <label> @service.Description </label>
+                            <label> @service.Description </label>
+                            <div class="row">
+                                @if (!service.IsSubService)
+                                {
+                                    <label class="bg-warning text-dark">Sub-Services: @service.SubServices</label>
+                                }
+                                else
+                                {
+                                    <div class="bg-dark" style="font-size: 18px;">This is Sub-Service</div>
+                                }
+                            </div>
                         </div>
                         <div class="card-footer">
                             <div class="row">

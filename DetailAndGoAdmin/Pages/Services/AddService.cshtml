@@ -5,7 +5,25 @@
     ViewData["Title"] = "Add New Service";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+<script src="https://code.jquery.com/jquery-3.6.3.js"
+        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
+        crossorigin="anonymous"></script>
 
+<style>
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .service-button {
+        background-color: #113311;
+        padding: 10px;
+        height: 100%;
+        border: 1px solid #118811;
+        display: flex;
+        justify-content: center;
+    }
+</style>
 <div class="text-light" margin: 20px;>
     <h1>Add New Service</h1>
     <hr />
@@ -55,13 +73,33 @@
                     <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
                     <input asp-for="Service.TimeToFinishMinsL" class="form-control" />
                     <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
-                    
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Service.IsSubService" /> @Html.DisplayNameFor(model => model.Service.IsSubService)
-                    </label>
-                    <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
+
+                    <label asp-for="Service.SubServices" class="control-label"></label>
+
+                    <div class="row" style="margin-top: 20px;">
+                        @foreach (var subservice in Model.SubServices)
+                        {
+                            <div class="col-3">
+                                <div class="service-button" id="subservice-@subservice.Id">@subservice.Name</div>
+                            </div>
+
+                            <script>
+                                $('#subservice-@subservice.Id').on('click', function () {
+                                    console.log('service @subservice.Name clicked');
+                                    $('#subservice-@subservice.Id').addClass('bg-success');
+                                });
+                            </script>
+                        }
+                    </div>
+
+                    <div class="" style="margin-top: 20px;">
+                        <label class="form-check-label form-switch">
+                            <input class="form-check-input" asp-for="Service.IsSubService" style="height: 25px; width: 60px;" id="subserviceCheck" /> @Html.DisplayNameFor(model => model.Service.IsSubService)
+                        </label>
+                        <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
+                    </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: 20px;">
                     <input type="submit" value="Add" class="btn btn-success" />
                 </div>
             </form>
@@ -73,8 +111,10 @@
     </div>
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<script>
+    $('#subserviceCheck').on('click', function () {
+        console.log($('#subservicesSelect').val());
+    });
+</script>
+
+
