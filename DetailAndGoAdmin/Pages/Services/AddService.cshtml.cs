@@ -64,7 +64,13 @@ namespace DetailAndGoAdmin.Pages.Services
             if(string.IsNullOrEmpty(Service.SubServices))
             {
                 Service.SubServices = "";
+                Service.IsCustomisable = false;
             }
+            else
+            {
+                Service.IsCustomisable = true;
+            }
+            
             
 
             Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, price, metadata);

@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="row text-light">
                         <script>selectedServices = [];</script>
-                        @foreach (var service in Model.AllServices)
+                        @foreach (var service in Model.AllMainServices)
                         {
                             <div class="col-md-6" style="margin-bottom: 30px;">
                                 <div class="card bg-dark service-card">
@@ -50,9 +50,11 @@
                                                     </h2>
                                                     <div id="collapse-@service.Id" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion-@service.Id">
                                                         <div class="accordion-body" style="font-size: 24px;">
-                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">Extra Soap</div> <div class="badge bg-warning float-end text-dark">+ £45</div></a>
-                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">Extra Finish</div> <div class="badge bg-warning float-end text-dark">+ £99</div></a>
-                                                            <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">Extra Vax</div> <div class="badge bg-warning float-end text-dark">+ £119</div></a>
+                                                            @foreach(var subService in Model.AllSubServices)
+                                                            {
+                                                                <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">@subService.Name</div> <div class="badge bg-warning float-end text-dark">+ £@subService.Price</div></a>
+                                                            }                                                        
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>

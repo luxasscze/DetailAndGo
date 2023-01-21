@@ -27,5 +27,15 @@ namespace DetailAndGo.Services
         {
             return await _context.Services.Where(s => s.IsSubService).ToListAsync();
         }
+
+        public async Task<Service> GetServiceById(int serviceId)
+        {
+            return await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceId);
+        }
+
+        public async Task<List<Service>> GetAllMainServices()
+        {
+            return await _context.Services.Where(s => !s.IsSubService).ToListAsync();
+        }
     }
 }

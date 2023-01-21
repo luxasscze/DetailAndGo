@@ -30,6 +30,8 @@ namespace DetailAndGo.Pages
         public string AllBookings { get; set; }
         public List<string> SelectedServiceNames { get; set; }
         public List<Service> AllServices { get; set; }
+        public List<Service> AllMainServices { get; set; }
+        public List<Service> AllSubServices { get; set; }
         public CreateBooking CreateBooking { get; set; }        
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
@@ -40,8 +42,10 @@ namespace DetailAndGo.Pages
             CustomerCar = await _carService.GetCustomerActiveCar(Customer.AspNetUserId);
             CustomerCars = await _carService.GetCustomerCars(Customer.AspNetUserId);
             CarHistory = await _carService.GetCarHistoryByCarId(CustomerCar.Id);
+            AllMainServices = await _serviceService.GetAllMainServices();
 
             AllBookings = "";
+            AllSubServices = await _serviceService.GetAllSubServices();
             SelectedServiceNames = new List<string>();
             AllServices = await _serviceService.GetAllServices();
             CreateBooking = new CreateBooking();
