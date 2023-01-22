@@ -26,6 +26,7 @@
         height: 100%;
         display: flex;
         justify-content: center;
+        cursor: crosshair;
     }
 
     .main-box {
@@ -37,23 +38,38 @@
     .child-box {
         justify-content: center !important;
         align-items: center !important;
-        background-color: rgba(50, 50, 50, 0.5);
-        border-radius: 20px;
+        background-color: #313348;
+        border-radius: 0px;
+        padding: 20px 30px;
+        width: 80%;
+        margin-top: 30px;
     }
 
     .add-input {
         width: 100%;
         height: 45px;
-        background-color: #222;
+        background-color: #2a2b3d;
         color: #fff;
         border: none;
         margin-bottom: 10px;
         font-size: 24px;
     }
+
+    .subservice-check {
+        height: 25px !important;
+        width: 60px !important;
+        background-color: #666;        
+    }
+
+    .form-switch {
+        font-size: 20px;
+    }
+
 </style>
 <div class="text-light main-box" style="margin: 20px;">
-    <h1 class="text-center" id="caption-text">Add New Service</h1>
+    
     <div class="row child-box shadow">
+        <h1 id="caption-text">Add New Service</h1>
         <div class="col-md-12">
             <form method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -62,9 +78,9 @@
                 <input type="hidden" asp-for="Service.Image" name="Image" />
                 <input type="hidden" asp-for="Service.CreatedDate" name="CreatedDate" />
                 <input type="hidden" asp-for="Service.IsActive" name="IsActive" />
-                <div class="text-center" style="margin-top: 20px;">
+                <div class="" style="margin: 20px 0px;">
                     <label class="form-check-label form-switch">
-                        <input class="form-check-input" asp-for="Service.IsSubService" style="height: 25px; width: 60px;" id="subserviceCheck" /> Sub-Service
+                        <input class="form-check-input subservice-check" asp-for="Service.IsSubService" id="subserviceCheck" data-onstyle="danger" /> Is it Sub-Service?
                     </label>
                     <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
                 </div>
@@ -121,13 +137,11 @@
                     </div>
 
                     <div class="row" style="margin-top: 20px;" id="subservices-section">
-                        <label class="text-center" style="margin-bottom: 15px;">Sub-Services</label>                       
+                        <label class="text-center" style="margin-bottom: 18px; font-size: 18px;"><i class="fa fa-list"></i> Add Sub-Services</label>                       
                         @foreach (var subservice in Model.SubServices) //GETTING ERROR HERE WHILE SUBMITTING THE FORM...
                         {
-                            <div class="col-4" style="margin-bottom: 10px;">
-                                <a href="#">
-                                    <div class="service-button bg-dark" id="subservice-@subservice.Id">@subservice.Name</div>
-                                </a>
+                            <div class="col-4" style="margin-bottom: 10px;">                                
+                                    <div class="service-button bg-dark" id="subservice-@subservice.Id"><label style="cursor: crosshair;">@subservice.Name</label></div>                                
                             </div>
 
                             <script>
