@@ -3,11 +3,13 @@
 
 @{
     ViewData["Title"] = "Add New Service";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-<script src="https://code.jquery.com/jquery-3.6.3.js"
-        integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM="
-        crossorigin="anonymous"></script>
+<script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+<script>
+    $(document).ready(function () { console.log('document is ready...'); });
+</script>
 
 <style>
     a {
@@ -15,20 +17,44 @@
         color: #fff;
     }
 
+        a:hover {
+            color: #fff;
+        }
+
     .service-button {
-        background-color: #113311;
         padding: 10px;
         height: 100%;
-        border: 1px solid #118811;
         display: flex;
         justify-content: center;
     }
+
+    .main-box {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .child-box {
+        justify-content: center !important;
+        align-items: center !important;
+        background-color: rgba(50, 50, 50, 0.5);
+        border-radius: 20px;
+    }
+
+    .add-input {
+        width: 100%;
+        height: 45px;
+        background-color: #222;
+        color: #fff;
+        border: none;
+        margin-bottom: 10px;
+        font-size: 24px;
+    }
 </style>
-<div class="text-light" margin: 20px;>
-    <h1>Add New Service</h1>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
+<div class="text-light main-box" style="margin: 20px;">
+    <h1 class="text-center" id="caption-text">Add New Service</h1>
+    <div class="row child-box shadow">
+        <div class="col-md-12">
             <form method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Service.StripeServiceId" name="StripeServiceId" />
@@ -36,84 +62,114 @@
                 <input type="hidden" asp-for="Service.Image" name="Image" />
                 <input type="hidden" asp-for="Service.CreatedDate" name="CreatedDate" />
                 <input type="hidden" asp-for="Service.IsActive" name="IsActive" />
-                <div class="form-group">
-                    <label asp-for="Service.Name" class="control-label"></label>
-                    <input asp-for="Service.Name" class="form-control" />
+                <div class="text-center" style="margin-top: 20px;">
+                    <label class="form-check-label form-switch">
+                        <input class="form-check-input" asp-for="Service.IsSubService" style="height: 25px; width: 60px;" id="subserviceCheck" /> Sub-Service
+                    </label>
+                    <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
+                </div>
+                <div class="input-group">
+                    <span class="input-group-addon">Name</span>
+                    <input asp-for="Service.Name" class="add-input" type="text" />
                     <span asp-validation-for="Service.Name" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Service.Price" class="control-label"></label>
-                    <input asp-for="Service.Price" class="form-control" type="number" />
-                    <span asp-validation-for="Service.Price" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Service.PriceMedium" class="control-label"></label>
-                    <input asp-for="Service.PriceMedium" class="form-control" type="number" />
-                    <span asp-validation-for="Service.PriceMedium" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Service.PriceLarge" class="control-label"></label>
-                    <input asp-for="Service.PriceLarge" class="form-control" type="number" />
-                    <span asp-validation-for="Service.PriceLarge" class="text-danger"></span>
-                </div>
-                <div class="form-group">
                     <label asp-for="Service.Description" class="control-label"></label>
-                    <input asp-for="Service.Description" class="form-control" />
+                    <input asp-for="Service.Description" class="add-input" />
                     <span asp-validation-for="Service.Description" class="text-danger"></span>
                 </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="Service.Price" class="control-label"></label>
+                            <input asp-for="Service.Price" class="add-input" type="number" />
+                            <span asp-validation-for="Service.Price" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="Service.PriceMedium" class="control-label"></label>
+                            <input asp-for="Service.PriceMedium" class="add-input" type="number" />
+                            <span asp-validation-for="Service.PriceMedium" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label asp-for="Service.PriceLarge" class="control-label"></label>
+                            <input asp-for="Service.PriceLarge" class="add-input" type="number" />
+                            <span asp-validation-for="Service.PriceLarge" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
-                    <label asp-for="Service.TimeToFinishMinsS" class="control-label"></label>
-                    <input asp-for="Service.TimeToFinishMinsS" class="form-control" />
-                    <span asp-validation-for="Service.TimeToFinishMinsS" class="text-danger"></span>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <label asp-for="Service.TimeToFinishMinsS" class="control-label"></label>
+                            <input asp-for="Service.TimeToFinishMinsS" class="add-input" />
+                            <span asp-validation-for="Service.TimeToFinishMinsS" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="Service.TimeToFinishMinsM" class="control-label"></label>
+                            <input asp-for="Service.TimeToFinishMinsM" class="add-input" />
+                            <span asp-validation-for="Service.TimeToFinishMinsM" class="text-danger"></span>
+                        </div>
+                        <div class="col-lg-4">
+                            <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
+                            <input asp-for="Service.TimeToFinishMinsL" class="add-input" />
+                            <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
+                        </div>
+                    </div>
 
-                    <label asp-for="Service.TimeToFinishMinsM" class="control-label"></label>
-                    <input asp-for="Service.TimeToFinishMinsM" class="form-control" />
-                    <span asp-validation-for="Service.TimeToFinishMinsM" class="text-danger"></span>
-
-                    <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
-                    <input asp-for="Service.TimeToFinishMinsL" class="form-control" />
-                    <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
-
-                    <label asp-for="Service.SubServices" class="control-label"></label>
-
-                    <div class="row" style="margin-top: 20px;">
-                        @foreach (var subservice in Model.SubServices)
+                    <div class="row" style="margin-top: 20px;" id="subservices-section">
+                        <label class="text-center" style="margin-bottom: 15px;">Sub-Services</label>                       
+                        @foreach (var subservice in Model.SubServices) //GETTING ERROR HERE WHILE SUBMITTING THE FORM...
                         {
-                            <div class="col-3">
-                                <div class="service-button" id="subservice-@subservice.Id">@subservice.Name</div>
+                            <div class="col-4" style="margin-bottom: 10px;">
+                                <a href="#">
+                                    <div class="service-button bg-dark" id="subservice-@subservice.Id">@subservice.Name</div>
+                                </a>
                             </div>
 
                             <script>
-                                $('#subservice-@subservice.Id').on('click', function () {
-                                    console.log('service @subservice.Name clicked');
-                                    $('#subservice-@subservice.Id').addClass('bg-success');
+                                $(function ($) {
+                                    $('#subservice-@subservice.Id').on('click', function () {
+                                        console.log('service @subservice.Name clicked');
+                                        if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
+                                            $('#subservice-@subservice.Id').removeClass('bg-dark');
+                                            $('#subservice-@subservice.Id').addClass('bg-success');
+                                        }
+                                        else {
+                                            $('#subservice-@subservice.Id').removeClass('bg-success');
+                                            $('#subservice-@subservice.Id').addClass('bg-dark');
+                                        }
+                                    });
                                 });
                             </script>
                         }
                     </div>
 
-                    <div class="" style="margin-top: 20px;">
-                        <label class="form-check-label form-switch">
-                            <input class="form-check-input" asp-for="Service.IsSubService" style="height: 25px; width: 60px;" id="subserviceCheck" /> @Html.DisplayNameFor(model => model.Service.IsSubService)
-                        </label>
-                        <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
-                    </div>
+
                 </div>
-                <div class="form-group" style="margin-top: 20px;">
+                <div class="form-group row" style="margin-top: 20px;">
                     <input type="submit" value="Add" class="btn btn-success" />
                 </div>
             </form>
         </div>
     </div>
-
-    <div>
-        <a asp-page="Index">Back to List</a>
-    </div>
 </div>
 
 <script>
-    $('#subserviceCheck').on('click', function () {
-        console.log($('#subservicesSelect').val());
+    $(function ($) {
+        $('#subserviceCheck').on('click', function () {
+            if ($('#subserviceCheck').is(':checked')) {
+                $('#subservices-section').slideUp(500);
+                $('#caption-text').text('Add New Sub-Service');
+            }
+            else {
+                $('#subservices-section').slideDown(500);
+                $('#caption-text').text('Add New Service');
+            }
+        });
     });
 </script>
 
