@@ -5,82 +5,27 @@
     ViewData["Title"] = "Add New Service";
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" href="~/css/AddService.css" />
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
 
-<script>
-    $(document).ready(function () { console.log('document is ready...'); });
-</script>
-
-<style>
-    a {
-        text-decoration: none;
-        color: #fff;
-    }
-
-        a:hover {
-            color: #fff;
-        }
-
-    .service-button {
-        padding: 10px;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        cursor: crosshair;
-    }
-
-    .main-box {
-        display: flex !important;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .child-box {
-        justify-content: center !important;
-        align-items: center !important;
-        background-color: #313348;
-        border-radius: 0px;
-        padding: 20px 30px;
-        width: 80%;
-        margin-top: 30px;
-    }
-
-    .add-input {
-        width: 100%;
-        height: 45px;
-        background-color: #2a2b3d;
-        color: #fff;
-        border: none;
-        margin-bottom: 10px;
-        font-size: 24px;
-    }
-
-    .subservice-check {
-        height: 25px !important;
-        width: 60px !important;
-        background-color: #666;        
-    }
-
-    .form-switch {
-        font-size: 20px;
-    }
-
-</style>
 <div class="text-light main-box" style="margin: 20px;">
-    
+
     <div class="row child-box shadow">
-        <h1 id="caption-text">Add New Service</h1>
+        <h4 id="caption-text">Add New Service</h4>
         <div class="col-md-12">
             <form method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Service.StripeServiceId" name="StripeServiceId" />
-                <input type="hidden" asp-for="Service.Category" name="Category" />
-                <input type="hidden" asp-for="Service.Image" name="Image" />
-                <input type="hidden" asp-for="Service.CreatedDate" name="CreatedDate" />
-                <input type="hidden" asp-for="Service.IsActive" name="IsActive" />
+                <input type="hidden" asp-for="Service.Category" />
+                <input type="hidden" asp-for="Service.Image" />
+                <input type="hidden" asp-for="Service.PriceId" />
+                <input type="hidden" asp-for="Service.SubServices" id="subservicesHidden" />
+                <input type="hidden" asp-for="Service.PriceLargeId" />
+                <input type="hidden" asp-for="Service.PriceMediumId" />
+                <input type="hidden" asp-for="Service.StripeServiceId" />
                 <div class="" style="margin: 20px 0px;">
+                    Service
                     <label class="form-check-label form-switch">
-                        <input class="form-check-input subservice-check" asp-for="Service.IsSubService" id="subserviceCheck" data-onstyle="danger" /> Is it Sub-Service?
+                        <input class="form-check-input subservice-check" asp-for="Service.IsSubService" id="subserviceCheck" data-onstyle="danger" /> Sub-Service
                     </label>
                     <span asp-validation-for="Service.IsSubService" class="text-danger"></span>
                 </div>
@@ -97,21 +42,21 @@
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label asp-for="Service.Price" class="control-label"></label>
+                            <label class="control-label"><i class="fa fa-sterling-sign"></i> Small</label>
                             <input asp-for="Service.Price" class="add-input" type="number" />
                             <span asp-validation-for="Service.Price" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label asp-for="Service.PriceMedium" class="control-label"></label>
+                            <label class="control-label"><i class="fa fa-sterling-sign"></i> Medium</label>
                             <input asp-for="Service.PriceMedium" class="add-input" type="number" />
                             <span asp-validation-for="Service.PriceMedium" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="form-group">
-                            <label asp-for="Service.PriceLarge" class="control-label"></label>
+                            <label class="control-label"><i class="fa fa-sterling-sign"></i> Large</label>
                             <input asp-for="Service.PriceLarge" class="add-input" type="number" />
                             <span asp-validation-for="Service.PriceLarge" class="text-danger"></span>
                         </div>
@@ -120,45 +65,57 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-lg-4">
-                            <label asp-for="Service.TimeToFinishMinsS" class="control-label"></label>
+                            <label class="control-label"><i class="fa fa-clock"></i> Small</label>
                             <input asp-for="Service.TimeToFinishMinsS" class="add-input" />
                             <span asp-validation-for="Service.TimeToFinishMinsS" class="text-danger"></span>
                         </div>
                         <div class="col-lg-4">
-                            <label asp-for="Service.TimeToFinishMinsM" class="control-label"></label>
+                            <label class="control-label"><i class="fa fa-clock"></i> Medium</label>
                             <input asp-for="Service.TimeToFinishMinsM" class="add-input" />
                             <span asp-validation-for="Service.TimeToFinishMinsM" class="text-danger"></span>
                         </div>
                         <div class="col-lg-4">
-                            <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
+                            <label class="control-label"><i class="fa fa-clock"></i> Large</label>
                             <input asp-for="Service.TimeToFinishMinsL" class="add-input" />
                             <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
                         </div>
                     </div>
 
-                    <div class="row" style="margin-top: 20px;" id="subservices-section">
-                        <label class="text-center" style="margin-bottom: 18px; font-size: 18px;"><i class="fa fa-list"></i> Add Sub-Services</label>                       
-                        @foreach (var subservice in Model.SubServices) //GETTING ERROR HERE WHILE SUBMITTING THE FORM...
-                        {
-                            <div class="col-4" style="margin-bottom: 10px;">                                
-                                    <div class="service-button bg-dark" id="subservice-@subservice.Id"><label style="cursor: crosshair;">@subservice.Name</label></div>                                
-                            </div>
+                    <script>     
+                        let selectedSubServices = [];
+                    </script>
 
-                            <script>
-                                $(function ($) {
-                                    $('#subservice-@subservice.Id').on('click', function () {
-                                        console.log('service @subservice.Name clicked');
-                                        if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
-                                            $('#subservice-@subservice.Id').removeClass('bg-dark');
-                                            $('#subservice-@subservice.Id').addClass('bg-success');
-                                        }
-                                        else {
-                                            $('#subservice-@subservice.Id').removeClass('bg-success');
-                                            $('#subservice-@subservice.Id').addClass('bg-dark');
-                                        }
+                    <div class="row" style="margin-top: 20px;" id="subservices-section">
+                        <label class="text-center" style="margin-bottom: 18px; font-size: 14px;"><i class="fa fa-list"></i> Add Sub-Services</label>
+                        @if (Model.SubServices != null)
+                        {
+                            @foreach (var subservice in Model.SubServices)
+                            {
+                                <div class="col-4" style="margin-bottom: 10px;">
+                                    <div class="service-button bg-dark" id="subservice-@subservice.Id"><label style="cursor: crosshair;">@subservice.Name</label></div>
+                                </div>
+
+                                <script>
+                                    $(function ($) {
+                                        $('#subservice-@subservice.Id').on('click', function () {                                            
+                                            if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
+                                                $('#subservice-@subservice.Id').removeClass('bg-dark');
+                                                $('#subservice-@subservice.Id').addClass('bg-primary');
+                                                $('#subservice-@subservice.Id').prepend('<i class="fa fa-circle-check" style="margin-top: 5px; margin-right: 5px;"></i> ');
+                                                selectedSubServices.push(@subservice.Id);                                              
+                                            }
+                                            else {
+                                                $('#subservice-@subservice.Id').removeClass('bg-primary');
+                                                $('#subservice-@subservice.Id').addClass('bg-dark');
+                                                $('#subservice-@subservice.Id').text('@subservice.Name');
+                                                selectedSubServices.remove(@subservice.Id);
+                                            }
+                                            console.log(selectedSubServices);
+                                            $('#subserviceHidden').val(selectedSubServices);
+                                        });
                                     });
-                                });
-                            </script>
+                                </script>
+                            }
                         }
                     </div>
 
@@ -186,5 +143,15 @@
         });
     });
 </script>
+
+<script src="~/js/Utility.js"></script>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
 

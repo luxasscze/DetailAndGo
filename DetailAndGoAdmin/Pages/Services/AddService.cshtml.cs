@@ -27,32 +27,21 @@ namespace DetailAndGoAdmin.Pages.Services
 
         [BindProperty]
         public Service Service { get; set; }
-        public List<Service> SubServices { get; set; }
+        public List<Service> SubServices { get; set; }        
 
         public async Task<IActionResult> OnGetAsync(List<Service>? subservices)
-        {
-            SubServices = subservices.Count == 0 ? await _serviceService.GetAllSubServices() : subservices;
+        {            
+            SubServices = subservices.Count == 0 ? await _serviceService.GetAllSubServices() : subservices;            
             return Page();
         }
         
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            Service.StripeServiceId = string.Empty;
             Service.CreatedDate = DateTime.Now;
             Service.IsActive = true;
-            Service.Category = "default";
-            Service.Image = "none";
-            Service.PriceId = string.Empty;
-            Service.PriceMediumId = string.Empty;
-            Service.PriceLargeId = string.Empty;
-
-            if (!ModelState.IsValid)
-            {
-                var test = ModelState.Values;
-                return Page();
-            }
-
+            
+            
             Dictionary<string, string> metadata = new Dictionary<string, string>
             {
                 { "timeToFinishMinsS", Service.TimeToFinishMinsS.ToString() },
@@ -84,11 +73,14 @@ namespace DetailAndGoAdmin.Pages.Services
             else
             {
                 Service.IsCustomisable = true;
+            }            
+
+            if (!ModelState.IsValid)
+            {
+                var secondTest = Service;
+                var test = ModelState.Values;
+                return Page();
             }
-
-            
-
-            
 
             Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, price, metadata);
             StripeList<Price> prices = await _stripeService.GetPricesByProductId(product.Id);
@@ -96,9 +88,6 @@ namespace DetailAndGoAdmin.Pages.Services
             Service.PriceId = prices.FirstOrDefault(s => s.Nickname == "small").Id;
             Service.PriceMediumId = prices.FirstOrDefault(s => s.Nickname == "medium").Id;
             Service.PriceLargeId = prices.FirstOrDefault(s => s.Nickname == "large").Id;
-
-            
-            
 
             _context.Services.Add(Service);
             await _context.SaveChangesAsync();

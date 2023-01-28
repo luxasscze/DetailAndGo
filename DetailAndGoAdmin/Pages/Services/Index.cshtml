@@ -5,18 +5,52 @@
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+<style>
+    .legend-green {
+        display: block;
+        height: 20px;
+        width: fit-content;
+        border: 1px solid #0f0;
+        padding: 0px 10px;
+        margin: 10px;
+    }
+
+    .legend-blue {
+        display: block;
+        height: 20px;
+        width: fit-content;
+        border: 1px solid #00f;
+        padding: 0px 10px;
+        margin: 10px;
+    }
+
+    .legend-red {
+        display: block;
+        height: 20px;
+        width: fit-content;
+        border: 1px solid #f00;
+        padding: 0px 10px;
+        margin: 10px;
+    }
+</style>
+
 <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
 <!--<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>-->
 
 <div class="row" style="margin-top: 20px;">
-    <div class="col-md-6">
-        <h1 class="text-light" style="margin-left: 20px;">Services</h1>
+    <div class="col-md-2 text-light">
+        <h1 style="margin-left: 20px;">Services</h1>
     </div>
-    <div class="col-md-6">
-        <a class="btn btn-success btn-lg float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-plus"></i> Add New Service</a>
-        <a class="btn btn-outline-primary btn-lg float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Services Only</a>
-        <a class="btn btn-outline-primary btn-lg float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Sub-Services Only</a>
+    <div class="col-md-10">
+        <a class="btn btn-success btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-plus"></i> Add New Service</a>
+        <a class="btn btn-outline-primary btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Services Only</a>
+        <a class="btn btn-outline-primary btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Sub-Services Only</a>
     </div>
+</div>
+<div class="row text-muted">
+    <div class="legend-green">Main Service</div>
+    <div class="legend-blue">Sub Service</div>
+    <div class="legend-red">Not Active Service</div>
 </div>
 
 @if (Model.AllServices.Count == 0)
@@ -40,7 +74,7 @@ else
         @foreach (var service in Model.AllServices)
         {
             string cardBgColor = "";
-            if(service.IsSubService)
+            if (service.IsSubService)
             {
                 cardBgColor = service.IsActive ? "bg-dark border-primary" : "bg-dark border-danger";
             }
@@ -48,7 +82,7 @@ else
             {
                 cardBgColor = service.IsActive ? "bg-dark border-success" : "bg-dark border-danger";
             }
-            
+
             <div class="col-md-3" style="margin-bottom: 40px;">
                 <a asp-page="./Edit" asp-route-id="@service.Id" style="text-decoration: none;">
                     <div class="card @cardBgColor text-light text-center" style="margin: 20px; height: 100%">
