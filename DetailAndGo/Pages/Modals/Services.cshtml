@@ -7,7 +7,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col">
-                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">What we can do for you?</h2>
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">What can we do for you?</h2>
                     </div>
                     <div class="col">
                         <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
@@ -50,11 +50,30 @@
                                                     </h2>
                                                     <div id="collapse-@service.Id" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion-@service.Id">
                                                         <div class="accordion-body" style="font-size: 24px;">
-                                                            @foreach(var subService in Model.AllSubServices)
+                                                            @if (service.SubServices == null)
                                                             {
-                                                                <a href="" class="btn btn-outline-light" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">@subService.Name</div> <div class="badge bg-warning float-end text-dark">+ £@subService.Price</div></a>
-                                                            }                                                        
-                                                            
+                                                                
+                                                            }
+                                                            else
+                                                            {
+                                                                List<DetailAndGo.Models.Service> ser = new List<DetailAndGo.Models.Service>();
+                                                                foreach (var subService in Model.AllSubServices)
+                                                                {                                                                    
+                                                                    string[] subServiceIds = service.SubServices.Split(',');
+                                                                    foreach (string id in subServiceIds)
+                                                                    {
+                                                                        var serviceToAdd = ((IEnumerable<dynamic>)Model.AllSubServices).FirstOrDefault(s => s.Id == Convert.ToInt32(id));
+                                                                        ser.Add(serviceToAdd);
+                                                                    }
+                                                                    break;
+                                                                }
+                                                                
+                                                                foreach (DetailAndGo.Models.Service itm in ser)
+                                                                {
+                                                                    <div class="btn btn-outline-success" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">@itm.Name</div> <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div></div>
+                                                                }
+                                                            }
+
                                                         </div>
                                                     </div>
                                                 </div>
