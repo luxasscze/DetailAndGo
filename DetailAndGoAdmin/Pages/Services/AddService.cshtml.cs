@@ -27,7 +27,9 @@ namespace DetailAndGoAdmin.Pages.Services
 
         [BindProperty]
         public Service Service { get; set; }
-        public List<Service> SubServices { get; set; }        
+        public List<Service> SubServices { get; set; }
+        [BindProperty]
+        public string? SelectedSubServices { get; set; }
 
         public async Task<IActionResult> OnGetAsync(List<Service>? subservices)
         {            
@@ -40,7 +42,8 @@ namespace DetailAndGoAdmin.Pages.Services
         {
             Service.CreatedDate = DateTime.Now;
             Service.IsActive = true;
-            
+
+            Service.SubServices = SelectedSubServices;
             
             Dictionary<string, string> metadata = new Dictionary<string, string>
             {

@@ -12,19 +12,23 @@ namespace DetailAndGoAdmin.Pages.Services
     {
         private readonly DetailAndGo.Data.ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IDAGService _serviceService;
 
-        public IndexModel(DetailAndGo.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public IndexModel(DetailAndGo.Data.ApplicationDbContext context, UserManager<IdentityUser> userManager, IDAGService serviceService)
         {
             _context = context;
             _userManager = userManager;
+            _serviceService = serviceService;
         }
 
         public List<Service> AllServices { get; set; }
+        public List<Service> AllSubServices { get; set; }
 
         public async Task OnGetAsync()
         {
 
-            AllServices = await _context.Services.OrderByDescending(s => s.CreatedDate).ToListAsync();
+            AllServices = await _serviceService.GetAllServicesOrderedByCreated();
+            AllSubServices = await _serviceService.GetAllSubServices();
         }
     }
 }

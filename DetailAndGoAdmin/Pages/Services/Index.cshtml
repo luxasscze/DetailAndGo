@@ -47,11 +47,11 @@
         <a class="btn btn-outline-primary btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Sub-Services Only</a>
     </div>
 </div>
-<div class="row text-muted">
+<!--<div class="row text-muted">
     <div class="legend-green">Main Service</div>
     <div class="legend-blue">Sub Service</div>
     <div class="legend-red">Not Active Service</div>
-</div>
+</div>-->
 
 @if (Model.AllServices.Count == 0)
 {
@@ -89,10 +89,23 @@ else
                         <div class="card-header"><label style="font-size: 28px;">@service.Name </label></div>
                         <div class="card-body">
                             <label> @service.Description </label>
-                            <div class="row">
+                            <div class="row" style="background-color: #003366">
                                 @if (!service.IsSubService)
                                 {
-                                    <label class="bg-warning text-dark">Sub-Services: @service.SubServices</label>
+                                    if (!string.IsNullOrEmpty(service.SubServices))
+                                    {                                    
+                                        string[] ids = service.SubServices.Split(',');
+                                        List<string> subServiceIds = new List<string>();
+
+                                        foreach (string id in ids)
+                                        {
+                                            <label class="text-warning">@Model.AllSubServices.FirstOrDefault(s => s.Id == Convert.ToInt32(id)).Name</label>
+                                        }                                        
+                                    }
+                                    else
+                                    {
+                                        <label class="bg-warning text-dark">No Sub-Services</label>
+                                    }
                                 }
                                 else
                                 {
