@@ -15,15 +15,19 @@ namespace DetailAndGoAdmin.Pages.Services
     {
         private readonly DetailAndGo.Data.ApplicationDbContext _context;
         private readonly DetailAndGo.Services.Interfaces.IStripeService _stripeService;
+        private readonly DetailAndGo.Services.Interfaces.IDAGService _serviceService;
 
-        public EditModel(DetailAndGo.Data.ApplicationDbContext context, DetailAndGo.Services.Interfaces.IStripeService stripeService)
+        public EditModel(DetailAndGo.Data.ApplicationDbContext context, DetailAndGo.Services.Interfaces.IStripeService stripeService, DetailAndGo.Services.Interfaces.IDAGService serviceService)
         {
             _context = context;
             _stripeService = stripeService;
+            _serviceService = serviceService;
         }
 
         [BindProperty]
         public Service Service { get; set; } = default!;
+        public Service ServiceBeforeChange { get; set; }
+        public List<Service> AllSubServices { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -32,12 +36,14 @@ namespace DetailAndGoAdmin.Pages.Services
                 return NotFound();
             }
 
-            var service =  await _context.Services.FirstOrDefaultAsync(m => m.Id == id);
+            var service =  await _serviceService.GetServiceById((int)id);
             if (service == null)
             {
                 return NotFound();
             }
             Service = service;
+            ServiceBeforeChange = await _serviceService.GetServiceById((int)id);
+            AllSubServices = await _serviceService.GetAllSubServices();
             return Page();
         }
 
@@ -45,22 +51,29 @@ namespace DetailAndGoAdmin.Pages.Services
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            
+            /*if (!ModelState.IsValid)
             {
                 return Page();
-            }
+            }*/
 
             _context.Attach(Service).State = EntityState.Modified;
 
             try
-            {
+            {               
                 Dictionary<string, string> metadata = new Dictionary<string, string>()
                 {
                     { "timeToFinishMinsS", Service.TimeToFinishMinsS.ToString() },
                     { "timeToFinishMinsM", Service.TimeToFinishMinsM.ToString() },
                     { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
                 };
-                await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price, metadata);
+                Stripe.Product changedProduct = await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price, Service.PriceMedium, Service.PriceLarge, metadata);
+                Service.Price = (decimal)changedProduct.DefaultPrice.UnitAmountDecimal; // RETURNS NULL HERE, I DONT KNOW WHY?
+                Service.PriceMedium = 0; // HERE I NEED TO CHANGE IT TO GET THE RIGHT PRICES AND PRICE IDS FROM STRIPE
+                Service.PriceLarge = 0;
+                Service.PriceId = changedProduct.DefaultPrice.Id;
+                Service.PriceMediumId = "";
+                Service.PriceLargeId = "";
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

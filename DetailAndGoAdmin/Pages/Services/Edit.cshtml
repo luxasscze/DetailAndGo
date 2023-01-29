@@ -6,77 +6,111 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1 class="text-light">Edit Service - @Model.Service.Name</h1>
-<hr />
-<div class="row text-light">
-    <div class="col-md-4">
+<link rel="stylesheet" href="~/css/AddService.css" />
+
+<div class="text-light main-box" style="margin: 20px;">
+
+    <div class="row child-box shadow">
+        @if (Model.Service.IsSubService)
+        {
+            <h4 class="text-light">Edit Sub-Service <label class="badge bg-warning text-dark">@Model.Service.Name</label></h4>
+        }
+        else
+        {
+            <h4 class="text-light">Edit Service <label class="badge bg-warning text-dark">@Model.Service.Name</label></h4>
+        }
+        <div class="row">
+            <div class="col-lg-4">
+                <label asp-for="Service.StripeServiceId" class="add-input" style="font-size: 14px;" disabled />
+            </div>
+        </div>
+        <hr />
+
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Service.Id" />
-            <div class="form-group">
-                <label asp-for="Service.Name" class="control-label"></label>
-                <input asp-for="Service.Name" class="form-control" />
-                <span asp-validation-for="Service.Name" class="text-danger"></span>
+            <input type="hidden" asp-for="Service.StripeServiceId" />
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="Service.Name" class="control-label"></label>
+                    <input asp-for="Service.Name" class="add-input" />
+                    <span asp-validation-for="Service.Name" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Service.Price" class="control-label"></label>
-                <input asp-for="Service.Price" class="form-control" />
-                <span asp-validation-for="Service.Price" class="text-danger"></span>
+            <div class="row">
+                <div class="form-group">
+                    <label asp-for="Service.Description" class="control-label"></label>
+                    <input asp-for="Service.Description" class="add-input" />
+                    <span asp-validation-for="Service.Description" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Service.Description" class="control-label"></label>
-                <input asp-for="Service.Description" class="form-control" />
-                <span asp-validation-for="Service.Description" class="text-danger"></span>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Service.TimeToFinishMinsS" class="control-label"></label>
+                        <input asp-for="Service.TimeToFinishMinsS" class="add-input" />
+                        <span asp-validation-for="Service.TimeToFinishMinsS" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Service.TimeToFinishMinsM" class="control-label"></label>
+                        <input asp-for="Service.TimeToFinishMinsM" class="add-input" />
+                        <span asp-validation-for="Service.TimeToFinishMinsM" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
+                        <input asp-for="Service.TimeToFinishMinsL" class="add-input" />
+                        <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Service.TimeToFinishMinsS" class="control-label"></label>
-                <input asp-for="Service.TimeToFinishMinsS" class="form-control" />
-                <span asp-validation-for="Service.TimeToFinishMinsS" class="text-danger"></span>
-
-                <label asp-for="Service.TimeToFinishMinsM" class="control-label"></label>
-                <input asp-for="Service.TimeToFinishMinsM" class="form-control" />
-                <span asp-validation-for="Service.TimeToFinishMinsM" class="text-danger"></span>
-
-                <label asp-for="Service.TimeToFinishMinsL" class="control-label"></label>
-                <input asp-for="Service.TimeToFinishMinsL" class="form-control" />
-                <span asp-validation-for="Service.TimeToFinishMinsL" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Service.CreatedDate" class="control-label"></label>
-                <input asp-for="Service.CreatedDate" class="form-control" />
-                <span asp-validation-for="Service.CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Service.Image" class="control-label"></label>
-                <input asp-for="Service.Image" class="form-control" />
-                <span asp-validation-for="Service.Image" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Service.Category" class="control-label"></label>
-                <input asp-for="Service.Category" class="form-control" />
-                <span asp-validation-for="Service.Category" class="text-danger"></span>
-            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Service.Price" class="control-label"></label>
+                        <input asp-for="Service.Price" class="add-input" />
+                        <span asp-validation-for="Service.Price" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Service.PriceMedium" class="control-label"></label>
+                        <input asp-for="Service.PriceMedium" class="add-input" />
+                        <span asp-validation-for="Service.PriceMedium" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <label asp-for="Service.PriceLarge" class="control-label"></label>
+                        <input asp-for="Service.PriceLarge" class="add-input" />
+                        <span asp-validation-for="Service.PriceLarge" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>            
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Service.IsActive" /> @Html.DisplayNameFor(model => model.Service.IsActive)
                 </label>
             </div>
             <div class="form-group">
-                <label asp-for="Service.StripeServiceId" class="control-label"></label>
-                <input asp-for="Service.StripeServiceId" class="form-control" />
-                <span asp-validation-for="Service.StripeServiceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
             </div>
         </form>
     </div>
+
+</div>
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
