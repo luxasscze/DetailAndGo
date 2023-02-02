@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DetailAndGo.Data;
 using DetailAndGo.Models;
+using Stripe;
 
 namespace DetailAndGoAdmin.Pages.Services
 {
@@ -81,12 +82,16 @@ namespace DetailAndGoAdmin.Pages.Services
                     { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
                 };
                 Stripe.Product changedProduct = await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price, Service.PriceMedium, Service.PriceLarge, metadata);
-                Service.Price = (decimal)changedProduct.DefaultPrice.UnitAmountDecimal; // RETURNS NULL HERE, I DONT KNOW WHY?
-                Service.PriceMedium = 0; // HERE I NEED TO CHANGE IT TO GET THE RIGHT PRICES AND PRICE IDS FROM STRIPE
-                Service.PriceLarge = 0;
-                Service.PriceId = changedProduct.DefaultPrice.Id;
-                Service.PriceMediumId = "";
-                Service.PriceLargeId = "";
+
+                StripeList<Stripe.Price> newPrices = await _stripeService.GetPricesByProductId(changedProduct.Id);
+
+                Service.Price = (decimal)newPrices.FirstOrDefault(s => s.Nickname == "small").UnitAmount / 100;
+                Service.PriceMedium = (decimal)newPrices.FirstOrDefault(s => s.Nickname == "medium").UnitAmount / 100;
+                Service.PriceLarge = (decimal)newPrices.FirstOrDefault(s => s.Nickname == "large").UnitAmount / 100;
+                Service.PriceId = newPrices.FirstOrDefault(s => s.Nickname == "small").Id;
+                Service.PriceMediumId = newPrices.FirstOrDefault(s => s.Nickname == "medium").Id;
+                Service.PriceLargeId = newPrices.FirstOrDefault(s => s.Nickname == "large").Id;
+                Service.IsSubService = Service.IsSubService;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

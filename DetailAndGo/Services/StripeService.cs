@@ -348,5 +348,13 @@ namespace DetailAndGo.Services
             return await service.CreateAsync(options);
         }
 
+        public async Task<Product> GetProductById(string productId)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+            ProductService service = new ProductService();
+            Product product = await service.GetAsync(productId);
+            return product;
+        }
+
     }
 }

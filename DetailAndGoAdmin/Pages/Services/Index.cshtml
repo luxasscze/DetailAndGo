@@ -108,7 +108,7 @@ else
 
                                         foreach (string id in ids)
                                         {
-                                            <label class="text-warning">@Model.AllSubServices.FirstOrDefault(s => s.Id == Convert.ToInt32(id)).Name</label>
+                                            <label class="text-warning">@Model.AllSubServices.FirstOrDefault(s => s.Id == Convert.ToInt32(id)).Name</label> // GETTING ERROR HERE WHEN MANIPULATING WITH SUBSERVICES
                                         }
                                     }
                                     else
