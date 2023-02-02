@@ -73,7 +73,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     protocol: Request.Scheme);
             }
 
-            return Page();
+            //return Page();
+            return RedirectToAction("Index");
         }
     }
 }

@@ -213,7 +213,14 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         email.Subject = Input.FirstName + ", confirm your Detail&Go account";
                         email.To = Input.Email;
                     }
-                    await _emailService.SendSingleEmail(email);
+                    try
+                    {
+                        await _emailService.SendSingleEmail(email);
+                    }
+                    catch(Exception ex)
+                    {
+                        _userManager.Options.SignIn.RequireConfirmedEmail = false;
+                    }
 
                     Customer customerToRegister = new Customer()
                     {
@@ -238,7 +245,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarFamily = Input.CarFamily,
                         CarModel = Input.CarModel,
                         IsPrimary = true,
-                        Notes = string.Empty
+                        Notes = string.Empty,
+                        ManufactureYear = ""
                     };
 
                     await _carService.SaveCar(initialCar);
