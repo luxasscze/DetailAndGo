@@ -21,6 +21,40 @@ namespace DetailAndGo.Services
         {
             List<Service> allServices = await _context.Services.ToListAsync();
             return allServices;
-        }        
+        }
+
+        public async Task<List<Service>> GetAllServicesOrderedByCreated()
+        {
+            List<Service> services = await _context.Services.OrderByDescending(s => s.CreatedDate).ToListAsync();
+            return services;
+        }
+        
+        public async Task<List<Service>> GetAllSubServices()
+        {
+            return await _context.Services.Where(s => s.IsSubService).ToListAsync();
+        }
+
+        public async Task<Service> GetServiceById(int serviceId)
+        {
+            return await _context.Services.FirstOrDefaultAsync(s => s.Id == serviceId);
+        }
+
+        public async Task<List<Service>> GetAllMainServices()
+        {
+            return await _context.Services.Where(s => !s.IsSubService).ToListAsync();
+        }
+
+        public async Task<List<Service>> GetServicesFromIdArray(string Ids)
+        {
+            List<Service> services = new List<Service>();
+            string[] ids = Ids.Split(',');
+
+            foreach(string id in ids)
+            {
+                services.Add(await _context.Services.FirstOrDefaultAsync(s => s.Id == Convert.ToInt32(id)));
+            }
+
+            return services;
+        }
     }
 }

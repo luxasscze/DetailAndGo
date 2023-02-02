@@ -70,6 +70,10 @@
     <a asp-page="Index">Back to List</a>
 </div>
 
+<script src="~/lib/jquery-validation/dist/jquery.validate.js" />
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

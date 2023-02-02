@@ -16,37 +16,81 @@ namespace DetailAndGoAdmin.Pages.Services
     {
         private readonly DetailAndGo.Data.ApplicationDbContext _context;
         private readonly DetailAndGo.Services.Interfaces.IStripeService _stripeService;
+        private readonly IDAGService _serviceService;
 
-        public AddServiceModel(DetailAndGo.Data.ApplicationDbContext context, IStripeService stripeService)
+        public AddServiceModel(DetailAndGo.Data.ApplicationDbContext context, IStripeService stripeService, IDAGService serviceService)
         {
             _context = context;
             _stripeService = stripeService;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
+            _serviceService = serviceService;
+        }        
 
         [BindProperty]
         public Service Service { get; set; }
+        public List<Service> SubServices { get; set; }
+        [BindProperty]
+        public string? SelectedSubServices { get; set; }
 
-
+        public async Task<IActionResult> OnGetAsync(List<Service>? subservices)
+        {            
+            SubServices = subservices.Count == 0 ? await _serviceService.GetAllSubServices() : subservices;            
+            return Page();
+        }
+        
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
-        {         
-            Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, Service.Price);
-            Service.StripeServiceId = product.Id;
+        {
             Service.CreatedDate = DateTime.Now;
             Service.IsActive = true;
-            Service.Category = "default";
-            Service.Image = "none";
 
-            var test = ModelState.Values;
-            /*if (!ModelState.IsValid)
+            Service.SubServices = SelectedSubServices;
+            
+            Dictionary<string, string> metadata = new Dictionary<string, string>
             {
+                { "timeToFinishMinsS", Service.TimeToFinishMinsS.ToString() },
+                { "timeToFinishMinsM", Service.TimeToFinishMinsM.ToString() },
+                { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
+            };
+
+            List<decimal> price = new List<decimal>();            
+            if(Service.Price > 0)
+            {
+                price.Add(Service.Price);
+            }
+
+            if(Service.PriceMedium > 0)
+            {
+                price.Add(Service.PriceMedium);
+            }
+
+            if(Service.PriceLarge > 0)
+            {
+                price.Add(Service.PriceLarge);
+            }
+
+            if(string.IsNullOrEmpty(Service.SubServices))
+            {
+                Service.SubServices = "";
+                Service.IsCustomisable = false;
+            }
+            else
+            {
+                Service.IsCustomisable = true;
+            }            
+
+            if (!ModelState.IsValid)
+            {
+                var secondTest = Service;
+                var test = ModelState.Values;
                 return Page();
-            }*/
+            }
+
+            Product product = await _stripeService.CreateProduct(Service.Name, Service.Description, price, metadata);
+            StripeList<Price> prices = await _stripeService.GetPricesByProductId(product.Id);
+            Service.StripeServiceId = product.Id;                  
+            Service.PriceId = prices.FirstOrDefault(s => s.Nickname == "small").Id;
+            Service.PriceMediumId = prices.FirstOrDefault(s => s.Nickname == "medium").Id;
+            Service.PriceLargeId = prices.FirstOrDefault(s => s.Nickname == "large").Id;
 
             _context.Services.Add(Service);
             await _context.SaveChangesAsync();

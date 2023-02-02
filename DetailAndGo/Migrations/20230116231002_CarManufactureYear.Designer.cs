@@ -4,6 +4,7 @@ using DetailAndGo.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DetailAndGo.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230116231002_CarManufactureYear")]
+    partial class CarManufactureYear
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,6 +285,7 @@ namespace DetailAndGo.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Category")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -293,15 +296,10 @@ namespace DetailAndGo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Image")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsCustomisable")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSubService")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -314,35 +312,15 @@ namespace DetailAndGo.Migrations
                     b.Property<decimal>("Price4x4")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("PriceId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("PriceLarge")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PriceLargeId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PriceMedium")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("PriceMediumId")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StripeServiceId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SubServices")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TimeToFinishMinsL")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TimeToFinishMinsM")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TimeToFinishMinsS")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

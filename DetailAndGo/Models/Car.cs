@@ -12,5 +12,6 @@ namespace DetailAndGo.Models
         public DateTime Created { get; set; }
         public string Notes { get; set; }
         public CarSize CarSize { get; set; }
+        public string ManufactureYear { get; set; }
     }
 }

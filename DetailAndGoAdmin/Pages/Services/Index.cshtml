@@ -5,18 +5,61 @@
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+<style>
+    .legend-green {
+        display: block;
+        height: 20px;
+        width: fit-content;
+        border: 1px solid #0f0;
+        padding: 0px 10px;
+        margin: 10px;
+    }
+
+    .legend-blue {
+        display: block;
+        height: 20px;
+        width: fit-content;
+        border: 1px solid #00f;
+        padding: 0px 10px;
+        margin: 10px;
+    }
+
+    .legend-red {
+        display: block;
+        height: 20px;
+        width: fit-content;
+        border: 1px solid #f00;
+        padding: 0px 10px;
+        margin: 10px;
+    }
+
+    .max-lines {
+        display: block; /* or inline-block */
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+        overflow: hidden;
+        max-height: 3em;
+    }
+</style>
+
 <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+<!--<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>-->
 
 <div class="row" style="margin-top: 20px;">
-    <div class="col-md-6">
-        <h1 class="text-light" style="margin-left: 20px;">Services</h1>
+    <div class="col-md-2 text-light">
+        <h1 style="margin-left: 20px;">Services</h1>
     </div>
-    <div class="col-md-6">
-        <a class="btn btn-outline-success btn-lg float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-plus"></i> Add New Service</a>
+    <div class="col-md-10">
+        <a class="btn btn-success btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-plus"></i> Add New Service</a>
+        <a class="btn btn-outline-primary btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Services Only</a>
+        <a class="btn btn-outline-primary btn-sm float-end" style="margin-right: 20px;" asp-page="./AddService"><i class="fa fa-list"></i> Sub-Services Only</a>
     </div>
 </div>
-
+<!--<div class="row text-muted">
+    <div class="legend-green">Main Service</div>
+    <div class="legend-blue">Sub Service</div>
+    <div class="legend-red">Not Active Service</div>
+</div>-->
 @if (Model.AllServices.Count == 0)
 {
     <div class="row">
@@ -37,18 +80,97 @@ else
     <div class="row">
         @foreach (var service in Model.AllServices)
         {
-            string cardBgColor = service.IsActive ? "bg-success" : "bg-dark";
-            <div class="col-md-3">
+            string cardBgColor = "";
+            if (service.IsSubService)
+            {
+                cardBgColor = service.IsActive ? "bg-dark border-primary" : "bg-dark border-danger";
+            }
+            else
+            {
+                cardBgColor = service.IsActive ? "bg-dark border-success" : "bg-dark border-danger";
+            }
+
+            <div class="col-md-3" style="margin-bottom: 40px;">
                 <a asp-page="./Edit" asp-route-id="@service.Id" style="text-decoration: none;">
-                    <div class="card @cardBgColor text-light text-center" style="margin: 20px;">
-                        <div class="card-header">@service.Name</div>
+                    <div class="card @cardBgColor text-light text-center" style="margin: 20px; height: 100%">
+                        <div class="card-header"><label style="font-size: 28px;">@service.Name </label></div>
                         <div class="card-body">
-                            @service.Description
+                            <div class="max-lines">
+                                <label> @service.Description </label>
+                            </div>
+                            <div class="row" style="background-color: #003366">
+                                @if (!service.IsSubService)
+                                {
+                                    if (!string.IsNullOrEmpty(service.SubServices))
+                                    {
+                                        string[] ids = service.SubServices.Split(',');
+                                        List<string> subServiceIds = new List<string>();
+
+                                        foreach (string id in ids)
+                                        {
+                                            <label class="text-warning">@Model.AllSubServices.FirstOrDefault(s => s.Id == Convert.ToInt32(id)).Name</label>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <label class="bg-warning text-dark">No Sub-Services</label>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="bg-dark" style="font-size: 18px;">This is Sub-Service</div>
+                                }
+                            </div>
                         </div>
                         <div class="card-footer">
-                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">SMALL £@(service.Price)</div>
-                            <div class="badge text-dark bg-warning" style="font-size: 20px; margin-bottom: 5px;">MEDIUM £@(Math.Round(service.Price * (decimal)1.4, 2))</div>
-                            <div class="badge text-dark bg-warning" style="font-size: 20px;">LARGE £@(Math.Round(service.Price * (decimal)1.6, 2))</div>
+                            <div class="row">
+                                <div class="badge text-light @cardBgColor" style="font-size: 14px; margin-bottom: 5px; border: 1px solid #fff;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h3>S</h3>
+                                        </div>
+                                        <div class="col-5">
+                                            £@(service.Price)
+                                        </div>
+                                        <div class="col-5">
+                                            <label><i class="fa fa-clock"></i> @service.TimeToFinishMinsS mins</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="badge text-light @cardBgColor" style="font-size: 14px; margin-bottom: 5px; border: 1px solid #fff;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h3>M</h3>
+                                        </div>
+                                        <div class="col-5">
+                                            £@(service.PriceMedium)
+                                        </div>
+                                        <div class="col-5">
+                                            <label><i class="fa fa-clock"></i> @service.TimeToFinishMinsM mins</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="badge text-light @cardBgColor" style="font-size: 14px; margin-bottom: 5px; border: 1px solid #fff;">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <h3>L</h3>
+                                        </div>
+                                        <div class="col-5">
+                                            £@(service.PriceLarge)
+                                        </div>
+                                        <div class="col-5">
+                                            <label><i class="fa fa-clock"></i> @service.TimeToFinishMinsL mins</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
                             <div class="text-center">
                                 Created: @service.CreatedDate.ToShortDateString()
                             </div>
