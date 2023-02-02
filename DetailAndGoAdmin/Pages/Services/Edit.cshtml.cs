@@ -91,7 +91,7 @@ namespace DetailAndGoAdmin.Pages.Services
                 Service.PriceId = newPrices.FirstOrDefault(s => s.Nickname == "small").Id;
                 Service.PriceMediumId = newPrices.FirstOrDefault(s => s.Nickname == "medium").Id;
                 Service.PriceLargeId = newPrices.FirstOrDefault(s => s.Nickname == "large").Id;
-                Service.IsCustomisable = Service.SubServices.Count() > 0 ? true : false;
+                Service.IsCustomisable = Service.SubServices != null ? true : false;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
