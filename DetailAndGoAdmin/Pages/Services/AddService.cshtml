@@ -82,14 +82,15 @@
                         </div>
                     </div>
 
-                    <script>     
+                    <script>
                         let selectedSubServices = [];
                     </script>
 
                     <div class="row" style="margin-top: 20px;" id="subservices-section">
-                        <label class="text-center" style="margin-bottom: 18px; font-size: 14px;"><i class="fa fa-list"></i> Add Sub-Services</label>
-                        @if (Model.SubServices != null)
+                        @if (Model.SubServices != null && Model.SubServices.Count > 0)
                         {
+                            <label class="text-center" style="margin-bottom: 18px; font-size: 14px;"><i class="fa fa-list"></i> Add Sub-Services</label>
+
                             @foreach (var subservice in Model.SubServices)
                             {
                                 <div class="col-4" style="margin-bottom: 10px;">
@@ -98,12 +99,12 @@
 
                                 <script>
                                     $(function ($) {
-                                        $('#subservice-@subservice.Id').on('click', function () {                                            
+                                        $('#subservice-@subservice.Id').on('click', function () {
                                             if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
                                                 $('#subservice-@subservice.Id').removeClass('bg-dark');
                                                 $('#subservice-@subservice.Id').addClass('bg-primary');
                                                 $('#subservice-@subservice.Id').prepend('<i class="fa fa-circle-check" style="margin-top: 5px; margin-right: 5px;"></i> ');
-                                                selectedSubServices.push(@subservice.Id);                                              
+                                                selectedSubServices.push(@subservice.Id);
                                             }
                                             else {
                                                 $('#subservice-@subservice.Id').removeClass('bg-primary');
