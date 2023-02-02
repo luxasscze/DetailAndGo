@@ -81,9 +81,9 @@ namespace DetailAndGoAdmin.Pages.Services
                     { "timeToFinishMinsM", Service.TimeToFinishMinsM.ToString() },
                     { "timeToFinishMinsL", Service.TimeToFinishMinsL.ToString() }
                 };
-                Stripe.Product changedProduct = await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price, Service.PriceMedium, Service.PriceLarge, metadata);
+                Product changedProduct = await _stripeService.UpdateProduct(Service.StripeServiceId, Service.Name, Service.Description, Service.Price, Service.PriceMedium, Service.PriceLarge, metadata);
 
-                StripeList<Stripe.Price> newPrices = await _stripeService.GetPricesByProductId(changedProduct.Id);
+                StripeList<Price> newPrices = await _stripeService.GetPricesByProductId(changedProduct.Id);
 
                 Service.Price = (decimal)newPrices.FirstOrDefault(s => s.Nickname == "small").UnitAmount / 100;
                 Service.PriceMedium = (decimal)newPrices.FirstOrDefault(s => s.Nickname == "medium").UnitAmount / 100;
