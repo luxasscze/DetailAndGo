@@ -28,6 +28,7 @@ namespace DetailAndGoAdmin.Pages.Services
         public Service Service { get; set; } = default!;
         public Service ServiceBeforeChange { get; set; }
         public List<Service> AllSubServices { get; set; }
+        public List<Service> SubServices { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,7 +37,7 @@ namespace DetailAndGoAdmin.Pages.Services
                 return NotFound();
             }
 
-            var service =  await _serviceService.GetServiceById((int)id);
+            var service = await _serviceService.GetServiceById((int)id);
             if (service == null)
             {
                 return NotFound();
@@ -44,6 +45,18 @@ namespace DetailAndGoAdmin.Pages.Services
             Service = service;
             ServiceBeforeChange = await _serviceService.GetServiceById((int)id);
             AllSubServices = await _serviceService.GetAllSubServices();
+            if (Service.SubServices != null && Service.SubServices.Length > 0)
+            {
+                string[] subserviceIds = Service.SubServices.Split(',');
+
+                SubServices = new List<Service>();
+
+                foreach (var item in subserviceIds)
+                {
+                    Service serviceToAdd = await _serviceService.GetServiceById(Convert.ToInt32(item));
+                    SubServices.Add(serviceToAdd);
+                }
+            }
             return Page();
         }
 
@@ -51,7 +64,7 @@ namespace DetailAndGoAdmin.Pages.Services
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            
+
             /*if (!ModelState.IsValid)
             {
                 return Page();
@@ -60,7 +73,7 @@ namespace DetailAndGoAdmin.Pages.Services
             _context.Attach(Service).State = EntityState.Modified;
 
             try
-            {               
+            {
                 Dictionary<string, string> metadata = new Dictionary<string, string>()
                 {
                     { "timeToFinishMinsS", Service.TimeToFinishMinsS.ToString() },
@@ -93,7 +106,7 @@ namespace DetailAndGoAdmin.Pages.Services
 
         private bool ServiceExists(int id)
         {
-          return _context.Services.Any(e => e.Id == id);
+            return _context.Services.Any(e => e.Id == id);
         }
     }
 }
