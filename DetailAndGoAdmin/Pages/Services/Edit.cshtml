@@ -26,6 +26,8 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Service.Id" />
             <input type="hidden" asp-for="Service.StripeServiceId" />
+            <input type="hidden" asp-for="Service.IsSubService" />
+            <input type="hidden" asp-for="Service.CreatedDate" />
             <div class="row">
                 <div class="form-group">
                     <label asp-for="Service.Name" class="control-label"></label>
