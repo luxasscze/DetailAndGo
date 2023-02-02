@@ -93,43 +93,40 @@
                     <input class="form-check-input form-switch" asp-for="Service.IsActive" /> @Html.DisplayNameFor(model => model.Service.IsActive)
                 </label>
             </div>
-            @if (Model.Service.SubServices != null)
+            @if (Model.AllSubServices != null && Model.AllSubServices.Count > 0 && !Model.Service.IsSubService) // CONTINUE HERE - ACTIVE SELECTED SUBSERVICES
             {
                 <div class="row" style="margin-top: 20px;" id="subservices-section">
                     <label style="margin-bottom: 18px; font-size: 14px;"><i class="fa fa-list"></i> Sub-Services</label>
-                    @if (Model.Service.SubServices != null && Model.Service.SubServices.Length > 0)
+                    <script>
+                        let selectedSubServices = [];
+                    </script>
+                    @foreach (var subservice in Model.AllSubServices)
                     {
-                        <script>
-                            let selectedSubServices = [];
-                        </script>
-                        @foreach (var subservice in Model.AllSubServices)
-                        {
-                            <div class="col-4" style="margin-bottom: 10px;">
-                                <div class="service-button bg-dark" id="subservice-@subservice.Id"><label style="cursor: crosshair;">@subservice.Name</label></div>
-                            </div>
+                        <div class="col-4" style="margin-bottom: 10px;">
+                            <div class="service-button bg-dark" id="subservice-@subservice.Id"><label style="cursor: crosshair;">@subservice.Name</label></div>
+                        </div>
 
-                            <script>
-                                $(function ($) {
-                                    $('#subservice-@subservice.Id').on('click', function () {
-                                        if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
-                                            $('#subservice-@subservice.Id').removeClass('bg-dark');
-                                            $('#subservice-@subservice.Id').addClass('bg-primary');
-                                            $('#subservice-@subservice.Id').prepend('<i class="fa fa-circle-check" style="margin-top: 5px; margin-right: 5px;"></i> ');
-                                            selectedSubServices.push(@subservice.Id);
-                                        }
-                                        else {
-                                            $('#subservice-@subservice.Id').removeClass('bg-primary');
-                                            $('#subservice-@subservice.Id').addClass('bg-dark');
-                                            $('#subservice-@subservice.Id').text('@subservice.Name');
-                                            selectedSubServices.remove(@subservice.Id);
-                                        }
-                                        console.log(selectedSubServices);
-                                        $('#subserviceHidden').val(selectedSubServices);
-                                        $('#selectedSubS').val(selectedSubServices);
-                                    });
+                        <script>
+                            $(function ($) {
+                                $('#subservice-@subservice.Id').on('click', function () {
+                                    if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
+                                        $('#subservice-@subservice.Id').removeClass('bg-dark');
+                                        $('#subservice-@subservice.Id').addClass('bg-primary');
+                                        $('#subservice-@subservice.Id').prepend('<i class="fa fa-circle-check" style="margin-top: 5px; margin-right: 5px;"></i> ');
+                                        selectedSubServices.push(@subservice.Id);
+                                    }
+                                    else {
+                                        $('#subservice-@subservice.Id').removeClass('bg-primary');
+                                        $('#subservice-@subservice.Id').addClass('bg-dark');
+                                        $('#subservice-@subservice.Id').text('@subservice.Name');
+                                        selectedSubServices.remove(@subservice.Id);
+                                    }
+                                    console.log(selectedSubServices);
+                                    $('#subserviceHidden').val(selectedSubServices);
+                                    $('#selectedSubS').val(selectedSubServices);
                                 });
-                            </script>
-                        }
+                            });
+                        </script>
                     }
                 </div>
             }

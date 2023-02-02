@@ -28,6 +28,7 @@ namespace DetailAndGoAdmin.Pages.Services
         {
 
             AllServices = await _serviceService.GetAllServicesOrderedByCreated();
+            AllServices = AllServices.OrderBy(s => s.IsSubService).ToList();
             AllSubServices = await _serviceService.GetAllSubServices();
         }
     }
