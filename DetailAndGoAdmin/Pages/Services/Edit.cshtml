@@ -28,6 +28,7 @@
             <input type="hidden" asp-for="Service.StripeServiceId" />
             <input type="hidden" asp-for="Service.IsSubService" />
             <input type="hidden" asp-for="Service.CreatedDate" />
+            <input type="hidden" asp-for="Service.SubServices" id="subserviceHidden" />
             <div class="row">
                 <div class="form-group">
                     <label asp-for="Service.Name" class="control-label"></label>
@@ -93,7 +94,7 @@
                     <input class="form-check-input form-switch" asp-for="Service.IsActive" /> @Html.DisplayNameFor(model => model.Service.IsActive)
                 </label>
             </div>
-            @if (Model.AllSubServices != null && Model.AllSubServices.Count > 0 && !Model.Service.IsSubService) // CONTINUE HERE - ACTIVE SELECTED SUBSERVICES
+            @if (Model.AllSubServices != null && Model.AllSubServices.Count > 0 && !Model.Service.IsSubService)
             {
                 <div class="row" style="margin-top: 20px;" id="subservices-section">
                     <label style="margin-bottom: 18px; font-size: 14px;"><i class="fa fa-list"></i> Sub-Services</label>
@@ -107,7 +108,17 @@
                         </div>
 
                         <script>
-                            $(function ($) {                                
+                            $(function ($) {
+                                @if(Model.SubServices != null && Model.SubServices.Contains(subservice)) 
+                                {
+                                    <text>
+                                    $('#subservice-@subservice.Id').removeClass('bg-dark');
+                                    $('#subservice-@subservice.Id').addClass('bg-primary');
+                                    $('#subservice-@subservice.Id').prepend('<i class="fa fa-circle-check" style="margin-top: 5px; margin-right: 5px;"></i> ');
+                                    selectedSubServices.push(@subservice.Id);
+                                    </text>
+                                }
+
                                 $('#subservice-@subservice.Id').on('click', function () {
                                     if ($('#subservice-@subservice.Id').hasClass('bg-dark')) {
                                         $('#subservice-@subservice.Id').removeClass('bg-dark');
@@ -140,7 +151,7 @@
 
 </div>
 
-
+<script src="~/js/Utility.js"></script>
 
 @section Scripts {
     @{

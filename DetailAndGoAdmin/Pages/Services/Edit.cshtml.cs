@@ -90,7 +90,8 @@ namespace DetailAndGoAdmin.Pages.Services
                 Service.PriceLarge = (decimal)newPrices.FirstOrDefault(s => s.Nickname == "large").UnitAmount / 100;
                 Service.PriceId = newPrices.FirstOrDefault(s => s.Nickname == "small").Id;
                 Service.PriceMediumId = newPrices.FirstOrDefault(s => s.Nickname == "medium").Id;
-                Service.PriceLargeId = newPrices.FirstOrDefault(s => s.Nickname == "large").Id;                
+                Service.PriceLargeId = newPrices.FirstOrDefault(s => s.Nickname == "large").Id;
+                Service.IsCustomisable = Service.SubServices.Count() > 0 ? true : false;
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
