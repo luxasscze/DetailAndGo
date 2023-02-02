@@ -134,7 +134,7 @@
         </div>
     </div>
 </div>
-<div class="row" style="margin: 40px auto; width: 50%;">
+<div class="row" style="margin: 40px auto; width: 50%; display: none;" id="confirmButton">
     <a href="">
         <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
             <div style="font-size: 32px;"> CONFIRM BOOKING </div>            
@@ -158,7 +158,11 @@
         },
         totalPrice: 0,
         dateTime: new Date(),
-        paymentMethod: '@Model.DefaultPaymentMethod'
+        paymentMethod: '@Model.DefaultPaymentMethod',
+        carSelected: true,
+        servicesSelected: false,
+        dateTimeSelected: false,
+        paymentSelected: true
     };
 
     @foreach (var car in Model.CustomerCars)
@@ -178,5 +182,9 @@
         </text>
     }
         console.log(booking);
+
+        if(booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
+            $('#confirmButton').show();
+        }
 
 </script>
