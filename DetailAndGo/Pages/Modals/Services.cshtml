@@ -68,21 +68,20 @@
                                                                     break;
                                                                 }
 
-                                                                foreach (DetailAndGo.Models.Service itm in ser) // I AM HAVING TWO OR MORE IDENTICAL IDs HERE. TRY TO FIX IT...
+                                                                foreach (DetailAndGo.Models.Service itm in ser)
                                                                 {
                                                                     <div class="row">
-                                                                        <div class="bg-dark" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px;" id="subSer-@itm.Id"><div class="float-start">@itm.Name</div> <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div></div>
+                                                                        <div class="bg-dark extra-service" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px;" id="service-@service.Id-subSer-@itm.Id"><div class="float-start">@itm.Name</div> <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div></div>
                                                                     </div>
-                                                                    <script> 
-                                                                        $("div *").filter(function () { return (this.id == "subSer-@itm.Id"); }).on('click', function () {
-                                                                            console.log('subservice @itm.Name clicked...');
-                                                                            if ($('#subSer-@itm.Id').hasClass('bg-dark')) {
-                                                                                $('#subSer-@itm.Id').removeClass('bg-dark');
-                                                                                $('#subSer-@itm.Id').addClass('bg-success');
+                                                                    <script>
+                                                                        $("#service-@service.Id-subSer-@itm.Id").on('click', function () {                                                                            
+                                                                            if ($('#service-@service.Id-subSer-@itm.Id').hasClass('bg-dark')) {
+                                                                                $('#service-@service.Id-subSer-@itm.Id').removeClass('bg-dark');
+                                                                                $('#service-@service.Id-subSer-@itm.Id').addClass('bg-success');
                                                                             }
                                                                             else {
-                                                                                $('#subSer-@itm.Id').removeClass('bg-success');
-                                                                                $('#subSer-@itm.Id').addClass('bg-dark');
+                                                                                $('#service-@service.Id-subSer-@itm.Id').removeClass('bg-success');
+                                                                                $('#service-@service.Id-subSer-@itm.Id').addClass('bg-dark');
                                                                             }
                                                                         });
                                                                     </script>
