@@ -52,13 +52,13 @@
                                                         <div class="accordion-body" style="font-size: 24px;">
                                                             @if (service.SubServices == null)
                                                             {
-                                                                
+
                                                             }
                                                             else
                                                             {
                                                                 List<DetailAndGo.Models.Service> ser = new List<DetailAndGo.Models.Service>();
                                                                 foreach (var subService in Model.AllSubServices)
-                                                                {                                                                    
+                                                                {
                                                                     string[] subServiceIds = service.SubServices.Split(',');
                                                                     foreach (string id in subServiceIds)
                                                                     {
@@ -67,10 +67,25 @@
                                                                     }
                                                                     break;
                                                                 }
-                                                                
-                                                                foreach (DetailAndGo.Models.Service itm in ser)
+
+                                                                foreach (DetailAndGo.Models.Service itm in ser) // I AM HAVING TWO IDENTICAL IDFS HERE. TRY TO FIX IT...
                                                                 {
-                                                                    <div class="btn btn-outline-success" style="width: 100%; margin: 5px; font-size: 20px;"><div class="float-start">@itm.Name</div> <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div></div>
+                                                                    <div class="row">
+                                                                        <div class="bg-dark" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px;" id="subSer-@itm.Id"><div class="float-start">@itm.Name</div> <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div></div>
+                                                                    </div>
+                                                                    <script> 
+                                                                        $("div *").filter(function () { return (this.id == "subSer-@itm.Id"); }).on('click', function () {
+                                                                            console.log('subservice @itm.Name clicked...');
+                                                                            if ($('#subSer-@itm.Id').hasClass('bg-dark')) {
+                                                                                $('#subSer-@itm.Id').removeClass('bg-dark');
+                                                                                $('#subSer-@itm.Id').addClass('bg-success');
+                                                                            }
+                                                                            else {
+                                                                                $('#subSer-@itm.Id').removeClass('bg-success');
+                                                                                $('#subSer-@itm.Id').addClass('bg-dark');
+                                                                            }
+                                                                        });
+                                                                    </script>
                                                                 }
                                                             }
 
@@ -115,12 +130,13 @@
                                     }
                                     console.log('Selected services: ' + selectedServices);
                                 });
+
                             </script>
                         }
                     </div>
                 </div>
                 <div class="row" style="margin: 20px 100px;">
-                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
+                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM FOR £299.89</a>
                     <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
                 </div>
             </div>
@@ -129,15 +145,4 @@
 
 </div>
 
-<script>
-    Array.prototype.remove = function () {
-        var what, a = arguments, L = a.length, ax;
-        while (L && this.length) {
-            what = a[--L];
-            while ((ax = this.indexOf(what)) !== -1) {
-                this.splice(ax, 1);
-            }
-        }
-        return this;
-    };
-</script>
+<script src="~/js/Utility.js"></script>
