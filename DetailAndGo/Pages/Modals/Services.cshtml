@@ -21,13 +21,13 @@
                         <script>selectedServices = [];</script>
                         @foreach (var service in Model.AllMainServices)
                         {
-                            <div class="col-md-6" style="margin-bottom: 30px;">
+                            <div class="col-md-6" style="margin-bottom: 60px;">
                                 <div class="card bg-dark service-card">
                                     <a href="#">
-                                        <div class="card-header bg-dark" id="service-@service.Id">
+                                        <div class="card-header bg-secondary shadow" id="service-@service.Id">
                                             <div class="row">
                                                 <div class="col-9">
-                                                    <h2 class="text-warning">@service.Name</h2>
+                                                    <h4 class="text-light">@service.Name</h4>
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ @service.Price</div>
@@ -40,12 +40,12 @@
                                     </div>
                                     @if (service.IsCustomisable)
                                     {
-                                        <div class="card-footer" style="background-color: #222;">
-                                            <div class="accordion" id="accordion-@service.Id">
-                                                <div class="accordion-item" style="background-color: rgba(70, 70, 70, .2);">
+                                        <div class="card-footer card-gradient">
+                                            <div class="accordion card-gradient" id="accordion-@service.Id" style="border: 0;">
+                                                <div class="accordion-item card-gradient" style="background-color: rgba(70, 70, 70, .8); border: 0;">
                                                     <h2 class="accordion-header" id="heading-@service.Id">
-                                                        <div class="accordion-button" style="color: #fff; background-color: #222;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@service.Id" aria-expanded="false" aria-controls="collapse-@service.Id">
-                                                            <label class="text-light">Customise</label>
+                                                        <div class="accordion-button card-gradient" style="color: #fff;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@service.Id" aria-expanded="false" aria-controls="collapse-@service.Id">
+                                                            <label class="text-info">Customise</label>
                                                         </div>
                                                     </h2>
                                                     <div id="collapse-@service.Id" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordion-@service.Id">
@@ -71,17 +71,28 @@
                                                                 foreach (DetailAndGo.Models.Service itm in ser)
                                                                 {
                                                                     <div class="row">
-                                                                        <div class="bg-dark extra-service" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px;" id="service-@service.Id-subSer-@itm.Id"><div class="float-start">@itm.Name</div> <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div></div>
+                                                                        <div class="extra-service-off" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px;" id="service-@service.Id-subSer-@itm.Id">
+                                                                            <div class="float-start" style="margin-left: 10px;">
+                                                                                <div class="row" style="font-size: 14px;">
+                                                                                    @itm.Name
+                                                                                </div>
+                                                                                <div class="row text-info" style="font-size: 12px;">
+                                                                                    @itm.Description
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div>
+                                                                        </div>                                                                        
                                                                     </div>
                                                                     <script>
-                                                                        $("#service-@service.Id-subSer-@itm.Id").on('click', function () {                                                                            
-                                                                            if ($('#service-@service.Id-subSer-@itm.Id').hasClass('bg-dark')) {
-                                                                                $('#service-@service.Id-subSer-@itm.Id').removeClass('bg-dark');
-                                                                                $('#service-@service.Id-subSer-@itm.Id').addClass('bg-success');
+                                                                        $("#service-@service.Id-subSer-@itm.Id").on('click', function () {
+                                                                            if ($('#service-@service.Id-subSer-@itm.Id').hasClass('extra-service-off')) {
+                                                                                $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service-off');
+                                                                                $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service');
                                                                             }
                                                                             else {
-                                                                                $('#service-@service.Id-subSer-@itm.Id').removeClass('bg-success');
-                                                                                $('#service-@service.Id-subSer-@itm.Id').addClass('bg-dark');
+                                                                                $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service');
+                                                                                $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service-off');
                                                                             }
                                                                             console.log('service - @service.Id');
                                                                             console.log('subservice - @itm.Id')
