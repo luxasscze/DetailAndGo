@@ -11,7 +11,7 @@
                     </div>
                     <div class="col">
                         <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                            <span class="text-light"><i class="fa fa-times" style="font-size: 22px;"></i></span>
                         </a>
                     </div>
                 </div>
@@ -24,10 +24,10 @@
                             <div class="col-md-6" style="margin-bottom: 60px;">
                                 <div class="card bg-dark service-card">
                                     <a href="#">
-                                        <div class="card-header bg-secondary shadow" id="service-@service.Id">
+                                        <div class="card-header service-header-gradient-off shadow" id="service-@service.Id">
                                             <div class="row">
                                                 <div class="col-9">
-                                                    <h4 class="text-light">@service.Name</h4>
+                                                    <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-warning" id="serviceSelected-@service.Id" style="display: none;"></i></h4>
                                                 </div>
                                                 <div class="col-3">
                                                     <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ @service.Price</div>
@@ -35,7 +35,7 @@
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="card-body" style="background-color: #333;">
+                                    <div class="card-body service-body-gradient">
                                         <label class="text-light">@service.Description</label>
                                     </div>
                                     @if (service.IsCustomisable)
@@ -71,7 +71,7 @@
                                                                 foreach (DetailAndGo.Models.Service itm in ser)
                                                                 {
                                                                     <div class="row">
-                                                                        <div class="extra-service-off" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px;" id="service-@service.Id-subSer-@itm.Id">
+                                                                        <div class="extra-service-off" style="width: 100%; margin: 5px; font-size: 20px; padding: 10px; cursor: pointer;" id="service-@service.Id-subSer-@itm.Id">
                                                                             <div class="float-start" style="margin-left: 10px;">
                                                                                 <div class="row" style="font-size: 14px;">
                                                                                     @itm.Name
@@ -120,25 +120,27 @@
                             <script>
                                 $('#service-@service.Id').on('click', function () {
                                     console.log('Service' + @service.Id + ' has been clicked');
-                                    if ($('#service-@service.Id').hasClass('bg-dark')) {
-                                        $('#service-@service.Id').removeClass('bg-dark');
-                                        $('#service-@service.Id').addClass('bg-success');
+                                    if ($('#service-@service.Id').hasClass('service-header-gradient-off')) {
+                                        $('#service-@service.Id').removeClass('service-header-gradient-off');
+                                        $('#service-@service.Id').addClass('service-header-gradient');
+                                        $('#serviceSelected-@service.Id').fadeIn(300);
                                         selectedServices.push('@service.Id');
                                     }
                                     else {
-                                        $('#service-@service.Id').removeClass('bg-success');
-                                        $('#service-@service.Id').addClass('bg-dark');
+                                        $('#service-@service.Id').removeClass('service-header-gradient');
+                                        $('#service-@service.Id').addClass('service-header-gradient-off');
+                                        $('#serviceSelected-@service.Id').fadeOut(300);
                                         selectedServices.remove('@service.Id');
                                     }
-                                    if ($('.bg-success').length > 0) {
+                                    if ($('#serviceSelected-@service.Id').is(':visible')) {
                                         $('#confirmServicesBtn').removeClass('disabled');
-                                        $('#confirmServicesBtn').removeClass('btn-outline-secondary');
-                                        $('#confirmServicesBtn').addClass('btn-success');
+                                        $('#confirmServicesBtn').removeClass('service-header-gradient-off');
+                                        $('#confirmServicesBtn').addClass('service-header-gradient');
                                     }
                                     else {
                                         $('#confirmServicesBtn').addClass('disabled');
-                                        $('#confirmServicesBtn').removeClass('btn-success');
-                                        $('#confirmServicesBtn').addClass('btn-outline-secondary');
+                                        $('#confirmServicesBtn').removeClass('service-header-gradient');
+                                        $('#confirmServicesBtn').addClass('service-header-gradient-off');
                                     }
                                     console.log('Selected services: ' + selectedServices);
                                 });

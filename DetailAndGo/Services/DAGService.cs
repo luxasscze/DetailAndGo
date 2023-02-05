@@ -41,7 +41,7 @@ namespace DetailAndGo.Services
 
         public async Task<List<Service>> GetAllMainServices()
         {
-            return await _context.Services.Where(s => !s.IsSubService).ToListAsync();
+            return await _context.Services.Where(s => !s.IsSubService && s.IsActive).ToListAsync();
         }
 
         public async Task<List<Service>> GetServicesFromIdArray(string Ids)
