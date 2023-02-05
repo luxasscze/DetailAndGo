@@ -57,16 +57,11 @@ namespace DetailAndGo.Pages
             Last4 = _stripeService.GetLast4(Customer.StripeId);
             AvailableTimes = await _jobService.GetAvailableTimesForDate(DateTime.Now);
             AvailableTimesString = new List<string>();
+
             foreach(var item in AvailableTimes)
             {
                 AvailableTimesString.Add(_jobService.ConvertTimeFromIntToString(item));
             }
-        }
-
-        [HttpGet]
-        public async Task OnDateChange() // CONTINUE HERE. GET THE RIGHT TIMES FOR SELECTED DATE
-        {
-
-        }
+        }        
     }
 }

@@ -62,7 +62,7 @@ namespace DetailAndGo.Services
 
             if (allTodayJobs.Count > 0)
             {
-                foreach (Job job in allTodayJobs)
+                foreach (Job job in allTodayJobs) // SOMEWHERE HERE IAM GETTING GENERAL ERROR ON LIVE
                 {
                     int time = int.Parse(job.BookingDate.ToShortTimeString().Replace(":", ""));
                     int timeIndex = times.IndexOf(time);
