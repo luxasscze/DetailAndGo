@@ -1,5 +1,20 @@
 ﻿<link rel="stylesheet" href="~/css/Services.css" />
 
+<style>
+    .date-picker {
+        font-size: 20px;
+    }
+
+    .time-button {
+        color: #ccc;
+        border: 1px solid #777;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+</style>
+
+
 <!-- Date & Time Modal -->
 <div class="modal fade" id="dateTimeModal" tabindex="-1" role="dialog" aria-labelledby="DateTimeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -15,8 +30,24 @@
                         </a>
                     </div>
                 </div>
-                <hr class="bg-light" />               
-                       
+                <hr class="bg-light" />
+                <div class="row text-center" style="width: 50%; margin: 0px auto;">
+                    <input type="date" id="datePicker" class="date-picker" />
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <label class="text-light text-center">
+                        Available Times
+                    </label>
+                </div>
+                <div class="row" style="width:50%; margin: 0 auto;">
+                    @foreach (string time in Model.AvailableTimesString)
+                    {
+                        <div class="col-md-4 col-sm-6" style="margin-bottom: 10px;">
+                            <div class="time-button">@time</div>
+                        </div>
+                    }
+
+                </div>
                 <div class="row" style="margin: 20px 100px;">
                     <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
                     <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
@@ -26,5 +57,12 @@
     </div>
 
 </div>
+
+<script>
+    $('#datePicker').on('change', function () {
+        console.log('changed to ' + $('#datePicker').val());
+    });
+</script>
+
 
 <script src="~/js/Utility.js"></script>

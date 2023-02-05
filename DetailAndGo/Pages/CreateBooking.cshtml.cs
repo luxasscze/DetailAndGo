@@ -13,14 +13,16 @@ namespace DetailAndGo.Pages
         private readonly IBookingService _bookingService;
         private readonly IDAGService _serviceService;
         private readonly IStripeService _stripeService;
+        private readonly IJobService _jobService;
 
-        public CreateBookingModel(ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService)
+        public CreateBookingModel(ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService, IJobService jobService)
         {
             _customerService = customerService;
             _carService = carService;
             _bookingService = bookingService;
             _serviceService = serviceService;
             _stripeService = stripeService;
+            _jobService = jobService;
         }
 
         public Customer Customer { get; set; }
@@ -35,6 +37,8 @@ namespace DetailAndGo.Pages
         public CreateBooking CreateBooking { get; set; }        
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
+        public List<int> AvailableTimes { get; set; }
+        public List<string> AvailableTimesString { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -50,7 +54,19 @@ namespace DetailAndGo.Pages
             AllServices = await _serviceService.GetAllServices();
             CreateBooking = new CreateBooking();
             DefaultPaymentMethod = _stripeService.GetCustomerDefaultPaymentMethod(Customer.StripeId);
-            Last4 = _stripeService.GetLast4(Customer.StripeId);            
+            Last4 = _stripeService.GetLast4(Customer.StripeId);
+            AvailableTimes = await _jobService.GetAvailableTimesForDate(DateTime.Now);
+            AvailableTimesString = new List<string>();
+            foreach(var item in AvailableTimes)
+            {
+                AvailableTimesString.Add(_jobService.ConvertTimeFromIntToString(item));
+            }
+        }
+
+        [HttpGet]
+        public async Task OnDateChange() // CONTINUE HERE. GET THE RIGHT TIMES FOR SELECTED DATE
+        {
+
         }
     }
 }
