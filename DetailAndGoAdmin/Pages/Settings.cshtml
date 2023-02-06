@@ -1,0 +1,50 @@
+﻿@page
+@model DetailAndGoAdmin.Pages.SettingsModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<link href="~/css/AddService.css" rel="stylesheet" />
+
+<h1 class="text-light text-center" style="margin-top: 20px;"><i class="fa fa-cogs"></i> SETTINGS</h1>
+<hr class="bg-light" />
+<form method="post">
+    <div class="row" style="margin: 0 20px;">
+        <div class="col-md-4">
+            <div class="card bg-dark text-light text-center" style="height: 100%;">
+                <div class="card-header">
+                    <i class="fa fa-clock"></i> START TIME (HHMM)
+                </div>
+                <div class="card-body">
+                    <input asp-for="SettingsToSave.TimeStart" type="text" value="@Model.AllSettings.FirstOrDefault(s => s.Key == "TimeStart").Value" class="add-input text-center" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark text-light text-center" style="height: 100%;">
+                <div class="card-header">
+                    <i class="fa fa-clock"></i> END TIME (HHMM)
+                </div>
+                <div class="card-body">
+                    <input asp-for="SettingsToSave.TimeEnd" type="text" value="@Model.AllSettings.FirstOrDefault(s => s.Key == "TimeEnd").Value" class="add-input text-center" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-dark text-light text-center" style="height: 100%;">
+                <div class="card-header">
+                    <i class="fa fa-forward"></i> UNITS TO SKIP
+                </div>
+                <div class="card-body">
+                    <input asp-for="SettingsToSave.TimeBetweenJobs" type="text" value="@Model.AllSettings.FirstOrDefault(s => s.Key == "TimeBetweenJobs").Value" class="add-input text-center" />
+                </div>
+                <div class="card-footer">
+                    Each unit will take away 30mins before and after booking time
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
+        <input type="submit" class="btn btn-success" value="Update Settings" />
+    </div>
+</form>

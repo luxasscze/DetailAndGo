@@ -19,6 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<DetailAndGo.Data.ApplicationDbContext>();
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IStripeService, DetailAndGo.Services.StripeService>();
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IDAGService, DetailAndGo.Services.DAGService>();
+builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IJobService, DetailAndGo.Services.JobService>();
 //builder.Services.AddTransient<IDAGService, DAGService>();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<Utility>();

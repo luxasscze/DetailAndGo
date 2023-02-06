@@ -62,7 +62,7 @@ namespace DetailAndGo.Services
 
             if (allTodayJobs.Count > 0)
             {
-                foreach (Job job in allTodayJobs) // SOMEWHERE HERE IAM GETTING GENERAL ERROR ON LIVE
+                foreach (Job job in allTodayJobs)
                 {
                     int time = int.Parse(job.BookingDate.ToString("HH:mm").Replace(":", ""));
                     int timeIndex = times.IndexOf(time);
@@ -131,6 +131,42 @@ namespace DetailAndGo.Services
             }
 
             return firstPart + ":" + secondPart;
+        }
+
+        public async Task UpdateTimes(string startTime, string endTime, string toSkip)
+        {
+            GeneralSettings startTimeSettings = new GeneralSettings()
+            {
+                Name = "TimeStart",
+                Value = startTime,
+            };
+            GeneralSettings endTimeSettings = new GeneralSettings()
+            {
+                Name = "TimeEnd",
+                Value = endTime,
+            };
+            GeneralSettings toSkipSettings = new GeneralSettings()
+            {
+                Name = "TimeBetweenJobs",
+                Value = toSkip,
+            };
+
+            _context.GeneralSettings.RemoveRange(_context.GeneralSettings.ToList());
+            _context.GeneralSettings.UpdateRange(startTimeSettings, endTimeSettings, toSkipSettings);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Dictionary<string, string>> GetAllSettings()
+        {
+            Dictionary<string, string> values = new Dictionary<string, string>();
+            List<GeneralSettings> allSettings = await _context.GeneralSettings.ToListAsync();
+
+            values.Clear();
+            foreach(GeneralSettings settings in allSettings)
+            {
+                values.Add(settings.Name, settings.Value);
+            }
+            return values;
         }
     }
 }
