@@ -64,7 +64,7 @@ namespace DetailAndGo.Services
             {
                 foreach (Job job in allTodayJobs) // SOMEWHERE HERE IAM GETTING GENERAL ERROR ON LIVE
                 {
-                    int time = int.Parse(job.BookingDate.ToShortTimeString().Replace(":", ""));
+                    int time = int.Parse(job.BookingDate.ToString("HH:mm").Replace(":", ""));
                     int timeIndex = times.IndexOf(time);
 
                     if (timeIndex > toSkip && timeIndex < times.Count - toSkip)

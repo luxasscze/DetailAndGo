@@ -10,7 +10,20 @@
         border: 1px solid #777;
         text-align: center;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 5px;        
+    }
+
+    .time-button:hover {
+        background-color: #555;
+    }
+
+    .time-button-active {
+        color: #000;
+        background-color: #fff;
+        border: 1px solid #000;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 5px;        
     }
 </style>
 
@@ -42,9 +55,24 @@
                 <div class="row" style="width:50%; margin: 0 auto;">
                     @foreach (string time in Model.AvailableTimesString)
                     {
-                        <div class="col-md-4 col-sm-6" style="margin-bottom: 10px;">
-                            <div class="time-button">@time</div>
+                        <div class="col-6 col-md-4" style="margin-bottom: 10px;">
+                            <div class="time-button" id="time-@time.Replace(":", "")">@time</div>
                         </div>
+
+                        <script>
+                            $('#time-@time.Replace(":", "")').on('click', function () {
+                                if ($('#time-@time.Replace(":", "")').hasClass('time-button')) {
+                                    $('.time-button-active').addClass('time-button');
+                                    $('.time-button-active').removeClass('time-button-active');
+                                    $('#time-@time.Replace(":", "")').removeClass('time-button');
+                                    $('#time-@time.Replace(":", "")').addClass('time-button-active');
+                                }
+                                else {
+                                    $('#time-@time.Replace(":", "")').removeClass('time-button-active');
+                                    $('#time-@time.Replace(":", "")').addClass('time-button');
+                                }
+                            });
+                        </script>
                     }
 
                 </div>

@@ -4,8 +4,10 @@ using DetailAndGoAdmin;
 using DetailAndGoAdmin.Data;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,5 +56,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+string locale = "en-GB";
+RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+{
+    SupportedCultures = new List<CultureInfo> { new CultureInfo(locale) },
+    SupportedUICultures = new List<CultureInfo> { new CultureInfo(locale) },
+    DefaultRequestCulture = new RequestCulture(locale)
+};
+app.UseRequestLocalization(localizationOptions);
 
 app.Run();
