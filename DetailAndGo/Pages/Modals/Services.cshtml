@@ -3,19 +3,12 @@
 <!-- Services Modal -->
 <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col">
-                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">What can we do for you?</h2>
-                    </div>
-                    <div class="col">
-                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                            <span class="text-light"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                        </a>
-                    </div>
+                    <h2 class="text-center text-light" id="carsModalLabel" style="font-size: 24px;">What can we do for you?</h2>
                 </div>
-                <hr class="bg-light" />
+                
                 <div class="row">
                     <div class="row text-light">
                         <script>selectedServices = [];</script>
@@ -82,7 +75,7 @@
                                                                             </div>
 
                                                                             <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div>
-                                                                        </div>                                                                        
+                                                                        </div>
                                                                     </div>
                                                                     <script>
                                                                         $("#service-@service.Id-subSer-@itm.Id").on('click', function () {
@@ -151,7 +144,7 @@
                 </div>
                 <div class="row" style="margin: 20px 100px;">
                     <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM FOR £299.89</a>
-                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                 </div>
             </div>
         </div>

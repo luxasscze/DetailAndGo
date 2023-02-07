@@ -1,8 +1,12 @@
 ﻿<link rel="stylesheet" href="~/css/Services.css" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
     .date-picker {
         font-size: 20px;
+        background-color: #555;
+        color: #fff;
+        border: none;
     }
 
     .time-button {
@@ -10,12 +14,12 @@
         border: 1px solid #777;
         text-align: center;
         cursor: pointer;
-        border-radius: 5px;        
+        border-radius: 5px;
     }
 
-    .time-button:hover {
-        background-color: #555;
-    }
+        .time-button:hover {
+            background-color: #555;
+        }
 
     .time-button-active {
         color: #000;
@@ -23,7 +27,7 @@
         border: 1px solid #000;
         text-align: center;
         cursor: pointer;
-        border-radius: 5px;        
+        border-radius: 5px;
     }
 </style>
 
@@ -31,32 +35,20 @@
 <!-- Date & Time Modal -->
 <div class="modal fade" id="dateTimeModal" tabindex="-1" role="dialog" aria-labelledby="DateTimeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
             <div class="modal-body">
                 <div class="row">
-                    <div class="col">
-                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">When we should visit you?</h2>
-                    </div>
-                    <div class="col">
-                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
-                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
-                        </a>
-                    </div>
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">When we should visit you?</h2>
                 </div>
-                <hr class="bg-light" />
+                
                 <div class="row text-center" style="width: 50%; margin: 0px auto;">
-                    <input type="date" id="datePicker" class="date-picker" min="new date()" />
+                    <input type="date" id="datePicker" class="date-picker" vaule="new date()" />
                 </div>
-                <div class="row" style="margin-top: 20px;">
-                    <label class="text-light text-center">
-                        Available Times
-                    </label>
+                <div class="row" style="width:50%; margin: 0 auto;" id="timesSection">
                 </div>
-                <div class="row" style="width:50%; margin: 0 auto;" id="timesSection">                 
-                </div>
-                <div class="row" style="margin: 20px 100px;">
+                <div class="row" style="margin: 20px auto; width: 50%;">
                     <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
-                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelServicesBtn">Cancel</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                 </div>
             </div>
         </div>
@@ -65,20 +57,21 @@
 </div>
 
 <script>
+
     datePicker.min = new Date().toISOString().split("T")[0];
     $('#datePicker').on('change', function () {
         console.log('changed to ' + $('#datePicker').val());
 
         $.ajax({
             url: "/CreateBooking?handler=SetAvailableTimesByDate",
-            data: { date: $('#datePicker').val() }, 
+            data: { date: $('#datePicker').val() },
             type: "GET",
             async: false,
             cache: false,
             beforeSend: function () {
                 $('#timesSection').slideUp(500);
             },
-            success: function (data) {                
+            success: function (data) {
                 $('#timesSection').html(data);
                 $('#timesSection').slideDown(500);
             },
@@ -92,5 +85,5 @@
     });
 </script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="~/js/Utility.js"></script>
