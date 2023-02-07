@@ -65,11 +65,18 @@ namespace DetailAndGo.Pages
         }
 
         [HttpGet]
-        public async Task<JsonResult> OnGetSetAvailableTimesByDateAsync(DateTime date)
-        {
-            var test = date;
-            AvailableTimes = await _jobService.GetAvailableTimesForDate(date);
-            return new JsonResult(AvailableTimes);
+        public async Task<ActionResult> OnGetSetAvailableTimesByDateAsync(DateTime date)
+        {           
+            List<int> modelInt = await _jobService.GetAvailableTimesForDate(date);
+            List<string> modelString = new List<string>();
+            foreach(var item in modelInt)
+            {
+                modelString.Add(_jobService.ConvertTimeFromIntToString(item));
+            }
+
+            var test = modelString;
+
+            return Partial("Partials/Times", modelString);
         }        
     }
 }

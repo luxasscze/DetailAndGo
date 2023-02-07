@@ -52,29 +52,7 @@
                         Available Times
                     </label>
                 </div>
-                <div class="row" style="width:50%; margin: 0 auto;" id="timesSection">
-                    @foreach (string time in Model.AvailableTimesString)
-                    {
-                        <div class="col-6 col-md-4" style="margin-bottom: 10px;">
-                            <div class="time-button" id="time-@time.Replace(":", "")">@time</div>
-                        </div>
-
-                        <script>
-                            $('#time-@time.Replace(":", "")').on('click', function () {
-                                if ($('#time-@time.Replace(":", "")').hasClass('time-button')) {
-                                    $('.time-button-active').addClass('time-button');
-                                    $('.time-button-active').removeClass('time-button-active');
-                                    $('#time-@time.Replace(":", "")').removeClass('time-button');
-                                    $('#time-@time.Replace(":", "")').addClass('time-button-active');
-                                }
-                                else {
-                                    $('#time-@time.Replace(":", "")').removeClass('time-button-active');
-                                    $('#time-@time.Replace(":", "")').addClass('time-button');
-                                }
-                            });
-                        </script>
-                    }
-
+                <div class="row" style="width:50%; margin: 0 auto;" id="timesSection">                 
                 </div>
                 <div class="row" style="margin: 20px 100px;">
                     <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM</a>
@@ -98,11 +76,11 @@
             async: false,
             cache: false,
             beforeSend: function () {
-                $('#timesSection').fadeOut(500);
+                $('#timesSection').slideUp(500);
             },
-            success: function (data) {
-                console.log(data);                
-                $('#timesSection').fadeIn(500);
+            success: function (data) {                
+                $('#timesSection').html(data);
+                $('#timesSection').slideDown(500);
             },
             error: function (error) {
                 console.log(error);
