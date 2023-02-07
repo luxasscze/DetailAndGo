@@ -45,14 +45,14 @@
                 </div>
                 <hr class="bg-light" />
                 <div class="row text-center" style="width: 50%; margin: 0px auto;">
-                    <input type="date" id="datePicker" class="date-picker" />
+                    <input type="date" id="datePicker" class="date-picker" min="new date()" />
                 </div>
                 <div class="row" style="margin-top: 20px;">
                     <label class="text-light text-center">
                         Available Times
                     </label>
                 </div>
-                <div class="row" style="width:50%; margin: 0 auto;">
+                <div class="row" style="width:50%; margin: 0 auto;" id="timesSection">
                     @foreach (string time in Model.AvailableTimesString)
                     {
                         <div class="col-6 col-md-4" style="margin-bottom: 10px;">
@@ -87,8 +87,30 @@
 </div>
 
 <script>
+    datePicker.min = new Date().toISOString().split("T")[0];
     $('#datePicker').on('change', function () {
         console.log('changed to ' + $('#datePicker').val());
+
+        $.ajax({
+            url: "/CreateBooking?handler=SetAvailableTimesByDate",
+            data: { date: $('#datePicker').val() }, 
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+                $('#timesSection').fadeOut(500);
+            },
+            success: function (data) {
+                console.log(data);                
+                $('#timesSection').fadeIn(500);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
     });
 </script>
 

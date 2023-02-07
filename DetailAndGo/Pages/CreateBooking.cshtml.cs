@@ -62,6 +62,14 @@ namespace DetailAndGo.Pages
             {
                 AvailableTimesString.Add(_jobService.ConvertTimeFromIntToString(item));
             }
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> OnGetSetAvailableTimesByDateAsync(DateTime date)
+        {
+            var test = date;
+            AvailableTimes = await _jobService.GetAvailableTimesForDate(date);
+            return new JsonResult(AvailableTimes);
         }        
     }
 }
