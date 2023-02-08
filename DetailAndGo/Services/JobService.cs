@@ -87,16 +87,23 @@ namespace DetailAndGo.Services
                 }
             }
 
-            if (date.Date == DateTime.Now.Date) // REMOVES THE PAST TIMES IF DATE IS TODAY -- NEED FIX, GETTING ERROR IF TODAY'S DATE CONTAINS BOOKING (JOB)
+            if (date.Date == DateTime.Now.Date)
             {
+                List<int> timesForToday = GetAllTimes(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeStart").Value, _context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);
+                int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
+                int currentTimeIndex = timesForToday.IndexOf(currentTime);
+
                 try
-                {
-                    List<int> timesForToday = GetAllTimes(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeStart").Value, _context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);
-                    int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
-                    int currentTimeIndex = timesForToday.IndexOf(currentTime);
+                {                    
                     times.RemoveRange(0, currentTimeIndex + toSkip + 4);
                 }
                 catch(Exception ex)
+                {
+                    return new List<int>();
+                }
+
+                int timeEnd = int.Parse(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);
+                if (currentTime > timeEnd)
                 {
                     return new List<int>();
                 }
