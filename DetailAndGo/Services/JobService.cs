@@ -87,6 +87,13 @@ namespace DetailAndGo.Services
                 }
             }
 
+            if (date.Date == DateTime.Now.Date)
+            {
+                int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
+                int currentTimeIndex = times.IndexOf(currentTime);
+                times.RemoveRange(0, currentTimeIndex + toSkip + 4);
+            }
+
             return times;
         }
 
