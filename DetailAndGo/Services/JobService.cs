@@ -87,7 +87,7 @@ namespace DetailAndGo.Services
                 }
             }
 
-            if (date.Date == DateTime.Now.Date)
+            if (date.Date == DateTime.Now.Date) // REMOVES THE PAST TIMES IF DATE IS TODAY
             {
                 int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
                 int currentTimeIndex = times.IndexOf(currentTime);
