@@ -72,7 +72,12 @@
                 $('#timesSection').slideUp(500);
             },
             success: function (data) {
+                if(data.length > 0) {
                 $('#timesSection').html(data);
+                }
+                else {
+                    $('#timesSection').html('No available times');
+                }
                 $('#timesSection').slideDown(500);
             },
             error: function (error) {

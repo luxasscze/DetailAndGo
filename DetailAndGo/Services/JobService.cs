@@ -87,11 +87,18 @@ namespace DetailAndGo.Services
                 }
             }
 
-            if (date.Date == DateTime.Now.Date) // REMOVES THE PAST TIMES IF DATE IS TODAY
+            if (date.Date == DateTime.Now.Date) // REMOVES THE PAST TIMES IF DATE IS TODAY -- NEED FIX, GETTING ERROR IF TODAY'S DATE CONTAINS BOOKING (JOB)
             {
-                int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
-                int currentTimeIndex = times.IndexOf(currentTime);
-                times.RemoveRange(0, currentTimeIndex + toSkip + 4);
+                try
+                {
+                    int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
+                    int currentTimeIndex = times.IndexOf(currentTime);
+                    times.RemoveRange(0, currentTimeIndex + toSkip + 4);
+                }
+                catch(Exception ex)
+                {
+                    return new List<int>();
+                }
             }
 
             return times;
