@@ -56,7 +56,7 @@ namespace DetailAndGo.Services
 
         public async Task<List<int>> GetAvailableTimesForDate(DateTime date)
         {
-            List<int> times = GetAllTimes(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeStart").Value, _context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);
+            List<int> times = GetAllTimes(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeStart").Value, _context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);            
             int toSkip = int.Parse(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeBetweenJobs").Value);
             List<Job> allTodayJobs = await _context.Jobs.Where(s => s.BookingDate.Date == date.Date).ToListAsync();
 
@@ -91,8 +91,9 @@ namespace DetailAndGo.Services
             {
                 try
                 {
+                    List<int> timesForToday = GetAllTimes(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeStart").Value, _context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);
                     int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
-                    int currentTimeIndex = times.IndexOf(currentTime);
+                    int currentTimeIndex = timesForToday.IndexOf(currentTime);
                     times.RemoveRange(0, currentTimeIndex + toSkip + 4);
                 }
                 catch(Exception ex)
