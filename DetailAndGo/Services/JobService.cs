@@ -58,7 +58,7 @@ namespace DetailAndGo.Services
         {
             List<int> times = GetAllTimes(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeStart").Value, _context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeEnd").Value);            
             int toSkip = int.Parse(_context.GeneralSettings.FirstOrDefault(s => s.Name == "TimeBetweenJobs").Value);
-            List<Job> allTodayJobs = await _context.Jobs.Where(s => s.BookingDate.Date == date.Date).ToListAsync();
+            List<Job> allTodayJobs = await _context.Jobs.Where(s => s.BookingDate.Date == date.Date).OrderBy(x => x.BookingDate).ToListAsync();
 
             if (allTodayJobs.Count > 0)
             {
@@ -93,6 +93,11 @@ namespace DetailAndGo.Services
                 int currentTime = int.Parse(DateTime.Now.ToString("HH")) * 100;
                 int currentTimeIndex = timesForToday.IndexOf(currentTime);
 
+                if(currentTime < timesForToday[0])
+                {
+                    return times;
+                }
+                
                 try
                 {                    
                     times.RemoveRange(0, currentTimeIndex + toSkip + 4);
