@@ -57,7 +57,7 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2><i class="fa fa-check text-light"></i> CAR</h2>
+                <h2><i class="fa fa-check text-success"></i> CAR</h2>
             </div>
             <div class="card-body">
                 @{
@@ -96,13 +96,13 @@
     </div>
     <div class="col-lg-3">
         <div class="card text-light booking-card">
-            <div class="card-header">
-                <h2>DATE&TIME</h2>
+            <div class="card-header">                
+                <h2><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
             </div>
             <div class="card-body">
                 <div class="" style="margin: 78px auto;">
-                    <i class="fa fa-clock" style="font-size: 24px;"></i>
-                    <h6>No date&time selected...</h6>
+                    <i class="fa fa-calendar" style="font-size: 24px;"></i>
+                    <h6 id="dateTimeContent">No date&time selected...</h6>
                 </div>
 
             </div>
@@ -117,7 +117,7 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2><i class="fa fa-check"></i> PAYMENT</h2>
+                <h2><i class="fa fa-check text-success"></i> PAYMENT</h2>
             </div>
             <div class="card-body">
                 <div class="" style="margin: 78px auto;">
@@ -149,7 +149,7 @@
 </div>
 
 
-<script>
+<script>    
     let carImgUri;
     const booking = {
         carModel: '@Model.CustomerCar.CarModel',
@@ -162,7 +162,7 @@
         dateTime: new Date(),
         paymentMethod: '@Model.DefaultPaymentMethod',
         carSelected: true,
-        servicesSelected: false,
+        servicesSelected: true,
         dateTimeSelected: false,
         paymentSelected: true
     };

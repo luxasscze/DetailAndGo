@@ -1,5 +1,9 @@
 ﻿@model List<string>
 
+<script>
+    let selTime;
+</script>
+
 @if (Model.Count == 0)
 {
     <div class="row" style="margin-top: 20px;">
@@ -25,11 +29,16 @@ else
 
         <script>
             $('#time-@time.Replace(":", "")').on('click', function () {
+                $('#confirmDateTimeBtn').removeClass('btn-outline-success');
+                $('#confirmDateTimeBtn').addClass('btn-success');
+                $('#confirmDateTimeBtn').removeClass('disabled');
                 if ($('#time-@time.Replace(":", "")').hasClass('time-button')) {
                     $('.time-button-active').addClass('time-button');
                     $('.time-button-active').removeClass('time-button-active');
                     $('#time-@time.Replace(":", "")').removeClass('time-button');
                     $('#time-@time.Replace(":", "")').addClass('time-button-active');
+                    selTime = $('#time-@time.Replace(":", "")').text();
+                    console.log(selTime);
                 }
                 else {
                     $('#time-@time.Replace(":", "")').removeClass('time-button-active');
