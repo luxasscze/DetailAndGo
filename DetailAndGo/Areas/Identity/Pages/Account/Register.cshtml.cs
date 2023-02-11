@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using DetailAndGo.Models;
+using DetailAndGo.Models.Enums;
 using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
@@ -251,7 +252,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarModel = Input.CarModel,
                         IsPrimary = true,
                         Notes = string.Empty,
-                        ManufactureYear = ""
+                        ManufactureYear = "",
+                        CarSize = GetCarSize(Input.CarSize) // CONTINUE HERE... TEST IF THAT IS WORKING...
                     };
 
                     await _carService.SaveCar(initialCar);
@@ -296,6 +298,17 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
+        }
+
+        public CarSize GetCarSize(string carSize)
+        {
+            switch (carSize)
+            {
+                case "small": return CarSize.Small;
+                case "medium": return CarSize.Medium;
+                case "large": return CarSize.Large;
+            }
+            return CarSize.Unknown;
         }
 
         private IUserEmailStore<IdentityUser> GetEmailStore()
