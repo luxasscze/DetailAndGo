@@ -96,7 +96,7 @@
     </div>
     <div class="col-lg-3">
         <div class="card text-light booking-card">
-            <div class="card-header">                
+            <div class="card-header">
                 <h2><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
             </div>
             <div class="card-body">
@@ -149,7 +149,14 @@
 </div>
 
 
-<script>    
+<script>
+    $(document).ready(function () { // CHECK IF TO SHOW THE CONFIRM BUTTON
+        $('.modal').on('hide.bs.modal', function () {
+            if (booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
+                $('#confirmButton').fadeIn(500);
+            }
+        });
+    });
     let carImgUri;
     const booking = {
         carModel: '@Model.CustomerCar.CarModel',
@@ -185,8 +192,7 @@
     }
         console.log(booking);
 
-    if (booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
-        $('#confirmButton').show();
-    }
+    
+
 
 </script>

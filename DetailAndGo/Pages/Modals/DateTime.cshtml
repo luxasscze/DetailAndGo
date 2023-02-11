@@ -1,5 +1,4 @@
 ﻿<link rel="stylesheet" href="~/css/Services.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <style>
     .date-picker {
@@ -100,11 +99,13 @@
     $('#confirmDateTimeBtn').on('click', function () {
         console.log('confirm clicked');
         $('#dateTimeContent').text($('#datePicker').val() + ' ' + selTime);
+        let selected = $('#datePicker').val() + ' ' + selTime;
+        booking.dateTime = selected;
         booking.dateTimeSelected = true;
+        console.log(booking);
         $('#dateTimeCheck').slideDown(1000);
         $('#dateTimeModal').modal('hide');
-    });
+    });    
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="~/js/Utility.js"></script>
