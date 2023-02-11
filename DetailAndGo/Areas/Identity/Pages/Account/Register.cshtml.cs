@@ -131,6 +131,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             public string CarFamily { get; set; }
 
             [Required]
+            [Display(Name = "Car Size")]
+            public string CarSize { get; set; }
+
+            [Required]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
@@ -236,6 +240,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarModel = Input.CarModel,
                         CarFamily = Input.CarFamily,
                         PhoneNumber = Input.PhoneNumber,
+                        CarSize = Input.CarSize
                     };
 
                     Car initialCar = new Car()

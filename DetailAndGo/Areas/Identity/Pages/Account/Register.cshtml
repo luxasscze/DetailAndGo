@@ -82,8 +82,17 @@
             <p><input asp-for="Input.FirstName" placeholder="First Name" oninput="this.className = ''" type="text"></p>
             <p><input asp-for="Input.LastName" placeholder="Last Name" oninput="this.className = ''" type="text"></p>
             <p><input asp-for="Input.PhoneNumber" placeholder="Phone Number" oninput="this.className = ''" type="number"></p>
-            <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text" id="carInput"></p>
-            <p><input asp-for="Input.CarFamily" placeholder="Car Family" oninput="this.className = ''" type="text" id="carFamily"></p>
+            <div class="row">
+                <div class="col-xl-4">
+                    <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text" id="carInput"></p>
+                </div>
+                <div class="col-xl-4">
+                    <p><input asp-for="Input.CarFamily" placeholder="Car Family" oninput="this.className = ''" type="text" id="carFamily"></p>
+                </div>
+                <div class="col-xl-4">
+                    <p><input asp-for="Input.CarSize" placeholder="Car Size" oninput="this.className = ''" type="text" id="carSize" /></p>
+                </div>
+            </div>
             <p><div id="carDoesntExists" style="display: none;"><label class="text-danger">It looks like the car with this registration plate doesn't exists...</label></div></p>
             <p><img class="car-image" height="300" style="position: absolute; top: -50px; left: 150px; z-index: -90;" /></p>
         </div>
