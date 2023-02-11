@@ -50,7 +50,7 @@
                 <div class="row" style="width:50%; margin: 0 auto;" id="timesSection">
                 </div>
                 <div class="row" style="margin: 20px auto; width: 50%;">
-                    <a class="btn btn-outline-success btn-block disabled" href="#" id="confirmDateTimeBtn">CONFIRM</a>
+                    <a class="btn btn-outline-success btn-block disabled" id="confirmDateTimeBtn">CONFIRM</a>
                     <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                 </div>
             </div>
@@ -103,7 +103,11 @@
         booking.dateTime = selected;
         booking.dateTimeSelected = true;
         console.log(booking);
-        $('#dateTimeCheck').slideDown(1000);
+        $('#dateTimeCheck').fadeIn(1500);
+        $('#dateTimeCaption').removeClass('text-muted');
+        $('#dateTimeCaption').addClass('text-light');
+        $('#dateTimeSubCaption').removeClass('text-muted');
+        $('#dateTimeSubCaption').addClass('text-light');
         $('#dateTimeModal').modal('hide');
     });    
 </script>

@@ -77,10 +77,10 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2>SERVICES</h2>
+                <h2 class="text-muted">SERVICES</h2>
             </div>
             <div class="card-body">
-                <div class="" style="margin: 78px auto;">
+                <div class="text-muted" style="margin: 78px auto;">
                     <i class="fa fa-list" style="font-size: 24px;"></i>
                     <h6>No services selected...</h6>
                 </div>
@@ -97,10 +97,10 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
+                <h2 class="text-muted" id="dateTimeCaption"><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
             </div>
             <div class="card-body">
-                <div class="" style="margin: 78px auto;">
+                <div class="text-muted" id="dateTimeSubCaption" style="margin: 78px auto;">
                     <i class="fa fa-calendar" style="font-size: 24px;"></i>
                     <h6 id="dateTimeContent">No date&time selected...</h6>
                 </div>
@@ -135,14 +135,12 @@
         </div>
     </div>
 </div>
-<div class="row" style="margin: 40px auto; width: 50%; display: none;" id="confirmButton">
-    <a href="">
-        <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
-            <div style="font-size: 32px;"> CONFIRM BOOKING </div>
-            <div style="font-size: 20px;">£299.99 incl. VAT</div>
+<div class="row" style="margin: 40px auto; width: 50%; display: none; cursor: pointer;" id="confirmButton">
+    <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
+        <div style="font-size: 32px;"> CONFIRM BOOKING </div>
+        <div style="font-size: 20px;">£299.99 incl. VAT</div>
 
-        </div>
-    </a>
+    </div>
     <div class="row" style="margin-top: 20px;">
         <h6 class="text-muted text-center">By confirming the booking you agree to our <a href="#">Terms&Conditions</a></h6>
     </div>
@@ -192,7 +190,9 @@
     }
         console.log(booking);
 
-    
+    $('#confirmButton').on('click', function () {
+        console.log(booking);
+    });
 
 
 </script>
