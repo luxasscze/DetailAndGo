@@ -52,6 +52,9 @@
                     <a href="#"><i class="fa fa-money-bill"></i>&emsp; Payments</a>
                 </li>
                 <li class="">
+                    <a asp-page="/Settings"><i class="fa fa-cogs"></i>&emsp; General Settings</a>
+                </li>
+                <li class="">
                     <a id="hideside" href="#"><i class="fa fa-arrow-left"></i>&emsp; Hide Menu</a>
                 </li>
             </ul>
@@ -71,7 +74,7 @@
                             <ul class="navbar-nav ms-auto">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Settings
+                                        Account
                                     </a>
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <li>
@@ -79,10 +82,7 @@
                                         </li>
                                         <li>
                                             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Manage">Add New Admin</a>
-                                        </li>
-                                        <li>
-                                            <a class="dropdown-item" href="#">Help</a>
-                                        </li>
+                                        </li>                                        
                                         <li><hr class="dropdown-divider"></li>
                                         <li>
                                             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })" method="post">

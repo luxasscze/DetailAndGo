@@ -4,8 +4,10 @@ using DetailAndGoAdmin;
 using DetailAndGoAdmin.Data;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<DetailAndGo.Data.ApplicationDbContext>();
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IStripeService, DetailAndGo.Services.StripeService>();
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IDAGService, DetailAndGo.Services.DAGService>();
+builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IJobService, DetailAndGo.Services.JobService>();
 //builder.Services.AddTransient<IDAGService, DAGService>();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<Utility>();
@@ -54,5 +57,14 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+string locale = "en-GB";
+RequestLocalizationOptions localizationOptions = new RequestLocalizationOptions
+{
+    SupportedCultures = new List<CultureInfo> { new CultureInfo(locale) },
+    SupportedUICultures = new List<CultureInfo> { new CultureInfo(locale) },
+    DefaultRequestCulture = new RequestCulture(locale)
+};
+app.UseRequestLocalization(localizationOptions);
 
 app.Run();

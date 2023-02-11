@@ -7,6 +7,7 @@
 
 <partial name="~/Pages/Modals/Car.cshtml" />
 <partial name="~/Pages/Modals/Services.cshtml" />
+<partial name="~/Pages/Modals/DateTime.cshtml" />
 
 <style>
     h1 {
@@ -56,7 +57,7 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2><i class="fa fa-check text-light"></i> CAR</h2>
+                <h2><i class="fa fa-check text-success"></i> CAR</h2>
             </div>
             <div class="card-body">
                 @{
@@ -76,10 +77,10 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2>SERVICES</h2>
+                <h2 class="text-muted">SERVICES</h2>
             </div>
             <div class="card-body">
-                <div class="" style="margin: 78px auto;">
+                <div class="text-muted" style="margin: 78px auto;">
                     <i class="fa fa-list" style="font-size: 24px;"></i>
                     <h6>No services selected...</h6>
                 </div>
@@ -96,16 +97,16 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2>DATE&TIME</h2>
+                <h2 class="text-muted" id="dateTimeCaption"><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
             </div>
             <div class="card-body">
-                <div class="" style="margin: 78px auto;">
-                    <i class="fa fa-clock" style="font-size: 24px;"></i>
-                    <h6>No date&time selected...</h6>
+                <div class="text-muted" id="dateTimeSubCaption" style="margin: 78px auto;">
+                    <i class="fa fa-calendar" style="font-size: 24px;"></i>
+                    <h6 id="dateTimeContent">No date&time selected...</h6>
                 </div>
 
             </div>
-            <a href="">
+            <a href="" data-bs-toggle="modal" data-bs-target="#dateTimeModal">
                 <div class="card-button">
                     <i class="fa fa-calendar"></i> Pick
                 </div>
@@ -116,7 +117,7 @@
     <div class="col-lg-3">
         <div class="card text-light booking-card">
             <div class="card-header">
-                <h2><i class="fa fa-check"></i> PAYMENT</h2>
+                <h2><i class="fa fa-check text-success"></i> PAYMENT</h2>
             </div>
             <div class="card-body">
                 <div class="" style="margin: 78px auto;">
@@ -134,14 +135,12 @@
         </div>
     </div>
 </div>
-<div class="row" style="margin: 40px auto; width: 50%; display: none;" id="confirmButton">
-    <a href="">
-        <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
-            <div style="font-size: 32px;"> CONFIRM BOOKING </div>
-            <div style="font-size: 20px;">£299.99 incl. VAT</div>
+<div class="row" style="margin: 40px auto; width: 50%; display: none; cursor: pointer;" id="confirmButton">
+    <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
+        <div style="font-size: 32px;"> CONFIRM BOOKING </div>
+        <div style="font-size: 20px;">£299.99 incl. VAT</div>
 
-        </div>
-    </a>
+    </div>
     <div class="row" style="margin-top: 20px;">
         <h6 class="text-muted text-center">By confirming the booking you agree to our <a href="#">Terms&Conditions</a></h6>
     </div>
@@ -149,6 +148,13 @@
 
 
 <script>
+    $(document).ready(function () { // CHECK IF TO SHOW THE CONFIRM BUTTON
+        $('.modal').on('hide.bs.modal', function () {
+            if (booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
+                $('#confirmButton').fadeIn(500);
+            }
+        });
+    });
     let carImgUri;
     const booking = {
         carModel: '@Model.CustomerCar.CarModel',
@@ -161,7 +167,7 @@
         dateTime: new Date(),
         paymentMethod: '@Model.DefaultPaymentMethod',
         carSelected: true,
-        servicesSelected: false,
+        servicesSelected: true,
         dateTimeSelected: false,
         paymentSelected: true
     };
@@ -184,8 +190,9 @@
     }
         console.log(booking);
 
-    if (booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
-        $('#confirmButton').show();
-    }
+    $('#confirmButton').on('click', function () {
+        console.log(booking);
+    });
+
 
 </script>

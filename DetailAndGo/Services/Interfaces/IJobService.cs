@@ -10,5 +10,9 @@ namespace DetailAndGo.Services.Interfaces
         public void DeleteJobById(int? id);
         public void UpdateJobLocation(int? id, double lat, double lon);
         public List<Job> GetAllJobs();
+        public Task<List<int>> GetAvailableTimesForDate(DateTime date);
+        public string ConvertTimeFromIntToString(int time);
+        public Task UpdateTimes(string startTime, string endTime, string toSkip);
+        public Task<Dictionary<string, string>> GetAllSettings();
     }
 }
