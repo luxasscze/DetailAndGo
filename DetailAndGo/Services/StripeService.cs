@@ -80,7 +80,7 @@ namespace DetailAndGo.Services
             return Task.FromResult("");
         }        
 
-        public void AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
+        public async Task AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
 
@@ -89,7 +89,7 @@ namespace DetailAndGo.Services
                 Customer = customerId,
             };
             var service = new PaymentMethodService();
-            service.Attach(paymentMethodId, options);
+            await service.AttachAsync(paymentMethodId, options);
         }
 
         public async Task<StripeList<PaymentMethod>> GetCustomerPaymentMethods(string stripeId)
@@ -257,7 +257,7 @@ namespace DetailAndGo.Services
         {
             CustomerUpdateOptions options = new CustomerUpdateOptions()
             {
-                DefaultSource = paymentMethodId
+                DefaultSource = paymentMethodId,                
             };
             
             Stripe.CustomerService service = new Stripe.CustomerService();

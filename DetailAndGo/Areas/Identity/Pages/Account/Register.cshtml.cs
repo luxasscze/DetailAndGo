@@ -185,7 +185,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
             //var test = Input;
 
-            //var errors = ModelState.Values;
+            var errors = ModelState.Values;
 
             if (ModelState.IsValid)
             {
@@ -265,8 +265,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     int expY = int.Parse(Input.Expiry.Split('/')[1]);
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
                     string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);
-                    _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
-                    await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethod);
+                    await _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
+                    //await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
                     await _customerService.RegisterCustomerAsync(customerToRegister);
 

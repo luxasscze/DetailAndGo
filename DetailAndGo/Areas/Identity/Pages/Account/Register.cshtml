@@ -90,7 +90,14 @@
                     <p><input asp-for="Input.CarFamily" placeholder="Car Family" oninput="this.className = ''" type="text" id="carFamily"></p>
                 </div>
                 <div class="col-xl-4">
-                    <p><input asp-for="Input.CarSize" placeholder="Car Size" oninput="this.className = ''" type="text" id="carSize" /></p>
+                    <p>
+                        <select asp-for="Input.CarSize" class="form-select form-select-lg mb-3" style="background-color: rgba(0, 0, 0, 0.5); color: #fff;">                            
+                            <option data-thumbnail="~/images/logo.png" value="small">Small car</option>
+                            <option data-thumbnail="images/icon-firefox.png" value="medium">Medium car</option>
+                            <option data-thumbnail="images/icon-ie.png" value="large">Large car</option>                            
+                        </select>
+                        <label class="text-warning"><i class="fa fa-info-circle"></i> This will determine prices for the services</label>
+                    </p>
                 </div>
             </div>
             <p><div id="carDoesntExists" style="display: none;"><label class="text-danger">It looks like the car with this registration plate doesn't exists...</label></div></p>
@@ -288,8 +295,8 @@
     </ul>
 </div>
 
-<script src="~/js/NewRegister.js"></script>
-<script src="~/js/CreditCard.js"></script>
+<script src="~/js/NewRegister.js?v=@DateTime.Now.ToOADate()"></script>
+<script src="~/js/CreditCard.js?v=@DateTime.Now.ToOADate()"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>
