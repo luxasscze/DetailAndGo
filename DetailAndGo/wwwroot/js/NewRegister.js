@@ -57,7 +57,7 @@ function nextPrev(n) {
 
 
 function validateEmail(mail) {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(mail)) {
         return (true)
     }
     return (false)

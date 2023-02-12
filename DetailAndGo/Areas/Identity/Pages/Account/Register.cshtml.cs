@@ -273,7 +273,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return RedirectToPage("Index");
                     }                    
                 }
                 foreach (var error in result.Errors)
