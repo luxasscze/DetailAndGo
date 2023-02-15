@@ -207,14 +207,15 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);                    
-
+                        protocol: Request.Scheme);                   
+                    string encodedCallBackUrl = HtmlEncoder.Default.Encode(callbackUrl);
+                    
                     Email email = new Email();
                     using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
                     {
                         email.From = "info@detailandgo.co.uk";
                         email.Body = reader.ReadToEnd()
-                            .Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl))
+                            .Replace("{callbackUrl}", encodedCallBackUrl)
                             .Replace("{firstName}", Input.FirstName)
                             .Replace("{callbackBook}", Url.Page("/Index"));
                         email.IsHtml = true;
