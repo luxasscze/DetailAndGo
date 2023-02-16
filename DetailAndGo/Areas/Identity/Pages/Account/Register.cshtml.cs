@@ -274,7 +274,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
                     {
-                        return RedirectToPage("/Account/RegisterConfirmation", pageHandler: null, new { area = "Identity" });
+                        return RedirectToPage("/Account/RegisterConfirmation", pageHandler: null, new { area = "Identity", email = Input.Email });
                     }
                     else
                     {
