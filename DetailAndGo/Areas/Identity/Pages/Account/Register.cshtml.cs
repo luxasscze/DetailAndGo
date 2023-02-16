@@ -180,7 +180,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Page("/Account/RegisterConfirmation", pageHandler: null, values: new { area = "Identity" }, protocol: "https");
             //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             //var test = Input;
@@ -274,7 +274,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("/Account/RegisterConfirmation", pageHandler: null, new { area = "Identity" });
                     }
                     else
                     {
