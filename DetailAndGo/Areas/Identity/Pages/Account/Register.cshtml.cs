@@ -207,9 +207,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);                   
+                        protocol: "https");                   
                     string encodedCallBackUrl = HtmlEncoder.Default.Encode(callbackUrl);
-                    
+                    //encodedCallBackUrl = $"{Request.Scheme}://{Request.Host}/{encodedCallBackUrl.TrimStart('/')}";
+
                     Email email = new Email();
                     using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
                     {
