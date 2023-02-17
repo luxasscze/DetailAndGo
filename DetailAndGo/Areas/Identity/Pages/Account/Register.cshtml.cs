@@ -268,7 +268,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
                     string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);
                     await _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
-                    //await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethod);
+                    await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
                     await _customerService.RegisterCustomerAsync(customerToRegister);
 

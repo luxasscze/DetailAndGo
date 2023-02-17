@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="~/css/CreditCard.css" />
 <link rel="stylesheet" href="~/css/NewRegister.css" />
-<link rel="stylesheet" href="~/css/Background.css" />
+<!--<link rel="stylesheet" href="~/css/Background.css" />-->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&libraries=places"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.3/base64.min.js"></script>
 
@@ -91,12 +91,12 @@
                 </div>
                 <div class="col-xl-4">
                     <p>
-                        <select asp-for="Input.CarSize" class="form-select form-select-lg mb-3" style="background-color: rgba(0, 0, 0, 0.5); color: #fff;">
+                        <select asp-for="Input.CarSize" class="form-select select-lg car-size-select">
                             <option data-thumbnail="~/images/logo.png" value="small">Small car</option>
                             <option data-thumbnail="images/icon-firefox.png" value="medium">Medium car</option>
                             <option data-thumbnail="images/icon-ie.png" value="large">Large car</option>
                         </select>
-                        <label class="text-warning"><i class="fa fa-info-circle"></i> This will determine prices for the services</label>
+                        <label class="text-warning price-info-text"><i class="fa fa-info-circle"></i> This will determine prices for the services</label>
                     </p>
                 </div>
             </div>
@@ -219,27 +219,23 @@
 
 
                 <div class="form-container">
-                    <div class="field-container">
-                        <label for="name">Name</label>
-                        <input id="name" maxlength="20" type="text">
+                    <div class="field-container">                        
+                        <input id="name" maxlength="40" type="text" placeholder="Name">
                     </div>
-                    <div class="field-container">
-                        <label for="cardnumber">Card Number</label>
-                        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CardNumber">
+                    <div class="field-container">                        
+                        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CardNumber" placeholder="Card Number">
                         <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
                              xmlns:xlink="http://www.w3.org/1999/xlink">
                         </svg>
                     </div>
-                    <div class="field-container">
-                        <label for="expirationdate">Expiration (mm/yy)</label>
-                        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.Expiry">
+                    <div class="field-container">                        
+                        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.Expiry" placeholder="Expiration Date">
                     </div>
-                    <div class="field-container">
-                        <label for="securitycode">Security Code</label>
-                        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CVC">
+                    <div class="field-container">                        
+                        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CVC" placeholder="CVC">
                     </div>
                     <div class="field-container" id="checkingMessage" style="display: none;">
-                        <label class="text-danger">Invalid card!</label>
+                        <label class="text-danger"><i class="fa fa-warning"></i> Invalid card!</label>
                     </div>
                 </div>
 

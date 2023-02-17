@@ -257,7 +257,11 @@ namespace DetailAndGo.Services
         {
             CustomerUpdateOptions options = new CustomerUpdateOptions()
             {
-                DefaultSource = paymentMethodId,                
+                //DefaultSource = paymentMethodId,
+                InvoiceSettings = new CustomerInvoiceSettingsOptions()
+                {
+                    DefaultPaymentMethod = paymentMethodId
+                }
             };
             
             Stripe.CustomerService service = new Stripe.CustomerService();

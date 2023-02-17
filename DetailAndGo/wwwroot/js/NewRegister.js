@@ -138,22 +138,10 @@ function checkCar(registrationPlate) {
         "url": "https://api.checkcardetails.co.uk/vehicledata/vehicleregistration?apikey=dfe93ef0930ff5b2f9aab427f224036f&vrm=" + registrationPlate,
         "method": "GET",
         "timeout": 0,
-    };
-
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-        $('.car-image').attr('src', 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + response.make + '&modelFamily=' + response.model);
-        $('#carDoesntExists').hide();
-        carResult = response;
-
-    }).fail(function () {
-        console.log('car does not exists');
-        console.log('RESULT: ' + carResult);
-        $('#carDoesntExists').show();
-    });
+    };   
 
 
-    return carResult;
+    return true;
 }
 
 
