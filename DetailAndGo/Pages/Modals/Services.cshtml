@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" href="~/css/Services.css" />
+﻿<link rel="stylesheet" href="~/css/Services.css?v=@DateTime.Now.ToOADate()" />
 
 <!-- Services Modal -->
 <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
@@ -8,22 +8,25 @@
                 <div class="row">
                     <h2 class="text-center text-light" id="carsModalLabel" style="font-size: 24px;">What can we do for you?</h2>
                 </div>
-                
-                <div class="row">
+
+                <div class="row" style="margin-top: 20px;">
                     <div class="row text-light">
-                        <script>selectedServices = [];</script>
+                        <script>
+                            selectedServices = [];
+                            let calculatedPrice = [];                        
+                        </script>
                         @foreach (var service in Model.AllMainServices)
-                        {
-                            <div class="col-md-6" style="margin-bottom: 60px;">
+                        {                            
+                            <div class="col-md-12" style="margin-bottom: 60px;">
                                 <div class="card bg-dark service-card">
                                     <a href="#">
                                         <div class="card-header service-header-gradient-off shadow" id="service-@service.Id">
                                             <div class="row">
-                                                <div class="col-9">
+                                                <div class="col-xl-11">
                                                     <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-warning" id="serviceSelected-@service.Id" style="display: none;"></i></h4>
                                                 </div>
-                                                <div class="col-3">
-                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ @service.Price</div>
+                                                <div class="col-xl-1">
+                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ <span id="service-price-@service.Id">@service.Price</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,19 +77,27 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                            <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div>
+                                                                            <div class="badge bg-dark float-end text-light">+ £@itm.Price</div>
                                                                         </div>
                                                                     </div>
                                                                     <script>
                                                                         $("#service-@service.Id-subSer-@itm.Id").on('click', function () {
+                                                                            calculatedPrice.push(@service.Price);
                                                                             if ($('#service-@service.Id-subSer-@itm.Id').hasClass('extra-service-off')) {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service-off');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service');
+
+                                                                                calculatedPrice[0] += @itm.Price;
+
                                                                             }
                                                                             else {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service-off');
+
+                                                                                calculatedPrice[0] -= @itm.Price;
+
                                                                             }
+                                                                            $('#service-price-@service.Id').text(calculatedPrice[0].toFixed(2));
                                                                             console.log('service - @service.Id');
                                                                             console.log('subservice - @itm.Id')
                                                                         });

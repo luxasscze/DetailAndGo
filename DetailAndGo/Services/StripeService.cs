@@ -281,10 +281,15 @@ namespace DetailAndGo.Services
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
             Stripe.CustomerService service = new Stripe.CustomerService();
-            string defaultId = service.Get(stripeId).DefaultSourceId;
+            var test = service.Get(stripeId);
+            string defaultId = service.Get(stripeId).InvoiceSettings.DefaultPaymentMethodId;
             if(string.IsNullOrEmpty(defaultId))
             {
-                return "0000"; // NO DEFAULT PAYMENT FOUND
+                defaultId = service.Get(stripeId).DefaultSourceId;
+            }
+            if(string.IsNullOrEmpty(defaultId))
+            {
+                return "N/A"; // NO DEFAULT PAYMENT FOUND
             }
             PaymentMethodService ser = new PaymentMethodService();
             string result = ser.Get(defaultId).Card.Last4;
