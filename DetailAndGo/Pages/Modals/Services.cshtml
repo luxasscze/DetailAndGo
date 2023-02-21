@@ -30,7 +30,7 @@
                                         <div class="card-header service-header-gradient-off shadow" id="service-@service.Id">
                                             <div class="row">
                                                 <div class="col-xl-11">
-                                                    <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-warning" id="serviceSelected-@service.Id" style="display: none;"></i></h4>
+                                                    <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-info text-center" id="serviceSelected-@service.Id" style="display: none; margin-left: 20px;"> selected</i></h4>
                                                 </div>
                                                 <div class="col-xl-1">
                                                     <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;"><div id="price-to-animate-@service.Id">£ <span id="service-price-@service.Id">@service.Price</span></div></div>
@@ -105,9 +105,9 @@
 
                                                                                 calculatedPrice[selectedIndex] -= @itm.Price;
                                                                             }
-                                                                            $('#price-to-animate-@service.Id').fadeOut(300);
+                                                                            $('#price-to-animate-@service.Id').fadeOut(100);
                                                                             $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));
-                                                                            $('#price-to-animate-@service.Id').fadeIn(300);
+                                                                            $('#price-to-animate-@service.Id').fadeIn(100);
                                                                         });
                                                                     </script>
                                                                 }
@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="row" style="margin: 20px 100px;">
-                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM FOR £299.89</a>
+                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM FOR £<span id="totalPrice">299.89</span></a>
                     <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                 </div>
             </div>
