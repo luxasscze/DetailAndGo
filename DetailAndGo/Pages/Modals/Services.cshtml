@@ -33,7 +33,7 @@
                                                     <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-warning" id="serviceSelected-@service.Id" style="display: none;"></i></h4>
                                                 </div>
                                                 <div class="col-xl-1">
-                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ <span id="service-price-@service.Id">@service.Price</span></div>
+                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;"><div id="price-to-animate-@service.Id">£ <span id="service-price-@service.Id">@service.Price</span></div></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,7 +105,9 @@
 
                                                                                 calculatedPrice[selectedIndex] -= @itm.Price;
                                                                             }
-                                                                            $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));                                                                            
+                                                                            $('#price-to-animate-@service.Id').fadeOut(300);
+                                                                            $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));
+                                                                            $('#price-to-animate-@service.Id').fadeIn(300);
                                                                         });
                                                                     </script>
                                                                 }
