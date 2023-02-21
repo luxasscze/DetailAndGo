@@ -13,10 +13,17 @@
                     <div class="row text-light">
                         <script>
                             selectedServices = [];
-                            let calculatedPrice = [];                        
+                            let calculatedPrice = [];
+                            let mainServicesIds = [];
+                            let selectedIndex = 0;
+                            let testIndex = 0;
                         </script>
                         @foreach (var service in Model.AllMainServices)
-                        {                            
+                        {
+                            <script>
+                                mainServicesIds.push(@service.Id);
+                                calculatedPrice.push(@service.Price);
+                            </script>
                             <div class="col-md-12" style="margin-bottom: 60px;">
                                 <div class="card bg-dark service-card">
                                     <a href="#">
@@ -81,25 +88,24 @@
                                                                         </div>
                                                                     </div>
                                                                     <script>
+                                                                        //console.table(calculatedPrice);
+                                                                        
+                                                                        
                                                                         $("#service-@service.Id-subSer-@itm.Id").on('click', function () {
-                                                                            calculatedPrice.push(@service.Price);
+                                                                            selectedIndex = mainServicesIds.indexOf(@service.Id);                                                                            
                                                                             if ($('#service-@service.Id-subSer-@itm.Id').hasClass('extra-service-off')) {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service-off');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service');
-
-                                                                                calculatedPrice[0] += @itm.Price;
-
+                                                                                
+                                                                                calculatedPrice[selectedIndex] += @itm.Price;
                                                                             }
                                                                             else {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service-off');
 
-                                                                                calculatedPrice[0] -= @itm.Price;
-
+                                                                                calculatedPrice[selectedIndex] -= @itm.Price;
                                                                             }
-                                                                            $('#service-price-@service.Id').text(calculatedPrice[0].toFixed(2));
-                                                                            console.log('service - @service.Id');
-                                                                            console.log('subservice - @itm.Id')
+                                                                            $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));                                                                            
                                                                         });
                                                                     </script>
                                                                 }
