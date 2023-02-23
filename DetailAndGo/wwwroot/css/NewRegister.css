@@ -14,6 +14,21 @@
     z-index: 99999;
 }
 
+.car-size-select {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;    
+}
+
+@media (max-width: 1000px) {
+    .car-size-select {
+        font-size: 50px;
+    }
+
+    .price-info-text {
+        font-size: 30px;
+    }
+}
+
 
 
 /* Style the input fields */

@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using DetailAndGo.Models;
+using DetailAndGo.Models.Enums;
 using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
@@ -131,6 +132,10 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
             public string CarFamily { get; set; }
 
             [Required]
+            [Display(Name = "Car Size")]
+            public string CarSize { get; set; }
+
+            [Required]
             [Display(Name = "Phone Number")]
             public string PhoneNumber { get; set; }
 
@@ -175,12 +180,12 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Page("/Account/RegisterConfirmation", pageHandler: null, values: new { area = "Identity" }, protocol: "https");
             //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             //var test = Input;
 
-            //var errors = ModelState.Values;
+            var errors = ModelState.Values;
 
             if (ModelState.IsValid)
             {
@@ -202,13 +207,18 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);                    
+                        protocol: "https");                   
+                    string encodedCallBackUrl = HtmlEncoder.Default.Encode(callbackUrl);
+                    //encodedCallBackUrl = $"{Request.Scheme}://{Request.Host}/{encodedCallBackUrl.TrimStart('/')}";
 
                     Email email = new Email();
                     using (StreamReader reader = System.IO.File.OpenText(_webHostEnvironment.WebRootPath + "/Email/index.html"))
                     {
                         email.From = "info@detailandgo.co.uk";
-                        email.Body = reader.ReadToEnd().Replace("{callbackUrl}", HtmlEncoder.Default.Encode(callbackUrl)).Replace("{firstName}", Input.FirstName).Replace("{callbackBook}", Url.Page("/Index"));
+                        email.Body = reader.ReadToEnd()
+                            .Replace("{callbackUrl}", encodedCallBackUrl)
+                            .Replace("{firstName}", Input.FirstName)
+                            .Replace("{callbackBook}", Url.Page("/Index"));
                         email.IsHtml = true;
                         email.Subject = Input.FirstName + ", confirm your Detail&Go account";
                         email.To = Input.Email;
@@ -236,6 +246,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarModel = Input.CarModel,
                         CarFamily = Input.CarFamily,
                         PhoneNumber = Input.PhoneNumber,
+                        CarSize = Input.CarSize
                     };
 
                     Car initialCar = new Car()
@@ -246,7 +257,8 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                         CarModel = Input.CarModel,
                         IsPrimary = true,
                         Notes = string.Empty,
-                        ManufactureYear = ""
+                        ManufactureYear = "",
+                        CarSize = GetCarSize(Input.CarSize)
                     };
 
                     await _carService.SaveCar(initialCar);
@@ -255,18 +267,19 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     int expY = int.Parse(Input.Expiry.Split('/')[1]);
                     string stripeId = await _stripeService.CreateCustomerAsync(customerToRegister);
                     string paymentMethod = await _stripeService.CreatePaymentMethod(Input.CardNumber, expM, expY, Input.CVC);
-                    _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
+                    await _stripeService.AttachPaymentMethodToCustomer(stripeId, paymentMethod);
+                    await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethod);
                     customerToRegister.StripeId = stripeId;
                     await _customerService.RegisterCustomerAsync(customerToRegister);
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
                     {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                        return RedirectToPage("/Account/RegisterConfirmation", pageHandler: null, new { area = "Identity", email = Input.Email });
                     }
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return RedirectToPage("Index");
                     }                    
                 }
                 foreach (var error in result.Errors)
@@ -291,6 +304,17 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
+        }
+
+        public CarSize GetCarSize(string carSize)
+        {
+            switch (carSize)
+            {
+                case "small": return CarSize.Small;
+                case "medium": return CarSize.Medium;
+                case "large": return CarSize.Large;
+            }
+            return CarSize.Unknown;
         }
 
         private IUserEmailStore<IdentityUser> GetEmailStore()

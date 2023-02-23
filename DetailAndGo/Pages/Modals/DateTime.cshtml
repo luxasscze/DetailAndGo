@@ -6,6 +6,7 @@
         background-color: #555;
         color: #fff;
         border: none;
+        text-align: center;
     }
 
     .time-button {
@@ -98,7 +99,8 @@
 
     $('#confirmDateTimeBtn').on('click', function () {
         console.log('confirm clicked');
-        $('#dateTimeContent').text($('#datePicker').val() + ' ' + selTime);
+        let dateToShow = new Date($('#datePicker').val()).toLocaleDateString("en-GB");
+        $('#dateTimeContent').text(dateToShow + ' ' + selTime);
         let selected = $('#datePicker').val() + ' ' + selTime;
         booking.dateTime = selected;
         booking.dateTimeSelected = true;

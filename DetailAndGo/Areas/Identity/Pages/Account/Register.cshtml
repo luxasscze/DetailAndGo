@@ -9,9 +9,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/imask/3.4.0/imask.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="~/css/CreditCard.css" />
-<link rel="stylesheet" href="~/css/NewRegister.css" />
-<link rel="stylesheet" href="~/css/Background.css" />
+<link rel="stylesheet" href="~/css/CreditCard.css?v=@DateTime.Now.ToOADate()" />
+<link rel="stylesheet" href="~/css/NewRegister.css?v=@DateTime.Now.ToOADate()" />
+<!--<link rel="stylesheet" href="~/css/Background.css" />-->
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&libraries=places"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-base64@3.7.3/base64.min.js"></script>
 
@@ -25,7 +25,7 @@
 </style>
 
 <div id="finishingBox" class="center" style="display: none;">
-    <div class="card bg-info" style="width: 40%; justify-content: center;">
+    <div class="card bg-dark" style="width: 40%; justify-content: center;">
         <div class="card-header">
             <h1 class="text-center text-light">Creating your account...</h1>
         </div>
@@ -82,8 +82,24 @@
             <p><input asp-for="Input.FirstName" placeholder="First Name" oninput="this.className = ''" type="text"></p>
             <p><input asp-for="Input.LastName" placeholder="Last Name" oninput="this.className = ''" type="text"></p>
             <p><input asp-for="Input.PhoneNumber" placeholder="Phone Number" oninput="this.className = ''" type="number"></p>
-            <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text" id="carInput"></p>
-            <p><input asp-for="Input.CarFamily" placeholder="Car Family" oninput="this.className = ''" type="text" id="carFamily"></p>
+            <div class="row">
+                <div class="col-xl-4">
+                    <p><input asp-for="Input.CarModel" placeholder="Car Model" oninput="this.className = ''" type="text" id="carInput"></p>
+                </div>
+                <div class="col-xl-4">
+                    <p><input asp-for="Input.CarFamily" placeholder="Car Family" oninput="this.className = ''" type="text" id="carFamily"></p>
+                </div>
+                <div class="col-xl-4">
+                    <p>
+                        <select asp-for="Input.CarSize" class="form-select select-lg car-size-select">
+                            <option data-thumbnail="~/images/logo.png" value="small">Small car</option>
+                            <option data-thumbnail="images/icon-firefox.png" value="medium">Medium car</option>
+                            <option data-thumbnail="images/icon-ie.png" value="large">Large car</option>
+                        </select>
+                        <label class="text-warning price-info-text"><i class="fa fa-info-circle"></i> This will determine prices for the services</label>
+                    </p>
+                </div>
+            </div>
             <p><div id="carDoesntExists" style="display: none;"><label class="text-danger">It looks like the car with this registration plate doesn't exists...</label></div></p>
             <p><img class="car-image" height="300" style="position: absolute; top: -50px; left: 150px; z-index: -90;" /></p>
         </div>
@@ -203,27 +219,23 @@
 
 
                 <div class="form-container">
-                    <div class="field-container">
-                        <label for="name">Name</label>
-                        <input id="name" maxlength="20" type="text">
+                    <div class="field-container">                        
+                        <input id="name" maxlength="40" type="text" placeholder="Name">
                     </div>
-                    <div class="field-container">
-                        <label for="cardnumber">Card Number</label>
-                        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CardNumber">
+                    <div class="field-container">                        
+                        <input id="cardnumber" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CardNumber" placeholder="Card Number">
                         <svg id="ccicon" class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1" xmlns="http://www.w3.org/2000/svg"
                              xmlns:xlink="http://www.w3.org/1999/xlink">
                         </svg>
                     </div>
-                    <div class="field-container">
-                        <label for="expirationdate">Expiration (mm/yy)</label>
-                        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.Expiry">
+                    <div class="field-container">                        
+                        <input id="expirationdate" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.Expiry" placeholder="Expiration Date">
                     </div>
-                    <div class="field-container">
-                        <label for="securitycode">Security Code</label>
-                        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CVC">
+                    <div class="field-container">                        
+                        <input id="securitycode" type="text" pattern="[0-9]*" inputmode="numeric" asp-for="Input.CVC" placeholder="CVC">
                     </div>
                     <div class="field-container" id="checkingMessage" style="display: none;">
-                        <label class="text-danger">Invalid card!</label>
+                        <label class="text-danger"><i class="fa fa-warning"></i> Invalid card!</label>
                     </div>
                 </div>
 
@@ -279,8 +291,8 @@
     </ul>
 </div>
 
-<script src="~/js/NewRegister.js"></script>
-<script src="~/js/CreditCard.js"></script>
+<script src="~/js/NewRegister.js?v=@DateTime.Now.ToOADate()"></script>
+<script src="~/js/CreditCard.js?v=@DateTime.Now.ToOADate()"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.js"
         integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
         crossorigin="anonymous"></script>

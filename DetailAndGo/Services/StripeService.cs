@@ -80,7 +80,7 @@ namespace DetailAndGo.Services
             return Task.FromResult("");
         }        
 
-        public void AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
+        public async Task AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
 
@@ -89,7 +89,7 @@ namespace DetailAndGo.Services
                 Customer = customerId,
             };
             var service = new PaymentMethodService();
-            service.Attach(paymentMethodId, options);
+            await service.AttachAsync(paymentMethodId, options);
         }
 
         public async Task<StripeList<PaymentMethod>> GetCustomerPaymentMethods(string stripeId)
@@ -257,7 +257,11 @@ namespace DetailAndGo.Services
         {
             CustomerUpdateOptions options = new CustomerUpdateOptions()
             {
-                DefaultSource = paymentMethodId
+                //DefaultSource = paymentMethodId,
+                InvoiceSettings = new CustomerInvoiceSettingsOptions()
+                {
+                    DefaultPaymentMethod = paymentMethodId
+                }
             };
             
             Stripe.CustomerService service = new Stripe.CustomerService();
@@ -277,7 +281,16 @@ namespace DetailAndGo.Services
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
             Stripe.CustomerService service = new Stripe.CustomerService();
-            string defaultId = service.Get(stripeId).DefaultSourceId;
+            var test = service.Get(stripeId);
+            string defaultId = service.Get(stripeId).InvoiceSettings.DefaultPaymentMethodId;
+            if(string.IsNullOrEmpty(defaultId))
+            {
+                defaultId = service.Get(stripeId).DefaultSourceId;
+            }
+            if(string.IsNullOrEmpty(defaultId))
+            {
+                return "N/A"; // NO DEFAULT PAYMENT FOUND
+            }
             PaymentMethodService ser = new PaymentMethodService();
             string result = ser.Get(defaultId).Card.Last4;
             return result;

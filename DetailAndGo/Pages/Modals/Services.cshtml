@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" href="~/css/Services.css" />
+﻿<link rel="stylesheet" href="~/css/Services.css?v=@DateTime.Now.ToOADate()" />
 
 <!-- Services Modal -->
 <div class="modal fade" id="servicesModal" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel" aria-hidden="true">
@@ -8,22 +8,32 @@
                 <div class="row">
                     <h2 class="text-center text-light" id="carsModalLabel" style="font-size: 24px;">What can we do for you?</h2>
                 </div>
-                
-                <div class="row">
+
+                <div class="row" style="margin-top: 20px;">
                     <div class="row text-light">
-                        <script>selectedServices = [];</script>
+                        <script>
+                            selectedServices = [];
+                            let calculatedPrice = [];
+                            let mainServicesIds = [];
+                            let selectedIndex = 0;
+                            let testIndex = 0;
+                        </script>
                         @foreach (var service in Model.AllMainServices)
                         {
-                            <div class="col-md-6" style="margin-bottom: 60px;">
+                            <script>
+                                mainServicesIds.push(@service.Id);
+                                calculatedPrice.push(@service.Price);
+                            </script>
+                            <div class="col-md-12" style="margin-bottom: 60px;">
                                 <div class="card bg-dark service-card">
                                     <a href="#">
                                         <div class="card-header service-header-gradient-off shadow" id="service-@service.Id">
                                             <div class="row">
-                                                <div class="col-9">
-                                                    <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-warning" id="serviceSelected-@service.Id" style="display: none;"></i></h4>
+                                                <div class="col-xl-11">
+                                                    <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-info text-center" id="serviceSelected-@service.Id" style="display: none; margin-left: 20px;"> selected</i></h4>
                                                 </div>
-                                                <div class="col-3">
-                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;">£ @service.Price</div>
+                                                <div class="col-xl-1">
+                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;"><div id="price-to-animate-@service.Id">£ <span id="service-price-@service.Id">@service.Price</span></div></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -74,21 +84,34 @@
                                                                                 </div>
                                                                             </div>
 
-                                                                            <div class="badge bg-warning float-end text-dark">+ £@itm.Price</div>
+                                                                            <div class="badge bg-dark float-end text-light">+ £@itm.Price</div>
                                                                         </div>
                                                                     </div>
                                                                     <script>
+                                                                        //console.table(calculatedPrice);
+                                                                        
+                                                                        
                                                                         $("#service-@service.Id-subSer-@itm.Id").on('click', function () {
+                                                                            selectedIndex = mainServicesIds.indexOf(@service.Id);                                                                            
                                                                             if ($('#service-@service.Id-subSer-@itm.Id').hasClass('extra-service-off')) {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service-off');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service');
+                                                                                
+                                                                                calculatedPrice[selectedIndex] += @itm.Price;
                                                                             }
                                                                             else {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service-off');
+
+                                                                                calculatedPrice[selectedIndex] -= @itm.Price;
                                                                             }
-                                                                            console.log('service - @service.Id');
-                                                                            console.log('subservice - @itm.Id')
+                                                                            $('#price-to-animate-@service.Id').animate({                                                                                
+                                                                                fontSize: '14px'
+                                                                            }, "fast");
+                                                                            $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));
+                                                                            $('#price-to-animate-@service.Id').animate({
+                                                                                fontSize: '18px'
+                                                                            }, "fast");
                                                                         });
                                                                     </script>
                                                                 }
@@ -143,7 +166,7 @@
                     </div>
                 </div>
                 <div class="row" style="margin: 20px 100px;">
-                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM FOR £299.89</a>
+                    <a class="btn btn-outline-secondary btn-block disabled" href="#" id="confirmServicesBtn">CONFIRM FOR £<span id="totalPrice">299.89</span></a>
                     <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                 </div>
             </div>

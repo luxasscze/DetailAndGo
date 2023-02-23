@@ -1,4 +1,6 @@
-﻿namespace DetailAndGo.Models
+﻿using DetailAndGo.Migrations;
+
+namespace DetailAndGo.Models
 {
     public class Customer
     {
@@ -16,6 +18,7 @@
         public string? StripeId { get; set; }
         public string? CarModel { get; set; }
         public string? CarFamily { get; set; }
+        public string? CarSize { get; set; }
         public string? PhoneNumber { get; set; }
 
     }

@@ -1,23 +1,60 @@
 ﻿@page
 @model RegisterConfirmationModel
 @{
-    ViewData["Title"] = "Register confirmation";
+    ViewData["Title"] = "Confirmation Email";
 }
 
-<h1>@ViewData["Title"]</h1>
-@{
-    if (@Model.DisplayConfirmAccountLink)
-    {
-<p>
-    This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-    Normally this would be emailed: <a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>
-</p>
+<style>
+    .parent {
+        display: grid;
+        place-content: center;
+        margin-top: 50px;
     }
-    else
-    {
-<p>
-        Please check your email to confirm your account.
-</p>
+
+    .child {
+        justify-content: center;
+        align-items: center;        
     }
-}
+
+    .main-card {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #fff;        
+        
+        margin: 0px auto;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    .logo-image {
+        height: 300px;
+        width: 300px;
+        margin: 0px auto;
+    }
+</style>
+
+<div class="row">
+    <img src="~/images/logo.png" class="logo-image" />
+</div>
+
+<div class="row parent">
+    <div class="child">
+        <div class="card main-card" style="width: 100%;">
+            <div class="card-header">
+                <h1><i class="fa fa-envelope text-warning"></i> Check your email </h1>
+            </div>
+            <div class="card-body">
+                <label> We just sent you an account confirmation on your email <b>@Model.Email</b> <br /> Please, check your inbox and finalise your registration. </label>
+                <p>
+                    <label>If you are experiencing any issues, please do let us know via email 
+                        <a href="mailto:info@detailandgo.co.uk">info@detailandgo.co.uk</a><br />
+                        or call us on <a href="phone:+447384759732">+44 7 384 759 732</a>.</label>
+                </p>
+                <p />
+                <a class="btn btn-lg btn-primary" href="https://www.detailandgo.co.uk">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
