@@ -105,9 +105,13 @@
 
                                                                                 calculatedPrice[selectedIndex] -= @itm.Price;
                                                                             }
-                                                                            $('#price-to-animate-@service.Id').fadeOut(100);
+                                                                            $('#price-to-animate-@service.Id').animate({                                                                                
+                                                                                fontSize: '14px'
+                                                                            }, "fast");
                                                                             $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));
-                                                                            $('#price-to-animate-@service.Id').fadeIn(100);
+                                                                            $('#price-to-animate-@service.Id').animate({
+                                                                                fontSize: '18px'
+                                                                            }, "fast");
                                                                         });
                                                                     </script>
                                                                 }
