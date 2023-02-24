@@ -26,18 +26,20 @@
                             </script>
                             <div class="col-md-12" style="margin-bottom: 60px;">
                                 <div class="card bg-dark service-card">
-                                    <a href="#">
-                                        <div class="card-header service-header-gradient-off shadow" id="service-@service.Id">
-                                            <div class="row">
-                                                <div class="col-xl-11">
-                                                    <h4 class="text-light" id="serviceNameText-@service.Id">@service.Name <i class="fa fa-square-check text-info text-center" id="serviceSelected-@service.Id" style="display: none; margin-left: 20px;"> selected</i></h4>
-                                                </div>
-                                                <div class="col-xl-1">
-                                                    <div class="badge text-light" style="font-size: 20px; background-color: #333; border: 1px solid #999;"><div id="price-to-animate-@service.Id">£ <span id="service-price-@service.Id">@service.Price</span></div></div>
-                                                </div>
+                                    <div class="card-header service-header-gradient-off shadow" style="cursor: pointer;" id="service-@service.Id">
+                                        <div class="row">
+                                            <div class="col-xl-11">
+                                                <h2 class="text-light" id="serviceNameText-@service.Id">@service.Name</h2><!--<i class="fa fa-square-check text-info text-center" id="serviceSelected-@service.Id" style="display: none; margin-left: 20px;"> selected</i>-->
+                                            </div>
+                                            <div class="col-xl-1">
+                                                <div class="badge text-info" style="font-size: 20px; background-color: #333; border: 1px solid #999;"><div id="price-to-animate-@service.Id">£ <span id="service-price-@service.Id">@service.Price</span></div></div>
                                             </div>
                                         </div>
-                                    </a>
+                                    </div>
+                                    <div class="card-footer">                                        
+                                        <a class="btn btn-success" id="service-add-@service.Id" style="border-radius: 0px;">Add Service</a>
+                                        <a class="btn btn-primary" id="service-info-@service.Id" style="border-radius: 0px;"><i class="fa fa-info-circle"></i> Details</a>                                        
+                                    </div>
                                     <div class="card-body service-body-gradient">
                                         <label class="text-light">@service.Description</label>
                                     </div>
@@ -89,14 +91,14 @@
                                                                     </div>
                                                                     <script>
                                                                         //console.table(calculatedPrice);
-                                                                        
-                                                                        
+
+
                                                                         $("#service-@service.Id-subSer-@itm.Id").on('click', function () {
-                                                                            selectedIndex = mainServicesIds.indexOf(@service.Id);                                                                            
+                                                                            selectedIndex = mainServicesIds.indexOf(@service.Id);
                                                                             if ($('#service-@service.Id-subSer-@itm.Id').hasClass('extra-service-off')) {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service-off');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service');
-                                                                                
+
                                                                                 calculatedPrice[selectedIndex] += @itm.Price;
                                                                             }
                                                                             else {
@@ -105,12 +107,12 @@
 
                                                                                 calculatedPrice[selectedIndex] -= @itm.Price;
                                                                             }
-                                                                            $('#price-to-animate-@service.Id').animate({                                                                                
-                                                                                fontSize: '14px'
+                                                                            $('#price-to-animate-@service.Id').animate({
+                                                                                color: '#f00'
                                                                             }, "fast");
                                                                             $('#service-price-@service.Id').text(calculatedPrice[selectedIndex].toFixed(2));
                                                                             $('#price-to-animate-@service.Id').animate({
-                                                                                fontSize: '18px'
+                                                                                color: '#fff'
                                                                             }, "fast");
                                                                         });
                                                                     </script>
@@ -127,7 +129,7 @@
                                     {
                                         <div class="card-footer" style="background-color: #222;">
                                             <div class="" style="color: #fff; background-color: #222;" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@service.Id" aria-expanded="false" aria-controls="collapse-@service.Id">
-                                                <label class="text-muted">No Customatisation</label>
+                                                <label class="text-muted">No Customisation</label>
                                             </div>
                                         </div>
                                     }
@@ -139,12 +141,18 @@
                                     if ($('#service-@service.Id').hasClass('service-header-gradient-off')) {
                                         $('#service-@service.Id').removeClass('service-header-gradient-off');
                                         $('#service-@service.Id').addClass('service-header-gradient');
+                                        $('#service-add-@service.Id').removeClass('btn-success');
+                                        $('#service-add-@service.Id').addClass('btn-danger');                                        
+                                        $('#service-add-@service.Id').text('Remove Service');
                                         $('#serviceSelected-@service.Id').fadeIn(300);
                                         selectedServices.push('@service.Id');
                                     }
                                     else {
                                         $('#service-@service.Id').removeClass('service-header-gradient');
                                         $('#service-@service.Id').addClass('service-header-gradient-off');
+                                        $('#service-add-@service.Id').removeClass('btn-danger');
+                                        $('#service-add-@service.Id').addClass('btn-success');                                        
+                                        $('#service-add-@service.Id').text('Add Service');
                                         $('#serviceSelected-@service.Id').fadeOut(300);
                                         selectedServices.remove('@service.Id');
                                     }
@@ -159,6 +167,43 @@
                                         $('#confirmServicesBtn').addClass('service-header-gradient-off');
                                     }
                                     console.log('Selected services: ' + selectedServices);
+                                });
+
+                                $('#service-add-@service.Id').on('click', function () {
+                                    console.log('add service - @service.Id');
+                                    if ($('#service-@service.Id').hasClass('service-header-gradient-off')) {
+                                        $('#service-@service.Id').removeClass('service-header-gradient-off');
+                                        $('#service-@service.Id').addClass('service-header-gradient');
+                                        $('#service-add-@service.Id').removeClass('btn-success');
+                                        $('#service-add-@service.Id').addClass('btn-danger');
+                                        $('#service-add-@service.Id').text('Remove Service');
+                                        $('#serviceSelected-@service.Id').fadeIn(300);
+                                        selectedServices.push('@service.Id');
+                                    }
+                                    else {
+                                        $('#service-@service.Id').removeClass('service-header-gradient');
+                                        $('#service-@service.Id').addClass('service-header-gradient-off');
+                                        $('#service-add-@service.Id').removeClass('btn-danger');
+                                        $('#service-add-@service.Id').addClass('btn-success');
+                                        $('#service-add-@service.Id').text('Add Service');
+                                        $('#serviceSelected-@service.Id').fadeOut(300);
+                                        selectedServices.remove('@service.Id');
+                                    }
+                                    if ($('#serviceSelected-@service.Id').is(':visible')) {
+                                        $('#confirmServicesBtn').removeClass('disabled');
+                                        $('#confirmServicesBtn').removeClass('service-header-gradient-off');
+                                        $('#confirmServicesBtn').addClass('service-header-gradient');
+                                    }
+                                    else {
+                                        $('#confirmServicesBtn').addClass('disabled');
+                                        $('#confirmServicesBtn').removeClass('service-header-gradient');
+                                        $('#confirmServicesBtn').addClass('service-header-gradient-off');
+                                    }
+                                    console.log('Selected services: ' + selectedServices);
+                                });
+
+                                $('#service-info-@service.Id').on('click', function () {
+                                    console.log('info service - @service.Id');
                                 });
 
                             </script>
