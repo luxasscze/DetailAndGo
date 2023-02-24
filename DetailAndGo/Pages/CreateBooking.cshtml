@@ -191,11 +191,25 @@
             });
         </text>
     }
-        console.log(booking);
+
+        $(document).ready(function () {
+            $('#servicesModal').on('hidden.bs.modal', function () {                
+                decodeServices(booking.services, booking.subServices);
+            });
+        });
 
     $('#confirmButton').on('click', function () {
         console.log(booking);
     });
+
+    function decodeServices(services, subServices) {
+        console.log(services, subServices);
+
+        for(i = 0; i < subServices.length; i++) {
+            console.log('subservices: ' + subServices.length / 2);
+            console.log(subServices[i]);
+        }
+    }
 
 
 </script>
