@@ -56,5 +56,10 @@ namespace DetailAndGo.Services
 
             return services;
         }
+
+        public string GetServiceNameById(int id)
+        {
+            return _context.Services.FirstOrDefault(x => x.Id == id).Name;
+        }
     }
 }

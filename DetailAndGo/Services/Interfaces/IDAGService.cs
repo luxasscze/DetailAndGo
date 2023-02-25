@@ -10,5 +10,6 @@ namespace DetailAndGo.Services.Interfaces
         public Task<Service> GetServiceById(int serviceId);
         public Task<List<Service>> GetAllMainServices();
         public Task<List<Service>> GetServicesFromIdArray(string Ids);
+        public string GetServiceNameById(int id);
     }
 }

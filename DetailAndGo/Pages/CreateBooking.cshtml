@@ -193,8 +193,13 @@
     }
 
         $(document).ready(function () {
-            $('#servicesModal').on('hidden.bs.modal', function () {                
-                decodeServices(booking.services, booking.subServices);
+            $('#servicesModal').on('hidden.bs.modal', function () {
+                let testicek = decodeServices(booking.services, booking.subServices);
+                console.table(testicek);
+
+                for(x = 0; x < testicek.length; x++) {
+                    getServiceName(testicek[x].service);
+                }
             });
         });
 
@@ -205,11 +210,51 @@
     function decodeServices(services, subServices) { //This is quite a challenge!!!
         console.log(services, subServices);
         console.log('subservices: ' + subServices.length / 2);
-        
-        for(i = 0; i < subServices.length; i++) {            
-            console.log(subServices[i]);
+
+        let res = [];
+        let result = {};
+
+        for (i = 0; i < services.length; i++) {
+            result = {
+                service: services[i],
+                subServices: getSubServicesForService(services[i])
+            };
+            res.push(result);
         }
+
+        function getSubServicesForService(service) {
+            let re = [];
+            for(j = 0; j < subServices.length; j++) {
+                if(subServices[j] == service) {
+                    re.push(subServices[j + 1]);
+                }
+            }
+            return re;
+        }
+
+        return res;
     }
 
+    function getServiceName(service) {
+        $.ajax({
+            url: "/CreateBooking?handler=GetServiceName",
+            data: { service: service },
+            type: "GET",
+            async: false,            
+            cache: false,
+            beforeSend: function () {
+                
+            },
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+    }
 
 </script>

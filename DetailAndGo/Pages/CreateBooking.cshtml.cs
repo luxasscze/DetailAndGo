@@ -64,7 +64,7 @@ namespace DetailAndGo.Pages
             }
         }
 
-        [HttpGet]
+        
         public async Task<ActionResult> OnGetSetAvailableTimesByDateAsync(DateTime date)
         {           
             List<int> modelInt = await _jobService.GetAvailableTimesForDate(date);
@@ -77,6 +77,12 @@ namespace DetailAndGo.Pages
             var test = modelString;
 
             return Partial("Partials/Times", modelString);
-        }        
+        }
+
+     
+        public async Task<JsonResult> OnGetGetServiceNameAsync(string service)
+        {
+            return new JsonResult(_serviceService.GetServiceNameById(int.Parse(service)));
+        }
     }
 }
