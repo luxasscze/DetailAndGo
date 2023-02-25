@@ -75,14 +75,24 @@
         </div>
     </div>
     <div class="col-lg-3">
-        <div class="card text-light booking-card">
+        <div class="card text-light booking-card" style="">
             <div class="card-header">
                 <h2 class="text-muted">SERVICES</h2>
             </div>
-            <div class="card-body">
-                <div class="text-muted" style="margin: 78px auto;">
+            <div class="card-body" style="overflow: hidden;">
+
+
+                <div class="text-muted" style="margin: 78px auto;" id="noServicesText">
                     <i class="fa fa-list" style="font-size: 24px;"></i>
                     <h6>No services selected...</h6>
+                </div>
+
+                <div id="servicesList" style="display: none;">
+                    <div class="" style="" id="selSer">
+                    </div>
+                    <div class="row bg-warning text-dark" style="margin-top: 7px;">
+                        <label style="font-size: 24px;"><b>Total: £299.99</b></label>
+                    </div>
                 </div>
 
             </div>
@@ -194,12 +204,21 @@
 
         $(document).ready(function () {
             $('#servicesModal').on('hidden.bs.modal', function () {
-                let testicek = decodeServices(booking.services, booking.subServices);
+                let testicek = decodeServices(booking.services, booking.subServices);                
                 console.table(testicek);
-
-                for(x = 0; x < testicek.length; x++) {
-                    getServiceName(testicek[x].service);
-                }
+                $('#selSer').html('');
+                for (x = 0; x < testicek.length; x++) {
+                    $('#selSer').append(`
+                                <div class="row bg-success text-start" style="margin-bottom: 2px;">
+                                        <div class="col-sm-10">
+                                                <label style="font-size: 24px;">` + getServiceName(testicek[x].service) + `</label>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <i class="fa fa-wand-magic-sparkles text-light" style="font-size: 24px; margin-top: 6px;"></i>
+                                        </div>
+                                    </div>
+                    `);
+                }               
             });
         });
 
@@ -207,7 +226,7 @@
         console.log(booking);
     });
 
-    function decodeServices(services, subServices) { //This is quite a challenge!!!
+    function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
         console.log(services, subServices);
         console.log('subservices: ' + subServices.length / 2);
 
@@ -224,8 +243,8 @@
 
         function getSubServicesForService(service) {
             let re = [];
-            for(j = 0; j < subServices.length; j++) {
-                if(subServices[j] == service) {
+            for (j = 0; j < subServices.length; j++) {
+                if (subServices[j] == service) {
                     re.push(subServices[j + 1]);
                 }
             }
@@ -236,17 +255,18 @@
     }
 
     function getServiceName(service) {
+        let serviceName;
         $.ajax({
             url: "/CreateBooking?handler=GetServiceName",
             data: { service: service },
             type: "GET",
-            async: false,            
+            async: false,
             cache: false,
             beforeSend: function () {
-                
+
             },
             success: function (data) {
-                console.log(data);
+                serviceName = data;
             },
             error: function (error) {
                 console.log(error);
@@ -255,6 +275,7 @@
                 console.log('finished...');
             },
         });
+        return serviceName;
     }
 
 </script>

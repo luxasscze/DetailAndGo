@@ -204,6 +204,9 @@
         booking.subServices = selectedSubServices;
         booking.services = selectedServices;
         console.table(booking);
+        $('#noServicesText').hide();
+        $('#servicesList').show();
+        $('#servicesModal').modal('hide');
     });
 </script>
 
