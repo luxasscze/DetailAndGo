@@ -194,16 +194,11 @@
     </div>
     <div class="row" style="position: sticky; bottom: 0; background-color: rgba(0, 0, 0, 0.5); z-index: 99999;">
         <div class="row" style="width: 100%;">
-            <div class="col-sm-8">
+            <div class="">
                 <div class="row">
-                    <a class="btn btn-secondary btn-lg btn-block disabled" style="border-radius: 0;" id="confirmServicesBtn"><label style="font-size: 24px; padding: 10px;">CONFIRM FOR £<span id="totalPrice">299.89</span></label></a>
+                    <a class="btn btn-secondary btn-lg btn-block disabled" style="border-radius: 0;" id="confirmServicesBtn"><label style="font-size: 24px; padding: 10px; cursor: pointer;">CONFIRM FOR £<span id="totalPrice">299.89</span></label></a>
                 </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="row">
-                    <a class="btn btn-lg btn-secondary" style="border-radius: 0;" data-bs-dismiss="modal" id="cancelServicesBtn"><label style="font-size: 24px; padding: 10px;">Cancel</label></a>
-                </div>
-            </div>
+            </div>            
         </div>
     </div>
 </div>
@@ -213,6 +208,7 @@
     $('#confirmServicesBtn').on('click', function () {
         booking.subServices = selectedSubServices;
         booking.services = selectedServices;
+        booking.servicesSelected = true;
         console.table(booking);
         $('#noServicesText').hide();
         $('#servicesList').show();
