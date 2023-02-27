@@ -87,11 +87,11 @@ namespace DetailAndGo.Pages
 
         public void GetGreeting()
         {
-            if(DateTime.Now.Hour > 6 && DateTime.Now.Hour < 12)
+            if(DateTime.Now.Hour > 6 && DateTime.Now.Hour <= 12)
             {
                 Greeting = "Good morning";
             }
-            else if(DateTime.Now.Hour > 12 && DateTime.Now.Hour < 17)
+            else if(DateTime.Now.Hour > 12 && DateTime.Now.Hour <= 17)
             {
                 Greeting = "Good afternoon";
             }

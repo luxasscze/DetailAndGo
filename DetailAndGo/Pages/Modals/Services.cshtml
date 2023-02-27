@@ -160,15 +160,15 @@
                                         $('#serviceSelected-' + serviceId).fadeOut(300);
                                         selectedServices.remove(serviceId);
                                     }
-                                    if ($('#service-' + serviceId).hasClass('service-header-gradient')) {
+                                    if (selectedServices.length > 0) {
                                         $('#confirmServicesBtn').removeClass('disabled');
-                                        $('#confirmServicesBtn').removeClass('service-header-gradient-off');
+                                        $('#confirmServicesBtn').removeClass('btn-dark');
                                         $('#confirmServicesBtn').addClass('btn-success');
                                     }
                                     else {
                                         $('#confirmServicesBtn').addClass('disabled');
                                         $('#confirmServicesBtn').removeClass('btn-success');
-                                        $('#confirmServicesBtn').addClass('service-header-gradient-off');
+                                        $('#confirmServicesBtn').addClass('btn-dark');
                                     }
                                     console.log('Selected services: ' + selectedServices);
                                 }
@@ -196,7 +196,7 @@
         <div class="row" style="width: 100%;">
             <div class="">
                 <div class="row">
-                    <a class="btn btn-secondary btn-lg btn-block disabled" style="border-radius: 0;" id="confirmServicesBtn"><label style="font-size: 24px; padding: 10px; cursor: pointer;">CONFIRM FOR £<span id="totalPrice">299.89</span></label></a>
+                    <a class="btn btn-dark btn-lg btn-block disabled" style="border-radius: 0; opacity: 1;" id="confirmServicesBtn"><label style="font-size: 24px; padding: 10px; cursor: pointer;">CONFIRM FOR £<span id="totalPrice">299.89</span></label></a>
                 </div>
             </div>            
         </div>
