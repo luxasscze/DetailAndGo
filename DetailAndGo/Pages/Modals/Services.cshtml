@@ -18,6 +18,7 @@
                             let mainServicesIds = [];
                             let selectedIndex = 0;
                             let testIndex = 0;
+                            let serviceDetailName;
                         </script>
                         @foreach (var service in Model.AllMainServices)
                         {
@@ -182,8 +183,23 @@
                                 });
 
                                 $('#service-info-@service.Id').on('click', function () {
-                                    console.log('info service - @service.Id');
+                                    serviceDetailName = getServiceName(@service.Id);
+                                    $('#test').html(serviceDetailName);
+                                    setDecorativeText();
+                                    $('#serviceDetailsModal').modal('show');
                                 });
+
+                                function setDecorativeText() {
+                                    let serName = serviceDetailName;
+                                    let result = '';
+
+                                    serName.split('').forEach(function (letter) {
+                                        result += '<span>' + letter + '</span>';
+                                    });
+
+                                    console.log('ser name ' + result);
+                                    $('#serviceTitle').html(result);
+                                }
 
                             </script>
                         }
