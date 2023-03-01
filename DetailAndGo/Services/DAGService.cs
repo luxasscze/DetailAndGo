@@ -61,5 +61,10 @@ namespace DetailAndGo.Services
         {
             return _context.Services.FirstOrDefault(x => x.Id == id).Name;
         }
+
+        public string GetServiceSuperDescription(int id)
+        {
+            return _context.Services.FirstOrDefault(x => x.Id == id).SuperDescription;
+        }
     }
 }

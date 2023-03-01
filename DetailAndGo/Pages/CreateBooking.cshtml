@@ -287,4 +287,28 @@
         return serviceName;
     }
 
+    function getServiceSuperDescriptionText(service) {
+        let serviceSuperDescriptionText;
+        $.ajax({
+            url: "/CreateBooking?handler=GetServiceSuperDescriptionText",
+            data: { service: service },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                serviceSuperDescriptionText = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return serviceSuperDescriptionText;
+    }
+
 </script>

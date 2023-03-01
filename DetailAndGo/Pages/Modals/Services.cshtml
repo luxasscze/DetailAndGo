@@ -185,6 +185,7 @@
                                 $('#service-info-@service.Id').on('click', function () {
                                     serviceDetailName = getServiceName(@service.Id);
                                     $('#test').html(serviceDetailName);
+                                    $('#superDescriptionText').html(getServiceSuperDescriptionText(@service.Id));
                                     setDecorativeText();
                                     $('#serviceDetailsModal').modal('show');
                                 });
@@ -198,7 +199,7 @@
                                     });
 
                                     console.log('ser name ' + result);
-                                    $('#serviceTitle').html(result);
+                                    $('#serviceTitle').html(result);                                    
                                 }
 
                             </script>
