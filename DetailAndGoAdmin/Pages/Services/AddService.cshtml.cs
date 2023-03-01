@@ -44,6 +44,11 @@ namespace DetailAndGoAdmin.Pages.Services
             Service.IsActive = true;
 
             Service.SubServices = SelectedSubServices;
+
+            if(string.IsNullOrEmpty(Service.SuperDescription))
+            {
+                Service.SuperDescription = "";
+            }
             
             Dictionary<string, string> metadata = new Dictionary<string, string>
             {

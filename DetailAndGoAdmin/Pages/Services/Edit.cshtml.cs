@@ -71,6 +71,11 @@ namespace DetailAndGoAdmin.Pages.Services
                 return Page();
             }*/
 
+            if(string.IsNullOrEmpty(Service.SuperDescription))
+            {
+                Service.SuperDescription = "";
+            }
+
             _context.Attach(Service).State = EntityState.Modified;
 
             try
