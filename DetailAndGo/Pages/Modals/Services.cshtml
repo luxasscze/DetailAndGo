@@ -38,13 +38,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <a class="btn btn-success" id="service-add-@service.Id" style="border-radius: 0px;">Add Service</a>
-                                        <a class="btn btn-primary" id="service-info-@service.Id" style="border-radius: 0px;"><i class="fa fa-info-circle"></i> Details</a>
-                                    </div>
+                                    
                                     <div class="card-body service-body-gradient">
                                         <label class="text-light">@service.Description</label>
                                     </div>
+                                    
                                     @if (service.IsCustomisable)
                                     {
                                         <div class="card-footer card-gradient">
@@ -138,7 +136,12 @@
                                             </div>
                                         </div>
                                     }
+                                    <div class="card-footer text-center" style="background-color: rgba(0, 0, 0, 0)">
+                                        <a class="btn btn-success" id="service-add-@service.Id" style="border-radius: 0px;">Add Service</a>
+                                        <a class="btn btn-primary" id="service-info-@service.Id" style="border-radius: 0px;"><i class="fa fa-info-circle"></i> Details</a>
+                                    </div>
                                 </div>
+                                
                             </div>
                             <script>
                                 function serviceSelectHandler(serviceId) {

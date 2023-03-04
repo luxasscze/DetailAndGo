@@ -41,20 +41,21 @@
 }
 
 .service-header-gradient {
-    background: linear-gradient(34deg, rgba(0,0,0,0.5606617647058824) 1%, rgb(35, 0, 155) 51%, rgba(32,32,32,1) 100%);
+    background-image: linear-gradient(to right, #00b09b, #96c93d);
 }
 
 .service-header-gradient-off {
-    /*background: linear-gradient(34deg, rgba(0,0,0,0.5606617647058824) 1%, rgba(55,103,120,1) 26%, rgba(0,0,0,1) 100%);*/
-    background: linear-gradient(34deg, rgba(0,0,0,0.5606617647058824) 1%, #00000088 51%, #00000088 100%);
+    background-image: linear-gradient(to right, #434343 0%, black 100%);
 }
 
+
 .service-card {
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     height: 100%;
     box-shadow: 0px 0px 15px 1px #00000088;
     border: 0px solid #fff;
     width: 100%;
+    background-image: linear-gradient(to right, #434343 0%, black 100%);
 }
 
 .service-body-gradient {
