@@ -89,5 +89,10 @@ namespace DetailAndGo.Pages
         {
             return new JsonResult(_serviceService.GetServiceSuperDescription(int.Parse(service)));
         }
+
+        public async Task<JsonResult> OnGetGetServicePrice(string service)
+        {
+            return new JsonResult(_serviceService.GetServicePrice(int.Parse(service)));
+        }
     }
 }

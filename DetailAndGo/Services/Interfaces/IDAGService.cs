@@ -12,5 +12,6 @@ namespace DetailAndGo.Services.Interfaces
         public Task<List<Service>> GetServicesFromIdArray(string Ids);
         public string GetServiceNameById(int id);
         public string GetServiceSuperDescription(int id);
+        public decimal GetServicePrice(int id);
     }
 }

@@ -66,5 +66,10 @@ namespace DetailAndGo.Services
         {
             return _context.Services.FirstOrDefault(x => x.Id == id).SuperDescription;
         }
+
+        public decimal GetServicePrice(int id)
+        {
+            return _context.Services.FirstOrDefault(s => s.Id == id).Price;
+        }
     }
 }

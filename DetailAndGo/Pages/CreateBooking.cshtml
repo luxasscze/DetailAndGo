@@ -95,7 +95,7 @@
                         <label>With additional services - <i class="fa fa-wand-magic-sparkles text-warning"></i></label>
                     </div>
                     <div class="row bg-warning text-dark" style="margin-top: 7px;">
-                        <label style="font-size: 24px;"><b>Total: £299.99</b></label>
+                        <label style="font-size: 24px;"><b>Total: £<span id="totalP">0.00</span></b></label>
                     </div>
                 </div>
 
@@ -210,6 +210,7 @@
                 let iconColor;
                 console.table(testicek);
                 $('#selSer').html('');
+                $('#totalP').text(totalPrice.toFixed(2));
                 for (x = 0; x < testicek.length; x++) {
                     if(testicek[x].subServices.length > 0) {
                         iconColor = 'text-warning';
@@ -309,6 +310,30 @@
             },
         });
         return serviceSuperDescriptionText;
+    }
+
+    function getServicePrice(service) {
+        let servicePrice;
+        $.ajax({
+            url: "/CreateBooking?handler=GetServicePrice",
+            data: { service: service },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                servicePrice = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return servicePrice;
     }
 
 </script>

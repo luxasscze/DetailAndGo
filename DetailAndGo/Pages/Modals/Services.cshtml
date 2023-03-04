@@ -19,6 +19,7 @@
                             let selectedIndex = 0;
                             let testIndex = 0;
                             let serviceDetailName;
+                            let totalPrice = 0;
                         </script>
                         @foreach (var service in Model.AllMainServices)
                         {
@@ -27,7 +28,7 @@
                                 calculatedPrice.push(@service.Price);
                             </script>
                             <div class="col-md-12" style="margin-bottom: 60px;">
-                                <div class="card bg-dark service-card">
+                                <div class="card service-card">
                                     <div class="card-header service-header-gradient-off shadow" style="cursor: pointer;" id="service-@service.Id">
                                         <div class="row">
                                             <div class="col-xl-11">
@@ -103,12 +104,16 @@
                                                                                     selectedServices.push(@service.Id);
                                                                                 }
                                                                                 calculatedPrice[selectedIndex] += @itm.Price;
+                                                                                totalPrice += @itm.Price;
+                                                                                $('#totalPrice').text(totalPrice.toFixed(2));
                                                                             }
                                                                             else {
                                                                                 $('#service-@service.Id-subSer-@itm.Id').removeClass('extra-service');
                                                                                 $('#service-@service.Id-subSer-@itm.Id').addClass('extra-service-off');
                                                                                 selectedSubServices.remove(@service.Id, @itm.Id);
                                                                                 calculatedPrice[selectedIndex] -= @itm.Price;
+                                                                                totalPrice -= @itm.Price;
+                                                                                $('#totalPrice').text(totalPrice.toFixed(2));
                                                                             }
                                                                             $('#price-to-animate-@service.Id').animate({
                                                                                 color: '#f00'
@@ -152,8 +157,10 @@
                                         $('#service-add-' + serviceId).removeClass('btn-success');
                                         $('#service-add-' + serviceId).addClass('btn-danger');
                                         $('#service-add-' + serviceId).text('Remove Service');
-                                        $('#serviceSelected-' + serviceId).fadeIn(300);
+                                        $('#serviceSelected-' + serviceId).fadeIn(300);                                        
                                         selectedServices.push(serviceId);
+                                        totalPrice += getServicePrice(serviceId);
+                                        $('#totalPrice').text(totalPrice.toFixed(2));
                                     }
                                     else {
                                         $('#service-' + serviceId).removeClass('service-header-gradient');
@@ -161,20 +168,25 @@
                                         $('#service-add-' + serviceId).removeClass('btn-danger');
                                         $('#service-add-' + serviceId).addClass('btn-success');
                                         $('#service-add-' + serviceId).text('Add Service');
-                                        $('#serviceSelected-' + serviceId).fadeOut(300);
+                                        $('#serviceSelected-' + serviceId).fadeOut(300);                                       
                                         selectedServices.remove(serviceId);
+                                        totalPrice -= getServicePrice(serviceId);
+                                        $('#totalPrice').text(totalPrice.toFixed(2));
                                     }
                                     if (selectedServices.length > 0) {
                                         $('#confirmServicesBtn').removeClass('disabled');
                                         $('#confirmServicesBtn').removeClass('btn-dark');
                                         $('#confirmServicesBtn').addClass('btn-success');
+                                        $('#confirmBtnLabel').css('color', '#fff');
                                     }
                                     else {
                                         $('#confirmServicesBtn').addClass('disabled');
                                         $('#confirmServicesBtn').removeClass('btn-success');
                                         $('#confirmServicesBtn').addClass('btn-dark');
+                                        $('#confirmBtnLabel').css('color', '#444');
                                     }
                                     console.log('Selected services: ' + selectedServices);
+                                    
                                 }
 
                                 $('#service-@service.Id').on('click', function () {
@@ -216,7 +228,7 @@
         <div class="row" style="width: 100%;">
             <div class="">
                 <div class="row">
-                    <a class="btn btn-dark btn-lg btn-block disabled" style="border-radius: 0; opacity: 1;" id="confirmServicesBtn"><label style="font-size: 24px; padding: 10px; cursor: pointer;">CONFIRM FOR £<span id="totalPrice">299.89</span></label></a>
+                    <a class="btn btn-dark btn-lg btn-block disabled" style="border-radius: 0; opacity: 1;" id="confirmServicesBtn"><label style="font-size: 24px; padding: 10px; cursor: pointer; color: #444;" id="confirmBtnLabel">CONFIRM FOR £<span id="totalPrice">0</span></label></a>
                 </div>
             </div>            
         </div>
