@@ -6,8 +6,30 @@
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+<style>
+    #container {
+        width: 1000px;
+        margin: 20px auto;
+        background-color: #333;
+    }
+
+    .ck-editor__editable[role="textbox"] {
+        /* editing area */
+        min-height: 200px;
+        background-color: #333;
+        color: #000;
+    }
+
+    .ck-content .image {
+        /* block images */
+        max-width: 80%;
+        margin: 20px auto;
+    }
+</style>
+
 <link rel="stylesheet" href="~/css/AddService.css" />
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
 
 <div class="text-light main-box" style="margin: 20px;">
 
@@ -49,7 +71,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label asp-for="Service.SuperDescription" class="control-label text-warning"> Detailed Description</label>
-                        <textarea asp-for="Service.SuperDescription" class="add-input" rows="6" style="height: 150px;"></textarea>
+                        <textarea asp-for="Service.SuperDescription" id="editor" class="add-input"></textarea>
                         <span asp-validation-for="Service.SuperDescription" class="text-danger"></span>
                     </div>
                 </div>
@@ -164,6 +186,14 @@
 </div>
 
 <script src="~/js/Utility.js"></script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 
 @section Scripts {
     @{

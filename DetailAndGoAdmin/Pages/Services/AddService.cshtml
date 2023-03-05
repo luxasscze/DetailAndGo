@@ -5,8 +5,31 @@
     ViewData["Title"] = "Add New Service";
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+
+<style>
+    #container {
+        width: 1000px;
+        margin: 20px auto;
+        background-color: #333;
+    }
+
+    .ck-editor__editable[role="textbox"] {
+        /* editing area */
+        min-height: 200px;
+        background-color: #333;
+        color: #000;
+    }
+
+    .ck-content .image {
+        /* block images */
+        max-width: 80%;
+        margin: 20px auto;
+    }
+</style>
+
 <link rel="stylesheet" href="~/css/AddService.css" />
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
 
 <div class="text-light main-box" style="margin: 20px;">
 
@@ -40,9 +63,18 @@
                     <input asp-for="Service.Description" class="add-input" />
                     <span asp-validation-for="Service.Description" class="text-danger"></span>
                 </div>
-                <div class="form-group" id="superDescSection">
+                @{
+            /*
+        <div class="form-group" id="superDescSection">
+        <label asp-for="Service.SuperDescription" class="control-label text-warning">Detailed Description</label>
+        <textarea asp-for="Service.SuperDescription" class="add-input" id="superText" rows="6" style="height: 110px;" ></textarea>
+                    </div>
+                    */
+                }
+
+                <div class="form-group" id="superDescSection" style="margin-bottom: 20px;">
                     <label asp-for="Service.SuperDescription" class="control-label text-warning">Detailed Description</label>
-                    <textarea asp-for="Service.SuperDescription" class="add-input" id="superText" rows="6" style="height: 110px;" ></textarea>                    
+                    <textarea id="editor" asp-for="Service.SuperDescription"></textarea>
                 </div>
                 <div class="row">
                     <div class="col-lg-4">
@@ -139,7 +171,7 @@
 <script>
     $(function ($) {
         $('#subserviceCheck').on('click', function () {
-            if ($('#subserviceCheck').is(':checked')) {                
+            if ($('#subserviceCheck').is(':checked')) {
                 $('#subservices-section').slideUp(500);
                 $('#superDescSection').slideUp(500);
                 $('#caption-text').text('Add New Sub-Service');
@@ -157,7 +189,13 @@
 
 <script src="~/js/Utility.js"></script>
 
-
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 @section Scripts {
 
     @{
