@@ -6,26 +6,7 @@
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<style>
-    #container {
-        width: 1000px;
-        margin: 20px auto;
-        background-color: #333;
-    }
-
-    .ck-editor__editable[role="textbox"] {
-        /* editing area */
-        min-height: 200px;
-        background-color: #333;
-        color: #000;
-    }
-
-    .ck-content .image {
-        /* block images */
-        max-width: 80%;
-        margin: 20px auto;
-    }
-</style>
+<link rel="stylesheet" href="~/css/ckeditor.css" />
 
 <link rel="stylesheet" href="~/css/AddService.css" />
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
@@ -71,7 +52,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label asp-for="Service.SuperDescription" class="control-label text-warning"> Detailed Description</label>
-                        <textarea asp-for="Service.SuperDescription" id="editor" class="add-input"></textarea>
+                        <textarea asp-for="Service.SuperDescription" id="editor" class="add-input" style="background-color: #333;"></textarea>
                         <span asp-validation-for="Service.SuperDescription" class="text-danger"></span>
                     </div>
                 </div>
@@ -189,10 +170,28 @@
 
 <script>
     ClassicEditor
-        .create(document.querySelector('#editor'))
+        .create(document.querySelector('#editor'), {
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'alignment', 'fontColor', 'fontBackgroundColor', 'table', 'htmlSupport', 'mediaEmbed', 'wordCount'],
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            },            
+        })
         .catch(error => {
-            console.error(error);
+            console.log(error);
         });
+
+    ClassicEditor.on('instanceReady', function (e) {
+        // First time
+        e.editor.document.getBody().setStyle('background-color', 'blue');
+        // in case the user switches to source and back
+        e.editor.on('contentDom', function () {
+            e.editor.document.getBody().setStyle('background-color', 'blue');
+        });
+    });
 </script>
 
 @section Scripts {
