@@ -6,8 +6,11 @@
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
+<link rel="stylesheet" href="~/css/ckeditor.css" />
+
 <link rel="stylesheet" href="~/css/AddService.css" />
 <script type="text/javascript" src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script src="~/lib/ckeditor/ckeditor.js"></script>
 
 <div class="text-light main-box" style="margin: 20px;">
 
@@ -49,7 +52,7 @@
                 <div class="row">
                     <div class="form-group">
                         <label asp-for="Service.SuperDescription" class="control-label text-warning"> Detailed Description</label>
-                        <textarea asp-for="Service.SuperDescription" class="add-input" rows="6" style="height: 150px;"></textarea>
+                        <textarea asp-for="Service.SuperDescription" id="editor" class="add-input" style="background-color: #333;"></textarea>
                         <span asp-validation-for="Service.SuperDescription" class="text-danger"></span>
                     </div>
                 </div>
@@ -164,6 +167,32 @@
 </div>
 
 <script src="~/js/Utility.js"></script>
+
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'alignment', 'fontColor', 'fontBackgroundColor', 'table', 'htmlSupport', 'mediaEmbed', 'wordCount'],
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            },            
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    ClassicEditor.on('instanceReady', function (e) {
+        // First time
+        e.editor.document.getBody().setStyle('background-color', 'blue');
+        // in case the user switches to source and back
+        e.editor.on('contentDom', function () {
+            e.editor.document.getBody().setStyle('background-color', 'blue');
+        });
+    });
+</script>
 
 @section Scripts {
     @{

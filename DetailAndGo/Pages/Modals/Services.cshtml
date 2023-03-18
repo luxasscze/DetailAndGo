@@ -242,8 +242,8 @@
         booking.services = selectedServices;
         booking.servicesSelected = true;
         console.table(booking);
-        $('#noServicesText').hide();
-        $('#servicesList').show();
+        $('#noServicesText').hide();        
+        $('#servicesList').css('display', 'inline-block');
         $('#servicesModal').modal('hide');
     });
 </script>
