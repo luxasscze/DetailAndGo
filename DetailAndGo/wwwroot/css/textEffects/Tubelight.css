@@ -3,7 +3,7 @@
     text-transform: uppercase;   
     font-size: 3em;
     animation: animate 7s linear;
-    animation-iteration-count: 999999999;
+    animation-iteration-count: 1;
     /*   display:table-cell; */
     padding: 0px 4px;
     text-shadow: 0px 0px 20px #fff, 0px 0px 30px #fff, 0px 0px 10px #fff, 0px 0px 1px #fff;
