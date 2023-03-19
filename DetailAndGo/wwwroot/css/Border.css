@@ -1,0 +1,39 @@
+﻿.animated-card {
+    position: relative;
+    border-radius: 10px;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(0deg, #000, #666);
+}
+
+.animated-card:before, .animated-card:after {
+    content: '';
+    position: absolute;
+    border-radius: 10px;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(45deg, #fb0094, #0000ff);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    z-index: -1;
+    animation: steam 20s linear infinite;
+}
+
+@keyframes steam {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.animated-card:after {
+    filter: blur(50px);
+}

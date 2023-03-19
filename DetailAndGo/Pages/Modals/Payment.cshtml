@@ -1,4 +1,59 @@
-﻿<!-- Payment Modal -->
+﻿<style>
+    .card-card {
+        height: 120px;
+        width: 100%;
+        margin-bottom: 10px;
+        background: linear-gradient(117deg, rgba(185,14,109,0.1) 0%, rgba(62,146,154,0.7) 100%);
+        border-radius: 10px;
+        position: relative;
+    }
+
+    .card-add {
+        height: 60px;
+        width: 100%;
+        margin-bottom: 10px;
+        box-shadow: 0px 0px 2px 1px #3e4;
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .card-last-four {
+        position: absolute;
+        bottom: 35px;
+        left: 10px;
+    }
+
+    .card-expiry-date {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+    }
+
+    .card-active {
+        box-shadow: 0px 0px 30px 1px #fff;
+    }
+
+    .card-delete {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        color: #f00;
+    }
+
+    .add-text {
+        color: #fff;
+        margin: auto;
+        text-align: center;
+    }
+</style>
+
+<link rel="stylesheet" href="~/css/Border.css" />
+
+<!-- Payment Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
@@ -7,13 +62,58 @@
                     <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Which payment method do you wish to use?</h2>
                 </div>
 
-                <div class="row text-center" style="width: 50%; margin: 0px auto;">
-                    
+                <div style="width: 50%; margin: 0px auto;">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card-card card-active">
+                                <div class="card-logo">
+                                    <img src="~/images/creditcards/visa.png" height="30" />
+                                </div>
+                                <div class="card-delete">
+                                    <i class="fa fa-times"></i>
+                                </div>
+                                <div class="card-last-four text-light">
+                                    <span class="text-muted">XXXX XXXX XXXX</span> 5678
+                                </div>
+                                <div class="card-expiry-date text-light">
+                                    12/23
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="card-card">
+                                <div class="card-logo">
+                                    <img src="~/images/creditcards/mastercard2.png" height="30" />
+                                </div>
+                                <div class="card-delete">
+                                    <i class="fa fa-times"></i>
+                                </div>
+                                <div class="card-last-four text-light">
+                                    <span class="text-muted">XXXX XXXX XXXX</span> 1943
+                                </div>
+                                <div class="card-expiry-date text-light">
+                                    08/27
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="row" style="margin: 20px auto; width: 50%;">
-                    <a class="btn btn-outline-success btn-block disabled" id="confirmPaymentBtn">CONFIRM</a>
-                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
+
+                <div class="row" style="margin: 30px auto; width: 50%;">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="row">
+                                <a class="btn btn-outline-success text-center" style="border-radius: 0px;"><i class="fa fa-circle-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="row">
+                                <a class="btn btn-outline-success btn-block" style="border-radius: 0px;" id="confirmPaymentBtn">CONFIRM</a>
+                            </div>
+                        </div>
+                        <a class="btn btn-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
