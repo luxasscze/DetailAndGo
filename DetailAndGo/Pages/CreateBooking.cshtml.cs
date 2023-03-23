@@ -3,6 +3,7 @@ using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Stripe;
 
 namespace DetailAndGo.Pages
 {
@@ -25,7 +26,7 @@ namespace DetailAndGo.Pages
             _jobService = jobService;
         }
 
-        public Customer Customer { get; set; }
+        public Models.Customer Customer { get; set; }
         public Car CustomerCar { get; set; }
         public List<Car> CustomerCars { get; set; }
         public List<CarHistory> CarHistory { get; set; }
@@ -38,7 +39,7 @@ namespace DetailAndGo.Pages
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
         public List<int> AvailableTimes { get; set; }
-        public List<string> AvailableTimesString { get; set; }
+        public List<string> AvailableTimesString { get; set; }       
 
         public async Task OnGetAsync()
         {
@@ -56,7 +57,7 @@ namespace DetailAndGo.Pages
             DefaultPaymentMethod = _stripeService.GetCustomerDefaultPaymentMethod(Customer.StripeId);
             Last4 = _stripeService.GetLast4(Customer.StripeId);
             AvailableTimes = await _jobService.GetAvailableTimesForDate(DateTime.Now);
-            AvailableTimesString = new List<string>();
+            AvailableTimesString = new List<string>();            
 
             foreach(var item in AvailableTimes)
             {
@@ -93,6 +94,18 @@ namespace DetailAndGo.Pages
         public async Task<JsonResult> OnGetGetServicePrice(string service)
         {
             return new JsonResult(_serviceService.GetServicePrice(int.Parse(service)));
+        }
+
+        public async Task<JsonResult> OnGetGetCustomerPaymentMethods()
+        {
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            return new JsonResult(await _stripeService.GetCustomerPaymentMethods(Customer.StripeId));
+        }
+
+        public JsonResult OnGetGetDefaultPaymentMethod()
+        {
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            return new JsonResult(_stripeService.GetCustomerDefaultPaymentMethod(Customer.StripeId));
         }
     }
 }
