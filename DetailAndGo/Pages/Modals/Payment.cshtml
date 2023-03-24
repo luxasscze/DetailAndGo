@@ -7,6 +7,7 @@
         border-radius: 10px;
         position: relative;
         filter: blur(0px);
+        cursor: pointer;
     }
 
     .card-add {
@@ -101,8 +102,7 @@
 
 <script>
     let defaultP = getCustomerDefaultPaymentMethodId();
-    $(document).ready(function () {
-       
+    $(document).ready(function () {       
         $('#paymentModal').on('show.bs.modal', function () {
             $('#cardsContainer').html('');
             getCustomerPaymentMethods().forEach(renderCard);            
@@ -114,28 +114,34 @@
         console.log(card.id);
         if (card.card.brand == 'visa') {
             if (defaultP == card.id) {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id +  '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
             else {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
         }
         if (card.card.brand == 'mastercard') {
             if (defaultP == card.id) {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
             else {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
         }
         if (card.card.brand == 'amex') {
             if (defaultP == card.id) {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
             else {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
         }
+
+        $('#' + card.id).on('click', function () {
+            console.log(card.id + ' clicked...');
+            $('.card-card').removeClass('card-active');
+            $(this).addClass('card-active');
+        });
     }
 
     function getCustomerPaymentMethods() {
@@ -185,4 +191,6 @@
         });
         return defaultPaymentMethod;
     }
+
+    
 </script>
