@@ -139,11 +139,9 @@
     });
 
     function displayCards() {
-        $('#paymentModal').on('show.bs.modal', function () {
-            $('#cardsContainer').html('');
-            getCustomerPaymentMethods().forEach(renderCard);
-            console.log(defaultP);
-        });
+        $('#cardsContainer').html('');
+        getCustomerPaymentMethods().forEach(renderCard);
+        console.log(defaultP);
     };
 
     function renderCard(card) {
@@ -203,13 +201,13 @@
             $('#paymentModal').modal('show');
         });
 
-        $('#deleteCardModal').on('hide.bs.modal', function () {
+        $('#deleteCardModal').on('hide.bs.modal', function () {            
             $('#paymentModal').modal('show');
-        });
+        });       
     }
 
     $('#paymentModal').on('show.bs.modal', function () {
-        displayCards();
+        
     });
 
     $('#deleteCardButton').on('click', function () {
@@ -217,7 +215,7 @@
         displayCards();
         $('#deleteCardModal').modal('hide');
         $('#paymentModal').modal('show');
-       
+
     });
 
     function getCustomerPaymentMethods() {
