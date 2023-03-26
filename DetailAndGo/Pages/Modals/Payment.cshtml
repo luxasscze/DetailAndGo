@@ -36,9 +36,8 @@
     }
 
     .card-active {
-        background: linear-gradient(117deg, rgba(50,255,150,0.1) 0%, rgba(62,146,154,0.7) 100%);
-        box-shadow: 0px 0px 30px 1px rgba(155,146,200,0.9);
-        border: 2px ridge #fff;
+        background: linear-gradient(117deg, rgba(50,255,150,0.3) 0%, rgba(62,146,154,1) 100%);
+        box-shadow: 0px 0px 30px 1px rgba(50,255,150,0.4);
         filter: none;
     }
 
@@ -47,6 +46,11 @@
         top: 5px;
         left: 10px;
         color: #f00;
+    }
+
+    .card-to-delete {
+        box-shadow: 0px 0px 30px 1px rgba(255,50,150,0.4);
+        background: linear-gradient(117deg, rgba(255,50,50,0.3) 0%, rgba(62,146,154,1) 100%);
     }
 
     .add-text {
@@ -82,7 +86,7 @@
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="row">
-                                <a class="btn btn-outline-success text-center" style="border-radius: 0px;" id="test"><i class="fa fa-circle-plus"></i></a>
+                                <a class="btn btn-outline-success text-center" style="border-radius: 0px;"><i class="fa fa-circle-plus"></i></a>
                             </div>
                         </div>
                         <div class="col-lg-8">
@@ -100,40 +104,72 @@
 
 </div>
 
+<!-- Delete Card Modal -->
+<div class="modal fade" id="deleteCardModal" tabindex="-1" role="dialog" aria-labelledby="deleteCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Do you really wish to delete this card?</h2>
+                </div>
+
+                <div style="width: 50%; margin: 10px auto;">
+                    <div class="row text-light" id="deleteCardContainer">
+                    </div>
+                </div>
+
+                <div class="row" style="margin: 30px auto; width: 50%;">
+                    <div class="row">
+                        <a class="btn btn-danger" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="deleteCardButton"><i class="fa fa-trash"></i> Yes</a>
+                        <a class="btn btn-secondary" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="cardDeleteNoBtn"><i class="fa fa-times"></i> No</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <script>
     let defaultP = getCustomerDefaultPaymentMethodId();
-    $(document).ready(function () {       
+    let cardToDeleteId;
+    $(document).ready(function () {
+        displayCards();
+    });
+
+    function displayCards() {
         $('#paymentModal').on('show.bs.modal', function () {
             $('#cardsContainer').html('');
-            getCustomerPaymentMethods().forEach(renderCard);            
+            getCustomerPaymentMethods().forEach(renderCard);
             console.log(defaultP);
         });
-    });
+    };
 
     function renderCard(card) {
         console.log(card.id);
         if (card.card.brand == 'visa') {
             if (defaultP == card.id) {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id +  '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
             else {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
         }
         if (card.card.brand == 'mastercard') {
             if (defaultP == card.id) {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
             else {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
         }
         if (card.card.brand == 'amex') {
             if (defaultP == card.id) {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
             else {
-                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
             }
         }
 
@@ -142,7 +178,47 @@
             $('.card-card').removeClass('card-active');
             $(this).addClass('card-active');
         });
+
+        $('#delete-' + card.id).on('click', function () {
+            let cardLogoImage;
+            cardToDeleteId = card.id;
+            if (card.card.brand == 'visa') {
+                cardLogoImage = 'visa.png';
+            }
+            else if (card.card.brand == "mastercard") {
+                cardLogoImage = 'mastercard2.png';
+            }
+            else if (card.card.brand == 'amex') {
+                cardLogoImage = 'amex2.png';
+            }
+            $('#paymentModal').modal('hide');
+            $('#deleteCardModal').modal('show');
+            $('#deleteCardContainer').html('');
+            $('#deleteCardContainer').append('<div class="col-lg-6" style="margin: 0px auto;"><div class= "card-card card-to-delete" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/' + cardLogoImage + '" height = "20"/></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+
+        });
+
+        $('#cardDeleteNoBtn').on('click', function () {
+            $('#deleteCardModal').modal('hide');
+            $('#paymentModal').modal('show');
+        });
+
+        $('#deleteCardModal').on('hide.bs.modal', function () {
+            $('#paymentModal').modal('show');
+        });
     }
+
+    $('#paymentModal').on('show.bs.modal', function () {
+        displayCards();
+    });
+
+    $('#deleteCardButton').on('click', function () {
+        postDeleteCard(cardToDeleteId);
+        displayCards();
+        $('#deleteCardModal').modal('hide');
+        $('#paymentModal').modal('show');
+       
+    });
 
     function getCustomerPaymentMethods() {
         let paymentMethods;
@@ -192,5 +268,32 @@
         return defaultPaymentMethod;
     }
 
-    
+    function postDeleteCard(cardId) {
+        let success = false;
+        $.ajax({
+            url: "/CreateBooking?handler=DeletePaymentMethod",
+            data: { paymentMethodId: cardId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function () {
+                success = true;
+            },
+            error: function (error) {
+                console.log(error);
+                success = false;
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        console.log('card used: ' + cardId);
+        console.log('was deletion successful? ' + success);
+        return success;
+    }
+
+
 </script>
