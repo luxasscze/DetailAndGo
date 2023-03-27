@@ -136,11 +136,14 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
             <div class="modal-body">
+                <div class="row" style="margin-bottom: 35px">
+                    <i class="text-warning text-center fa fa-warning" style="font-size: 46px;"></i>
+                </div>
                 <div class="row">
-                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">You can't delete default payment method!</h2>
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">You can't delete default payment method</h2>
                 </div>
                 <div class="row" style="margin: 30px auto; width: 50%;">
-                    <div class="row">                        
+                    <div class="row">
                         <a class="btn btn-success" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal"><i class="fa fa-check"></i> Got it</a>
                     </div>
 
@@ -201,7 +204,7 @@
                 let cardLogoImage;
                 cardToDeleteId = card.id;
 
-                if (cardToDeleteId == defaultP) {                    
+                if (cardToDeleteId == defaultP) {
                     $('#cantDeleteCardModal').modal('show');
                 }
                 else {
