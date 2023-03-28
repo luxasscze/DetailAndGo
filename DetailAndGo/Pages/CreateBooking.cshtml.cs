@@ -105,6 +105,7 @@ namespace DetailAndGo.Pages
         public JsonResult OnGetGetDefaultPaymentMethod()
         {
             Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            var test = _stripeService.GetCustomerDefaultPaymentMethod(Customer.StripeId);
             return new JsonResult(_stripeService.GetCustomerDefaultPaymentMethod(Customer.StripeId));
         }
 
@@ -112,6 +113,12 @@ namespace DetailAndGo.Pages
         {
             Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
             return new JsonResult(await _stripeService.RemovePaymentMethod(Customer.StripeId, paymentMethodId));
+        }
+
+        public async Task<JsonResult> OnGetSetDefaultPaymentMethodAsync(string paymentMethodId)
+        {
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            return new JsonResult(await _stripeService.SetCustomerDefaultPaymentMethod(Customer.StripeId, paymentMethodId));
         }
     }
 }

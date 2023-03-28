@@ -84,16 +84,11 @@
 
                 <div class="row" style="margin: 30px auto; width: 50%;">
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-12">
                             <div class="row">
-                                <a class="btn btn-outline-success text-center" style="border-radius: 0px;"><i class="fa fa-circle-plus"></i></a>
+                                <a class="btn btn-success text-center" style="border-radius: 0px;"><i class="fa fa-circle-plus"></i> Add New</a>
                             </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <div class="row">
-                                <a class="btn btn-success btn-block" style="border-radius: 0px;" id="confirmPaymentBtn">CONFIRM</a>
-                            </div>
-                        </div>
+                        </div>                       
                         <a class="btn btn-secondary" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                     </div>
 
@@ -163,6 +158,7 @@
         function displayCards() {
             console.log('render cards called...');
             $('#cardsContainer').html('');
+            defaultP = getCustomerDefaultPaymentMethodId();
             getCustomerPaymentMethods().forEach(renderCard);
             console.log(defaultP);
         };
@@ -196,8 +192,9 @@
 
             $('#' + card.id).on('click', function () {
                 console.log(card.id + ' clicked...');
+                postSetDefaultPaymentMethod(card.id);
                 $('.card-card').removeClass('card-active');
-                $(this).addClass('card-active');
+                $(this).addClass('card-active');                
             });
 
             $('#delete-' + card.id).on('click', function () {
@@ -239,7 +236,7 @@
         });
 
         $('#paymentModal').on('show.bs.modal', function () {
-            console.log('payment modal shown...');
+            console.log('payment modal shown...');            
             displayCards();
         });
 
@@ -328,6 +325,33 @@
         });
         console.log('card used: ' + cardId);
         console.log('was deletion successful? ' + success);
+        return success;
+    }
+
+    function postSetDefaultPaymentMethod(cardId) {
+        let success = false;
+        $.ajax({
+            url: "/CreateBooking?handler=SetDefaultPaymentMethod",
+            data: { paymentMethodId: cardId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function () {
+                success = true;
+            },
+            error: function (error) {
+                console.log(error);
+                success = false;
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        console.log('card used: ' + cardId);
+        console.log('was default card successful? ' + success);
         return success;
     }
 
