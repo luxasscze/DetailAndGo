@@ -120,5 +120,11 @@ namespace DetailAndGo.Pages
             Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
             return new JsonResult(await _stripeService.SetCustomerDefaultPaymentMethod(Customer.StripeId, paymentMethodId));
         }
+
+        public JsonResult OnGetGetLast4()
+        {
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            return new JsonResult(_stripeService.GetLast4(Customer.StripeId));
+        }
     }
 }

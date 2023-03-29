@@ -8,6 +8,7 @@
         position: relative;
         filter: blur(0px);
         cursor: pointer;
+        z-index: 1;
     }
 
     .card-add {
@@ -46,6 +47,7 @@
         top: 5px;
         left: 10px;
         color: #f00;
+        z-index: 999;
     }
 
     .card-to-delete {
@@ -88,10 +90,24 @@
                             <div class="row">
                                 <a class="btn btn-success text-center" style="border-radius: 0px;"><i class="fa fa-circle-plus"></i> Add New</a>
                             </div>
-                        </div>                       
+                        </div>
                         <a class="btn btn-secondary" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Payment Loader Modal -->
+<div class="modal fade" id="paymentLoaderModal" tabindex="-1" role="dialog" aria-labelledby="paymentLoaderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Getting your payment information...</h2>
                 </div>
             </div>
         </div>
@@ -153,13 +169,19 @@
     $(document).ready(function () {
         let defaultP = getCustomerDefaultPaymentMethodId();
         let cardToDeleteId;
+        /*$(document).ready(function () { // IT IS SHOWING BUT NOT DISSAPEARING
+            $('#paymentLoaderModal').modal('show');
+        });*/
         displayCards();
 
         function displayCards() {
             console.log('render cards called...');
             $('#cardsContainer').html('');
-            defaultP = getCustomerDefaultPaymentMethodId();
-            getCustomerPaymentMethods().forEach(renderCard);
+            defaultP = getCustomerDefaultPaymentMethodId();           
+            getCustomerPaymentMethods().then((data) => data.forEach(renderCard));
+            $(document).ready(function () {
+                $('#paymentLoaderModal').modal('hide');
+            });
             console.log(defaultP);
         };
 
@@ -193,11 +215,15 @@
             $('#' + card.id).on('click', function () {
                 console.log(card.id + ' clicked...');
                 postSetDefaultPaymentMethod(card.id);
+                defaultP = getCustomerDefaultPaymentMethodId();
                 $('.card-card').removeClass('card-active');
-                $(this).addClass('card-active');                
+                $(this).addClass('card-active');
+                $('#paymentModal').modal('hide');
+                $('#cardEndingIn').text('ending in ' + getLast4());
             });
 
-            $('#delete-' + card.id).on('click', function () {
+            $('#delete-' + card.id).on('click', function (e) {
+                e.stopPropagation();
                 let cardLogoImage;
                 cardToDeleteId = card.id;
 
@@ -236,7 +262,7 @@
         });
 
         $('#paymentModal').on('show.bs.modal', function () {
-            console.log('payment modal shown...');            
+            console.log('payment modal shown...');
             displayCards();
         });
 
@@ -253,27 +279,23 @@
         });
     });
 
-    function getCustomerPaymentMethods() {
-        let paymentMethods;
-        $.ajax({
+    async function getCustomerPaymentMethods() {       
+        const paymentMethods = await $.ajax({
             url: "/CreateBooking?handler=GetCustomerPaymentMethods",
             data: {},
             type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                paymentMethods = data;
-            },
+            async: true,
+            cache: true,           
             error: function (error) {
                 console.log(error);
             },
             complete: function () {
                 console.log('finished...');
+                $(document).ready(function () {
+                    $('#paymentLoaderModal').modal('hide');
+                });
             },
-        });
+        });        
         return paymentMethods;
     }
 
@@ -352,7 +374,33 @@
         });
         console.log('card used: ' + cardId);
         console.log('was default card successful? ' + success);
+        booking.paymentMethod = cardId;        
         return success;
+    }
+
+    function getLast4() {
+        let last4;
+        $.ajax({
+            url: "/CreateBooking?handler=GetLast4",
+            data: {},
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                last4 = data;
+            },
+            error: function (error) {
+                console.log(error);
+                success = false;
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });        
+        return last4;
     }
 
 
