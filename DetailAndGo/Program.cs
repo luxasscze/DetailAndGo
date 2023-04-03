@@ -58,6 +58,7 @@ app.UseRouting();
 app.UseHsts();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseNodeModules();
 app.MapRazorPages();
 
 app.Run();

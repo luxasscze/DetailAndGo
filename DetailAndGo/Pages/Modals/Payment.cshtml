@@ -36,6 +36,12 @@
         left: 10px;
     }
 
+    .card-cvc {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+    }
+
     .card-active {
         background: linear-gradient(117deg, rgba(50,255,150,0.3) 0%, rgba(62,146,154,1) 100%);
         box-shadow: 0px 0px 30px 1px rgba(50,255,150,0.4);
@@ -183,28 +189,31 @@
                 <hr class="bg-light" />
                 <div class="row">
                     <div class="col-lg-6">
-                       <div class="card-card" style="width: 50%; margin: 0px auto;">
-                           <div class="card-logo">
-                               <img src="~/images/creditcards/visa.png" height="20" />
-                           </div>
-                           <div class="card-last-four text-light">
-                               <label id="enteredCardNumber">XXXX XXXX XXXX XXXX</label>
-                           </div>
-                           <div class="card-expiry-date text-light">
-                               XX/XX
-                           </div>
-                       </div>
+                        <div class="card-card" style="width: 50%; margin: 0px auto;">
+                            <div class="card-logo">
+                                <img src="~/images/creditcards/visa.png" height="20" />
+                            </div>
+                            <div class="card-last-four text-light">
+                                <label id="enteredCardNumber">XXXX XXXX XXXX XXXX</label>
+                            </div>
+                            <div class="card-expiry-date text-light">
+                                <label id="enteredCardExpiry">XX/XX</label>
+                            </div>
+                            <div class="card-cvc text-light">
+                                <label id="enteredCardCvc">XXX</label>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="row">
-                            <input type="number" max="16" placeholder="Card Number" class="form-control car-input" id="creditCardNumberInput" />
+                            <input type="text" maxlength="19" placeholder="Card Number" class="form-control car-input" id="creditCardNumberInput" />
                         </div>
                         <div class="row" style="width: 100%; margin: 0px auto;">
                             <div class="col-lg-6">
-                                <input type="text" placeholder="Expiry Date" class="form-control car-input" style="width: 100%;" id="addCarFamily" />
+                                <input type="text" maxlength="5" placeholder="Expiry Date" class="form-control car-input" style="width: 100%;" id="creditCardExpiryInput" />
                             </div>
                             <div class="col-lg-6">
-                                <input type="text" placeholder="CVC" class="form-control car-input" style="width: 100%;" id="addCarFamily" />
+                                <input type="text" placeholder="CVC" maxlength="4" class="form-control car-input" style="width: 100%;" id="creditCardCvcInput" />
                             </div>
                         </div>
                         <div class="row" style="display: none" id="emptyErrorMsg">
@@ -243,6 +252,11 @@
             } else {
                 return value
             }
+        }
+
+        function validateCardInput(value) {
+            var regex = /^[0-9\s]*$/;
+            return regex.test(value);
         }
 
         function displayCards() {
@@ -356,11 +370,26 @@
         });
 
         $('#creditCardNumberInput').on('input', function () {
-            console.log(this.value);            
             $('#enteredCardNumber').text(cc_format(this.value));
+            $(this).val(cc_format(this.value));
             if (this.value.length === 0) {
                 $('#enteredCardNumber').text('XXXX XXXX XXXX XXXX');
             }
+        });
+
+        $('#creditCardExpiryInput').on('input', function () {
+            if(this.value.length == 2) {
+                this.value += '/';
+            }
+            if(this.value.length < 4) {
+                this.value.slice(0, -1);
+            }
+            if(thi
+            $('#enteredCardExpiry').text(this.value);
+        });
+
+        $('#creditCardCvcInput').on('input', function () {
+            $('#enteredCardCvc').text(this.value);
         });
     });
 
