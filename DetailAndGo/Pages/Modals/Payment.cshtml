@@ -88,7 +88,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="row">
-                                <a class="btn btn-success text-center" style="border-radius: 0px;"><i class="fa fa-circle-plus"></i> Add New</a>
+                                <a class="btn btn-success text-center" style="border-radius: 0px;" id="addNewCardBtn"><i class="fa fa-circle-plus"></i> Add New</a>
                             </div>
                         </div>
                         <a class="btn btn-secondary" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
@@ -165,23 +165,91 @@
 
 </div>
 
+<!-- Add New Card Modal -->
+<div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="addCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Add New Payment Method</h2>
+                    </div>
+                    <div class="col">
+                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <hr class="bg-light" />
+                <div class="row">
+                    <div class="col-lg-6">
+                       <div class="card-card" style="width: 50%; margin: 0px auto;">
+                           <div class="card-logo">
+                               <img src="~/images/creditcards/visa.png" height="20" />
+                           </div>
+                           <div class="card-last-four text-light">
+                               <label id="enteredCardNumber">XXXX XXXX XXXX XXXX</label>
+                           </div>
+                           <div class="card-expiry-date text-light">
+                               XX/XX
+                           </div>
+                       </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <input type="number" max="16" placeholder="Card Number" class="form-control car-input" id="creditCardNumberInput" />
+                        </div>
+                        <div class="row" style="width: 100%; margin: 0px auto;">
+                            <div class="col-lg-6">
+                                <input type="text" placeholder="Expiry Date" class="form-control car-input" style="width: 100%;" id="addCarFamily" />
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" placeholder="CVC" class="form-control car-input" style="width: 100%;" id="addCarFamily" />
+                            </div>
+                        </div>
+                        <div class="row" style="display: none" id="emptyErrorMsg">
+                            <label class="text-warning text-center">Values cannot be empty</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin: 20px 100px;">
+                    <a class="btn btn-outline-success btn-block" href="#" id="addCarButton"><i class="fa fa-plus"></i> ADD</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
         let defaultP = getCustomerDefaultPaymentMethodId();
         let cardToDeleteId;
-        /*$(document).ready(function () { // IT IS SHOWING BUT NOT DISSAPEARING
-            $('#paymentLoaderModal').modal('show');
-        });*/
-        displayCards();
+
+        //displayCards();
+
+        function cc_format(value) {
+            var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+            var matches = v.match(/\d{4,16}/g);
+            var match = matches && matches[0] || ''
+            var parts = []
+
+            for (i = 0, len = match.length; i < len; i += 4) {
+                parts.push(match.substring(i, i + 4))
+            }
+
+            if (parts.length) {
+                return parts.join(' ')
+            } else {
+                return value
+            }
+        }
 
         function displayCards() {
             console.log('render cards called...');
             $('#cardsContainer').html('');
-            defaultP = getCustomerDefaultPaymentMethodId();           
+            defaultP = getCustomerDefaultPaymentMethodId();
             getCustomerPaymentMethods().then((data) => data.forEach(renderCard));
-            $(document).ready(function () {
-                $('#paymentLoaderModal').modal('hide');
-            });
             console.log(defaultP);
         };
 
@@ -277,25 +345,57 @@
         $('#cantDeleteCardModal').on('hide.bs.modal', function () {
             $('#paymentModal').modal('show');
         });
+
+        $('#addNewCardBtn').on('click', function () {
+            $('#paymentModal').modal('hide');
+            $('#addCardModal').modal('show');
+        });
+
+        $('#addCardModal').on('hide.bs.modal', function () {
+            $('#paymentModal').modal('show');
+        });
+
+        $('#creditCardNumberInput').on('input', function () {
+            console.log(this.value);            
+            $('#enteredCardNumber').text(cc_format(this.value));
+            if (this.value.length === 0) {
+                $('#enteredCardNumber').text('XXXX XXXX XXXX XXXX');
+            }
+        });
     });
 
-    async function getCustomerPaymentMethods() {       
+    async function getCustomerPaymentMethods() {
         const paymentMethods = await $.ajax({
             url: "/CreateBooking?handler=GetCustomerPaymentMethods",
             data: {},
             type: "GET",
-            async: true,
-            cache: true,           
+            async: false, // YOU CAN EASILY CHANGE TO TRUE IF NEEDED
+            cache: false,
+            beforeSend: function () {
+
+                /*$(document).ready(function () {
+                    $('#paymentLoaderModal').modal('show');
+                });*/
+
+            },
+            success: function () {
+                $(document).ready(function () {
+
+                });
+            },
             error: function (error) {
                 console.log(error);
             },
             complete: function () {
-                console.log('finished...');
-                $(document).ready(function () {
+
+                /*$(document).ready(function () {
                     $('#paymentLoaderModal').modal('hide');
-                });
+                });*/
+
+                console.log('finished...');
             },
-        });        
+        });
+
         return paymentMethods;
     }
 
@@ -374,7 +474,7 @@
         });
         console.log('card used: ' + cardId);
         console.log('was default card successful? ' + success);
-        booking.paymentMethod = cardId;        
+        booking.paymentMethod = cardId;
         return success;
     }
 
@@ -399,7 +499,7 @@
             complete: function () {
                 console.log('finished...');
             },
-        });        
+        });
         return last4;
     }
 
