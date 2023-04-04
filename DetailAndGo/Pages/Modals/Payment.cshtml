@@ -373,11 +373,13 @@
 
         $('#creditCardExpiryInput').on('input', function () {
             if (this.value.length == 2) {
-                this.value += '/';
+                if (!this.value.includes('/')) { // IT IS NOT DELETING THE '/' CHARACTER
+                    this.value += '/';
+                }
             }
             if (this.value.length < 4) {
                 this.value.slice(0, -1);
-            }            
+            }
         });
 
         $('#creditCardCvcInput').on('input', function () {
