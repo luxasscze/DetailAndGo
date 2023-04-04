@@ -66,12 +66,6 @@
         margin: auto;
         text-align: center;
     }
-
-    @@media (max-width: 768px) {
-        .card-card {
-            width: 100%;
-        }
-    }
 </style>
 
 <link rel="stylesheet" href="~/css/Border.css" />
@@ -378,159 +372,155 @@
         });
 
         $('#creditCardExpiryInput').on('input', function () {
-            if(this.value.length == 2) {
+            if (this.value.length == 2) {
                 this.value += '/';
             }
-            if(this.value.length < 4) {
+            if (this.value.length < 4) {
                 this.value.slice(0, -1);
-            }
-            if(thi
-            $('#enteredCardExpiry').text(this.value);
+            }            
         });
 
         $('#creditCardCvcInput').on('input', function () {
             $('#enteredCardCvc').text(this.value);
         });
+
+
+        async function getCustomerPaymentMethods() {
+            const paymentMethods = await $.ajax({
+                url: "/CreateBooking?handler=GetCustomerPaymentMethods",
+                data: {},
+                type: "GET",
+                async: false, // YOU CAN EASILY CHANGE TO TRUE IF NEEDED
+                cache: false,
+                beforeSend: function () {
+
+                    /*$(document).ready(function () {
+                        $('#paymentLoaderModal').modal('show');
+                    });*/
+
+                },
+                success: function () {
+
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+
+                    /*$(document).ready(function () {
+                        $('#paymentLoaderModal').modal('hide');
+                    });*/
+
+                    console.log('finished...');
+                },
+            });
+
+            return paymentMethods;
+        }
+
+        function getCustomerDefaultPaymentMethodId() {
+            let defaultPaymentMethod;
+            $.ajax({
+                url: "/CreateBooking?handler=GetDefaultPaymentMethod",
+                data: {},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    defaultPaymentMethod = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return defaultPaymentMethod;
+        }
+
+        function postDeleteCard(cardId) {
+            let success = false;
+            $.ajax({
+                url: "/CreateBooking?handler=DeletePaymentMethod",
+                data: { paymentMethodId: cardId },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function () {
+                    success = true;
+                },
+                error: function (error) {
+                    console.log(error);
+                    success = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            console.log('card used: ' + cardId);
+            console.log('was deletion successful? ' + success);
+            return success;
+        }
+
+        function postSetDefaultPaymentMethod(cardId) {
+            let success = false;
+            $.ajax({
+                url: "/CreateBooking?handler=SetDefaultPaymentMethod",
+                data: { paymentMethodId: cardId },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function () {
+                    success = true;
+                },
+                error: function (error) {
+                    console.log(error);
+                    success = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            console.log('card used: ' + cardId);
+            console.log('was default card successful? ' + success);
+            booking.paymentMethod = cardId;
+            return success;
+        }
+
+        function getLast4() {
+            let last4;
+            $.ajax({
+                url: "/CreateBooking?handler=GetLast4",
+                data: {},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    last4 = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                    success = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return last4;
+        }
     });
-
-    async function getCustomerPaymentMethods() {
-        const paymentMethods = await $.ajax({
-            url: "/CreateBooking?handler=GetCustomerPaymentMethods",
-            data: {},
-            type: "GET",
-            async: false, // YOU CAN EASILY CHANGE TO TRUE IF NEEDED
-            cache: false,
-            beforeSend: function () {
-
-                /*$(document).ready(function () {
-                    $('#paymentLoaderModal').modal('show');
-                });*/
-
-            },
-            success: function () {
-                $(document).ready(function () {
-
-                });
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            complete: function () {
-
-                /*$(document).ready(function () {
-                    $('#paymentLoaderModal').modal('hide');
-                });*/
-
-                console.log('finished...');
-            },
-        });
-
-        return paymentMethods;
-    }
-
-    function getCustomerDefaultPaymentMethodId() {
-        let defaultPaymentMethod;
-        $.ajax({
-            url: "/CreateBooking?handler=GetDefaultPaymentMethod",
-            data: {},
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                defaultPaymentMethod = data;
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            complete: function () {
-                console.log('finished...');
-            },
-        });
-        return defaultPaymentMethod;
-    }
-
-    function postDeleteCard(cardId) {
-        let success = false;
-        $.ajax({
-            url: "/CreateBooking?handler=DeletePaymentMethod",
-            data: { paymentMethodId: cardId },
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
-
-            },
-            success: function () {
-                success = true;
-            },
-            error: function (error) {
-                console.log(error);
-                success = false;
-            },
-            complete: function () {
-                console.log('finished...');
-            },
-        });
-        console.log('card used: ' + cardId);
-        console.log('was deletion successful? ' + success);
-        return success;
-    }
-
-    function postSetDefaultPaymentMethod(cardId) {
-        let success = false;
-        $.ajax({
-            url: "/CreateBooking?handler=SetDefaultPaymentMethod",
-            data: { paymentMethodId: cardId },
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
-
-            },
-            success: function () {
-                success = true;
-            },
-            error: function (error) {
-                console.log(error);
-                success = false;
-            },
-            complete: function () {
-                console.log('finished...');
-            },
-        });
-        console.log('card used: ' + cardId);
-        console.log('was default card successful? ' + success);
-        booking.paymentMethod = cardId;
-        return success;
-    }
-
-    function getLast4() {
-        let last4;
-        $.ajax({
-            url: "/CreateBooking?handler=GetLast4",
-            data: {},
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
-
-            },
-            success: function (data) {
-                last4 = data;
-            },
-            error: function (error) {
-                console.log(error);
-                success = false;
-            },
-            complete: function () {
-                console.log('finished...');
-            },
-        });
-        return last4;
-    }
-
 
 </script>
