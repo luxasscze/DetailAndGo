@@ -126,5 +126,25 @@ namespace DetailAndGo.Pages
             Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
             return new JsonResult(_stripeService.GetLast4(Customer.StripeId));
         }
+
+        public JsonResult OnGetCreatePaymentMethodAndAttach(string cardNumber, string expiry, string cvc)
+        {
+            try
+            {
+                string[] expi = expiry.Split('/');
+                int expMonth = int.Parse(expi[0]);
+                int expYear = int.Parse(expi[1]);
+                Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+                string newPaymentMethodId = _stripeService.CreatePaymentMethod(cardNumber.Replace(" ", ""), expMonth, expYear, cvc).Result;
+                _stripeService.AttachPaymentMethodToCustomer(Customer.StripeId, newPaymentMethodId);
+                _stripeService.SetCustomerDefaultPaymentMethod(Customer.StripeId, newPaymentMethodId);
+
+                return new JsonResult("New Payment Method Created And Attached.");
+            }
+            catch (Exception ex) 
+            {
+                return new JsonResult("IT FAILED!!!");
+            }
+        }
     }
 }

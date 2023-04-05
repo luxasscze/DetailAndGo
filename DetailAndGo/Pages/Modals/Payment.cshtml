@@ -185,7 +185,7 @@
                     <div class="col-lg-6">
                         <div class="card-card" style="width: 50%; margin: 0px auto;">
                             <div class="card-logo">
-                                <img src="~/images/creditcards/visa.png" height="20" />
+                                <img src="~/images/creditcards/visa.png" height="20" id="cardLogoImage" />
                             </div>
                             <div class="card-last-four text-light">
                                 <label id="enteredCardNumber">XXXX XXXX XXXX XXXX</label>
@@ -216,7 +216,7 @@
                     </div>
                 </div>
                 <div class="row" style="margin: 20px 100px;">
-                    <a class="btn btn-outline-success btn-block" href="#" id="addCarButton"><i class="fa fa-plus"></i> ADD</a>
+                    <a class="btn btn-outline-success btn-block" id="addNewCardButton"><i class="fa fa-plus"></i> ADD</a>
                     <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn"><i class="fa fa-times"></i> Cancel</a>
                 </div>
             </div>
@@ -369,6 +369,18 @@
             if (this.value.length === 0) {
                 $('#enteredCardNumber').text('XXXX XXXX XXXX XXXX');
             }
+            if(this.value[0] == '3') {
+                //AMEX
+                $('#cardLogoImage').attr('src', '/images/creditcards/amex2.png');
+            }
+            else if(this.value[0] == '4') {
+                //VISA
+                $('#cardLogoImage').attr('src', '/images/creditcards/visa.png');
+            }
+            else if(this.value[0] == '5') {
+                //MASTERCARD
+                $('#cardLogoImage').attr('src', '/images/creditcards/mastercard2.png');
+            }
         });
 
         $('#creditCardExpiryInput').on('input', function () {
@@ -380,10 +392,16 @@
             if (this.value.length < 4) {
                 this.value.slice(0, -1);
             }
+
+            $('#enteredCardExpiry').text(this.value);
         });
 
         $('#creditCardCvcInput').on('input', function () {
             $('#enteredCardCvc').text(this.value);
+        });
+
+        $('#addNewCardButton').on('click', function () {
+            console.log(setNewCard($('#enteredCardNumber').text(), $('#enteredCardExpiry').text(), $('#enteredCardCvc').text()));
         });
 
 
@@ -523,6 +541,31 @@
             });
             return last4;
         }
+
+        function setNewCard(cardNumber, expiry, cvc) {
+            let reuslt;
+            $.ajax({
+                url: "/CreateBooking?handler=CreatePaymentMethodAndAttach",
+                data: { cardNumber: cardNumber, expiry: expiry, cvc: cvc},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    result = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                    result = false;
+                },
+                complete: function () {
+                    console.log('CreatePaymentMethodAndAttach finished...');
+                },
+            });
+            return result;
+        }
     });
 
-</script>
+</script>                
