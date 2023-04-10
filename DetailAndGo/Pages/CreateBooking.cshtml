@@ -1,10 +1,11 @@
 ﻿@page
 @model DetailAndGo.Pages.CreateBookingModel
+@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
 @{
     ViewData["Title"] = "Create New Booking";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    var token = antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
 }
-
 <partial name="~/Pages/Modals/Car.cshtml" />
 <partial name="~/Pages/Modals/Services.cshtml" />
 <partial name="~/Pages/Modals/DateTime.cshtml" />
@@ -237,6 +238,8 @@
     $('#confirmButton').on('click', function () {
         console.table(booking);
         console.table(decodeServices(booking.services, booking.subServices));
+        createBooking(JSON.stringify(booking));
+                
     });
 
     function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
@@ -337,5 +340,29 @@
             },
         });
         return servicePrice;
+    }
+
+    function createBooking(bookingC) {        
+        $.ajax({
+            url: "/CreateBooking?handler=ConfirmBooking",
+            data: { booking: bookingC },
+            headers: { "RequestVerificationToken": $('[name="__RequestVerificationToken"]').val() },
+            dataType: 'HTML',
+            type: "POST",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function () {
+                
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });        
     }
 </script>

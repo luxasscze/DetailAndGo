@@ -3,6 +3,7 @@ using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Stripe;
 
 namespace DetailAndGo.Pages
@@ -145,6 +146,14 @@ namespace DetailAndGo.Pages
             {
                 return new JsonResult("IT FAILED!!!");
             }
+        }
+
+        [HttpPost]
+        [IgnoreAntiforgeryToken]
+        public RedirectToPageResult OnPostConfirmBooking(string booking) // GETTING CORRECT JSON IN :) BUT UNABLE TO REDIRECT TO DIFFERENT PAGE
+        {
+            CreateBooking? createBooking = JsonConvert.DeserializeObject<CreateBooking>(booking);           
+            return RedirectToPage("BookingCompleted");
         }
     }
 }
