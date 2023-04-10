@@ -217,7 +217,7 @@
                 </div>
                 <div class="row" style="margin: 20px 100px;">
                     <a class="btn btn-outline-success btn-block" id="addNewCardButton"><i class="fa fa-plus"></i> ADD</a>
-                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" href="#" id="cancelAddNewCarBtn"><i class="fa fa-times"></i> Cancel</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
                 </div>
             </div>
         </div>
@@ -257,7 +257,7 @@
             console.log('render cards called...');
             $('#cardsContainer').html('');
             defaultP = getCustomerDefaultPaymentMethodId();
-            getCustomerPaymentMethods().then((data) => data.forEach(renderCard));
+            getCustomerPaymentMethods().forEach(renderCard);
             console.log(defaultP);
         };
 
@@ -337,15 +337,17 @@
             $('#paymentModal').modal('show');
         });
 
-        $('#paymentModal').on('show.bs.modal', function () {
+        $('#paymentModal').on('show.bs.modal', function (e) {
+            e.stopPropagation();
             console.log('payment modal shown...');
             displayCards();
         });
 
         $('#deleteCardButton').on('click', function () {
-            postDeleteCard(cardToDeleteId);
-            displayCards();
+            postDeleteCard(cardToDeleteId);            
             $('#deleteCardModal').modal('hide');
+            $('#cardsContainer').html('');
+            displayCards();
             $('#paymentModal').modal('show');
 
         });
@@ -402,35 +404,32 @@
 
         $('#addNewCardButton').on('click', function () {
             console.log(setNewCard($('#enteredCardNumber').text(), $('#enteredCardExpiry').text(), $('#enteredCardCvc').text()));
+            $('#cardsContainer').html('');
+            defaultP = getCustomerDefaultPaymentMethodId();
+            displayCards();
+            $('#addCardModal').modal('hide');
+            $('#paymentModal').modal('show');
         });
 
 
-        async function getCustomerPaymentMethods() {
-            const paymentMethods = await $.ajax({
+        function getCustomerPaymentMethods() {
+            let paymentMethods;
+            $.ajax({
                 url: "/CreateBooking?handler=GetCustomerPaymentMethods",
                 data: {},
                 type: "GET",
-                async: false, // YOU CAN EASILY CHANGE TO TRUE IF NEEDED
+                async: false,
                 cache: false,
                 beforeSend: function () {
 
-                    /*$(document).ready(function () {
-                        $('#paymentLoaderModal').modal('show');
-                    });*/
-
                 },
-                success: function () {
-
+                success: function (data) {
+                    paymentMethods = data;
                 },
                 error: function (error) {
                     console.log(error);
                 },
                 complete: function () {
-
-                    /*$(document).ready(function () {
-                        $('#paymentLoaderModal').modal('hide');
-                    });*/
-
                     console.log('finished...');
                 },
             });

@@ -299,7 +299,12 @@ namespace DetailAndGo.Services
         public async Task<Stripe.Card> RemovePaymentMethod(string stripeId, string paymentMethodId)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
-            CardService service = new CardService();
+            CardService service = new CardService();            
+            if(paymentMethodId.Contains("pm_"))
+            {
+                PaymentMethodService pmService = new PaymentMethodService();
+                await pmService.DetachAsync(paymentMethodId);
+            }
             return await service.DeleteAsync(stripeId, paymentMethodId);            
         }
 
