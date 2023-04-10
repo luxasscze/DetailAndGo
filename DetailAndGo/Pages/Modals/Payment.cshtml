@@ -404,8 +404,7 @@
 
         $('#addNewCardButton').on('click', function () {
             console.log(setNewCard($('#enteredCardNumber').text(), $('#enteredCardExpiry').text(), $('#enteredCardCvc').text()));
-            $('#cardsContainer').html('');
-            defaultP = getCustomerDefaultPaymentMethodId();
+            $('#cardsContainer').html('');            
             displayCards();
             $('#addCardModal').modal('hide');
             $('#paymentModal').modal('show');
