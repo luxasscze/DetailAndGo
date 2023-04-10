@@ -9,6 +9,7 @@
 <partial name="~/Pages/Modals/Services.cshtml" />
 <partial name="~/Pages/Modals/DateTime.cshtml" />
 <partial name="~/Pages/Modals/ServiceDetails.cshtml" />
+<partial name="~/Pages/Modals/Payment.cshtml" />
 
 <style>
     h1 {
@@ -137,11 +138,11 @@
             <div class="card-body">
                 <div class="" style="margin: 78px auto;">
                     <img src="~/images/creditcards/visa.png" height="30" />
-                    <h6>ending in @Model.Last4</h6>
+                    <h6 id="cardEndingIn">ending in @Model.Last4</h6>
                 </div>
 
             </div>
-            <a href="">
+            <a href="" data-bs-toggle="modal" data-bs-target="#paymentModal">
                 <div class="card-button">
                     <i class="fa fa-credit-card"></i> Manage
                 </div>
@@ -234,7 +235,8 @@
         });
 
     $('#confirmButton').on('click', function () {
-        console.log(booking);
+        console.table(booking);
+        console.table(decodeServices(booking.services, booking.subServices));
     });
 
     function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
@@ -336,5 +338,4 @@
         });
         return servicePrice;
     }
-
 </script>

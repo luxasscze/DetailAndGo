@@ -44,7 +44,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.12" />
     <PackageReference Include="Stripe.net" Version="40.14.0" />
-    <PackageReference Include="vue" Version="2.6.11" />
   </ItemGroup>
 
 </Project>

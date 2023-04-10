@@ -1,0 +1,569 @@
+﻿<style>
+    .card-card {
+        height: 120px;
+        width: 80%;
+        margin-bottom: 10px;
+        background: linear-gradient(117deg, rgba(185,14,109,0.1) 0%, rgba(62,146,154,0.7) 100%);
+        border-radius: 10px;
+        position: relative;
+        filter: blur(0px);
+        cursor: pointer;
+        z-index: 1;
+    }
+
+    .card-add {
+        height: 60px;
+        width: 100%;
+        margin-bottom: 10px;
+        box-shadow: 0px 0px 2px 1px #3e4;
+    }
+
+    .card-logo {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+
+    .card-last-four {
+        position: absolute;
+        bottom: 35px;
+        left: 10px;
+    }
+
+    .card-expiry-date {
+        position: absolute;
+        bottom: 5px;
+        left: 10px;
+    }
+
+    .card-cvc {
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+    }
+
+    .card-active {
+        background: linear-gradient(117deg, rgba(50,255,150,0.3) 0%, rgba(62,146,154,1) 100%);
+        box-shadow: 0px 0px 30px 1px rgba(50,255,150,0.4);
+        filter: none;
+    }
+
+    .card-delete {
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        color: #f00;
+        z-index: 999;
+    }
+
+    .card-to-delete {
+        box-shadow: 0px 0px 30px 1px rgba(255,50,150,0.4);
+        background: linear-gradient(117deg, rgba(255,50,50,0.3) 0%, rgba(62,146,154,1) 100%);
+    }
+
+    .add-text {
+        color: #fff;
+        margin: auto;
+        text-align: center;
+    }
+</style>
+
+<link rel="stylesheet" href="~/css/Border.css" />
+
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" role="dialog" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Which payment method do you wish to use?</h2>
+                </div>
+
+                <div style="width: 50%; margin: 10px auto;">
+                    <div class="row text-light" id="cardsContainer">
+                    </div>
+                </div>
+
+                <div class="row" style="margin: 30px auto; width: 50%;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <a class="btn btn-success text-center" style="border-radius: 0px;" id="addNewCardBtn"><i class="fa fa-circle-plus"></i> Add New</a>
+                            </div>
+                        </div>
+                        <a class="btn btn-secondary" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="cancelServicesBtn">Cancel</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Payment Loader Modal -->
+<div class="modal fade" id="paymentLoaderModal" tabindex="-1" role="dialog" aria-labelledby="paymentLoaderModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Getting your payment information...</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Delete Card Modal -->
+<div class="modal fade" id="deleteCardModal" tabindex="-1" role="dialog" aria-labelledby="deleteCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Do you really wish to delete this card?</h2>
+                </div>
+
+                <div style="width: 50%; margin: 10px auto;">
+                    <div class="row text-light" id="deleteCardContainer">
+                    </div>
+                </div>
+
+                <div class="row" style="margin: 30px auto; width: 50%;">
+                    <div class="row">
+                        <a class="btn btn-danger" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="deleteCardButton"><i class="fa fa-trash"></i> Yes</a>
+                        <a class="btn btn-secondary" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal" id="cardDeleteNoBtn"><i class="fa fa-times"></i> No</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Can't Delete Card Modal -->
+<div class="modal fade" id="cantDeleteCardModal" tabindex="-1" role="dialog" aria-labelledby="cantDeleteCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row" style="margin-bottom: 35px">
+                    <i class="text-warning text-center fa fa-warning" style="font-size: 46px;"></i>
+                </div>
+                <div class="row">
+                    <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">You can't delete default payment method</h2>
+                </div>
+                <div class="row" style="margin: 30px auto; width: 50%;">
+                    <div class="row">
+                        <a class="btn btn-success" style="margin-top: 20px; border-radius: 0px;" data-bs-dismiss="modal"><i class="fa fa-check"></i> Got it</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Add New Card Modal -->
+<div class="modal fade" id="addCardModal" tabindex="-1" role="dialog" aria-labelledby="addCardModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.7)">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <h2 class="modal-title text-light" id="carsModalLabel" style="font-size: 24px;">Add New Payment Method</h2>
+                    </div>
+                    <div class="col">
+                        <a class="float-end" data-bs-dismiss="modal" aria-label="Close" style="background-color: transparent;" href="#">
+                            <span class="text-dark"><i class="fa fa-times" style="font-size: 22px;"></i></span>
+                        </a>
+                    </div>
+                </div>
+                <hr class="bg-light" />
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card-card" style="width: 50%; margin: 0px auto;">
+                            <div class="card-logo">
+                                <img src="~/images/creditcards/visa.png" height="20" id="cardLogoImage" />
+                            </div>
+                            <div class="card-last-four text-light">
+                                <label id="enteredCardNumber">XXXX XXXX XXXX XXXX</label>
+                            </div>
+                            <div class="card-expiry-date text-light">
+                                <label id="enteredCardExpiry">XX/XX</label>
+                            </div>
+                            <div class="card-cvc text-light">
+                                <label id="enteredCardCvc">XXX</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <input type="text" maxlength="19" placeholder="Card Number" class="form-control car-input" id="creditCardNumberInput" />
+                        </div>
+                        <div class="row" style="width: 100%; margin: 0px auto;">
+                            <div class="col-lg-6">
+                                <input type="text" maxlength="5" placeholder="Expiry Date" class="form-control car-input" style="width: 100%;" id="creditCardExpiryInput" />
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" placeholder="CVC" maxlength="4" class="form-control car-input" style="width: 100%;" id="creditCardCvcInput" />
+                            </div>
+                        </div>
+                        <div class="row" style="display: none" id="emptyErrorMsg">
+                            <label class="text-warning text-center">Values cannot be empty</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin: 20px 100px;">
+                    <a class="btn btn-outline-success btn-block" id="addNewCardButton"><i class="fa fa-plus"></i> ADD</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal"><i class="fa fa-times"></i> Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        let defaultP = getCustomerDefaultPaymentMethodId();
+        let cardToDeleteId;
+
+        //displayCards();
+
+        function cc_format(value) {
+            var v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+            var matches = v.match(/\d{4,16}/g);
+            var match = matches && matches[0] || ''
+            var parts = []
+
+            for (i = 0, len = match.length; i < len; i += 4) {
+                parts.push(match.substring(i, i + 4))
+            }
+
+            if (parts.length) {
+                return parts.join(' ')
+            } else {
+                return value
+            }
+        }
+
+        function validateCardInput(value) {
+            var regex = /^[0-9\s]*$/;
+            return regex.test(value);
+        }
+
+        function displayCards() {
+            console.log('render cards called...');
+            $('#cardsContainer').html('');
+            defaultP = getCustomerDefaultPaymentMethodId();
+            getCustomerPaymentMethods().forEach(renderCard);
+            console.log(defaultP);
+        };
+
+        function renderCard(card) {
+            console.log(card.id);
+            if (card.card.brand == 'visa') {
+                if (defaultP == card.id) {
+                    $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+                else {
+                    $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/visa.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+            }
+            if (card.card.brand == 'mastercard') {
+                if (defaultP == card.id) {
+                    $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+                else {
+                    $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/mastercard2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+            }
+            if (card.card.brand == 'amex') {
+                if (defaultP == card.id) {
+                    $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card card-active" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+                else {
+                    $('#cardsContainer').append('<div class="col-lg-6"><div class= "card-card" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/amex2.png" height = "20"/></div><div class="card-delete" id="delete-' + card.id + '"><i class="fa fa-times"> </i></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+            }
+
+            $('#' + card.id).on('click', function () {
+                console.log(card.id + ' clicked...');
+                postSetDefaultPaymentMethod(card.id);
+                defaultP = getCustomerDefaultPaymentMethodId();
+                $('.card-card').removeClass('card-active');
+                $(this).addClass('card-active');
+                $('#paymentModal').modal('hide');
+                $('#cardEndingIn').text('ending in ' + getLast4());
+            });
+
+            $('#delete-' + card.id).on('click', function (e) {
+                e.stopPropagation();
+                let cardLogoImage;
+                cardToDeleteId = card.id;
+
+                if (cardToDeleteId == defaultP) {
+                    $('#cantDeleteCardModal').modal('show');
+                }
+                else {
+
+                    if (card.card.brand == 'visa') {
+                        cardLogoImage = 'visa.png';
+                    }
+                    else if (card.card.brand == "mastercard") {
+                        cardLogoImage = 'mastercard2.png';
+                    }
+                    else if (card.card.brand == 'amex') {
+                        cardLogoImage = 'amex2.png';
+                    }
+                    $('#paymentModal').modal('hide');
+                    $('#deleteCardModal').modal('show');
+                    $('#deleteCardContainer').html('');
+                    $('#deleteCardContainer').append('<div class="col-lg-6" style="margin: 0px auto;"><div class= "card-card card-to-delete" id="' + card.id + '"><div class="card-logo"><img src="/images/creditcards/' + cardLogoImage + '" height = "20"/></div><div class="card-last-four text-light"><span class="text-muted"> XXXX XXXX XXXX </span>' + card.card.last4 + '</div><div class="card-expiry-date text-light">' + card.card.expMonth + '/' + card.card.expYear.toString().slice(-2) + '</div></div></div>');
+                }
+            });
+
+            $('#cardDeleteNoBtn').on('click', function () {
+                $('#deleteCardModal').modal('hide');
+                $('#paymentModal').modal('show');
+            });
+
+
+        }
+
+        $('#deleteCardModal').on('hide.bs.modal', function () {
+            console.log('delete hidden...');
+            $('#paymentModal').modal('show');
+        });
+
+        $('#paymentModal').on('show.bs.modal', function (e) {
+            e.stopPropagation();
+            console.log('payment modal shown...');
+            displayCards();
+        });
+
+        $('#deleteCardButton').on('click', function () {
+            postDeleteCard(cardToDeleteId);            
+            $('#deleteCardModal').modal('hide');
+            $('#cardsContainer').html('');
+            displayCards();
+            $('#paymentModal').modal('show');
+
+        });
+
+        $('#cantDeleteCardModal').on('hide.bs.modal', function () {
+            $('#paymentModal').modal('show');
+        });
+
+        $('#addNewCardBtn').on('click', function () {
+            $('#paymentModal').modal('hide');
+            $('#addCardModal').modal('show');
+        });
+
+        $('#addCardModal').on('hide.bs.modal', function () {
+            $('#paymentModal').modal('show');
+        });
+
+        $('#creditCardNumberInput').on('input', function () {
+            $('#enteredCardNumber').text(cc_format(this.value));
+            $(this).val(cc_format(this.value));
+            if (this.value.length === 0) {
+                $('#enteredCardNumber').text('XXXX XXXX XXXX XXXX');
+            }
+            if(this.value[0] == '3') {
+                //AMEX
+                $('#cardLogoImage').attr('src', '/images/creditcards/amex2.png');
+            }
+            else if(this.value[0] == '4') {
+                //VISA
+                $('#cardLogoImage').attr('src', '/images/creditcards/visa.png');
+            }
+            else if(this.value[0] == '5') {
+                //MASTERCARD
+                $('#cardLogoImage').attr('src', '/images/creditcards/mastercard2.png');
+            }
+        });
+
+        $('#creditCardExpiryInput').on('input', function () {
+            if (this.value.length == 2) {
+                if (!this.value.includes('/')) { // IT IS NOT DELETING THE '/' CHARACTER
+                    this.value += '/';
+                }
+            }
+            if (this.value.length < 4) {
+                this.value.slice(0, -1);
+            }
+
+            $('#enteredCardExpiry').text(this.value);
+        });
+
+        $('#creditCardCvcInput').on('input', function () {
+            $('#enteredCardCvc').text(this.value);
+        });
+
+        $('#addNewCardButton').on('click', function () {
+            console.log(setNewCard($('#enteredCardNumber').text(), $('#enteredCardExpiry').text(), $('#enteredCardCvc').text()));
+            $('#cardsContainer').html('');            
+            displayCards();
+            $('#addCardModal').modal('hide');
+            $('#paymentModal').modal('show');
+        });
+
+
+        function getCustomerPaymentMethods() {
+            let paymentMethods;
+            $.ajax({
+                url: "/CreateBooking?handler=GetCustomerPaymentMethods",
+                data: {},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    paymentMethods = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+
+            return paymentMethods;
+        }
+
+        function getCustomerDefaultPaymentMethodId() {
+            let defaultPaymentMethod;
+            $.ajax({
+                url: "/CreateBooking?handler=GetDefaultPaymentMethod",
+                data: {},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    defaultPaymentMethod = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return defaultPaymentMethod;
+        }
+
+        function postDeleteCard(cardId) {
+            let success = false;
+            $.ajax({
+                url: "/CreateBooking?handler=DeletePaymentMethod",
+                data: { paymentMethodId: cardId },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function () {
+                    success = true;
+                },
+                error: function (error) {
+                    console.log(error);
+                    success = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            console.log('card used: ' + cardId);
+            console.log('was deletion successful? ' + success);
+            return success;
+        }
+
+        function postSetDefaultPaymentMethod(cardId) {
+            let success = false;
+            $.ajax({
+                url: "/CreateBooking?handler=SetDefaultPaymentMethod",
+                data: { paymentMethodId: cardId },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function () {
+                    success = true;
+                },
+                error: function (error) {
+                    console.log(error);
+                    success = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            console.log('card used: ' + cardId);
+            console.log('was default card successful? ' + success);
+            booking.paymentMethod = cardId;
+            return success;
+        }
+
+        function getLast4() {
+            let last4;
+            $.ajax({
+                url: "/CreateBooking?handler=GetLast4",
+                data: {},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    last4 = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                    success = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return last4;
+        }
+
+        function setNewCard(cardNumber, expiry, cvc) {
+            let reuslt;
+            $.ajax({
+                url: "/CreateBooking?handler=CreatePaymentMethodAndAttach",
+                data: { cardNumber: cardNumber, expiry: expiry, cvc: cvc},
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    result = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                    result = false;
+                },
+                complete: function () {
+                    console.log('CreatePaymentMethodAndAttach finished...');
+                },
+            });
+            return result;
+        }
+    });
+
+</script>                

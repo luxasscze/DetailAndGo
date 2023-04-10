@@ -270,11 +270,11 @@ namespace DetailAndGo.Services
 
         public string GetCustomerDefaultPaymentMethod(string stripeId)
         {
-            StripeConfiguration.ApiKey = _stripeApiKey;
-
+            string result = string.Empty;
+            StripeConfiguration.ApiKey = _stripeApiKey;           
             Stripe.CustomerService service = new Stripe.CustomerService();
-            var test = service.Get(stripeId).DefaultSourceId;
-            return service.Get(stripeId).DefaultSourceId;
+            result = service.Get(stripeId).InvoiceSettings.DefaultPaymentMethodId;
+            return string.IsNullOrEmpty(result) ? service.Get(stripeId).DefaultSourceId : result;
         }
 
         public string GetLast4(string stripeId)
@@ -299,7 +299,12 @@ namespace DetailAndGo.Services
         public async Task<Stripe.Card> RemovePaymentMethod(string stripeId, string paymentMethodId)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
-            CardService service = new CardService();
+            CardService service = new CardService();            
+            if(paymentMethodId.Contains("pm_"))
+            {
+                PaymentMethodService pmService = new PaymentMethodService();
+                await pmService.DetachAsync(paymentMethodId);
+            }
             return await service.DeleteAsync(stripeId, paymentMethodId);            
         }
 
