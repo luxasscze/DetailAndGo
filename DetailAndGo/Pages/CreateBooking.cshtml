@@ -235,7 +235,8 @@
         });
 
     $('#confirmButton').on('click', function () {
-        console.log(booking);
+        console.table(booking);
+        console.table(decodeServices(booking.services, booking.subServices));
     });
 
     function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
