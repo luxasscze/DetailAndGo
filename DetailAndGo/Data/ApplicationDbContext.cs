@@ -1,6 +1,7 @@
 ﻿using DetailAndGo.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 
 namespace DetailAndGo.Data
 {
@@ -20,6 +21,7 @@ namespace DetailAndGo.Data
         public DbSet<CarHistory> CarHistories { get; set; }
         public DbSet<Booking> Bookings { get; set; }        
         public DbSet<SubService> SubServices { get; set; }
-        public DbSet<GeneralSettings> GeneralSettings { get; set; }
+        public DbSet<GeneralSettings> GeneralSettings { get; set; }        
+
     }
 }
