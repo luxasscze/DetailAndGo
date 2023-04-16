@@ -18,7 +18,7 @@ namespace DetailAndGo.Data
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarHistory> CarHistories { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Booking> Bookings { get; set; }        
         public DbSet<SubService> SubServices { get; set; }
         public DbSet<GeneralSettings> GeneralSettings { get; set; }
     }

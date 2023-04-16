@@ -149,11 +149,15 @@ namespace DetailAndGo.Pages
         }
 
         [HttpPost]
-        [IgnoreAntiforgeryToken]
-        public RedirectToPageResult OnPostConfirmBooking(string booking) // GETTING CORRECT JSON IN :) BUT UNABLE TO REDIRECT TO DIFFERENT PAGE
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> OnPostCreateBooking(string booking)
         {
-            CreateBooking? createBooking = JsonConvert.DeserializeObject<CreateBooking>(booking);           
-            return RedirectToPage("BookingCompleted");
+            CreateBooking? createBooking = JsonConvert.DeserializeObject<CreateBooking>(booking);
+
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            await _bookingService.CreateBooking(createBooking, Customer.AspNetUserId);
+            return new JsonResult(true);            
         }
+
     }
 }

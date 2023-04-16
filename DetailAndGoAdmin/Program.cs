@@ -20,6 +20,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IStripeService, DetailAndGo.Services.StripeService>();
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IDAGService, DetailAndGo.Services.DAGService>();
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IJobService, DetailAndGo.Services.JobService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 //builder.Services.AddTransient<IDAGService, DAGService>();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<Utility>();

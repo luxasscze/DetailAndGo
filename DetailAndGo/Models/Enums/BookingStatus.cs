@@ -13,6 +13,7 @@
         Finished,
         PartlyFinished,
         OnTheWay,
-        InProgress
+        InProgress,
+        AwaitingApproval
     }
 }

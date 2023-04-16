@@ -171,7 +171,7 @@ namespace DetailAndGo.Pages
                 Services = new List<Service>(),               
                 Status = Models.Enums.BookingStatus.Created
             };
-            await _bookingService.CreateBooking(booking);
+            //await _bookingService.CreateBooking(booking);
             return RedirectToAction("Get");
         }
 

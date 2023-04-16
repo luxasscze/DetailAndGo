@@ -1,10 +1,9 @@
 ﻿@page
 @model DetailAndGo.Pages.CreateBookingModel
-@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery antiforgery
 @{
     ViewData["Title"] = "Create New Booking";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
-    var token = antiforgery.GetAndStoreTokens(HttpContext).RequestToken;
+    Layout = "~/Pages/Shared/_Layout.cshtml";   
+
 }
 <partial name="~/Pages/Modals/Car.cshtml" />
 <partial name="~/Pages/Modals/Services.cshtml" />
@@ -238,7 +237,7 @@
     $('#confirmButton').on('click', function () {
         console.table(booking);
         console.table(decodeServices(booking.services, booking.subServices));
-        createBooking(JSON.stringify(booking));
+        createBooking(booking);
                 
     });
 
@@ -344,25 +343,33 @@
 
     function createBooking(bookingC) {        
         $.ajax({
-            url: "/CreateBooking?handler=ConfirmBooking",
-            data: { booking: bookingC },
-            headers: { "RequestVerificationToken": $('[name="__RequestVerificationToken"]').val() },
+            url: "/CreateBooking?handler=CreateBooking",
+            data: { __RequestVerificationToken: gettoken(), booking: JSON.stringify(bookingC) },            
             dataType: 'HTML',
+            
             type: "POST",
             async: false,
             cache: false,
             beforeSend: function () {
-
-            },
-            success: function () {
                 
             },
-            error: function (error) {
-                console.log(error);
+            success: function (data) {
+                
+                window.location = "./BookingCompleted";
+                
+            },
+            error: function (xhr) {
+                console.log(xhr);
             },
             complete: function () {
                 console.log('finished...');
             },
         });        
+    }
+
+    function gettoken() {
+        var token = '@Html.AntiForgeryToken()';
+        token = $(token).val();
+        return token;
     }
 </script>

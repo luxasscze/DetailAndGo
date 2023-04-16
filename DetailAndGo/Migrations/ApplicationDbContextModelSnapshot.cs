@@ -60,7 +60,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("Bookings", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.Car", b =>
@@ -102,7 +102,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cars");
+                    b.ToTable("Cars", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.CarHistory", b =>
@@ -133,7 +133,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarHistories");
+                    b.ToTable("CarHistories", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.Customer", b =>
@@ -197,7 +197,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.GeneralSettings", b =>
@@ -218,7 +218,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeneralSettings");
+                    b.ToTable("GeneralSettings", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.Job", b =>
@@ -272,7 +272,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Jobs", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.Lukas", b =>
@@ -292,7 +292,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lukases");
+                    b.ToTable("Lukases", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.Service", b =>
@@ -376,7 +376,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasIndex("BookingId");
 
-                    b.ToTable("Services");
+                    b.ToTable("Services", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.SubService", b =>
@@ -410,7 +410,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SubServices");
+                    b.ToTable("SubServices", (string)null);
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.TestingDb", b =>
@@ -427,7 +427,7 @@ namespace DetailAndGo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestingDb");
+                    b.ToTable("TestingDb", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

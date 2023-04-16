@@ -3,27 +3,56 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-<link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
-<script type="module" src="~/js/GoogleMaps.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script>
+    console.log('its working...');
+    function getUserName(userId) {
+        console.log('user id: ' + userId);
+        let userName;
+        $.ajax({
+            url: "?handler=GetUserFullName",
+            data: { aspNetUserId: userId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
 
+            },
+            success: function (data) {
+                userName = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        console.log(userName);
+        return userName;
+    }
+</script>
 
-<h1 style="color: #fff; text-align: center;">Jobs</h1>
+<h1 style="color: #fff; text-align: center;">Bookings Awaiting Approval</h1>
 
 <div class="row">
 
-    @foreach (var item in Model.Jobs)
+    @foreach (var item in Model.Bookings)
     {
         <div class="col-6">
             <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
                 <div class="card-header text-light">
-                    <h2>@item.CustomerId</h2>
+                    <h2 id="username-@item.Id"></h2>
                 </div>
-                <div class="card-body">
-                    <!--<div id="map"></div>-->
+                <div class="card-body text-light">
+                    <label>Created: @item.Created.ToString("dd/MM/yyyy HH:mm")</label><br />
+                    <label>Booked for: @item.BookedFor.ToString("dd/MM/yyyy HH:mm")</label><br />
+                    <label>Services: @item.Services</label><br />
+                    
+                    
                 </div>
                 <div class="card-footer">
                     <a href="#" class="btn btn-sm btn-outline-success">Accept</a>
@@ -31,10 +60,16 @@
                 </div>
             </div>
         </div>
+        <script>
+            $('#username-@item.Id').text(getUserName('@item.AspNetUserId'));
+        </script>
     }
 
 </div>
 
+<script>
+
+</script>
 
 @{
     /*<table class="container">
@@ -69,7 +104,7 @@
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+    </td>
 
     </tr>
     }
@@ -77,4 +112,4 @@
     </table>*/
 }
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>
+

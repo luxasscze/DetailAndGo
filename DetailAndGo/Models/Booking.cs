@@ -1,5 +1,7 @@
 ﻿using DetailAndGo.Models.Enums;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DetailAndGo.Models
 {
@@ -7,8 +9,8 @@ namespace DetailAndGo.Models
     {
         public int Id { get; set; }
         public string AspNetUserId { get; set; }
-        public int CarId { get; set; }
-        public List<Service> Services { get; set; }
+        public int CarId { get; set; }        
+        public List<Service> Services { get; set; }        
         public DateTime BookedFor { get; set; }
         public DateTime Created { get; set; }
         public BookingStatus Status { get; set; }
