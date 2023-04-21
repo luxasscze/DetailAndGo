@@ -2,7 +2,7 @@
 @model DetailAndGo.Pages.CreateBookingModel
 @{
     ViewData["Title"] = "Create New Booking";
-    Layout = "~/Pages/Shared/_Layout.cshtml";   
+    Layout = "~/Pages/Shared/_Layout.cshtml";
 
 }
 <partial name="~/Pages/Modals/Car.cshtml" />
@@ -92,7 +92,7 @@
                 <div id="servicesList" style="display: none; height: auto; align-items: center; margin:  50px auto;">
                     <div class="" style="" id="selSer">
                     </div>
-                    
+
                     <div class="row bg-warning text-dark" style="margin-top: 7px;">
                         <label style="font-size: 24px;"><b>Total: £<span id="totalP">0.00</span></b></label>
                     </div>
@@ -153,7 +153,7 @@
 </div>
 <div class="row" style="margin: 40px auto; width: 50%; display: none; cursor: pointer;" id="confirmButton">
     <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
-        <div style="font-size: 32px;"><i class="fa fa-lock"></i> CONFIRM BOOKING </div>        
+        <div style="font-size: 32px;"><i class="fa fa-lock"></i> CONFIRM BOOKING </div>
     </div>
     <div class="row" style="margin-top: 20px;">
         <h6 class="text-muted text-center">By confirming the booking you agree to our <a href="#">Terms&Conditions</a></h6>
@@ -173,6 +173,7 @@
     const booking = {
         carModel: '@Model.CustomerCar.CarModel',
         carFamily: '@Model.CustomerCar.CarFamily',
+        carId: '@Model.CustomerCar.Id', // IT IS NOT CHANGING THE CAR PER BOOKING
         carSize: '@Model.CustomerCar.CarSize',
         services: {
 
@@ -214,23 +215,23 @@
                 $('#selSer').html('');
                 $('#totalP').text(totalPrice.toFixed(2));
                 for (x = 0; x < testicek.length; x++) {
-                    if(testicek[x].subServices.length > 0) {
+                    if (testicek[x].subServices.length > 0) {
                         iconColor = 'text-warning';
                     }
                     else {
                         iconColor = 'text-dark';
                     }
                     $('#selSer').append(`
-                                <div class="row bg-dark text-light text-start" style="margin-bottom: 5px;">
-                                        <div class="col-lg-10">
-                                                <label style="font-size: 20px;">` + getServiceName(testicek[x].service) + `</label>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <i class="fa fa-wand-magic-sparkles ` + iconColor + `" style="font-size: 24px; margin-top: 6px;"></i>
-                                        </div>
-                                </div>
-                    `);
-                }               
+                                    <div class="row bg-dark text-light text-start" style="margin-bottom: 5px;">
+                                            <div class="col-lg-10">
+                                                    <label style="font-size: 20px;">` + getServiceName(testicek[x].service) + `</label>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <i class="fa fa-wand-magic-sparkles ` + iconColor + `" style="font-size: 24px; margin-top: 6px;"></i>
+                                            </div>
+                                    </div>
+                        `);
+                }
             });
         });
 
@@ -238,7 +239,7 @@
         console.table(booking);
         console.table(decodeServices(booking.services, booking.subServices));
         createBooking(booking);
-                
+
     });
 
     function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
@@ -297,7 +298,7 @@
         let serviceSuperDescriptionText;
         $.ajax({
             url: "/CreateBooking?handler=GetServiceSuperDescriptionText",
-            data: { service: service },            
+            data: { service: service },
             type: "GET",
             async: false,
             cache: false,
@@ -341,22 +342,22 @@
         return servicePrice;
     }
 
-    function createBooking(bookingC) {        
+    function createBooking(bookingC) {
         $.ajax({
             url: "/CreateBooking?handler=CreateBooking",
-            data: { __RequestVerificationToken: gettoken(), booking: JSON.stringify(bookingC) },            
+            data: { __RequestVerificationToken: gettoken(), booking: JSON.stringify(bookingC) },
             dataType: 'HTML',
-            
+
             type: "POST",
             async: false,
             cache: false,
             beforeSend: function () {
-                
+
             },
             success: function (data) {
-                
+
                 window.location = "./BookingCompleted";
-                
+
             },
             error: function (xhr) {
                 console.log(xhr);
@@ -364,7 +365,7 @@
             complete: function () {
                 console.log('finished...');
             },
-        });        
+        });
     }
 
     function gettoken() {

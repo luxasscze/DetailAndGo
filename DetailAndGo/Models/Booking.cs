@@ -10,7 +10,9 @@ namespace DetailAndGo.Models
         public int Id { get; set; }
         public string AspNetUserId { get; set; }
         public int CarId { get; set; }        
-        public List<Service> Services { get; set; }        
+        public List<Service> Services { get; set; }
+        public string ServicesArray { get; set; }
+        public string SubServicesArray { get; set; }
         public DateTime BookedFor { get; set; }
         public DateTime Created { get; set; }
         public BookingStatus Status { get; set; }

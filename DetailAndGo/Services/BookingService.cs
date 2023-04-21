@@ -21,38 +21,52 @@ namespace DetailAndGo.Services
             _serviceService = serviceService;
         }
 
-        public async Task CreateBooking(CreateBooking bookingInput, string aspNetUserId)
+        public string DecodeServicesToServicesArray(int[] services)
+        {
+            string result = string.Empty;
+
+            if(services == null)
+            {
+                return "0";
+            }
+
+            int lastService = services.Last();
+
+            foreach (var service in services)
+            {
+                if (service == lastService)
+                {
+                    result += service.ToString();
+                }
+                else
+                {
+                    result += service.ToString() + ",";
+                }
+            }
+
+            return result;
+        }
+
+        public async Task CreateBooking(CreateBooking bookingInput, string aspNetUserId) // IF SUBSERVICE NULL WE ARE GETTING HTTP 500
         {
             if (bookingInput != null)
             {
-                List<Service> services = new List<Service>();
-
-                foreach(var service in bookingInput.services)
-                {
-                    services.Add(await _serviceService.GetServiceById(service));
-                }
-
-                foreach(var subService in bookingInput.subServices)
-                {
-                    services.Add(await _serviceService.GetServiceById(subService));
-                }
-                
                 Booking booking = new Booking()
                 {
                     AspNetUserId = aspNetUserId,
                     BookedFor = bookingInput.dateTime,
-                    CarId = 123,
+                    CarId = bookingInput.carId,
                     Created = DateTime.Now,
                     Image = "",
                     Notes = "",
                     PaymentMethodId = bookingInput.paymentMethod,
-                    Services = services,                  
-                    Status = BookingStatus.AwaitingApproval
+                    Status = BookingStatus.AwaitingApproval,
+                    ServicesArray = DecodeServicesToServicesArray(bookingInput.services),
+                    SubServicesArray = bookingInput.subServices == null ? "0" : DecodeServicesToServicesArray(bookingInput.subServices)
                 };
 
                 await _context.Bookings.AddAsync(booking);
                 await _context.SaveChangesAsync();
-
             }
         }
 
