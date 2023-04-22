@@ -94,6 +94,12 @@ namespace DetailAndGo.Services
             return allBookings;
         }
 
+        public async Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status)
+        {
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == status) && s.BookedFor > DateTime.Now).ToListAsync();
+            return allBookings;
+        }
+
         public async Task<string> GetAllActiveBookinsAsJSON()
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor > DateTime.Now).ToListAsync();

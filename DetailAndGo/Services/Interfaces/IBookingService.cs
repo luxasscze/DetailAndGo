@@ -1,4 +1,5 @@
 ﻿using DetailAndGo.Models;
+using DetailAndGo.Models.Enums;
 
 namespace DetailAndGo.Services.Interfaces
 {
@@ -9,6 +10,7 @@ namespace DetailAndGo.Services.Interfaces
         public Task<Booking?> GetCustomerActiveBooking(string aspNetUserId);
         public Task<List<Booking>> GetAllActiveBookings();
         public Task<List<Booking>> GetAllCreatedBookings();
+        public Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status);
         public Task<string> GetAllActiveBookinsAsJSON();
         public Task<string> GetAllActiveBookingsAsCalendarEvents();
     }

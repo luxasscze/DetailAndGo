@@ -59,6 +59,10 @@ namespace DetailAndGo.Services
 
         public string GetServiceNameById(int id)
         {
+            if(_context.Services.FirstOrDefault(x => x.Id == id) == null)
+            {
+                return "";
+            }
             return _context.Services.FirstOrDefault(x => x.Id == id).Name;
         }
 

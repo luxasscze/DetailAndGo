@@ -34,6 +34,30 @@
         console.log(userName);
         return userName;
     }
+
+    function getServiceName(serviceId) {
+        let serviceName;
+        $.ajax({
+            url: "?handler=GetServiceName",
+            data: { serviceId: serviceId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                serviceName = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return serviceName;
+    }
 </script>
 
 <h1 style="color: #fff; text-align: center;">Bookings Awaiting Approval</h1>
@@ -42,6 +66,14 @@
 
     @foreach (var item in Model.Bookings)
     {
+        string[] sArray = item.ServicesArray.Split(',');
+        List<string> serviceArray = new List<string>();
+
+        foreach (var it in sArray)
+        {
+            serviceArray.Add(it);
+        }
+
         <div class="col-6">
             <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
                 <div class="card-header text-light">
@@ -50,9 +82,11 @@
                 <div class="card-body text-light">
                     <label>Created: @item.Created.ToString("dd/MM/yyyy HH:mm")</label><br />
                     <label>Booked for: @item.BookedFor.ToString("dd/MM/yyyy HH:mm")</label><br />
-                    <label>Services: @item.Services</label><br />
-                    
-                    
+                    <label>
+                        Services: <label id="service-text-@item.Id"></label>
+                    </label><br />
+                    <label>SubServices: @item.SubServicesArray</label><br />
+
                 </div>
                 <div class="card-footer">
                     <a href="#" class="btn btn-sm btn-outline-success">Accept</a>
@@ -62,6 +96,13 @@
         </div>
         <script>
             $('#username-@item.Id').text(getUserName('@item.AspNetUserId'));
+
+            @foreach (var ite in serviceArray)
+            {
+                <text>
+                    $('#service-text-@item.Id').append(getServiceName(@ite));
+                </text>
+            }
         </script>
     }
 
