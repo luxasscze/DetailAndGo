@@ -47,7 +47,7 @@ namespace DetailAndGo.Services
             return result;
         }
 
-        public async Task CreateBooking(CreateBooking bookingInput, string aspNetUserId) // IF SUBSERVICE NULL WE ARE GETTING HTTP 500
+        public async Task CreateBooking(CreateBooking bookingInput, string aspNetUserId)
         {
             if (bookingInput != null)
             {

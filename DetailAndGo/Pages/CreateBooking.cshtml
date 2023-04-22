@@ -173,7 +173,7 @@
     const booking = {
         carModel: '@Model.CustomerCar.CarModel',
         carFamily: '@Model.CustomerCar.CarFamily',
-        carId: '@Model.CustomerCar.Id', // IT IS NOT CHANGING THE CAR PER BOOKING
+        carId: '@Model.CustomerCar.Id',
         carSize: '@Model.CustomerCar.CarSize',
         services: {
 
@@ -197,6 +197,7 @@
                 booking.carModel = '@car.CarModel';
                 booking.carFamily = '@car.CarFamily';
                 booking.carSize = '@car.CarSize';
+                booking.carId = '@car.Id';
                 carImgUri = 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + booking.carModel + '&modelFamily=' + booking.carFamily;
                 $('#carImage').attr('src', carImgUri);
                 $('#carText').text(booking.carModel + " " + booking.carFamily);
@@ -237,7 +238,10 @@
 
     $('#confirmButton').on('click', function () {
         console.table(booking);
-        console.table(decodeServices(booking.services, booking.subServices));
+        if (booking.subServices.length < 1) {
+            booking.subServices = [0];
+        }
+        console.table(decodeServices(booking.services, booking.subServices));        
         createBooking(booking);
 
     });
