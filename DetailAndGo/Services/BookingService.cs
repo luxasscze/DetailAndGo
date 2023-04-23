@@ -107,6 +107,12 @@ namespace DetailAndGo.Services
             return output;
         }
 
+        public async Task<Booking> GetBookingById(int id)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == id);
+            return booking;
+        }
+
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor.Date >= DateTime.Now.Date).ToListAsync();

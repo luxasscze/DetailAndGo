@@ -148,7 +148,7 @@
                         @foreach (var tim in list)
                         {
                             <div class="col-6" style="margin-bottom: 5px;">
-                                <div class="card bg-transparent border-1 border-secondary">
+                                <div class="card bg-transparent border-1 border-secondary" style="">
                                     <label id="service-text-@item.Id-@tim"></label>
                                 </div>
                             </div>
@@ -161,7 +161,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <a href="#" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i> View</a>
+                        <a asp-page="JobDetail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i> View</a>
                     </div>
                 </div>
             </div>

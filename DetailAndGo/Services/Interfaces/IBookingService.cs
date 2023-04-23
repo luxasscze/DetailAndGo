@@ -10,6 +10,7 @@ namespace DetailAndGo.Services.Interfaces
         public Task<Booking?> GetCustomerActiveBooking(string aspNetUserId);
         public Task<List<Booking>> GetAllActiveBookings();
         public Task<List<Booking>> GetAllCreatedBookings();
+        public Task<Booking> GetBookingById(int id);
         public Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status);
         public Task<string> GetAllActiveBookinsAsJSON();
         public Task<string> GetAllActiveBookingsAsCalendarEvents();
