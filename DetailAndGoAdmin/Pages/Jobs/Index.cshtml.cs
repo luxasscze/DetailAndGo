@@ -20,13 +20,15 @@ namespace DetailAndGoAdmin.Pages.Jobs
         private IBookingService _bookingService;
         private ICustomerService _customerService;
         private IDAGService _serviceService;
+        private ICarService _carService;
 
-        public IndexModel(DetailAndGo.Data.ApplicationDbContext context, IBookingService bookingService, ICustomerService customerService, IDAGService serviceService)
+        public IndexModel(DetailAndGo.Data.ApplicationDbContext context, IBookingService bookingService, ICustomerService customerService, IDAGService serviceService, ICarService carService)
         {
             _context = context;
             _bookingService = bookingService;
             _customerService = customerService;
             _serviceService = serviceService;
+            _carService = carService;
         }
 
         public IList<Booking> Bookings { get;set; }
@@ -49,6 +51,16 @@ namespace DetailAndGoAdmin.Pages.Jobs
         public JsonResult OnGetGetServiceName(int serviceId)
         {
             return new JsonResult(_serviceService.GetServiceNameById(serviceId));
+        }
+
+        public JsonResult OnGetGetCarName(int carId)
+        {
+            return new JsonResult(_carService.GetCarName(carId));
+        }
+
+        public JsonResult OnGetGetPostCode(string aspNetUserId)
+        {
+            return new JsonResult(_customerService.GetCustomerById(aspNetUserId).PostCode);
         }
     }
 }

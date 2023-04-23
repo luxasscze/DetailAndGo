@@ -22,6 +22,7 @@ builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IDAGService, DetailAn
 builder.Services.AddScoped<DetailAndGo.Services.Interfaces.IJobService, DetailAndGo.Services.JobService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<ICarService, CarService>();
 //builder.Services.AddTransient<IDAGService, DAGService>();
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<Utility>();

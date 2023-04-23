@@ -58,6 +58,54 @@
         });
         return serviceName;
     }
+
+    function getCarName(carId) {
+        let carName;
+        $.ajax({
+            url: "?handler=GetCarName",
+            data: { carId: carId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                carName = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return carName;
+    }
+
+    function getPostCode(aspNetUserId) {
+        let postCode;
+        $.ajax({
+            url: "?handler=GetPostCode",
+            data: { aspNetUserId: aspNetUserId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                postCode = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return postCode;
+    }
 </script>
 
 <h1 style="color: #fff; text-align: center;">Bookings Awaiting Approval</h1>
@@ -66,51 +114,65 @@
 
     @foreach (var item in Model.Bookings)
     {
-        string[] sArray = item.ServicesArray.Split(',');
-        List<string> serviceArray = new List<string>();
-
-        foreach (var it in sArray)
-        {
-            serviceArray.Add(it);
-        }
-
-        <div class="col-6">
+        <div class="col-sm-4">
             <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
                 <div class="card-header text-light">
                     <h2 id="username-@item.Id"></h2>
                 </div>
                 <div class="card-body text-light">
-                    <label>Created: @item.Created.ToString("dd/MM/yyyy HH:mm")</label><br />
-                    <label>Booked for: @item.BookedFor.ToString("dd/MM/yyyy HH:mm")</label><br />
-                    <label>
-                        Services: <label id="service-text-@item.Id"></label>
-                    </label><br />
-                    <label>SubServices: @item.SubServicesArray</label><br />
+                    <div class="card bg-secondary">
+                        <div class="row">
+                            <div class="col-6">CREATED</div><div class="col-6 text-end">@item.Created.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                    <div class="card bg-dark">
+                        <div class="row">
+                            <div class="col-6">BOOKED FOR</div><div class="col-6 text-end">@item.BookedFor.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                    <div class="card bg-secondary">
+                        <div class="row">
+                            <div class="col-6">POSTCODE</div><div class="col-6 text-end"><label id="postCode-@item.Id"></label></div>
+                        </div>
+                    </div>
 
+                    <div class="card bg-dark">
+                        <div class="row">
+                            <div class="col-6">CAR</div><div class="col-6 text-end"><label id="car-text-@item.Id"></label></div>
+                        </div>
+                    </div>
+                    <div class="row text-center" style="margin-top: 20px; padding: 5px;">
+                        @{
+                            string[] list = item.ServicesArray.Split(',');
+                        }
+                        @foreach (var tim in list)
+                        {
+                            <div class="col-6" style="margin-bottom: 5px;">
+                                <div class="card bg-transparent border-1 border-secondary">
+                                    <label id="service-text-@item.Id-@tim"></label>
+                                </div>
+                            </div>
+                            <script>
+                                $('#service-text-@item.Id-@tim').text(getServiceName(@tim));
+                            </script>
+                        }
+                        
+                    </div>
                 </div>
                 <div class="card-footer">
-                    <a href="#" class="btn btn-sm btn-outline-success">Accept</a>
-                    <a href="#" class="btn btn-sm btn-outline-danger">Decline</a>
+                    <div class="row">
+                        <a href="#" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i> View</a>
+                    </div>
                 </div>
             </div>
         </div>
         <script>
             $('#username-@item.Id').text(getUserName('@item.AspNetUserId'));
-
-            @foreach (var ite in serviceArray)
-            {
-                <text>
-                    $('#service-text-@item.Id').append(getServiceName(@ite));
-                </text>
-            }
+            $('#postCode-@item.Id').text(getPostCode('@item.AspNetUserId'));
+            $('#car-text-@item.Id').text(getCarName('@item.CarId'));
         </script>
     }
-
 </div>
-
-<script>
-
-</script>
 
 @{
     /*<table class="container">

@@ -12,5 +12,6 @@ namespace DetailAndGo.Services.Interfaces
         public Task<Car> GetCarByIndex(string aspNetUserId, int index);
         public Task<List<CarHistory>> GetCarHistoryByCarId(int carId);
         public Task AddToCarHistory(CarHistory carHistory);
+        public string GetCarName(int carId);
     }
 }

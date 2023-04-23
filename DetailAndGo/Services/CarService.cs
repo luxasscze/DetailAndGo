@@ -75,5 +75,14 @@ namespace DetailAndGo.Services
             _context.CarHistories.Add(carHistory);
             await _context.SaveChangesAsync();
         }
+
+        public string GetCarName(int carId)
+        {
+            Car car = _context.Cars.FirstOrDefault(s => s.Id == carId);
+
+            return car.CarModel + " " + car.CarFamily;
+
+            
+        }
     }
 }
