@@ -1,7 +1,42 @@
 ﻿@page
 @model DetailAndGoAdmin.Pages.Jobs.JobDetailModel
 @{
+    ViewData["Title"] = "Job Detail";
 }
-<div class="text-light">
-    <h1 class="text-center">JOB DETAIL - @Model.booking.Id</h1>
+<div class="text-light main-box" style="margin: 40px;">
+
+    <div class="row child-box shadow text-center">
+        <h3>JOB #@Model.booking.Id DETAIL</h3>
+    </div>
 </div>
+
+<div class="text-light main-box text-center" style="margin: 40px;">
+
+    <div class="row child-box shadow text-center">
+        job content here
+    </div>
+</div>
+
+<div class="text-light main-box" style="margin-top: 20px;">
+    <div class="row child-box shadow text-center" style="margin: 20px auto;">
+        <div class="col">
+            <div class="row">
+                <a href="#" class="btn btn-success btn-lg"><i class="fa fa-check"></i> ACCEPT</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <a href="#" class="btn btn-danger btn-lg"><i class="fa fa-times"></i> DECLINE</a>
+            </div>
+        </div>
+        <div class="col">
+            <div class="row">
+                <a href="#" class="btn btn-info btn-lg"><i class="fa fa-user"></i> CONTACT</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    console.table('@Model.booking');
+</script>

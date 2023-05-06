@@ -43,6 +43,11 @@ namespace DetailAndGo.Services
             return false;
         }
 
+        /// <summary>
+        /// Function to check if email exists in DB[AspNetUsers or Customers]
+        /// </summary>
+        /// <param name="email">email input to be checked</param>
+        /// <returns>Returns true if email does exists</returns>
         public async Task<bool> CheckEmailExists(string email)
         {
             Customer customer = await _context.Customers.Where(s => s.Email == email).FirstOrDefaultAsync();            

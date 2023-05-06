@@ -8,10 +8,10 @@ using Stripe.TestHelpers;
 
 namespace DetailAndGo.Services
 {
-    public class StripeService : IStripeService
+    public class StripeService : IStripeService // TRY TO MOVE ALL STRIPE SERVICES AS THEY SHOULD BE LOCATED
     {
         public ApplicationDbContext _context;
-        private readonly string _stripeApiKey;
+        private readonly string _stripeApiKey; 
 
         public StripeService(ApplicationDbContext context)
         {
@@ -193,6 +193,7 @@ namespace DetailAndGo.Services
             
         }
 
+        // TODO: create model as one parameter
         public async Task<Product> UpdateProduct(string productId, string productName, string description, decimal price, decimal priceMedium, decimal priceLarge, Dictionary<string, string> metadata)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
