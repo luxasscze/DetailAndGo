@@ -13,5 +13,6 @@ namespace DetailAndGo.Services.Interfaces
         public Task<List<CarHistory>> GetCarHistoryByCarId(int carId);
         public Task AddToCarHistory(CarHistory carHistory);
         public string GetCarName(int carId);
+        public Task<Car?> GetCarById(int id);
     }
 }

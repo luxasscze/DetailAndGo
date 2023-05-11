@@ -3,17 +3,72 @@
 @{
     ViewData["Title"] = "Job Detail";
 }
+
+<style>
+    .service-box {
+        width: 550px;
+        height: 50px;
+        background: radial-gradient(circle, rgba(106,180,251,1) 0%, rgba(0,103,124,0) 58%);
+        text-align: center;
+        color: #000;
+        border-radius: 10px;
+        padding: 15px 0px;
+        margin: 3px 0px;
+    }
+
+</style>
+
+
 <div class="text-light main-box" style="margin: 40px;">
 
     <div class="row child-box shadow text-center">
         <h3>JOB #@Model.booking.Id DETAIL</h3>
+        <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto;">@Model.booking.Status</label>
     </div>
 </div>
 
 <div class="text-light main-box text-center" style="margin: 40px;">
+    <div class="row" style="">
+        <div class="col-lg-4" style="border: 0px solid #888;">
+            <div class="row child-box text-center" style="box-shadow: 0 1px 60px rgba(255, 255, 255, 0.3)">
+                <h4 class="badge bg-secondary" style="font-size: 18px; border-radius: 0px;">Booked For</h4>
+                <label style="margin-bottom: 10px;">@Model.booking.BookedFor <div class="badge bg-info text-dark" style="font-size: 14px;"><i class="fa fa-hourglass-half"></i> @DetailAndGoAdmin.UtilityStatic.DateAndTime.GetDaysToDate(Model.booking.BookedFor)</div></label>
+            </div>
+        </div>
+        <div class="col-lg-4" style="border: 0px solid #888;">
+            <div class="row child-box text-center" style="box-shadow: 0 1px 60px rgba(255, 255, 255, 0.3)">
+                <h4 class="badge bg-secondary" style="font-size: 18px; border-radius: 0px;">Created</h4>
+                <label style="margin-bottom: 10px;">@Model.booking.Created <div class="badge bg-info text-dark" style="font-size: 14px;"><i class="fa fa-calendar"></i> @DetailAndGoAdmin.UtilityStatic.DateAndTime.GetDaysFromDate(Model.booking.Created)</div></label>
+            </div>
+        </div>
+        <div class="col-lg-4" style="border: 0px solid #888;">
+            <div class="row child-box text-center" style="box-shadow: 0 1px 60px rgba(255, 255, 255, 0.3)">
+                <h4 class="badge bg-secondary" style="font-size: 18px; border-radius: 0px;">Car</h4>
+                <label style="margin-bottom: 10px;">@Model.car.CarModel @Model.car.CarFamily <div class="badge bg-warning text-dark" style="font-size: 14px;"><i class="fa fa-car"></i> @Model.car.CarSize</div></label>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 20px;">
 
-    <div class="row child-box shadow text-center">
-        job content here
+        @foreach (var item in Model.services)
+        {
+            <div class="row">
+                <div class="col">
+                    <div class="service-box"><label><b>@item.Name</b></label></div>
+                </div>
+                @foreach (var subItem in Model.subServices)
+                {
+                    if (subItem != null)
+                    {
+                        <div class="col">
+                            <div class="service-box"><label><b>@subItem.Name</b></label></div>
+                        </div>
+                    }
+                }
+            </div>
+
+        }
+
     </div>
 </div>
 
@@ -21,17 +76,17 @@
     <div class="row child-box shadow text-center" style="margin: 20px auto;">
         <div class="col">
             <div class="row">
-                <a href="#" class="btn btn-success btn-lg"><i class="fa fa-check"></i> ACCEPT</a>
+                <a href="#" class="btn btn-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i> ACCEPT</a>
             </div>
         </div>
         <div class="col">
             <div class="row">
-                <a href="#" class="btn btn-danger btn-lg"><i class="fa fa-times"></i> DECLINE</a>
+                <a href="#" class="btn btn-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i> DECLINE</a>
             </div>
         </div>
         <div class="col">
             <div class="row">
-                <a href="#" class="btn btn-info btn-lg"><i class="fa fa-user"></i> CONTACT</a>
+                <a href="#" class="btn btn-primary btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i> CONTACT</a>
             </div>
         </div>
     </div>

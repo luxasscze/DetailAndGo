@@ -84,5 +84,11 @@ namespace DetailAndGo.Services
 
             
         }
+
+        public async Task<Car?> GetCarById(int id)
+        {
+            Car? car = await _context.Cars.FirstOrDefaultAsync(c => c.Id == id);
+            return car;
+        }
     }
 }
