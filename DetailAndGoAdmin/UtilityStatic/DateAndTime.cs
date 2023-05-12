@@ -5,15 +5,15 @@
         public static string GetDaysToDate(DateTime date)
         {
             DateTime now = DateTime.Now;
-            double remainingDays = Math.Round((date - now).TotalDays, 0);
+            double remainingDays = (date.Date - now.Date).TotalDays;
 
-            if(remainingDays == 1)
-            {
-                return "tomorrow";
-            }
-            else if(remainingDays == 0)
+            if(remainingDays < 1)
             {
                 return "today";
+            }
+            else if(remainingDays >= 0 && remainingDays < 2)
+            {
+                return "tomorrow";
             }
             return "in " + remainingDays.ToString() + " days";
         }
@@ -21,13 +21,13 @@
         public static string GetDaysFromDate(DateTime date)
         {
             DateTime now = DateTime.Now;
-            double daysFrom = Math.Round((now - date).TotalDays, 0);
+            double daysFrom = (now.Date - date.Date).TotalDays;
 
-            if(daysFrom == 0)
+            if(daysFrom < 1)
             {
                 return "today";
             }
-            else if (daysFrom == 1)
+            else if (daysFrom >= 1 && daysFrom < 2)
             {
                 return "yesterday";
             }
