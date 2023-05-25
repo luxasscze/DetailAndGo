@@ -69,20 +69,23 @@
                 <div class="col-2">
                     <div class="service-box"><label><b>@item.Name</b></label></div>
                 </div>
-                @if (Model.subServices != null && item.SubServices.Length > 1)
+                @{int count = 0;}
+                @foreach (var subItem in Model.subServices)
                 {
-                    if (true)
+
+                    
+
+                    if (subItem != null)
                     {
-                        foreach (var subItem in Model.subServices)
+                        if (subItem.Id == item.Id)
                         {
-                            if (subItem != null)
-                            {
-                                <div class="col-2">
-                                    <div class="sub-service-box"><label><b>@subItem.Name</b></label></div>
-                                </div>
-                            }                            
+                            <div class="col-2">
+                                <div class="sub-service-box"><label><b>@Model.subServices[count + 1].Name</b></label></div>
+                            </div>
                         }
                     }
+
+                    count++;
                 }
             </div>
         }

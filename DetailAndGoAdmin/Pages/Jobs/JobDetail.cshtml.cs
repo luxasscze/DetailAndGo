@@ -28,9 +28,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
             booking = await _bookingService.GetBookingById(id);
             car = await _carService.GetCarById(booking.CarId);
             services = await GetServicesFromArray(booking.ServicesArray);
-            subServices = await _serviceService.GetServicesFromIdArray(booking.SubServicesArray);
-            subServices = subServices.Where((number, index) => index % 2 == 1).ToList();
-
+            subServices = await _serviceService.GetServicesFromIdArray(booking.SubServicesArray);           
         }
 
         public async Task<List<Service>> GetServicesFromArray(string array)
