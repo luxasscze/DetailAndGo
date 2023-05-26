@@ -12,8 +12,9 @@
         text-align: center;
         color: #000;
         border-radius: 10px;
-        padding: 15px 0px;
+        padding: 4px 0px;
         margin: 3px 0px;
+        font-size: 24px;
     }
 
     .sub-service-box {
@@ -21,7 +22,7 @@
         height: 50px;
         background: radial-gradient(circle, rgba(149,106,251,1) 0%, rgba(0,103,124,0) 58%);
         text-align: center;
-        color: #000;
+        color: #fff;
         border-radius: 10px;
         padding: 15px 0px;
         margin: 3px 0px;
@@ -59,37 +60,37 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin-top: 20px;">
+    
+</div>
+<div class="" style="margin-top: 20px;">
 
 
-        @foreach (var item in Model.services)
-        {
+    @foreach (var item in Model.services)
+    {
 
-            <div class="row">
-                <div class="col-2">
-                    <div class="service-box"><label><b>@item.Name</b></label></div>
-                </div>
-                @{int count = 0;}
-                @foreach (var subItem in Model.subServices)
-                {
-
-                    
-
-                    if (subItem != null)
-                    {
-                        if (subItem.Id == item.Id)
-                        {
-                            <div class="col-2">
-                                <div class="sub-service-box"><label><b>@Model.subServices[count + 1].Name</b></label></div>
-                            </div>
-                        }
-                    }
-
-                    count++;
-                }
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="service-box"><div class="badge bg-warning text-dark"><label><b>@item.Name</b></label></div></div>
             </div>
-        }
-    </div>
+            @{
+                int count = 0;
+            }
+            @foreach (var subItem in Model.subServices)
+            {
+                if (subItem != null)
+                {
+                    if (subItem.Id == item.Id && Model.subServices[count + 1] != null)
+                    {
+                        <div class="col-lg-2">
+                            <div class="sub-service-box"><label><b>@Model.subServices[count + 1].Name</b></label></div>
+                        </div>
+                    }
+                }
+
+                count++;
+            }
+        </div>
+    }
 </div>
 
 <div class="text-light main-box" style="margin-top: 20px;">

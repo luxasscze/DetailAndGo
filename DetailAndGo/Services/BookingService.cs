@@ -21,30 +21,21 @@ namespace DetailAndGo.Services
             _serviceService = serviceService;
         }
 
-        public string DecodeServicesToServicesArray(int[] services)
+        public string DecodeServicesToServicesArray(int[] services) // Last service is not accurate. It might appear more times in there so it will not put comma there
         {
             string result = string.Empty;
 
-            if(services == null)
+            if (services == null)
             {
                 return "0";
             }
 
-            int lastService = services.Last();
-
             foreach (var service in services)
             {
-                if (service == lastService)
-                {
-                    result += service.ToString();
-                }
-                else
-                {
-                    result += service.ToString() + ",";
-                }
+                result += service.ToString() + ",";
             }
 
-            return result;
+            return result.Remove(result.Length - 1, 1);
         }
 
         public async Task CreateBooking(CreateBooking bookingInput, string aspNetUserId)
