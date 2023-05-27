@@ -14,6 +14,7 @@
         PartlyFinished,
         OnTheWay,
         InProgress,
-        AwaitingApproval
+        AwaitingApproval,
+        Declined
     }
 }

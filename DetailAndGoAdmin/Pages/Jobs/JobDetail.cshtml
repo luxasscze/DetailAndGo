@@ -1,10 +1,17 @@
 ﻿@page
 @model DetailAndGoAdmin.Pages.Jobs.JobDetailModel
 @{
-    ViewData["Title"] = "Job Detail";
+    ViewData["Title"] = "Job Detail " + Model.booking.Id;
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+
 <link rel="stylesheet" href="~/css/JobDetail.css" />
 
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+<partial name="~/Pages/Modals/ConfirmDecline.cshtml" />
 
 <div class="text-light main-box" style="margin: 40px;">
 
@@ -35,7 +42,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 <div class="services-container" style="margin-top: 20px;">
     @foreach (var item in Model.services)
@@ -73,7 +80,7 @@
         </div>
         <div class="col">
             <div class="row" style="min-height: 100% !important;">
-                <a href="#" class="btn btn-outline-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i><br /> DECLINE</a>
+                <a href="#" id="declineBtn" class="btn btn-outline-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i><br /> DECLINE</a>
             </div>
         </div>
         <div class="col">
@@ -84,6 +91,11 @@
     </div>
 </div>
 
+
 <script>
-    console.table('@Model.booking');
+    $('#declineBtn').on('click', function () {        
+        jQuery('#confirmDeclineModal').modal('show');
+    });
 </script>
+
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>

@@ -104,6 +104,15 @@ namespace DetailAndGo.Services
             return booking;
         }
 
+        public async Task<Booking> DeclineBooking(int bookingId, string reason)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            booking.Notes = "***DECLINED***\n" + reason;
+            booking.Status = BookingStatus.Declined;
+            //CONTINUE HERE!!!
+            return booking;
+        }
+
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor.Date >= DateTime.Now.Date).ToListAsync();

@@ -1,0 +1,23 @@
+﻿<!-- Confirm Decline Modal -->
+<div class="modal fade" id="confirmDeclineModal" tabindex="-1" role="dialog" aria-labelledby="ConfirmDeclineModalLabel" aria-hidden="true" style="border: 30px groove #f00;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 1); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-danger text-center" id="carsModalLabel" style="font-size: 24px;">Decline booking #@Model.booking.Id</h2>
+                </div>
+                <div class="row">
+                    <hr style="color: #f00; height: 5px;" />
+                </div>
+                <div class="row text-center text-light" style="width: 50%; margin: 0px auto;">
+                   <label>Reason</label>                  
+                    <textarea style="background-color: rgba(0, 0, 0, 0.5); color: #fff;" rows="5"></textarea>
+                </div>
+                <div class="row" style="margin: 20px auto; width: 50%;">
+                    <a class="btn btn-outline-danger btn-block" id="confirmDeclineBtn">DECLINE</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelDeclineBtn">CANCEL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
