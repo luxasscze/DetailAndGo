@@ -1,10 +1,12 @@
 using DetailAndGo.Models;
 using DetailAndGo.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DetailAndGoAdmin.Pages.Jobs
 {
+    [Authorize]
     public class JobDetailModel : PageModel
     {
         private readonly IBookingService _bookingService;

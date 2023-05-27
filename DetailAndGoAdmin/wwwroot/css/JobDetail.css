@@ -1,0 +1,35 @@
+﻿.service-box {
+    width: 550px;
+    height: 50px;
+    background: radial-gradient(circle, rgba(106,180,251,1) 0%, rgba(0,103,124,0) 58%);
+    text-align: center;
+    color: #000;
+    border-radius: 10px;
+    padding: 8px 0px;
+    margin: 3px 0px;
+    font-size: 20px;
+    transform: translateX(-90px);
+}
+
+.sub-service-box {
+    width: 500px;
+    height: 50px;
+    background: radial-gradient(circle, rgba(149,106,251,1) 0%, rgba(0,103,124,0) 58%);
+    text-align: center;
+    color: #fff;
+    border-radius: 10px;
+    padding: 15px 0px;
+    margin: 3px 0px;
+    transform: translateX(-65px);
+}
+
+.services-container {
+    width: 95% !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .services-container {
+        width: 150% !important;
+      margin-left: 0px;
+    }
+}

@@ -14,7 +14,7 @@ namespace DetailAndGo.Models
         public string? PriceLargeId { get; set; }
         public decimal Price4x4 { get; set; }        
         public string Description { get; set; }
-        public string SuperDescription { get; set; }
+        public string? SuperDescription { get; set; }
         public DateTime CreatedDate { get; set; }
         public string? Image { get; set; }
         public string? Category { get; set; }

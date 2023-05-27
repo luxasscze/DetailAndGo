@@ -47,7 +47,7 @@ namespace DetailAndGoAdmin.Pages.Services
 
             if(string.IsNullOrEmpty(Service.SuperDescription))
             {
-                Service.SuperDescription = "";
+                Service.SuperDescription = "na";
             }
             
             Dictionary<string, string> metadata = new Dictionary<string, string>

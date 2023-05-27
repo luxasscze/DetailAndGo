@@ -3,32 +3,7 @@
 @{
     ViewData["Title"] = "Job Detail";
 }
-
-<style>
-    .service-box {
-        width: 550px;
-        height: 50px;
-        background: radial-gradient(circle, rgba(106,180,251,1) 0%, rgba(0,103,124,0) 58%);
-        text-align: center;
-        color: #000;
-        border-radius: 10px;
-        padding: 4px 0px;
-        margin: 3px 0px;
-        font-size: 24px;
-    }
-
-    .sub-service-box {
-        width: 550px;
-        height: 50px;
-        background: radial-gradient(circle, rgba(149,106,251,1) 0%, rgba(0,103,124,0) 58%);
-        text-align: center;
-        color: #fff;
-        border-radius: 10px;
-        padding: 15px 0px;
-        margin: 3px 0px;
-    }
-
-</style>
+<link rel="stylesheet" href="~/css/JobDetail.css" />
 
 
 <div class="text-light main-box" style="margin: 40px;">
@@ -62,15 +37,12 @@
     </div>
     
 </div>
-<div class="" style="margin-top: 20px;">
-
-
+<div class="services-container" style="margin-top: 20px;">
     @foreach (var item in Model.services)
     {
-
         <div class="row">
             <div class="col-lg-2">
-                <div class="service-box"><div class="badge bg-warning text-dark"><label><b>@item.Name</b></label></div></div>
+                <div class="service-box"><div class="badge bg-info text-dark"><label><b>@item.Name.ToUpper()</b></label></div></div>
             </div>
             @{
                 int count = 0;
@@ -86,7 +58,6 @@
                         </div>
                     }
                 }
-
                 count++;
             }
         </div>
@@ -96,18 +67,18 @@
 <div class="text-light main-box" style="margin-top: 20px;">
     <div class="row child-box shadow text-center" style="margin: 20px auto;">
         <div class="col">
-            <div class="row">
-                <a href="#" class="btn btn-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i> ACCEPT</a>
+            <div class="row" style="min-height: 100% !important;">
+                <a href="#" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> ACCEPT</a>
             </div>
         </div>
         <div class="col">
-            <div class="row">
-                <a href="#" class="btn btn-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i> DECLINE</a>
+            <div class="row" style="min-height: 100% !important;">
+                <a href="#" class="btn btn-outline-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i><br /> DECLINE</a>
             </div>
         </div>
         <div class="col">
-            <div class="row">
-                <a href="#" class="btn btn-primary btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i> CONTACT</a>
+            <div class="row" style="min-height: 100% !important;">
+                <a href="#" class="btn btn-outline-primary btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CONTACT</a>
             </div>
         </div>
     </div>

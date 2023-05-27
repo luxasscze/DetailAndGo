@@ -7,13 +7,17 @@
             DateTime now = DateTime.Now;
             double remainingDays = (date.Date - now.Date).TotalDays;
 
-            if(remainingDays < 1)
+            if(remainingDays < 1 && remainingDays >= 0)
             {
                 return "today";
             }
             else if(remainingDays >= 0 && remainingDays < 2)
             {
                 return "tomorrow";
+            }
+            else if(remainingDays < 0)
+            {
+                return "MISSED BOOKING!";
             }
             return "in " + remainingDays.ToString() + " days";
         }
