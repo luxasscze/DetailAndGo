@@ -21,7 +21,7 @@ namespace DetailAndGo.Services
             _serviceService = serviceService;
         }
 
-        public string DecodeServicesToServicesArray(int[] services) // Last service is not accurate. It might appear more times in there so it will not put comma there
+        public string DecodeServicesToServicesArray(int[] services)
         {
             string result = string.Empty;
 
@@ -87,13 +87,13 @@ namespace DetailAndGo.Services
 
         public async Task<List<Booking>> GetAllDeclinedBookings()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Declined)).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Declined).ToListAsync();
             return allBookings;
         }
 
         public async Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status)
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == status) && s.BookedFor > DateTime.Now).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => s.Status == status).ToListAsync();
             return allBookings;
         }
 
