@@ -16,6 +16,7 @@ namespace DetailAndGo.Models
         public DateTime BookedFor { get; set; }
         public DateTime Created { get; set; }
         public BookingStatus Status { get; set; }
+        public DateTime StatusChanged { get; set; }
         public string Notes { get; set; }        
         public string Image { get; set; }
         public string PaymentMethodId { get; set; }

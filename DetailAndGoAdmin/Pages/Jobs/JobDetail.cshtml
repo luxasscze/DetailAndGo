@@ -1,7 +1,7 @@
 ﻿@page
 @model DetailAndGoAdmin.Pages.Jobs.JobDetailModel
 @{
-    ViewData["Title"] = "Job Detail " + Model.booking.Id;
+    ViewData["Title"] = "Booking Detail";
     //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
@@ -16,8 +16,20 @@
 <div class="text-light main-box" style="margin: 40px;">
 
     <div class="row child-box shadow text-center">
-        <h3>JOB #@Model.booking.Id DETAIL</h3>
-        <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto;">@Model.booking.Status</label>
+        <h3>BOOKING #@Model.booking.Id DETAIL</h3>
+        @if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
+        {
+            <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status</label>
+        }
+        else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined)
+        {
+            <div class="row">
+            <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <label style="font-size: 14px;">@Model.booking.StatusChanged.ToString("dd/MM/yyyy HH:mm:ss")</label></label>
+            </div>
+            <div class="row">
+            <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 12px;">@Model.booking.Notes</label>
+            </div>
+        }
     </div>
 </div>
 
@@ -71,25 +83,28 @@
     }
 </div>
 
-<div class="text-light main-box" style="margin-top: 20px;">
-    <div class="row child-box shadow text-center" style="margin: 20px auto;">
-        <div class="col">
-            <div class="row" style="min-height: 100% !important;">
-                <a href="#" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> ACCEPT</a>
+@if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
+{
+    <div class="text-light main-box" style="margin-top: 20px;">
+        <div class="row child-box shadow text-center" style="margin: 20px auto;">
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> ACCEPT</a>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="row" style="min-height: 100% !important;">
-                <a href="#" id="declineBtn" class="btn btn-outline-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i><br /> DECLINE</a>
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" id="declineBtn" class="btn btn-outline-danger btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i><br /> DECLINE</a>
+                </div>
             </div>
-        </div>
-        <div class="col">
-            <div class="row" style="min-height: 100% !important;">
-                <a href="#" class="btn btn-outline-primary btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CONTACT</a>
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" class="btn btn-outline-primary btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CONTACT</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
 
 
 <script>

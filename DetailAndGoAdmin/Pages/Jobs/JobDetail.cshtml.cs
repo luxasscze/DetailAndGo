@@ -37,5 +37,11 @@ namespace DetailAndGoAdmin.Pages.Jobs
         {
            return await _serviceService.GetServicesFromIdArray(array);
         }
+
+        public async Task<ActionResult> OnGetDeclineBooking(int bookingId,string reason)
+        {
+            await _bookingService.DeclineBooking(bookingId, reason);
+            return RedirectToPage("JobDetail", new { id = bookingId});
+        }
     }
 }

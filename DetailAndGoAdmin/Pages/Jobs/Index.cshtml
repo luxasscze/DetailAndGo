@@ -115,7 +115,7 @@
     @foreach (var item in Model.Bookings)
     {
         <div class="col-sm-4">
-            <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
+            <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
                 <div class="card-header text-light">
                     <h2 id="username-@item.Id"></h2>
                 </div>
@@ -157,6 +157,71 @@
                             </script>
                         }
                         
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <a asp-page="JobDetail" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info"><i class="fa fa-eye"></i> View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('#username-@item.Id').text(getUserName('@item.AspNetUserId'));
+            $('#postCode-@item.Id').text(getPostCode('@item.AspNetUserId'));
+            $('#car-text-@item.Id').text(getCarName('@item.CarId'));
+        </script>
+    }
+</div>
+
+<h1 style="color: #fff; text-align: center;">Declined Bookings</h1>
+
+<div class="row">
+    @foreach (var item in Model.DeclinedBookings)
+    {
+        <div class="col-sm-4">
+            <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                <div class="card-header text-light">
+                    <h2 id="username-@item.Id"></h2>
+                </div>
+                <div class="card-body text-light">
+                    <div class="card bg-secondary">
+                        <div class="row">
+                            <div class="col-6">CREATED</div><div class="col-6 text-end">@item.Created.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                    <div class="card bg-dark">
+                        <div class="row">
+                            <div class="col-6">BOOKED FOR</div><div class="col-6 text-end">@item.BookedFor.ToString("dd/MM/yyyy HH:mm")</div>
+                        </div>
+                    </div>
+                    <div class="card bg-secondary">
+                        <div class="row">
+                            <div class="col-6">POSTCODE</div><div class="col-6 text-end"><label id="postCode-@item.Id"></label></div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-dark">
+                        <div class="row">
+                            <div class="col-6">CAR</div><div class="col-6 text-end"><label id="car-text-@item.Id"></label></div>
+                        </div>
+                    </div>
+                    <div class="row text-center" style="margin-top: 20px; padding: 5px;">
+                        @{
+                            string[] list = item.ServicesArray.Split(',');
+                        }
+                        @foreach (var tim in list)
+                        {
+                            <div class="col-6" style="margin-bottom: 5px;">
+                                <div class="card bg-transparent border-1 border-secondary" style="">
+                                    <label id="service-text-@item.Id-@tim"></label>
+                                </div>
+                            </div>
+                            <script>
+                                $('#service-text-@item.Id-@tim').text(getServiceName(@tim));
+                            </script>
+                        }
+
                     </div>
                 </div>
                 <div class="card-footer">

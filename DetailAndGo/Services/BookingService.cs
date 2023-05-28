@@ -85,6 +85,12 @@ namespace DetailAndGo.Services
             return allBookings;
         }
 
+        public async Task<List<Booking>> GetAllDeclinedBookings()
+        {
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Declined)).ToListAsync();
+            return allBookings;
+        }
+
         public async Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status)
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == status) && s.BookedFor > DateTime.Now).ToListAsync();
@@ -107,9 +113,11 @@ namespace DetailAndGo.Services
         public async Task<Booking> DeclineBooking(int bookingId, string reason)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
-            booking.Notes = "***DECLINED***\n" + reason;
+            booking.Notes = reason;
             booking.Status = BookingStatus.Declined;
-            //CONTINUE HERE!!!
+            booking.StatusChanged = DateTime.Now;
+            _context.Entry(booking).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
             return booking;
         }
 
