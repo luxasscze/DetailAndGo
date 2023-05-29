@@ -71,6 +71,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
             Booking booking = await _bookingService.GetBookingById(bookingId);
             DetailAndGo.Models.Customer customer = _customerService.GetCustomerById(booking.AspNetUserId);
             Charge charge = await _stripeService.ChargeCustomerForBooking(customer, booking.TotalAmount);
+
             if(charge.Outcome.Type == "authorized")
             {
                 await _bookingService.AcceptBooking(bookingId);

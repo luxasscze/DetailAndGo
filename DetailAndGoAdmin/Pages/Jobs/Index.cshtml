@@ -154,7 +154,7 @@
                                 <div class="card awaiting-approval-booking" style="margin-top: 0px; background-color: rgba(0, 0, 0, 0.2); min-height: 100%; cursor: pointer !important;">
                                     <div class="card-header text-light">
                                         <h4 id="username-@item.Id"></h4>
-                                        <h6 style="float: right;"><i class="fa fa-pound-sign"></i>@item.TotalAmount</h6>
+                                        <h6 style="float: left;" class="text-warning"><i class="fa fa-pound-sign"></i>@((decimal)item.TotalAmount / 100)</h6>
                                     </div>
                                     <div class="card-body text-light">
                                         <div class="card bg-secondary">
