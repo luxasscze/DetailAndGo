@@ -76,7 +76,7 @@ namespace DetailAndGo.Services
 
         public async Task<List<Booking>> GetAllActiveBookings()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor > DateTime.Now).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Approved) && s.BookedFor > DateTime.Now).ToListAsync();
             return allBookings;
         }
 
@@ -92,6 +92,12 @@ namespace DetailAndGo.Services
             return allBookings;
         }
 
+        public async Task<List<Booking>> GetAllAcceptedBookings(int take)
+        {
+            List<Booking> allBookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Approved).OrderByDescending(s => s.Id).Take(take).ToListAsync();
+            return allBookings;
+        }
+
         public async Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status)
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => s.Status == status).ToListAsync();
@@ -100,7 +106,7 @@ namespace DetailAndGo.Services
 
         public async Task<string> GetAllActiveBookinsAsJSON()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor > DateTime.Now).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Approved) && s.BookedFor > DateTime.Now).ToListAsync();
             string output = JsonConvert.SerializeObject(allBookings, Formatting.Indented);
             return output;
         }
@@ -136,7 +142,7 @@ namespace DetailAndGo.Services
         public async Task<bool> AcceptBooking(int bookingId)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
-            booking.Status = BookingStatus.Accepted;
+            booking.Status = BookingStatus.Approved;
             booking.StatusChanged = DateTime.Now;
             booking.Notes = "***ACCEPTED***PAID***";
             _context.Entry(booking).State = EntityState.Modified;
@@ -147,7 +153,7 @@ namespace DetailAndGo.Services
 
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Accepted) && s.BookedFor.Date >= DateTime.Now.Date).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Approved) && s.BookedFor.Date >= DateTime.Now.Date).ToListAsync();
 
             List<CalendarBooking> calendarBookings = new List<CalendarBooking>();
 

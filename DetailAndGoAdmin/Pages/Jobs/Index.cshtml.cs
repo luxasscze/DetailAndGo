@@ -33,13 +33,15 @@ namespace DetailAndGoAdmin.Pages.Jobs
 
         public IList<Booking> Bookings { get;set; }
         public IList<Booking> DeclinedBookings { get; set; }
+        public IList<Booking> AcceptedBookings { get; set; }
 
         public async Task OnGetAsync()
         {
             if (_context.Jobs != null)
             {
                 Bookings = await _bookingService.GetAllCreatedBookings();
-                DeclinedBookings = await _bookingService.GetAllDeclinedBookings(take: 12);                
+                DeclinedBookings = await _bookingService.GetAllDeclinedBookings(take: 12);
+                AcceptedBookings = await _bookingService.GetAllAcceptedBookings(take: 12);
             }           
             
         }

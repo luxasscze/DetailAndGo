@@ -4,7 +4,7 @@
     {
         Unknown = 0,
         Created,
-        Accepted,
+        Approved,
         Rejected,
         Pending,
         Idle,

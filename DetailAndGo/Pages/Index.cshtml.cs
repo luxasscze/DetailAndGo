@@ -207,7 +207,7 @@ namespace DetailAndGo.Pages
             return new JsonResult(paymentMethods);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         public async Task<ActionResult> OnPostChargeCustomerAsync(double amount)
         {
             Models.Customer customer = _customerService.GetCustomerByEmail(User.Identity.Name);
@@ -215,7 +215,7 @@ namespace DetailAndGo.Pages
             var test = await _stripeService.ChargeCustomerForBooking(customer, amountToCharge);
 
             return RedirectToAction("Get");
-        }
+        }*/
 
         [HttpPost]
         public async Task<ActionResult> OnPostChangePaymentMethodAsync(string paymentMethodId)

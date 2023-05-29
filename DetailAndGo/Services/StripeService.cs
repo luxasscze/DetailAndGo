@@ -11,7 +11,7 @@ namespace DetailAndGo.Services
     public class StripeService : IStripeService // TRY TO MOVE ALL STRIPE SERVICES AS THEY SHOULD BE LOCATED
     {
         public ApplicationDbContext _context;
-        private readonly string _stripeApiKey; 
+        private readonly string _stripeApiKey;
 
         public StripeService(ApplicationDbContext context)
         {
@@ -27,7 +27,7 @@ namespace DetailAndGo.Services
                 PostalCode = customer.PostCode,
                 Line1 = customer.Address1,
                 Line2 = customer.Address2,
-                City = customer.Address3                
+                City = customer.Address3
             };
 
             var options = new CustomerCreateOptions
@@ -35,12 +35,12 @@ namespace DetailAndGo.Services
                 Description = customer.FirstName + ", " + customer.LastName,
                 Email = customer.Email,
                 Address = addressOptions,
-                Name = customer.FirstName + " " + customer.LastName,                
+                Name = customer.FirstName + " " + customer.LastName,
             };
             var service = new Stripe.CustomerService();
             Stripe.Customer newCustomer = service.Create(options);
 
-            if(newCustomer != null)
+            if (newCustomer != null)
             {
                 return Task.FromResult(newCustomer.Id);
             }
@@ -60,7 +60,7 @@ namespace DetailAndGo.Services
                     Number = cardNumber,
                     ExpMonth = expMonth,
                     ExpYear = expYear,
-                    Cvc = cvc                    
+                    Cvc = cvc
                 },
             };
             var service = new PaymentMethodService();
@@ -78,7 +78,7 @@ namespace DetailAndGo.Services
                 return Task.FromResult(paymentMethod.Id);
             }
             return Task.FromResult("");
-        }        
+        }
 
         public async Task AttachPaymentMethodToCustomer(string customerId, string paymentMethodId)
         {
@@ -103,10 +103,10 @@ namespace DetailAndGo.Services
                 Type = "card",
             };
             StripeList<PaymentMethod> result = await paymentMethodService.ListAsync(listOptions);
-            return result;            
+            return result;
         }
 
-        public async Task<Charge> ChargeCustomerForBooking(Models.Customer customer, long amount)
+        /*public async Task<Charge> ChargeCustomerForBooking(Models.Customer customer, long amount, string paymentMethodId)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
 
@@ -115,12 +115,84 @@ namespace DetailAndGo.Services
                 Amount = amount,
                 Currency = "gbp",
                 Customer = customer.StripeId,
-                ReceiptEmail = customer.Email,                
+                ReceiptEmail = customer.Email,
+                Source = paymentMethodId,
+                
             };
 
             ChargeService chargeService = new ChargeService();
             Charge result = await chargeService.CreateAsync(options);
             return result;
+        }*/
+
+        public async Task<PaymentIntent> ChargeCustomerForBooking(Models.Customer customer, Models.Booking booking)
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+
+            var invoiceOptions = new InvoiceCreateOptions()
+            {
+                Customer = customer.StripeId,
+                Currency = "gbp",
+                DefaultPaymentMethod = booking.PaymentMethodId,
+                Description = "TEST INVOICE DESCRIPTION",
+                CustomFields = new List<InvoiceCustomFieldOptions> { new InvoiceCustomFieldOptions { Name = "TEST ONE", Value = "TEST TWO" } }
+            };
+
+            var options = new PaymentIntentCreateOptions()
+            {
+                Amount = booking.TotalAmount,
+                Currency = "gbp",
+                Customer = customer.StripeId,
+                Description = "TEST PAYMENT INTENT",
+                ReceiptEmail = customer.Email,
+                PaymentMethod = booking.PaymentMethodId,
+                ConfirmationMethod = "manual",
+                Confirm = true
+
+            };
+
+            var opt = new PaymentIntentConfirmOptions()
+            {
+                PaymentMethod = booking.PaymentMethodId,
+            };
+
+            var service = new PaymentIntentService();
+            var invoiceService = new InvoiceService();
+            PaymentIntent res = await service.CreateAsync(options);
+            //await service.ConfirmAsync(res.Id, opt);
+            Invoice invoice = await invoiceService.CreateAsync(invoiceOptions);
+
+            List<InvoiceLineItem> lineItems = new List<InvoiceLineItem>();
+            string[] servicesToPass = booking.ServicesArray.Split(',');
+            foreach (var serviceItem in servicesToPass)
+            {
+                Service ser = _context.Services.FirstOrDefault(s => s.Id == int.Parse(serviceItem));
+                lineItems.Add(new InvoiceLineItem()
+                {
+                    Amount = (long)(ser.Price * 100),
+                    Currency = "gbp",
+                    Description = ser.Description,
+                    Quantity = 1,
+                    Type = "invoiceitem",
+                });
+            }
+
+            StripeList<InvoiceLineItem> invoiceItems = new StripeList<InvoiceLineItem>()
+            {
+                Data = lineItems
+            };
+
+            invoice.Lines = invoiceItems;
+
+            InvoiceUpdateOptions invOptions = new InvoiceUpdateOptions()
+            {
+                
+            };
+
+            await invoiceService.UpdateAsync(invoice.Id, invOptions);
+
+
+            return res;
         }
 
         public async Task<Product> CreateProduct(string productName, string description, List<decimal> price, Dictionary<string, string> metadata)
@@ -134,7 +206,7 @@ namespace DetailAndGo.Services
             {
                 options = new ProductCreateOptions()
                 {
-                    Active = true,                    
+                    Active = true,
                     Description = description,
                     Name = productName,
                     StatementDescriptor = "DETAIL&GO",
@@ -150,10 +222,10 @@ namespace DetailAndGo.Services
                     {
                         UnitAmount = (long)singlePrice * 100,
                         Currency = "gbp",
-                        Product = product.Id,                        
+                        Product = product.Id,
                     };
 
-                    if(count == 0)
+                    if (count == 0)
                     {
                         priceOptions.Nickname = "small";
                     }
@@ -168,7 +240,7 @@ namespace DetailAndGo.Services
 
                     await priceService.CreateAsync(priceOptions);
                     count++;
-                }                
+                }
 
                 return product;
             }
@@ -190,7 +262,7 @@ namespace DetailAndGo.Services
                 };
                 return await service.CreateAsync(options);
             }
-            
+
         }
 
         // TODO: create model as one parameter
@@ -245,12 +317,12 @@ namespace DetailAndGo.Services
 
         public async Task<string> MakePaymentMethodDefault()
         {
-           CardService service = new CardService();
+            CardService service = new CardService();
             CardUpdateOptions opt = new CardUpdateOptions()
             {
-                
+
             };
-            
+
             return "";
         }
 
@@ -264,7 +336,7 @@ namespace DetailAndGo.Services
                     DefaultPaymentMethod = paymentMethodId
                 }
             };
-            
+
             Stripe.CustomerService service = new Stripe.CustomerService();
             return await service.UpdateAsync(customerId, options);
         }
@@ -272,7 +344,7 @@ namespace DetailAndGo.Services
         public string GetCustomerDefaultPaymentMethod(string stripeId)
         {
             string result = string.Empty;
-            StripeConfiguration.ApiKey = _stripeApiKey;           
+            StripeConfiguration.ApiKey = _stripeApiKey;
             Stripe.CustomerService service = new Stripe.CustomerService();
             result = service.Get(stripeId).InvoiceSettings.DefaultPaymentMethodId;
             return string.IsNullOrEmpty(result) ? service.Get(stripeId).DefaultSourceId : result;
@@ -284,11 +356,11 @@ namespace DetailAndGo.Services
             Stripe.CustomerService service = new Stripe.CustomerService();
             var test = service.Get(stripeId);
             string defaultId = service.Get(stripeId).InvoiceSettings.DefaultPaymentMethodId;
-            if(string.IsNullOrEmpty(defaultId))
+            if (string.IsNullOrEmpty(defaultId))
             {
                 defaultId = service.Get(stripeId).DefaultSourceId;
             }
-            if(string.IsNullOrEmpty(defaultId))
+            if (string.IsNullOrEmpty(defaultId))
             {
                 return "N/A"; // NO DEFAULT PAYMENT FOUND
             }
@@ -300,13 +372,13 @@ namespace DetailAndGo.Services
         public async Task<Stripe.Card> RemovePaymentMethod(string stripeId, string paymentMethodId)
         {
             StripeConfiguration.ApiKey = _stripeApiKey;
-            CardService service = new CardService();            
-            if(paymentMethodId.Contains("pm_"))
+            CardService service = new CardService();
+            if (paymentMethodId.Contains("pm_"))
             {
                 PaymentMethodService pmService = new PaymentMethodService();
                 await pmService.DetachAsync(paymentMethodId);
             }
-            return await service.DeleteAsync(stripeId, paymentMethodId);            
+            return await service.DeleteAsync(stripeId, paymentMethodId);
         }
 
         public async Task<PaymentIntent> CreatePaymentIntent(string customer, string paymentMethodId, long amount)
@@ -322,7 +394,7 @@ namespace DetailAndGo.Services
                 {
                     "card"
                 },
-                ReceiptEmail = "lukas2slivka@gmail.com"                
+                ReceiptEmail = "lukas2slivka@gmail.com"
             };
 
             PaymentIntentService service = new PaymentIntentService();

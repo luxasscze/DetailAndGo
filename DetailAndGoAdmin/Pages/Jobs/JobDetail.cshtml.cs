@@ -70,24 +70,16 @@ namespace DetailAndGoAdmin.Pages.Jobs
         {
             Booking booking = await _bookingService.GetBookingById(bookingId);
             DetailAndGo.Models.Customer customer = _customerService.GetCustomerById(booking.AspNetUserId);
-            Charge charge = await _stripeService.ChargeCustomerForBooking(customer, booking.TotalAmount);
+            PaymentIntent paymentIntent = await _stripeService.ChargeCustomerForBooking(customer, booking);
 
-            if(charge.Outcome.Type == "authorized")
+            if (paymentIntent.Status == "succeeded")
             {
                 await _bookingService.AcceptBooking(bookingId);
             }
-            else if(charge.Outcome.Type == "issuer_declined")
+            else if(paymentIntent.Status == "required_action")
             {
 
-            }
-            else if (charge.Outcome.Type == "blocked")
-            {
-
-            }
-            else if (charge.Outcome.Type == "invalid")
-            {
-
-            }
+            }            
             return RedirectToPage("JobDetail", new { id = bookingId });
         }
     }

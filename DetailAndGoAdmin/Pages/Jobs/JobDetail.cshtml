@@ -24,7 +24,7 @@
         </div>
         @if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
         {
-            <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status</label>
+            <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <span style="font-size: 14px;"><i class="fa fa-pound-sign"></i>@((decimal)Model.booking.TotalAmount / 100) will be charged</span></label>
         }
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined)
         {
@@ -33,6 +33,15 @@
             </div>
             <div class="row">
                 <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 12px;">@Model.booking.Notes</label>
+            </div>
+        }
+        else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Approved)
+        {
+            <div class="row">
+                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <label style="font-size: 14px;">@Model.booking.StatusChanged.ToString("dd/MM/yyyy HH:mm:ss")</label></label>
+            </div>
+            <div class="row">
+                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 16px;"><i class="fa fa-pound-sign"></i> @((decimal)Model.booking.TotalAmount / 100) PAID</label>
             </div>
         }
     </div>
@@ -66,7 +75,7 @@
     {
         <div class="row">
             <div class="col-lg-2">
-                <div class="service-box"><div class="badge bg-info text-dark"><label><b>@item.Name.ToUpper()</b></label></div></div>
+                <div class="service-box"><div class="text-dark"><label><b>@item.Name</b></label></div></div>
             </div>
             @{
                 int count = 0;
@@ -122,6 +131,23 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined
             <div class="col">
                 <div class="row" style="min-height: 100% !important;">
                     <a href="#" class="btn btn-outline-info btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CONTACT</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Approved)
+{
+    <div class="text-light main-box" style="margin-top: 20px;">
+        <div class="row child-box shadow text-center" style="margin: 20px auto;">
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" id="reinstateBtn" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> ON THE WAY</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" class="btn btn-outline-info btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CANCEL</a>
                 </div>
             </div>
         </div>

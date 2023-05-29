@@ -24,6 +24,15 @@
             box-shadow: 0px 0px 30px 1px #a00;
             background-color: rgba(100, 0, 0, 0.8) !important;
         }
+
+    .accepted-booking {
+        transition: 0.4s;
+    }
+
+        .accepted-booking:hover {
+            box-shadow: 0px 0px 30px 1px #aaf;
+            background-color: rgba(50, 50, 55, 0.8) !important;
+        }
 </style>
 
 <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
@@ -222,8 +231,28 @@
         <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
         <hr />
         <div class="content rounded-3 p-3">
-            <div class="row">
-                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO APPROVED BOOKINGS</label>
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.AcceptedBookings.Count > 0)
+                {
+                    foreach (var item in Model.AcceptedBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-info"> APPROVED <label style="font-size: 30px;">|</label> </label> #@item.Id <span style="font-size: 12px;" class="text-info"> | @DetailAndGoAdmin.UtilityStatic.DateAndTime.GetDaysToDate(item.BookedFor)</span></h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO APPROVED BOOKINGS</label>
+                    </div>
+                }
             </div>
         </div>
     </div>
