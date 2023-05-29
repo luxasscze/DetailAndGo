@@ -135,7 +135,7 @@ namespace DetailAndGo.Services
                 Currency = "gbp",
                 DefaultPaymentMethod = booking.PaymentMethodId,
                 Description = "TEST INVOICE DESCRIPTION",
-                CustomFields = new List<InvoiceCustomFieldOptions> { new InvoiceCustomFieldOptions { Name = "TEST ONE", Value = "TEST TWO" } }
+                CustomFields = new List<InvoiceCustomFieldOptions> { new InvoiceCustomFieldOptions { Name = "TEST ONE", Value = "TEST TWO" } },                
             };
 
             var options = new PaymentIntentCreateOptions()
@@ -143,7 +143,7 @@ namespace DetailAndGo.Services
                 Amount = booking.TotalAmount,
                 Currency = "gbp",
                 Customer = customer.StripeId,
-                Description = "TEST PAYMENT INTENT",
+                Description = "Services: " + booking.ServicesArray,
                 ReceiptEmail = customer.Email,
                 PaymentMethod = booking.PaymentMethodId,
                 ConfirmationMethod = "manual",
@@ -189,8 +189,7 @@ namespace DetailAndGo.Services
                 
             };
 
-            await invoiceService.UpdateAsync(invoice.Id, invOptions);
-
+            await invoiceService.UpdateAsync(invoice.Id, invOptions);            
 
             return res;
         }
