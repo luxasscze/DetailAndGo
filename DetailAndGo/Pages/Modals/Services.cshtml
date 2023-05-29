@@ -241,6 +241,7 @@
         booking.subServices = selectedSubServices;
         booking.services = selectedServices;
         booking.servicesSelected = true;
+        booking.totalPrice = Number.parseFloat(totalPrice.toFixed(2));
         console.table(booking);
         $('#noServicesText').hide();        
         $('#servicesList').css('display', 'inline-block');

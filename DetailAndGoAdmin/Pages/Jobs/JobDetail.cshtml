@@ -13,6 +13,7 @@
 
 <partial name="~/Pages/Modals/ConfirmDecline.cshtml" />
 <partial name="~/Pages/Modals/ReinstateModal.cshtml" />
+<partial name="~/Pages/Modals/AcceptModal.cshtml" />
 
 <div class="text-light main-box" style="margin: 40px;">
 
@@ -93,7 +94,7 @@
         <div class="row child-box shadow text-center" style="margin: 20px auto;">
             <div class="col">
                 <div class="row" style="min-height: 100% !important;">
-                    <a href="#" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> ACCEPT</a>
+                    <a href="#" id="acceptBtn" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> ACCEPT</a>
                 </div>
             </div>
             <div class="col">
@@ -135,6 +136,10 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined
 
     $('#reinstateBtn').on('click', function () {
         jQuery('#reinstateModal').modal('show');
+    });
+
+    $('#acceptBtn').on('click', function () {
+        jQuery('#acceptModal').modal('show');
     });
 </script>
 

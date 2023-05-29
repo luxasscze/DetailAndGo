@@ -213,8 +213,9 @@
                 let testicek = decodeServices(booking.services, booking.subServices);
                 let iconColor;
                 console.table(testicek);
+                //booking.totalPrice = totalPrice;
                 $('#selSer').html('');
-                $('#totalP').text(totalPrice.toFixed(2));
+                $('#totalP').text(totalPrice.toFixed(2));               
                 for (x = 0; x < testicek.length; x++) {
                     if (testicek[x].subServices.length > 0) {
                         iconColor = 'text-warning';

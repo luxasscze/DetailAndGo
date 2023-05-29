@@ -3,6 +3,7 @@ using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Stripe;
 
 namespace DetailAndGoAdmin.Pages.Jobs
 {
@@ -13,13 +14,17 @@ namespace DetailAndGoAdmin.Pages.Jobs
         private readonly ICarService _carService;
         private readonly IDAGService _serviceService;
         private readonly IEmailService _emailService;
+        private readonly IStripeService _stripeService;
+        private readonly ICustomerService _customerService;
 
-        public JobDetailModel(IBookingService bookingService, ICarService carService, IDAGService serviceService, IEmailService emailService)
+        public JobDetailModel(IBookingService bookingService, ICarService carService, IDAGService serviceService, IEmailService emailService, IStripeService stripeService, ICustomerService customerService)
         {
             _bookingService = bookingService;
             _carService = carService;
             _serviceService = serviceService;
             _emailService = emailService;
+            _stripeService = stripeService;
+            _customerService = customerService;
         }
 
         public Booking booking { get; set; }
@@ -58,6 +63,30 @@ namespace DetailAndGoAdmin.Pages.Jobs
         public async Task<ActionResult> OnGetReinstateBooking(int bookingId)
         {
             await _bookingService.ReinstateBooking(bookingId);
+            return RedirectToPage("JobDetail", new { id = bookingId });
+        }
+
+        public async Task<ActionResult> OnGetAcceptBooking(int bookingId)
+        {
+            Booking booking = await _bookingService.GetBookingById(bookingId);
+            DetailAndGo.Models.Customer customer = _customerService.GetCustomerById(booking.AspNetUserId);
+            Charge charge = await _stripeService.ChargeCustomerForBooking(customer, booking.TotalAmount);
+            if(charge.Outcome.Type == "authorized")
+            {
+                await _bookingService.AcceptBooking(bookingId);
+            }
+            else if(charge.Outcome.Type == "issuer_declined")
+            {
+
+            }
+            else if (charge.Outcome.Type == "blocked")
+            {
+
+            }
+            else if (charge.Outcome.Type == "invalid")
+            {
+
+            }
             return RedirectToPage("JobDetail", new { id = bookingId });
         }
     }

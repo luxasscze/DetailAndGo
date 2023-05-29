@@ -112,7 +112,7 @@ namespace DetailAndGo.Services
 
             ChargeCreateOptions options = new ChargeCreateOptions()
             {
-                Amount = amount * 100,
+                Amount = amount,
                 Currency = "gbp",
                 Customer = customer.StripeId,
                 ReceiptEmail = customer.Email,                

@@ -15,6 +15,7 @@ namespace DetailAndGo.Services.Interfaces
         public Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status);
         public Task<Booking> DeclineBooking(int bookingId, string reason);
         public Task<bool> ReinstateBooking(int bookingId);
+        public Task<bool> AcceptBooking(int bookingId);
         public Task<string> GetAllActiveBookinsAsJSON();
         public Task<string> GetAllActiveBookingsAsCalendarEvents();
     }

@@ -8,7 +8,7 @@
         public int carId { get; set; }
         public int[] services { get; set; }
         public int[] subServices { get; set; }
-        public long totalPrice { get; set; }
+        public decimal totalPrice { get; set; }
         public DateTime dateTime { get; set; }
         public string paymentMethod { get; set; }        
     }

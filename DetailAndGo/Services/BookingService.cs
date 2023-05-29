@@ -53,7 +53,8 @@ namespace DetailAndGo.Services
                     PaymentMethodId = bookingInput.paymentMethod,
                     Status = BookingStatus.AwaitingApproval,
                     ServicesArray = DecodeServicesToServicesArray(bookingInput.services),
-                    SubServicesArray = bookingInput.subServices == null ? "0" : DecodeServicesToServicesArray(bookingInput.subServices)
+                    SubServicesArray = bookingInput.subServices == null ? "0" : DecodeServicesToServicesArray(bookingInput.subServices),
+                    TotalAmount = (long)(bookingInput.totalPrice * 100)
                 };
 
                 await _context.Bookings.AddAsync(booking);
@@ -130,6 +131,18 @@ namespace DetailAndGo.Services
             _context.Entry(booking).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<bool> AcceptBooking(int bookingId)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            booking.Status = BookingStatus.Accepted;
+            booking.StatusChanged = DateTime.Now;
+            booking.Notes = "***ACCEPTED***PAID***";
+            _context.Entry(booking).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()
