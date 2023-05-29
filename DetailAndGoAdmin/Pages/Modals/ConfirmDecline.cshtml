@@ -12,6 +12,7 @@
                 <div class="row text-center text-light" style="width: 50%; margin: 0px auto;">
                     <label>Reason</label>
                     <textarea id="reasonText" style="background-color: rgba(0, 0, 0, 0.5); color: #bbb; border: 0px; padding: 5px;" rows="5"></textarea>
+                    <label id="invalidText" class="text-danger" style="display: none;"><i class="fa fa-triangle-exclamation"></i> Reason has to be 3 characters or longer</label>
                 </div>
                 <div class="row" style="margin: 20px auto; width: 50%;">
                     <a class="btn btn-danger btn-block" id="confirmDeclineBtn"><i class="fa fa-skull-crossbones"></i> DECLINE</a>
@@ -29,29 +30,35 @@
         declineBooking(reason);
     });
 
-    function declineBooking(reason) {        
+    function declineBooking(reason) {
         let result = false;
-        jQuery.ajax({
-            url: "?handler=DeclineBooking",
-            data: { bookingId: @Model.booking.Id, reason: reason },
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
+        if (reason.length > 2) {
+            jQuery.ajax({
+                url: "?handler=DeclineBooking",
+                data: { bookingId: @Model.booking.Id, reason: reason },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
 
-            },
-            success: function (data) {
-                result = true;
-            },
-            error: function (error) {
-                console.log(error);
-                result = false;
-            },
-            complete: function () {
-                console.log('finished...');
-                location.reload();
-            },
-        });
+                },
+                success: function (data) {
+                    result = true;
+                },
+                error: function (error) {
+                    console.log(error);
+                    result = false;
+                },
+                complete: function () {
+                    console.log('finished...');
+                    location.reload();
+                },
+            });
+        }
+        else {
+            console.log('INVALID!');
+            jQuery('#invalidText').show();
+        }
         return result;
     }
 </script>

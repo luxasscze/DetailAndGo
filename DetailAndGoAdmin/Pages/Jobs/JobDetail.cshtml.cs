@@ -12,12 +12,14 @@ namespace DetailAndGoAdmin.Pages.Jobs
         private readonly IBookingService _bookingService;
         private readonly ICarService _carService;
         private readonly IDAGService _serviceService;
+        private readonly IEmailService _emailService;
 
-        public JobDetailModel(IBookingService bookingService, ICarService carService, IDAGService serviceService)
+        public JobDetailModel(IBookingService bookingService, ICarService carService, IDAGService serviceService, IEmailService emailService)
         {
             _bookingService = bookingService;
             _carService = carService;
             _serviceService = serviceService;
+            _emailService = emailService;
         }
 
         public Booking booking { get; set; }
@@ -41,7 +43,22 @@ namespace DetailAndGoAdmin.Pages.Jobs
         public async Task<ActionResult> OnGetDeclineBooking(int bookingId,string reason)
         {
             await _bookingService.DeclineBooking(bookingId, reason);
+            Email email = new Email()
+            {
+                Body = "You sucks, your booking has been declined!<br /> Reason: <br /> " + reason,
+                From = "admin@detailandgo.co.uk",
+                IsHtml = true,
+                Subject = "Detail&Go booking has been declined!",
+                To = "lukas2slivka@gmail.com"
+            };
+            await _emailService.SendSingleEmail(email);
             return RedirectToPage("JobDetail", new { id = bookingId});
+        }
+
+        public async Task<ActionResult> OnGetReinstateBooking(int bookingId)
+        {
+            await _bookingService.ReinstateBooking(bookingId);
+            return RedirectToPage("JobDetail", new { id = bookingId });
         }
     }
 }

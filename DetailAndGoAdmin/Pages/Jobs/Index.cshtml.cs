@@ -39,7 +39,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
             if (_context.Jobs != null)
             {
                 Bookings = await _bookingService.GetAllCreatedBookings();
-                DeclinedBookings = await _bookingService.GetAllDeclinedBookings();
+                DeclinedBookings = await _bookingService.GetAllDeclinedBookings(take: 12);                
             }           
             
         }

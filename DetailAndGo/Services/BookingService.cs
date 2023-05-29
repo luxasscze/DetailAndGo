@@ -81,13 +81,13 @@ namespace DetailAndGo.Services
 
         public async Task<List<Booking>> GetAllCreatedBookings()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.AwaitingApproval) && s.BookedFor > DateTime.Now).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.AwaitingApproval) && s.BookedFor > DateTime.Now).OrderBy(s => s.BookedFor).ToListAsync();
             return allBookings;
         }
 
-        public async Task<List<Booking>> GetAllDeclinedBookings()
+        public async Task<List<Booking>> GetAllDeclinedBookings(int take)
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Declined).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Declined).OrderByDescending(s => s.Id).Take(take).ToListAsync();
             return allBookings;
         }
 
@@ -119,6 +119,17 @@ namespace DetailAndGo.Services
             _context.Entry(booking).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return booking;
+        }
+
+        public async Task<bool> ReinstateBooking(int bookingId)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            booking.Notes = "***REINSTATED***";
+            booking.Status = BookingStatus.AwaitingApproval;
+            booking.StatusChanged = DateTime.Now;
+            _context.Entry(booking).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()

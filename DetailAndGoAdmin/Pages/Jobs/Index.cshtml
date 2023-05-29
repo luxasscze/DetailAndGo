@@ -10,11 +10,11 @@
     .awaiting-approval-booking {
         transition: 0.4s;
     }
-    
-    .awaiting-approval-booking:hover {
-        box-shadow: 0px 0px 30px 1px #666;
-        background-color: rgba(80, 80, 80, 0.3) !important;
-    }
+
+        .awaiting-approval-booking:hover {
+            box-shadow: 0px 0px 30px 1px #666;
+            background-color: rgba(80, 80, 80, 0.3) !important;
+        }
 
     .declined-booking {
         transition: 0.4s;
@@ -22,7 +22,7 @@
 
         .declined-booking:hover {
             box-shadow: 0px 0px 30px 1px #a00;
-            background-color: rgba(100, 0, 0, 0.8) !important;           
+            background-color: rgba(100, 0, 0, 0.8) !important;
         }
 </style>
 
@@ -128,82 +128,146 @@
     }
 </script>
 
-<h1 style="color: #fff; text-align: center;">Bookings</h1>
-
-<div class="row">
-
-    @foreach (var item in Model.Bookings)
-    {
-
-        <div class="col-sm-4">
-            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none; z-index: 999;">
-                <div class="card awaiting-approval-booking" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2); min-height: 100%; cursor: pointer !important;">
-                    <div class="card-header text-light">
-                        <h2 id="username-@item.Id"></h2>
-                    </div>
-                    <div class="card-body text-light">
-                        <div class="card bg-secondary">
-                            <div class="row">
-                                <div class="col-6">CREATED</div><div class="col-6 text-end">@item.Created.ToString("dd/MM/yyyy HH:mm")</div>
-                            </div>
-                        </div>
-                        <div class="card bg-dark">
-                            <div class="row">
-                                <div class="col-6">BOOKED FOR</div><div class="col-6 text-end">@item.BookedFor.ToString("dd/MM/yyyy HH:mm")</div>
-                            </div>
-                        </div>
-                        <div class="card bg-secondary">
-                            <div class="row">
-                                <div class="col-6">POSTCODE</div><div class="col-6 text-end"><label id="postCode-@item.Id"></label></div>
-                            </div>
-                        </div>
-
-                        <div class="card bg-dark">
-                            <div class="row">
-                                <div class="col-6">CAR</div><div class="col-6 text-end"><label id="car-text-@item.Id"></label></div>
-                            </div>
-                        </div>
-                        <div class="row text-center" style="margin-top: 20px; padding: 5px;">
-                            @{
-                                string[] list = item.ServicesArray.Split(',');
-                            }
-                            @foreach (var tim in list)
-                            {
-                                <div class="col-6" style="margin-bottom: 5px;">
-                                    <div class="card bg-transparent border-1 border-secondary" style="">
-                                        <label id="service-text-@item.Id-@tim"></label>
-                                    </div>
-                                </div>
-                                <script>
-                                    $('#service-text-@item.Id-@tim').text(getServiceName(@tim));
-                                </script>
-                            }
-
-                        </div>
-                    </div>
-                </div>
-            </a>
+<div class="p-4">
+    <div class="welcome">
+        <div class="content rounded-3 p-3">
+            <h1 style="color: #fff; text-align: center;">Bookings Dashboard</h1>
         </div>
-
-        <script>
-            $('#username-@item.Id').text(getUserName('@item.AspNetUserId') + ' [#@item.Id]');
-            $('#postCode-@item.Id').text(getPostCode('@item.AspNetUserId'));
-            $('#car-text-@item.Id').text(getCarName('@item.CarId'));
-        </script>
-    }
+    </div>
 </div>
 
-<div class="row" style="margin-top: 60px;">
-    @foreach (var item in Model.DeclinedBookings)
-    {
-        <div class="col-sm-3" style="margin-bottom: 10px;">
-            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
-                <div class="card declined-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
-                    <div class="card-body text-center">
-                        <h2 class="text-danger"><label style="font-size: 12px;">DECLINED</label> | #@item.Id</h2>
-                    </div>
-                </div>
-            </a>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-arrow-right"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; AWAITING APPROVAL</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row">
+                @if (Model.Bookings.Count > 0)
+                {
+                    foreach (var item in Model.Bookings)
+                    {
+
+                        <div class="col-sm-4" style="margin-top: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none; z-index: 999;">
+                                <div class="card awaiting-approval-booking" style="margin-top: 0px; background-color: rgba(0, 0, 0, 0.2); min-height: 100%; cursor: pointer !important;">
+                                    <div class="card-header text-light">
+                                        <h4 id="username-@item.Id"></h4>
+                                    </div>
+                                    <div class="card-body text-light">
+                                        <div class="card bg-secondary">
+                                            <div class="row">
+                                                <div class="col-6">CREATED</div><div class="col-6 text-end">@item.Created.ToString("dd/MM/yyyy HH:mm")</div>
+                                            </div>
+                                        </div>
+                                        <div class="card bg-dark">
+                                            <div class="row">
+                                                <div class="col-6">BOOKED FOR</div><div class="col-6 text-end">@item.BookedFor.ToString("dd/MM/yyyy HH:mm")</div>
+                                            </div>
+                                        </div>
+                                        <div class="card bg-secondary">
+                                            <div class="row">
+                                                <div class="col-6">POSTCODE</div><div class="col-6 text-end"><label id="postCode-@item.Id"></label></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card bg-dark">
+                                            <div class="row">
+                                                <div class="col-6">CAR</div><div class="col-6 text-end"><label id="car-text-@item.Id"></label></div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center" style="margin-top: 20px; padding: 5px;">
+                                            @{
+                                                string[] list = item.ServicesArray.Split(',');
+                                            }
+                                            @foreach (var tim in list)
+                                            {
+                                                <div class="col-6" style="margin-bottom: 5px;">
+                                                    <div class="card bg-transparent border-1 border-secondary" style="">
+                                                        <label id="service-text-@item.Id-@tim"></label>
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    $('#service-text-@item.Id-@tim').text(getServiceName(@tim));
+                                                </script>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <script>
+                            $('#username-@item.Id').text(getUserName('@item.AspNetUserId') + ' [#@item.Id]');
+                            $('#postCode-@item.Id').text(getPostCode('@item.AspNetUserId'));
+                            $('#car-text-@item.Id').text(getCarName('@item.CarId'));
+                        </script>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-sad-cry"></i><br /> NO BOOKINGS ARE AWAITING APPROVAL</label>
+                }
+            </div>
         </div>
-    }
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-handshake"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; APPROVED</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row">
+                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO APPROVED BOOKINGS</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-check"></i> </label><label class="text-warning">&nbsp; COMPLETED</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row">
+                <label class="text-center"><i class="fa fa-poo"></i><br /> NO COMPLETED BOOKINGS</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-skull-crossbones"></i> </label><label class="text-warning">&nbsp; DECLINED</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.DeclinedBookings.Count > 0)
+                {
+                    foreach (var item in Model.DeclinedBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card declined-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-danger"> DECLINED <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO DECLINED BOOKINGS</label>
+                }
+            </div>
+        </div>
+    </div>
 </div>

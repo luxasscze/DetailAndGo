@@ -12,11 +12,15 @@
 
 
 <partial name="~/Pages/Modals/ConfirmDecline.cshtml" />
+<partial name="~/Pages/Modals/ReinstateModal.cshtml" />
 
 <div class="text-light main-box" style="margin: 40px;">
 
     <div class="row child-box shadow text-center">
-        <h3>BOOKING #@Model.booking.Id DETAIL</h3>
+        <div class="row">
+            <a href="./Index" class="btn btn-sm btn-outline-light" style="float: left; max-width: 150px;"><i class="fa fa-arrow-left"></i> DASHBOARD</a>
+            <h3 style="float: right; max-width: 80%;">BOOKING #@Model.booking.Id DETAIL</h3>
+        </div>
         @if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
         {
             <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status</label>
@@ -24,10 +28,10 @@
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined)
         {
             <div class="row">
-            <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <label style="font-size: 14px;">@Model.booking.StatusChanged.ToString("dd/MM/yyyy HH:mm:ss")</label></label>
+                <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <label style="font-size: 14px;">@Model.booking.StatusChanged.ToString("dd/MM/yyyy HH:mm:ss")</label></label>
             </div>
             <div class="row">
-            <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 12px;">@Model.booking.Notes</label>
+                <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 12px;">@Model.booking.Notes</label>
             </div>
         }
     </div>
@@ -111,14 +115,9 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined
         <div class="row child-box shadow text-center" style="margin: 20px auto;">
             <div class="col">
                 <div class="row" style="min-height: 100% !important;">
-                    <a href="#" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> REINSTATE</a>
+                    <a href="#" id="reinstateBtn" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> REINSTATE</a>
                 </div>
-            </div>
-            <div class="col">
-                <div class="row" style="min-height: 100% !important;">
-                    <a href="../Jobs" class="btn btn-outline-secondary btn-lg" style="border-radius: 0px;"><i class="fa fa-times"></i><br /> CANCEL</a>
-                </div>
-            </div>
+            </div>            
             <div class="col">
                 <div class="row" style="min-height: 100% !important;">
                     <a href="#" class="btn btn-outline-info btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CONTACT</a>
@@ -130,8 +129,12 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined
 
 
 <script>
-    $('#declineBtn').on('click', function () {        
+    $('#declineBtn').on('click', function () {
         jQuery('#confirmDeclineModal').modal('show');
+    });
+
+    $('#reinstateBtn').on('click', function () {
+        jQuery('#reinstateModal').modal('show');
     });
 </script>
 

@@ -1,0 +1,53 @@
+﻿<!-- Reinstate Modal -->
+<div class="modal fade" id="reinstateModal" tabindex="-1" role="dialog" aria-labelledby="reinstateModalLabel" aria-hidden="true" style="border: 5px groove #0f0;">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 1); border: none; box-shadow: 0px 0px 40px 5px #000;">
+            <div class="modal-body">
+                <div class="row">
+                    <h2 class="text-light text-center" style="font-size: 24px;">Reinstate booking #@Model.booking.Id</h2>
+                    <label class="text-warning text-center"><i class="fa fa-circle-exclamation text-danger"></i> Previous <span class="text-danger">DECLINED</span> state will be erased!</label>
+                </div>
+                <div class="row">
+                    <hr style="color: #0f0; height: 5px;" />
+                </div>
+
+                <div class="row" style="margin: 20px auto; width: 50%;">
+                    <a class="btn btn-success btn-block" id="reinstateYesBtn"><i class="fa fa-check"></i> YES</a>
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelDeclineBtn">NO</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#reinstateYesBtn').on('click', function () {
+        reinstateBooking();
+    });
+
+    function reinstateBooking() {
+        let result = false;
+        jQuery.ajax({
+            url: "?handler=ReinstateBooking",
+            data: { bookingId: @Model.booking.Id },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                result = true;
+            },
+            error: function (error) {
+                console.log(error);
+                result = false;
+            },
+            complete: function () {
+                console.log('finished...');
+                location.reload();
+            },
+        });
+        return result;
+    }
+</script>
