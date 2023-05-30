@@ -55,6 +55,17 @@
     .system-button:hover {
         box-shadow: 0px 0px 30px 1px #ffffff55;
     }
+
+    .general-button {
+        background: radial-gradient(circle, rgba(2,89,137,0.7595413165266106) 2%, rgba(0,58,105,1) 100%);
+        color: #fff;
+        border-radius: 0px;
+    }
+
+        .general-button:hover {
+            background: radial-gradient(circle, rgba(2,159,246,0.7595413165266106) 2%, rgba(0,58,105,1) 100%);
+            color: #fff;
+        }
 </style>
 
 <script src='~/lib/calendar/dist/index.global.js'></script>
@@ -88,7 +99,10 @@
                 <div class="card-item">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1 class="text-light" style="font-size: 24px;">YOUR BOOKINGS</h1>
+                            <div class="">
+                                <h1 class="text-light float-start" style="font-size: 24px;">YOUR BOOKINGS</h1>
+                                <a class="btn btn-sm btn-outline-light float-end"><i class="fa fa-arrow-right"></i> ALL BOOKINGS</a>
+                            </div>
                         </div>
                     </div>
                     <hr class="bg-light" />
@@ -96,17 +110,90 @@
                         <div class="col-sm-12">
                             <div class="move-car">
                                 <div class="container">
-                                    <div class="row">
-                                        <a class="btn btn-success btn-sm text-center" style="font-size: 24px;" asp-page="./CreateBooking"><i class="fa fa-check"></i> Make Booking</a>
-                                    </div>
-                                    <div class="row text-light" style="margin-bottom: 5px;">
-                                        <div class="col-2" style="background-color: #222; padding: 5px; text-align: center;">
-                                            <i class="fa fa-times text-danger"></i>
+
+                                    @if (Model.ActiveBooking == null)
+                                    {
+                                        <div class="row">
+                                            <a class="btn btn-success btn-sm text-center" style="font-size: 24px;" asp-page="./CreateBooking"><i class="fa fa-arrow-right"></i> BOOK NOW</a>
                                         </div>
-                                        <div class="col-10" style="background-color: #333; padding: 5px;">
-                                            <label>no future booking</label>
+                                        <div class="row text-light" style="margin-bottom: 5px;">
+                                            <div class="col-2" style="background-color: #222; padding: 5px; text-align: center;">
+                                                <i class="fa fa-times text-danger"></i>
+                                            </div>
+                                            <div class="col-10" style="background-color: #333; padding: 5px;">
+                                                <label>no future booking</label>
+                                            </div>
                                         </div>
-                                    </div>
+                                    }
+                                    else
+                                    {
+                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined)
+                                        {
+                                            <div class="row">
+                                                <a class="btn btn-success btn-sm text-center" style="font-size: 24px;" asp-page="./CreateBooking"><i class="fa fa-arrow-right"></i> CREATE NEW BOOKING</a>
+                                            </div>
+                                        }
+                                        <div class="row text-light" style="margin-bottom: 5px;">
+                                            <div class="col-4" style="background-color: #222; padding: 5px; text-align: center;">
+                                                <div class="row">
+                                                    <label class="text-light" style="font-size: 12px;">BOOKING</label>
+                                                    <label>#@Model.ActiveBooking.Id</label>
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    @if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval)
+                                                    {
+                                                        <span class="text-center"><i class="fa fa-hourglass text-info rotate-animation"></i></span>
+                                                        <label class="text-info">Awaiting Approval</label>
+                                                    }
+                                                    else if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined)
+                                                    {
+
+                                                        <span class="text-center"><i class="fa fa-times text-danger rotate-animation"></i></span>
+                                                        <label class="text-danger">Declined</label>
+                                                    }
+                                                    else if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Approved)
+                                                    {
+                                                        <span class="text-center"><i class="fa fa-circle-nodes text-warning rotate-animation"></i></span>
+                                                        <label class="text-warning">Approved!</label>
+                                                    }
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-8" style="background-color: #333; padding: 5px;">
+                                                <label class="text-center"><i class="fa fa-calendar text-warning"></i> @Model.ActiveBooking.BookedFor.ToString("dd/MM/yyyy HH:mm")</label>
+
+                                                <hr />
+                                                <label><i class="fa fa-note-sticky text-warning"></i> @(string.IsNullOrEmpty(Model.ActiveBooking.Notes) ? "Booking has been created" : Model.ActiveBooking.Notes)</label>
+                                                <hr />
+                                                <label><i class="fa fa-pound-sign text-warning"></i> @((decimal)Model.ActiveBooking.TotalAmount / 100) @(Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval ? " to be charged" : Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined ? " will be not charged" : " charged")</label>
+                                            </div>
+                                            @{
+                                                string buttonLayout = Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval ? "col-sm-4" : "col-sm-6";
+                                            }
+                                            <div class="row" style="min-width: 100% !important; margin: 0px auto;">
+                                                <div class="@buttonLayout">
+                                                    <div class="row">
+                                                        <a class="btn general-button"><i class="fa fa-arrow-right"></i> DETAIL</a>
+                                                    </div>
+                                                </div>
+                                                @if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval)
+                                                {
+                                                    <div class="col-sm-4">
+                                                        <div class="row">
+                                                            <a class="btn general-button"><i class="fa fa-times"></i> CANCEL</a>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                <div class="@buttonLayout">
+                                                    <div class="row">
+                                                        <a class="btn general-button"><i class="fa fa-envelope"></i> CONTACT</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
 
                                     @if (Model.CarHistory.Count > 0)
                                     {
@@ -138,7 +225,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="move-car">
-                                <div class="container text-center">                                    
+                                <div class="container text-center">
                                     <h5 class="badge bg-warning text-dark" style="font-size: 24px;">ELITE</h5><br />
                                     <i class="fa fa-check" style="font-size: 64px; display: none;"></i>
                                 </div>

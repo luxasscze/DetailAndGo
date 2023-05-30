@@ -70,7 +70,7 @@ namespace DetailAndGo.Services
 
         public async Task<Booking?> GetCustomerActiveBooking(string aspNetUserId)
         {
-            Booking? booking = await _context.Bookings.FirstOrDefaultAsync(s => s.AspNetUserId == aspNetUserId && s.Status == BookingStatus.Created);
+            Booking? booking = await _context.Bookings.OrderBy(s => s.Id).LastOrDefaultAsync(s => s.AspNetUserId == aspNetUserId);
             return booking;
         }
 

@@ -34,13 +34,14 @@ namespace DetailAndGo.Pages
         public List<CarHistory> CarHistory { get; set; }
         public string AllBookings { get; set; }
         public List<string> SelectedServiceNames { get; set; }
-        public List<Service> AllServices { get; set; }   
+        public List<Service> AllServices { get; set; }
         public CreateBooking CreateBooking { get; set; }
         public string Greeting { get; set; }
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
+        public Booking ActiveBooking { get; set; }
 
-        public void OnGetAsync()
+        public async Task OnGetAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -51,6 +52,7 @@ namespace DetailAndGo.Pages
                 CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
                 CarHistory = _carService.GetCarHistoryByCarId(CustomerCar.Id).Result.Where(s => s.BookingDate < DateTime.Now).OrderByDescending(s => s.BookingDate).Take(3).ToList();
                 AllServices = _serviceService.GetAllServices().Result.Where(s => s.IsActive == true).ToList();
+                ActiveBooking = await _bookingService.GetCustomerActiveBooking(Customer.AspNetUserId);
 
                 string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
                 DefaultPaymentMethod = _stripeService.GetCustomerDefaultPaymentMethod(stripeId);
