@@ -74,6 +74,12 @@ namespace DetailAndGo.Services
             return booking;
         }
 
+        public async Task<bool> HasActiveBooking(string aspNetUserId)
+        {
+            Booking? booking = await _context.Bookings.Where(s => s.AspNetUserId == aspNetUserId && (s.Status == BookingStatus.Approved || s.Status == BookingStatus.AwaitingApproval)).OrderBy(s => s.Id).LastOrDefaultAsync();
+            return booking == null ? false : true;  
+        }
+
         public async Task<List<Booking>> GetAllActiveBookings()
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Approved) && s.BookedFor > DateTime.Now).ToListAsync();

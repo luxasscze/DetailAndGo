@@ -60,6 +60,8 @@
         background: radial-gradient(circle, rgba(2,89,137,0.7595413165266106) 2%, rgba(0,58,105,1) 100%);
         color: #fff;
         border-radius: 0px;
+        width: 100% !important;
+        min-height: 120% !important;
     }
 
         .general-button:hover {
@@ -100,7 +102,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="">
-                                <h1 class="text-light float-start" style="font-size: 24px;">YOUR BOOKINGS</h1>
+                                <h1 class="text-light float-start" style="font-size: 24px;">YOUR BOOKING</h1>
                                 <a class="btn btn-sm btn-outline-light float-end"><i class="fa fa-arrow-right"></i> ALL BOOKINGS</a>
                             </div>
                         </div>
@@ -172,23 +174,25 @@
                                             @{
                                                 string buttonLayout = Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval ? "col-sm-4" : "col-sm-6";
                                             }
-                                            <div class="row" style="min-width: 100% !important; margin: 0px auto;">
-                                                <div class="@buttonLayout">
-                                                    <div class="row">
-                                                        <a class="btn general-button"><i class="fa fa-arrow-right"></i> DETAIL</a>
-                                                    </div>
-                                                </div>
-                                                @if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval)
-                                                {
-                                                    <div class="col-sm-4">
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="@buttonLayout">
                                                         <div class="row">
-                                                            <a class="btn general-button"><i class="fa fa-times"></i> CANCEL</a>
+                                                            <a class="btn general-button"><i class="fa fa-arrow-right"></i> DETAIL</a>
                                                         </div>
                                                     </div>
-                                                }
-                                                <div class="@buttonLayout">
-                                                    <div class="row">
-                                                        <a class="btn general-button"><i class="fa fa-envelope"></i> CONTACT</a>
+                                                    @if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval)
+                                                    {
+                                                        <div class="col-sm-4">
+                                                            <div class="row">
+                                                                <a class="btn general-button"><i class="fa fa-times"></i> CANCEL</a>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div class="@buttonLayout">
+                                                        <div class="row">
+                                                            <a class="btn general-button"><i class="fa fa-envelope"></i> CONTACT</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

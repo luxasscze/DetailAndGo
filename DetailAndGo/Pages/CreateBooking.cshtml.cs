@@ -40,7 +40,8 @@ namespace DetailAndGo.Pages
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
         public List<int> AvailableTimes { get; set; }
-        public List<string> AvailableTimesString { get; set; }       
+        public List<string> AvailableTimesString { get; set; }  
+        public bool HasActiveBooking { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -49,7 +50,7 @@ namespace DetailAndGo.Pages
             CustomerCars = await _carService.GetCustomerCars(Customer.AspNetUserId);
             CarHistory = await _carService.GetCarHistoryByCarId(CustomerCar.Id);
             AllMainServices = await _serviceService.GetAllMainServices();
-
+            HasActiveBooking = await _bookingService.HasActiveBooking(Customer.AspNetUserId);
             AllBookings = "";
             AllSubServices = await _serviceService.GetAllSubServices();
             SelectedServiceNames = new List<string>();
