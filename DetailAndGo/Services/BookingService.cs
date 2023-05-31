@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DetailAndGo.Models.Enums;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace DetailAndGo.Services
 {
@@ -64,6 +65,20 @@ namespace DetailAndGo.Services
             }
         }
 
+        public async Task<bool> UpdateBookingStatus(int bookingId, BookingStatus status, string description)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            if (booking != null)
+            {
+                booking.Status = status;
+                booking.Notes = description;
+                _context.Entry(booking).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
         public async Task<List<Booking>> GetCustomerAllBookings(string aspNetUserId)
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => s.AspNetUserId == aspNetUserId).ToListAsync();
@@ -90,7 +105,7 @@ namespace DetailAndGo.Services
 
         public async Task<List<Booking>> GetAllCreatedBookings()
         {
-            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.AwaitingApproval) && s.BookedFor > DateTime.Now).OrderBy(s => s.BookedFor).ToListAsync();
+            List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.AwaitingApproval || s.Status == BookingStatus.CardDeclined) && s.BookedFor > DateTime.Now).OrderBy(s => s.BookedFor).ToListAsync();
             return allBookings;
         }
 

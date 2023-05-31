@@ -44,6 +44,12 @@
                 <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 16px;"><i class="fa fa-pound-sign"></i> @((decimal)Model.booking.TotalAmount / 100) PAID</label>
             </div>
         }
+        else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined)
+        {
+            <div class="row">
+                <label class="badge bg-danger text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">Card Declined | <label style="font-size: 14px;">@Model.booking.PaymentMethodId</label></label>
+            </div>            
+        }
     </div>
 </div>
 
@@ -111,7 +117,8 @@
                         
                         string circleColor = hist.Status == DetailAndGo.Models.Enums.BookingStatus.Created ?
                         "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved ?
-                        "text-success" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Declined ?
+                        "text-success" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Declined ||
+                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined ?
                         "text-danger" : "text-warning";
                         
                         <div class="row" style="height: fit-content; margin-bottom: 10px; border-top: 1px solid #666;">
@@ -138,7 +145,7 @@
     </div>
 </div>
 
-@if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
+@if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval || Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined)
 {
     <div class="text-light main-box" style="margin-top: 20px;">
         <div class="row child-box shadow text-center" style="margin: 20px auto;">

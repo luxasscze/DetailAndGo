@@ -16,6 +16,7 @@
         InProgress,
         AwaitingApproval,
         Declined,
-        Reinstated
+        Reinstated,
+        CardDeclined
     }
 }

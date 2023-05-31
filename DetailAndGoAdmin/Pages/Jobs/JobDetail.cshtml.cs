@@ -72,16 +72,39 @@ namespace DetailAndGoAdmin.Pages.Jobs
         {
             Booking booking = await _bookingService.GetBookingById(bookingId);
             DetailAndGo.Models.Customer customer = _customerService.GetCustomerById(booking.AspNetUserId);
-            PaymentIntent paymentIntent = await _stripeService.ChargeCustomerForBooking(customer, booking);
-
-            if (paymentIntent.Status == "succeeded")
+            try
             {
-                await _bookingService.AcceptBooking(bookingId);
+                PaymentIntent paymentIntent = await _stripeService.ChargeCustomerForBooking(customer, booking);
+                if (paymentIntent.Status == "succeeded")
+                {
+                    await _bookingService.AcceptBooking(bookingId);
+                }
+                else if (paymentIntent.Status == "required_action")
+                {
+
+                }
             }
-            else if(paymentIntent.Status == "required_action")
+            catch(StripeException ex)
             {
+                var test = ex.StripeError.Code;
 
-            }            
+                if(ex.StripeError.Code == "card_declined")
+                {
+                    BookingHistory history = new BookingHistory()
+                    {
+                        BookingId = bookingId,
+                        Created = DateTime.Now,
+                        Description = "Payment method " + booking.PaymentMethodId + " has been declined",
+                        Status = DetailAndGo.Models.Enums.BookingStatus.CardDeclined
+                    };
+                    await _bookingService.AddToBookingHistory(history);
+                    await _bookingService.UpdateBookingStatus(bookingId, DetailAndGo.Models.Enums.BookingStatus.CardDeclined, "Your payment card has been declined. We will try another attempt soon, or you can update your card below");
+                    return RedirectToPage("JobDetail", new { id = bookingId, message = "card_declined" });
+                }
+                
+            }
+
+                   
             return RedirectToPage("JobDetail", new { id = bookingId });
         }
     }
