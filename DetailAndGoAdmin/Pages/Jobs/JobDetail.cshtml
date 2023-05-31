@@ -68,8 +68,8 @@
             </div>
         </div>
     </div>
-
 </div>
+
 <div class="services-container" style="margin-top: 20px;">
     @foreach (var item in Model.services)
     {
@@ -95,6 +95,47 @@
             }
         </div>
     }
+</div>
+<div class="row">
+    <div class="col-sm-8" style="margin: 0px auto;">
+        <div class="card text-light" style="background-color: rgba(0, 0, 0, 0); border: 0px;">
+            <div class="card-header text-center">
+                <label class="text-center">BOOKING HISTORY</label>
+            </div>
+            <div class="card-body" style="max-height: 200px; overflow: scroll;">
+                @if (Model.History.Count > 0)
+                {
+                    
+                    foreach (var hist in Model.History)
+                    {
+                        
+                        string circleColor = hist.Status == DetailAndGo.Models.Enums.BookingStatus.Created ?
+                        "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved ?
+                        "text-success" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Declined ?
+                        "text-danger" : "text-warning";
+                        
+                        <div class="row" style="height: fit-content; margin-bottom: 10px; border-top: 1px solid #666;">
+                            <div class="col-4">
+                                <label><i class="fa fa-calendar"></i> @hist.Created.ToString("dd/MM/yyyy HH:mm:ss") </label>
+                            </div>
+                            <div class="col-4">
+                                <label><i class="fa fa-circle @circleColor"></i> &nbsp; @hist.Status </label>
+                            </div>
+                            <div class="col-4">
+                                <label><i class="fa fa-note"></i> @hist.Description </label>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <label class="text-center text-warning">NO HISTORY</label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 @if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
@@ -127,7 +168,7 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined
                 <div class="row" style="min-height: 100% !important;">
                     <a href="#" id="reinstateBtn" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> REINSTATE</a>
                 </div>
-            </div>            
+            </div>
             <div class="col">
                 <div class="row" style="min-height: 100% !important;">
                     <a href="#" class="btn btn-outline-info btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CONTACT</a>

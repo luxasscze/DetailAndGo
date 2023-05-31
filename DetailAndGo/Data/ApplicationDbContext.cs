@@ -21,7 +21,8 @@ namespace DetailAndGo.Data
         public DbSet<CarHistory> CarHistories { get; set; }
         public DbSet<Booking> Bookings { get; set; }        
         public DbSet<SubService> SubServices { get; set; }
-        public DbSet<GeneralSettings> GeneralSettings { get; set; }        
+        public DbSet<GeneralSettings> GeneralSettings { get; set; }
+        public DbSet<BookingHistory> BookingHistories { get; set; }
 
     }
 }

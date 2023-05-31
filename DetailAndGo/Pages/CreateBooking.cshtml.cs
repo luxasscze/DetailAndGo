@@ -157,6 +157,15 @@ namespace DetailAndGo.Pages
 
             Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
             await _bookingService.CreateBooking(createBooking, Customer.AspNetUserId);
+            Booking activeBooking = await _bookingService.GetCustomerActiveBooking(Customer.AspNetUserId);
+            BookingHistory history = new BookingHistory()
+            {
+                BookingId = activeBooking.Id,
+                Created = DateTime.Now,
+                Description = "Booking has been created",
+                Status = Models.Enums.BookingStatus.Created
+            };
+            await _bookingService.AddToBookingHistory(history);
             return new JsonResult(true);            
         }
 

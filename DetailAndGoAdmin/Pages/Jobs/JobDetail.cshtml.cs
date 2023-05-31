@@ -31,13 +31,15 @@ namespace DetailAndGoAdmin.Pages.Jobs
         public Car? car { get; set; }
         public List<Service> services {get; set;}
         public List<Service> subServices { get; set; }
+        public List<BookingHistory> History { get; set; }
 
         public async Task OnGet(int id)
         {
             booking = await _bookingService.GetBookingById(id);
             car = await _carService.GetCarById(booking.CarId);
             services = await GetServicesFromArray(booking.ServicesArray);
-            subServices = await _serviceService.GetServicesFromIdArray(booking.SubServicesArray);           
+            subServices = await _serviceService.GetServicesFromIdArray(booking.SubServicesArray);
+            History = await _bookingService.GetBookingHistoryByBookingId(booking.Id);
         }
 
         public async Task<List<Service>> GetServicesFromArray(string array)

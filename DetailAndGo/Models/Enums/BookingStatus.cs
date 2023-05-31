@@ -15,6 +15,7 @@
         OnTheWay,
         InProgress,
         AwaitingApproval,
-        Declined
+        Declined,
+        Reinstated
     }
 }

@@ -55,10 +55,12 @@ namespace DetailAndGo.Services
                     ServicesArray = DecodeServicesToServicesArray(bookingInput.services),
                     SubServicesArray = bookingInput.subServices == null ? "0" : DecodeServicesToServicesArray(bookingInput.subServices),
                     TotalAmount = (long)(bookingInput.totalPrice * 100)
-                };
+                };                
 
                 await _context.Bookings.AddAsync(booking);
                 await _context.SaveChangesAsync();
+
+
             }
         }
 
@@ -125,11 +127,19 @@ namespace DetailAndGo.Services
 
         public async Task<Booking> DeclineBooking(int bookingId, string reason)
         {
-            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);           
+            BookingHistory historyToAdd = new BookingHistory()
+            {
+                BookingId = bookingId,
+                Created = DateTime.Now,
+                Description = "Booking has been declined --- " + reason,
+                Status = BookingStatus.Declined
+            };
             booking.Notes = reason;
             booking.Status = BookingStatus.Declined;
             booking.StatusChanged = DateTime.Now;
             _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(historyToAdd);
             await _context.SaveChangesAsync();
             return booking;
         }
@@ -137,10 +147,18 @@ namespace DetailAndGo.Services
         public async Task<bool> ReinstateBooking(int bookingId)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            BookingHistory historyToAdd = new BookingHistory()
+            {
+                BookingId = bookingId,
+                Created = DateTime.Now,
+                Description = "Booking has been reinstated",
+                Status = BookingStatus.Reinstated
+            };
             booking.Notes = "***REINSTATED***";
             booking.Status = BookingStatus.AwaitingApproval;
             booking.StatusChanged = DateTime.Now;
             _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(historyToAdd);
             await _context.SaveChangesAsync();
             return true;
         }
@@ -148,13 +166,38 @@ namespace DetailAndGo.Services
         public async Task<bool> AcceptBooking(int bookingId)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            BookingHistory historyToAdd = new BookingHistory()
+            {
+                BookingId = bookingId,
+                Created = DateTime.Now,
+                Description = "Booking has been accepted and paid for",
+                Status = BookingStatus.Approved
+            };
             booking.Status = BookingStatus.Approved;
             booking.StatusChanged = DateTime.Now;
             booking.Notes = "***ACCEPTED***PAID***";
             _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(historyToAdd);
             await _context.SaveChangesAsync();
             return true;
 
+        }
+
+        public async Task<bool> AddToBookingHistory(BookingHistory history)
+        {
+            if (history != null)
+            {
+                _context.BookingHistories.Add(history);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<List<BookingHistory>> GetBookingHistoryByBookingId(int bookingId)
+        {
+            List<BookingHistory> history = await _context.BookingHistories.Where(s => s.BookingId == bookingId).OrderByDescending(s => s.Created).ToListAsync();
+            return history;
         }
 
         public async Task<string> GetAllActiveBookingsAsCalendarEvents()
