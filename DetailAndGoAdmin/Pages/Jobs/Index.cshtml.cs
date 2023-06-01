@@ -34,6 +34,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
         public IList<Booking> Bookings { get;set; }
         public IList<Booking> DeclinedBookings { get; set; }
         public IList<Booking> AcceptedBookings { get; set; }
+        public IList<Booking> BookingsOnTheWay { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -42,6 +43,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
                 Bookings = await _bookingService.GetAllCreatedBookings();
                 DeclinedBookings = await _bookingService.GetAllDeclinedBookings(take: 12);
                 AcceptedBookings = await _bookingService.GetAllAcceptedBookings(take: 12);
+                BookingsOnTheWay = await _bookingService.GetBookingsOnTheWay();
             }           
             
         }

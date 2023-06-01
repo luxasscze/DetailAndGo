@@ -178,6 +178,32 @@ namespace DetailAndGo.Services
             return true;
         }
 
+        public async Task<List<Booking>> GetBookingsOnTheWay()
+        {
+            List<Booking> bookings = await _context.Bookings.Where(s => s.Status == BookingStatus.OnTheWay).ToListAsync();
+                     
+            return bookings;
+        }
+
+        public async Task<bool> SetBookingOnTheWay(int bookingId)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            BookingHistory history = new BookingHistory()
+            {
+                BookingId = bookingId,
+                Created = DateTime.Now,
+                Description = "On the way to the customer",
+                Status = BookingStatus.OnTheWay
+            };
+            booking.Status = BookingStatus.OnTheWay;
+            booking.StatusChanged = DateTime.Now;
+            booking.Notes = "***ON THE WAY***";
+            _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(history);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> AcceptBooking(int bookingId)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);

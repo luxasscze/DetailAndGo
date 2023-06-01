@@ -68,6 +68,12 @@ namespace DetailAndGoAdmin.Pages.Jobs
             return RedirectToPage("JobDetail", new { id = bookingId });
         }
 
+        public async Task<ActionResult> OnGetOnTheWayBooking(int bookingId)
+        {
+            await _bookingService.SetBookingOnTheWay(bookingId);
+            return RedirectToPage("JobDetail", new { id = bookingId });
+        }
+
         public async Task<ActionResult> OnGetAcceptBooking(int bookingId)
         {
             Booking booking = await _bookingService.GetBookingById(bookingId);

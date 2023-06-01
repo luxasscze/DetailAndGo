@@ -18,6 +18,8 @@ namespace DetailAndGo.Services.Interfaces
         public Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status);
         public Task<Booking> DeclineBooking(int bookingId, string reason);
         public Task<bool> ReinstateBooking(int bookingId);
+        public Task<List<Booking>> GetBookingsOnTheWay();
+        public Task<bool> SetBookingOnTheWay(int bookingId);
         public Task<bool> AcceptBooking(int bookingId);
         public Task<bool> AddToBookingHistory(BookingHistory history);
         public Task<List<BookingHistory>> GetBookingHistoryByBookingId(int bookingId);
