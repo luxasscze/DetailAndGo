@@ -9,6 +9,8 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<partial name="~/Pages/Modals/BookingDetail.cshtml" />
+
 <style>
     :root {
         --fc-small-font-size: .85em;
@@ -183,7 +185,7 @@
                                                 <div class="row">
                                                     <div class="@buttonLayout">
                                                         <div class="row">
-                                                            <a class="btn general-button"><i class="fa fa-arrow-right"></i> DETAIL</a>
+                                                            <a class="btn general-button" id="bookingDetailBtn"><i class="fa fa-arrow-right"></i> DETAIL</a>
                                                         </div>
                                                     </div>
                                                     @if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval)
@@ -304,6 +306,10 @@
     </div>
 
     <script>
+
+        $('#bookingDetailBtn').on('click', function () {            
+            $('#bookingDetailModal').modal('show');
+        });
 
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
