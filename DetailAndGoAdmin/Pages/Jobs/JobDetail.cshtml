@@ -14,7 +14,9 @@
 <partial name="~/Pages/Modals/ConfirmDecline.cshtml" />
 <partial name="~/Pages/Modals/ReinstateModal.cshtml" />
 <partial name="~/Pages/Modals/AcceptModal.cshtml" />
-<partial name="~/Pages/Modals/OnTheWayModal.cshtml" /> <!--FINISH ON THE WAY MODAL (Function in controller and check for all appeareances if they showing correctly)-->
+<partial name="~/Pages/Modals/OnTheWayModal.cshtml" />
+<partial name="~/Pages/Modals/FinishJobModal.cshtml" />
+<partial name="~/Pages/Modals/StartJobModal.cshtml" />
 
 <div class="text-light main-box" style="margin: 40px;">
 
@@ -54,7 +56,13 @@
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.OnTheWay)
         {
             <div class="row">
-                <label class="badge bg-primary text-light" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">On the way</label>
+                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">On the way</label>
+            </div>
+        }
+        else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.InProgress)
+        {
+            <div class="row">
+                <label class="badge bg-primary text-light" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">In Progress</label>
             </div>
         }
     </div>
@@ -123,10 +131,11 @@
                     {
                         
                         string circleColor = hist.Status == DetailAndGo.Models.Enums.BookingStatus.Created ?
-                        "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved ?
+                        "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved || hist.Status == DetailAndGo.Models.Enums.BookingStatus.Finished ?
                         "text-success" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Declined ||
-                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined ?
-                        "text-danger" : "text-warning";
+                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined || hist.Status == DetailAndGo.Models.Enums.BookingStatus.Cancelled ?
+                        "text-danger" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.OnTheWay ? "text-info" : 
+                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.InProgress ? "text-primary" : "text-warning";
                         
                         <div class="row" style="height: fit-content; margin-bottom: 10px; border-top: 1px solid #666;">
                             <div class="col-4">
@@ -208,6 +217,40 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Approved
         </div>
     </div>
 }
+else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.OnTheWay)
+{
+    <div class="text-light main-box" style="margin-top: 20px;">
+        <div class="row child-box shadow text-center" style="margin: 20px auto;">
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" id="startJobBtn" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-hourglass"></i><br /> Start Job</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" class="btn btn-outline-info btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CANCEL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.InProgress)
+{
+    <div class="text-light main-box" style="margin-top: 20px;">
+        <div class="row child-box shadow text-center" style="margin: 20px auto;">
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" id="jobFinishedBtn" class="btn btn-outline-success btn-lg" style="border-radius: 0px;"><i class="fa fa-check"></i><br /> Finsih The Job</a>
+                </div>
+            </div>
+            <div class="col">
+                <div class="row" style="min-height: 100% !important;">
+                    <a href="#" class="btn btn-outline-info btn-lg" style="border-radius: 0px;"><i class="fa fa-user"></i><br /> CANCEL</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 
 <script>
@@ -225,6 +268,14 @@ else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Approved
 
     $('#onTheWayBtn').on('click', function () {
         jQuery('#onTheWayModal').modal('show');
+    });
+
+    $('#startJobBtn').on('click', function () {
+        jQuery('#startJobModal').modal('show');
+    });
+
+    $('#jobFinishedBtn').on('click', function () {
+        jQuery('#finishJobModal').modal('show');
     });
 </script>
 

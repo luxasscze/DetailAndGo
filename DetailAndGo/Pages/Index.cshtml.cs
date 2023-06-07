@@ -46,7 +46,7 @@ namespace DetailAndGo.Pages
             if (User.Identity.IsAuthenticated)
             {
                 GetGreeting();
-                AllBookings = _bookingService.GetAllActiveBookingsAsCalendarEvents().Result;                
+                AllBookings = _bookingService.GetAllActiveBookingsAsCalendarEvents().Result;
                 Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
                 CustomerCar = _carService.GetCustomerActiveCar(Customer.AspNetUserId).Result;
                 CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
@@ -89,15 +89,15 @@ namespace DetailAndGo.Pages
 
         public void GetGreeting()
         {
-            if(DateTime.Now.Hour > 6 && DateTime.Now.Hour <= 12)
+            if (DateTime.Now.Hour > 6 && DateTime.Now.Hour <= 12)
             {
                 Greeting = "Good morning";
             }
-            else if(DateTime.Now.Hour > 12 && DateTime.Now.Hour <= 17)
+            else if (DateTime.Now.Hour > 12 && DateTime.Now.Hour <= 17)
             {
                 Greeting = "Good afternoon";
             }
-            else if(DateTime.Now.Hour > 17 && DateTime.Now.Hour < 23)
+            else if (DateTime.Now.Hour > 17 && DateTime.Now.Hour < 23)
             {
                 Greeting = "Good evening";
             }
@@ -170,7 +170,7 @@ namespace DetailAndGo.Pages
                 Image = "",
                 Notes = "",
                 PaymentMethodId = paymentMethodId,
-                Services = new List<Service>(),               
+                Services = new List<Service>(),
                 Status = Models.Enums.BookingStatus.Created
             };
             //await _bookingService.CreateBooking(booking);
@@ -198,15 +198,22 @@ namespace DetailAndGo.Pages
                 result.Add(services.FirstOrDefault(s => s.Id == Convert.ToInt32(serviceId)).Name);
             }
             SelectedServiceNames = result;
-            return new JsonResult(result);            
+            return new JsonResult(result);
         }
 
         [HttpGet]
         public async Task<JsonResult> OnGetPaymentMethodsAsync()
         {
             string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
-            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);            
+            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);
             return new JsonResult(paymentMethods);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> OnGetCancelBooking(int bookingId)
+        {
+            await _bookingService.CancelBooking(bookingId, "Booking has been cancelled");
+            return new JsonResult(true);
         }
 
         /*[HttpPost]
@@ -223,7 +230,7 @@ namespace DetailAndGo.Pages
         public async Task<ActionResult> OnPostChangePaymentMethodAsync(string paymentMethodId)
         {
             string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
-            await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethodId);           
+            await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethodId);
             return RedirectToAction("Get");
         }
 

@@ -17,6 +17,7 @@
         AwaitingApproval,
         Declined,
         Reinstated,
-        CardDeclined
+        CardDeclined,
+        Cancelled
     }
 }

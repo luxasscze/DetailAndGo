@@ -35,6 +35,8 @@ namespace DetailAndGoAdmin.Pages.Jobs
         public IList<Booking> DeclinedBookings { get; set; }
         public IList<Booking> AcceptedBookings { get; set; }
         public IList<Booking> BookingsOnTheWay { get; set; }
+        public IList<Booking> CancelledBookings { get; set; }
+        public IList<Booking> FinishedBookings { get; set; }
         public Booking BookingInProgress { get; set; }
 
         public async Task OnGetAsync()
@@ -45,7 +47,9 @@ namespace DetailAndGoAdmin.Pages.Jobs
                 DeclinedBookings = await _bookingService.GetAllDeclinedBookings(take: 12);
                 AcceptedBookings = await _bookingService.GetAllAcceptedBookings(take: 12);
                 BookingsOnTheWay = await _bookingService.GetBookingsOnTheWay();
-                BookingInProgress = await _bookingService.GetBookingById(1200);
+                BookingInProgress = await _bookingService.GetBookingInProgress();
+                CancelledBookings = await _bookingService.GetCancelledBookings();
+                FinishedBookings = await _bookingService.GetFinishedBookings();
             }           
             
         }

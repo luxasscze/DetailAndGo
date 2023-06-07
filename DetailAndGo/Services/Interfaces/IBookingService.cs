@@ -15,12 +15,18 @@ namespace DetailAndGo.Services.Interfaces
         public Task<List<Booking>> GetAllAcceptedBookings(int take);
         public Task<bool> HasActiveBooking(string aspNetUserId);
         public Task<Booking> GetBookingById(int id);
+        public Task<Booking> GetBookingInProgress();
+        public Task<List<Booking>> GetCancelledBookings();
+        public Task<List<Booking>> GetFinishedBookings();
         public Task<List<Booking>> GetAllBookingsByStatus(BookingStatus status);
         public Task<Booking> DeclineBooking(int bookingId, string reason);
         public Task<bool> ReinstateBooking(int bookingId);
         public Task<List<Booking>> GetBookingsOnTheWay();
         public Task<bool> SetBookingOnTheWay(int bookingId);
         public Task<bool> AcceptBooking(int bookingId);
+        public Task<bool> CancelBooking(int bookingID, string notes);
+        public Task<bool> StartJob(int bookingId);
+        public Task<bool> FinishBooking(int bookingId);
         public Task<bool> AddToBookingHistory(BookingHistory history);
         public Task<List<BookingHistory>> GetBookingHistoryByBookingId(int bookingId);
         public Task<string> GetAllActiveBookinsAsJSON();

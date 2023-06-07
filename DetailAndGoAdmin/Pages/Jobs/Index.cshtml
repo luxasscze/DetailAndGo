@@ -229,8 +229,7 @@
     <div class="col-sm-6">
         <div class="p-4">
             <div class="welcome">
-                <label><i class="fa fa-car"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; ON THE WAY</label>
-                <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+                <label><i class="fa fa-car"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; ON THE WAY</label>                
                 <hr />
                 <div class="content rounded-3 p-3">
                     <div class="row" style="margin-top: 5px;">
@@ -238,7 +237,7 @@
                         {
                             foreach (var item in Model.BookingsOnTheWay)
                             {
-                                <div class="col-sm-6" style="margin-bottom: 10px;">
+                                <div class="col-sm-12" style="margin-bottom: 10px;">
                                     <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
                                         <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
                                             <div class="card-body text-center">
@@ -252,7 +251,7 @@
                         else
                         {
                             <div class="row">
-                                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO BOOKINGS ON THE WAY</label>
+                                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO BOOKING ON THE WAY</label>
                             </div>
                         }
                     </div>
@@ -264,7 +263,7 @@
         <div class="p-4">
             <div class="welcome">
                 <label><i class="fa fa-hourglass"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; IN PROGRESS</label>
-                <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+                
                 <hr />
                 <div class="content rounded-3 p-3">
                     <div class="row" style="margin-top: 5px;">
@@ -283,7 +282,7 @@
                         else
                         {
                             <div class="row">
-                                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO BOOKINGS ON THE WAY</label>
+                                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO BOOKING IN PROGRESS</label>
                             </div>
                         }
                     </div>
@@ -332,8 +331,26 @@
         <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
         <hr />
         <div class="content rounded-3 p-3">
-            <div class="row">
-                <label class="text-center"><i class="fa fa-poo"></i><br /> NO COMPLETED BOOKINGS</label>
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.FinishedBookings.Count > 0)
+                {
+                    foreach (var item in Model.FinishedBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-success"> COMPLETED <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO COMPLETED BOOKINGS</label>
+                }
             </div>
         </div>
     </div>
@@ -364,6 +381,37 @@
                 else
                 {
                     <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO DECLINED BOOKINGS</label>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-user-xmark"></i> </label><label class="text-warning">&nbsp; CANCELLED BY CUSTOMER</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.CancelledBookings.Count > 0)
+                {
+                    foreach (var item in Model.CancelledBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card declined-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-danger"> CANCELLED <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO CANCELLED BOOKINGS</label>
                 }
             </div>
         </div>

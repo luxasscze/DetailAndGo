@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using DetailAndGo.Models.Enums;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Stripe;
 
 namespace DetailAndGo.Services
 {
@@ -185,6 +186,24 @@ namespace DetailAndGo.Services
             return bookings;
         }
 
+        public async Task<Booking> GetBookingInProgress()
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Status == BookingStatus.InProgress);
+            return booking;
+        }
+
+        public async Task<List<Booking>> GetCancelledBookings()
+        {
+            List<Booking> bookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Cancelled).ToListAsync();
+            return bookings;
+        }
+
+        public async Task<List<Booking>> GetFinishedBookings()
+        {
+            List<Booking> bookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Finished).ToListAsync();
+            return bookings;
+        }
+
         public async Task<bool> SetBookingOnTheWay(int bookingId)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
@@ -224,6 +243,64 @@ namespace DetailAndGo.Services
 
         }
 
+        public async Task<bool> CancelBooking(int bookingID, string notes)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingID);
+            BookingHistory historyToAdd = new BookingHistory()
+            {
+                BookingId = bookingID,
+                Created = DateTime.Now,
+                Description = notes,
+                Status = BookingStatus.Cancelled                
+            };
+            booking.Status = BookingStatus.Cancelled;
+            booking.StatusChanged = DateTime.Now;
+            booking.Notes = notes;
+            _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(historyToAdd);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> StartJob(int bookingId)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            BookingHistory historyToAdd = new BookingHistory()
+            {
+                BookingId = bookingId,
+                Created = DateTime.Now,
+                Description = "Job Started",
+                Status = BookingStatus.InProgress
+            };
+            booking.Status = BookingStatus.InProgress;
+            booking.StatusChanged = DateTime.Now;
+            booking.Notes = "***IN PROGRESS***";
+            _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(historyToAdd);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> FinishBooking(int bookingId)
+        {
+            Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
+            BookingHistory historyToAdd = new BookingHistory()
+            {
+                BookingId = bookingId,
+                Created = DateTime.Now,
+                Description = "Booking finished",
+                Status = BookingStatus.Finished
+            };
+            booking.Status = BookingStatus.Finished;
+            booking.StatusChanged = DateTime.Now;
+            booking.Notes = "***FINISHED***";
+            _context.Entry(booking).State = EntityState.Modified;
+            _context.BookingHistories.Add(historyToAdd);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+       
         public async Task<bool> AddToBookingHistory(BookingHistory history)
         {
             if (history != null)

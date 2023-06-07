@@ -19,6 +19,7 @@ namespace DetailAndGo.Services.Interfaces
         public Task<StripeList<Price>> GetPricesByProductId(string productId);
         public Task DeactivatePrice(string priceId);
         public Task<Price> CreatePrice(long? amount, string productId, string nickname);
+        public Task<Refund> Refund(string paymentIntentId, string reason, long amount);
         public Task<Product> GetProductById(string productId);
     }
 }

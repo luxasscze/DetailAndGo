@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <partial name="~/Pages/Modals/BookingDetail.cshtml" />
+<partial name="~/Pages/Modals/CancelBooking.cshtml" />
 
 <style>
     :root {
@@ -131,7 +132,7 @@
                                     }
                                     else
                                     {
-                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined)
+                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled)
                                         {
                                             <div class="row">
                                                 <a class="btn btn-success btn-sm text-center" style="font-size: 24px;" asp-page="./CreateBooking"><i class="fa fa-arrow-right"></i> CREATE NEW BOOKING</a>
@@ -166,6 +167,11 @@
                                                         <span class="text-center"><i class="fa fa-times text-danger rotate-animation"></i></span>
                                                         <label class="text-danger">Card Declined</label>
                                                     }
+                                                    else if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled)
+                                                    {
+                                                        <span class="text-center"><i class="fa fa-times text-danger rotate-animation"></i></span>
+                                                        <label class="text-danger">Cancelled By You</label>
+                                                    }
 
                                                 </div>
                                             </div>
@@ -192,7 +198,7 @@
                                                     {
                                                         <div class="col-sm-4">
                                                             <div class="row">
-                                                                <a class="btn general-button"><i class="fa fa-times"></i> CANCEL</a>
+                                                                <a class="btn general-button text-warning" id="cancelBtn"><i class="fa fa-times"></i> CANCEL</a>
                                                             </div>
                                                         </div>
                                                     }
@@ -309,6 +315,10 @@
 
         $('#bookingDetailBtn').on('click', function () {            
             $('#bookingDetailModal').modal('show');
+        });
+
+        $('#cancelBtn').on('click', function () {
+            $('#cancelBookingModal').modal('show');
         });
 
         var calendarEl = document.getElementById('calendar');
@@ -742,8 +752,8 @@ else
         <h2 class="text-secondary">Follow Detail&Go On Social Media</h2>
 
         <div class="social">
-            <a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook fa-3x"></i></a>
-            <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube fa-3x"></i></a>
+            <a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
+            <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
         </div>
     </section>
 

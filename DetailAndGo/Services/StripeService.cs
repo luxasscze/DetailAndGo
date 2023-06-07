@@ -446,5 +446,25 @@ namespace DetailAndGo.Services
             return product;
         }
 
+        public async Task<Refund> Refund(string paymentIntentId, string reason, long amount) // ADD this to the interface
+        {
+            StripeConfiguration.ApiKey = _stripeApiKey;
+            var options = new RefundCreateOptions
+            {
+                Currency = "gbp",
+                PaymentIntent = paymentIntentId,
+                Reason = reason,
+                Amount = amount
+            };
+            var service = new Stripe.RefundService();
+            var result = await service.CreateAsync(options);            
+            return result;
+        }
+
     }
 }
+
+///
+/// How to implement refund sytsem in this: 
+/// so we will need the function above to be called after some initial checks first. So for example we need some refund to happen first
+/// and if successful then we can call the cancel booking function from the booking service
