@@ -132,7 +132,7 @@
                                     }
                                     else
                                     {
-                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled)
+                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Finished)
                                         {
                                             <div class="row">
                                                 <a class="btn btn-success btn-sm text-center" style="font-size: 24px;" asp-page="./CreateBooking"><i class="fa fa-arrow-right"></i> CREATE NEW BOOKING</a>
@@ -172,6 +172,11 @@
                                                         <span class="text-center"><i class="fa fa-times text-danger rotate-animation"></i></span>
                                                         <label class="text-danger">Cancelled By You</label>
                                                     }
+                                                    else if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Finished)
+                                                    {
+                                                        <span class="text-center"><i class="fa fa-star text-success rotate-animation"></i></span>
+                                                        <label class="text-success">Booking Completed</label>
+                                                    }
 
                                                 </div>
                                             </div>
@@ -182,7 +187,7 @@
                                                 <hr />
                                                 <label><i class="fa fa-note-sticky text-warning"></i> @(string.IsNullOrEmpty(Model.ActiveBooking.Notes) ? "Booking has been created" : Model.ActiveBooking.Notes)</label>
                                                 <hr />
-                                                <label><i class="fa fa-pound-sign text-warning"></i> @((decimal)Model.ActiveBooking.TotalAmount / 100) @(Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval || Model.ActiveBooking.Status == Models.Enums.BookingStatus.CardDeclined ? " to be charged" : Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined ? " will be not charged" : " charged")</label>
+                                                <label><i class="fa fa-pound-sign text-warning"></i> @((decimal)Model.ActiveBooking.TotalAmount / 100) @(Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval || Model.ActiveBooking.Status == Models.Enums.BookingStatus.CardDeclined ? " to be charged" : Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled ? " will be not charged" : " charged")</label>
                                             </div>
                                             @{
                                                 string buttonLayout = Model.ActiveBooking.Status == Models.Enums.BookingStatus.AwaitingApproval || Model.ActiveBooking.Status == Models.Enums.BookingStatus.CardDeclined ? "col-sm-4" : "col-sm-6";

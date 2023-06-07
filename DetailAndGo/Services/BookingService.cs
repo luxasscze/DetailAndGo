@@ -198,9 +198,9 @@ namespace DetailAndGo.Services
             return bookings;
         }
 
-        public async Task<List<Booking>> GetFinishedBookings()
+        public async Task<List<Booking>> GetFinishedBookings(int take)
         {
-            List<Booking> bookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Finished).ToListAsync();
+            List<Booking> bookings = await _context.Bookings.Where(s => s.Status == BookingStatus.Finished).OrderByDescending(s => s.Created).Take(take).ToListAsync();
             return bookings;
         }
 

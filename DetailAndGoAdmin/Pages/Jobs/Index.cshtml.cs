@@ -49,7 +49,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
                 BookingsOnTheWay = await _bookingService.GetBookingsOnTheWay();
                 BookingInProgress = await _bookingService.GetBookingInProgress();
                 CancelledBookings = await _bookingService.GetCancelledBookings();
-                FinishedBookings = await _bookingService.GetFinishedBookings();
+                FinishedBookings = await _bookingService.GetFinishedBookings(take: 12);
             }           
             
         }

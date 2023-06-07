@@ -131,9 +131,11 @@
                     {
                         
                         string circleColor = hist.Status == DetailAndGo.Models.Enums.BookingStatus.Created ?
-                        "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved || hist.Status == DetailAndGo.Models.Enums.BookingStatus.Finished ?
+                        "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved || 
+                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.Finished ?
                         "text-success" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Declined ||
-                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined || hist.Status == DetailAndGo.Models.Enums.BookingStatus.Cancelled ?
+                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.CardDeclined || 
+                        hist.Status == DetailAndGo.Models.Enums.BookingStatus.Cancelled ?
                         "text-danger" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.OnTheWay ? "text-info" : 
                         hist.Status == DetailAndGo.Models.Enums.BookingStatus.InProgress ? "text-primary" : "text-warning";
                         
