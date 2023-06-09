@@ -97,9 +97,17 @@ namespace DetailAndGoAdmin.Pages.Jobs
                 {
                     await _bookingService.AcceptBooking(bookingId);
                 }
-                else if (paymentIntent.Status == "required_action")
+                else if (paymentIntent.Status == "requires_action")
                 {
+                    paymentIntent.NextAction = new PaymentIntentNextAction()
+                    {
+                        RedirectToUrl = new PaymentIntentNextActionRedirectToUrl()
+                        {
+                            Url = "https://www.seznam.cz"
+                        }
+                    };
 
+                    return Redirect(paymentIntent.NextAction.RedirectToUrl.Url);
                 }
             }
             catch(StripeException ex)

@@ -23,6 +23,11 @@ namespace DetailAndGo.Services
             _serviceService = serviceService;
         }
 
+        /// <summary>
+        /// Decodes Service IDs from IDs array into string ID values separated by comma
+        /// </summary>
+        /// <param name="services">IDs ARRAY</param>
+        /// <returns>String of Array Returns in the string of IDs</returns>
         public string DecodeServicesToServicesArray(int[] services)
         {
             string result = string.Empty;
@@ -40,6 +45,12 @@ namespace DetailAndGo.Services
             return result.Remove(result.Length - 1, 1);
         }
 
+        /// <summary>
+        /// Creates booking in the database
+        /// </summary>
+        /// <param name="bookingInput">booking object</param>
+        /// <param name="aspNetUserId"> ID of the user</param>
+        /// <returns></returns>
         public async Task CreateBooking(CreateBooking bookingInput, string aspNetUserId)
         {
             if (bookingInput != null)
@@ -61,11 +72,16 @@ namespace DetailAndGo.Services
 
                 await _context.Bookings.AddAsync(booking);
                 await _context.SaveChangesAsync();
-
-
             }
         }
 
+        /// <summary>
+        /// Updates booking status
+        /// </summary>
+        /// <param name="bookingId">ID of the booking</param>
+        /// <param name="status"></param>
+        /// <param name="description"></param>
+        /// <returns></returns>
         public async Task<bool> UpdateBookingStatus(int bookingId, BookingStatus status, string description)
         {
             Booking booking = await _context.Bookings.FirstOrDefaultAsync(s => s.Id == bookingId);
@@ -80,24 +96,43 @@ namespace DetailAndGo.Services
             return false;
         }
 
+        /// <summary>
+        /// Get all customers bookings by AspNetUserId
+        /// </summary>
+        /// <param name="aspNetUserId">AspNetUserId ID</param>
+        /// <returns>all customer's bookings with given aspNetUserId</returns>
         public async Task<List<Booking>> GetCustomerAllBookings(string aspNetUserId)
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => s.AspNetUserId == aspNetUserId).ToListAsync();
             return allBookings;
         }
 
+        /// <summary>
+        /// Gets active booking of customer based on aspNetUserId
+        /// </summary>
+        /// <param name="aspNetUserId">aspNetUserId ID</param>
+        /// <returns>returns customer's active booking</returns>
         public async Task<Booking?> GetCustomerActiveBooking(string aspNetUserId)
         {
             Booking? booking = await _context.Bookings.OrderBy(s => s.Id).LastOrDefaultAsync(s => s.AspNetUserId == aspNetUserId);
             return booking;
         }
 
+        /// <summary>
+        /// Checks if the customer has active booking
+        /// </summary>
+        /// <param name="aspNetUserId">aspNetUserId ID</param>
+        /// <returns>Boolean indicating if the customer has active booking or not</returns>
         public async Task<bool> HasActiveBooking(string aspNetUserId)
         {
             Booking? booking = await _context.Bookings.Where(s => s.AspNetUserId == aspNetUserId && (s.Status == BookingStatus.Approved || s.Status == BookingStatus.AwaitingApproval)).OrderBy(s => s.Id).LastOrDefaultAsync();
             return booking == null ? false : true;  
         }
 
+        /// <summary>
+        /// Gets all active bookings (with status  CREATED or APPROVED)
+        /// </summary>
+        /// <returns>returns all active bookings</returns>
         public async Task<List<Booking>> GetAllActiveBookings()
         {
             List<Booking> allBookings = await _context.Bookings.Where(s => (s.Status == BookingStatus.Created || s.Status == BookingStatus.Approved) && s.BookedFor > DateTime.Now).ToListAsync();
@@ -240,7 +275,6 @@ namespace DetailAndGo.Services
             _context.BookingHistories.Add(historyToAdd);
             await _context.SaveChangesAsync();
             return true;
-
         }
 
         public async Task<bool> CancelBooking(int bookingID, string notes)
