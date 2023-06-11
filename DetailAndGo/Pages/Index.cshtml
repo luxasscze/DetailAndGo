@@ -177,6 +177,16 @@
                                                         <span class="text-center"><i class="fa fa-star text-success rotate-animation"></i></span>
                                                         <label class="text-success">Booking Completed</label>
                                                     }
+                                                    else if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.OnTheWay)
+                                                    {
+                                                        <span class="text-center"><i class="fa fa-circle-play text-light rotate-animation"></i></span>
+                                                        <label class="text-light">On The Way</label>
+                                                    }
+                                                    else if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.InProgress)
+                                                    {
+                                                        <span class="text-center"><i class="fa fa-hourglass text-info rotate-animation"></i></span>
+                                                        <label class="text-info">In Progress</label>
+                                                    }
 
                                                 </div>
                                             </div>

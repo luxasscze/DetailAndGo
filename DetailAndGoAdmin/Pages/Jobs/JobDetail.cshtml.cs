@@ -7,7 +7,7 @@ using Stripe;
 
 namespace DetailAndGoAdmin.Pages.Jobs
 {
-    [Authorize]
+    [Authorize] // just for the change
     public class JobDetailModel : PageModel
     {
         private readonly IBookingService _bookingService;
