@@ -30,8 +30,6 @@ namespace DetailAndGoAdmin
 
         public async Task<string[]> GetRandomQuote(string rootPath)
         {        
-            
-            
             Random random = new Random();
             string[] quotes = await File.ReadAllLinesAsync(rootPath + "/text/Quotes.txt");            
             string selectedQuote = quotes[random.Next(0, quotes.Length - 1)];

@@ -1,0 +1,65 @@
+﻿<!-- Cancel Booking Modal -->
+<div class="modal fade" id="cancelBookingModal" tabindex="-1" role="dialog" aria-labelledby="cancelBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                @if (Model.ActiveBooking != null)
+                {
+                    <div class="row">
+                        <h2 class="text-danger text-center" id="carsModalLabel" style="font-size: 24px;"><i class="fa fa-triangle-exclamation"></i> Cancel Your Booking</h2>
+                        <hr class="text-light" />
+                    </div>
+                    <div class="row text-light text-center">
+                        <div class="col-sm-12">
+                            <label>Do you wish to cancel booking #@Model.ActiveBooking.Id ?</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin: 20px auto; width: 50%;">
+                        <a class="btn btn-danger" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelBookingConfirmBtn"><i class="fa fa-trash"></i> Yes</a>
+                        <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">No</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@if (Model.ActiveBooking != null)
+{
+    <script>
+        $('#cancelBookingConfirmBtn').on('click', function () {
+        console.log('clicked');
+        cancelBooking();
+        });
+
+        function cancelBooking() {
+        let result;
+        console.log('cancel clicked...');
+        jQuery.ajax({
+        url: "?handler=CancelBooking",
+        data: { bookingId: @Model.ActiveBooking.Id },
+        type: "GET",
+        async: false,
+        cache: false,
+        beforeSend: function () {
+
+        },
+        success: function (data) {
+        result = data;
+        },
+        error: function (error) {
+        console.log(error);
+        result = false;
+        },
+        complete: function () {
+        console.log('finished...');
+        location.reload();
+        },
+        });
+        return result;
+        }
+    </script>
+}
+

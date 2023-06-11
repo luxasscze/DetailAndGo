@@ -2,11 +2,14 @@
 {
     public class CreateBooking
     {
-        public string AspNetUserId { get; set; }
-        public int CarId { get; set; }
-        public List<Service> Services { get; set; }
-        public DateTime BookedFor { get; set; }
-        public string PaymentMethodId { get; set; }
-        public DateTime Created { get; set; }
+        public string carModel { get; set; }
+        public string carFamily { get; set; }
+        public string carSize { get; set; }
+        public int carId { get; set; }
+        public int[] services { get; set; }
+        public int[] subServices { get; set; }
+        public decimal totalPrice { get; set; }
+        public DateTime dateTime { get; set; }
+        public string paymentMethod { get; set; }        
     }
 }

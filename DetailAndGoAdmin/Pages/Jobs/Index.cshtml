@@ -3,78 +3,417 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Pages/Shared/_Layout.cshtml";
+    //Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-<link rel="stylesheet" type="text/css" href="~/css/GoogleMaps.css" />
-<script type="module" src="~/js/GoogleMaps.js"></script>
-
-
-<h1 style="color: #fff; text-align: center;">Jobs</h1>
-
-<div class="row">
-
-    @foreach (var item in Model.Jobs)
-    {
-        <div class="col-6">
-            <div class="card shadow" style="margin-top: 25px; background-color: rgba(0, 0, 0, 0.2);">
-                <div class="card-header text-light">
-                    <h2>@item.CustomerId</h2>
-                </div>
-                <div class="card-body">
-                    <!--<div id="map"></div>-->
-                </div>
-                <div class="card-footer">
-                    <a href="#" class="btn btn-sm btn-outline-success">Accept</a>
-                    <a href="#" class="btn btn-sm btn-outline-danger">Decline</a>
-                </div>
-            </div>
-        </div>
+<style>
+    .awaiting-approval-booking {
+        transition: 0.4s;
     }
 
+        .awaiting-approval-booking:hover {
+            box-shadow: 0px 0px 30px 1px #666;
+            background-color: rgba(80, 80, 80, 0.3) !important;
+        }
+
+    .declined-booking {
+        transition: 0.4s;
+    }
+
+        .declined-booking:hover {
+            box-shadow: 0px 0px 30px 1px #a00;
+            background-color: rgba(100, 0, 0, 0.8) !important;
+        }
+
+    .accepted-booking {
+        transition: 0.4s;
+    }
+
+        .accepted-booking:hover {
+            box-shadow: 0px 0px 30px 1px #aaf;
+            background-color: rgba(50, 50, 55, 0.8) !important;
+        }
+</style>
+
+<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+<script>
+    console.log('its working...');
+    function getUserName(userId) {
+        console.log('user id: ' + userId);
+        let userName;
+        $.ajax({
+            url: "?handler=GetUserFullName",
+            data: { aspNetUserId: userId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                userName = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        console.log(userName);
+        return userName;
+    }
+
+    function getServiceName(serviceId) {
+        let serviceName;
+        $.ajax({
+            url: "?handler=GetServiceName",
+            data: { serviceId: serviceId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                serviceName = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return serviceName;
+    }
+
+    function getCarName(carId) {
+        let carName;
+        $.ajax({
+            url: "?handler=GetCarName",
+            data: { carId: carId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                carName = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return carName;
+    }
+
+    function getPostCode(aspNetUserId) {
+        let postCode;
+        $.ajax({
+            url: "?handler=GetPostCode",
+            data: { aspNetUserId: aspNetUserId },
+            type: "GET",
+            async: false,
+            cache: false,
+            beforeSend: function () {
+
+            },
+            success: function (data) {
+                postCode = data;
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            complete: function () {
+                console.log('finished...');
+            },
+        });
+        return postCode;
+    }
+</script>
+
+<div class="p-4">
+    <div class="welcome">
+        <div class="content rounded-3 p-3">
+            <h1 style="color: #fff; text-align: center;">Bookings Dashboard</h1>
+        </div>
+    </div>
 </div>
 
 
-@{
-    /*<table class="container">
-                <thead>
-                <tr>
-                <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].Created)
-                </th>
-                <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].Updated)
-                </th>
-                <th>
-                @Html.DisplayNameFor(model => model.Jobs[0].Status)
-        </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in Model.Jobs)
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-arrow-right"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; AWAITING APPROVAL</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row">
+                @if (Model.Bookings.Count > 0)
+                {
+                    foreach (var item in Model.Bookings)
                     {
-                    <tr>
-                    <td>
-                    @Html.DisplayFor(modelItem => item.Created)
-                    </td>
-                    <td>
-                    @Html.DisplayFor(modelItem => item.Updated)
-                    </td>
-                    <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
 
-                <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                        <div class="col-sm-4" style="margin-top: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none; z-index: 999;">
+                                <div class="card awaiting-approval-booking" style="margin-top: 0px; background-color: rgba(0, 0, 0, 0.2); min-height: 100%; cursor: pointer !important;">
+                                    <div class="card-header text-light">
+                                        <h4 id="username-@item.Id"></h4>
+                                        <h6 style="float: left;" class="text-warning"><i class="fa fa-pound-sign"></i>@((decimal)item.TotalAmount / 100)</h6>
+                                    </div>
+                                    <div class="card-body text-light">
+                                        <div class="card bg-secondary">
+                                            <div class="row">
+                                                <div class="col-6">CREATED</div><div class="col-6 text-end">@item.Created.ToString("dd/MM/yyyy HH:mm")</div>
+                                            </div>
+                                        </div>
+                                        <div class="card bg-dark">
+                                            <div class="row">
+                                                <div class="col-6">BOOKED FOR</div><div class="col-6 text-end">@item.BookedFor.ToString("dd/MM/yyyy HH:mm")</div>
+                                            </div>
+                                        </div>
+                                        <div class="card bg-secondary">
+                                            <div class="row">
+                                                <div class="col-6">POSTCODE</div><div class="col-6 text-end"><label id="postCode-@item.Id"></label></div>
+                                            </div>
+                                        </div>
 
-    </tr>
-    }
-    </tbody>
-    </table>*/
-}
+                                        <div class="card bg-dark">
+                                            <div class="row">
+                                                <div class="col-6">CAR</div><div class="col-6 text-end"><label id="car-text-@item.Id"></label></div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center" style="margin-top: 20px; padding: 5px;">
+                                            @{
+                                                string[] list = item.ServicesArray.Split(',');
+                                            }
+                                            @foreach (var tim in list)
+                                            {
+                                                <div class="col-6" style="margin-bottom: 5px;">
+                                                    <div class="card bg-transparent border-1 border-secondary" style="">
+                                                        <label id="service-text-@item.Id-@tim"></label>
+                                                    </div>
+                                                </div>
+                                                <script>
+                                                    $('#service-text-@item.Id-@tim').text(getServiceName(@tim));
+                                                </script>
+                                            }
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDST-4ewfodFV5YXdTrJRXW2VNjnLJOIwg&callback=initMap&v=weekly" defer></script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <script>
+                            $('#username-@item.Id').text(getUserName('@item.AspNetUserId') + ' [#@item.Id]');
+                            $('#postCode-@item.Id').text(getPostCode('@item.AspNetUserId'));
+                            $('#car-text-@item.Id').text(getCarName('@item.CarId'));
+                        </script>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-sad-cry"></i><br /> NO BOOKINGS ARE AWAITING APPROVAL</label>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="p-4">
+            <div class="welcome">
+                <label><i class="fa fa-car"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; ON THE WAY</label>                
+                <hr />
+                <div class="content rounded-3 p-3">
+                    <div class="row" style="margin-top: 5px;">
+                        @if (Model.BookingsOnTheWay.Count > 0)
+                        {
+                            foreach (var item in Model.BookingsOnTheWay)
+                            {
+                                <div class="col-sm-12" style="margin-bottom: 10px;">
+                                    <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                        <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                            <div class="card-body text-center">
+                                                <h4 class="text-light"><label style="font-size: 12px;" class="text-primary"> ON THE WAY <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO BOOKING ON THE WAY</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="p-4">
+            <div class="welcome">
+                <label><i class="fa fa-hourglass"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; IN PROGRESS</label>
+                
+                <hr />
+                <div class="content rounded-3 p-3">
+                    <div class="row" style="margin-top: 5px;">
+                        @if (Model.BookingInProgress != null)
+                        {                            
+                                <div class="col-sm-12" style="margin-bottom: 10px;">
+                                    <a asp-page="JobDetail" asp-route-id="@Model.BookingInProgress.Id" style="text-decoration: none !important;">
+                                        <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                            <div class="card-body text-center">
+                                                <h4 class="text-light"><label style="font-size: 12px;" class="text-light"> IN PROGRESS <label style="font-size: 30px;">|</label> </label> #@Model.BookingInProgress.Id</h4>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>                            
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO BOOKING IN PROGRESS</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-handshake"></i> </label><label class="text-warning" style="font-size: 18px;">&nbsp; APPROVED</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.AcceptedBookings.Count > 0)
+                {
+                    foreach (var item in Model.AcceptedBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-info"> APPROVED <label style="font-size: 30px;">|</label> </label> #@item.Id <span style="font-size: 12px;" class="text-info"> | @DetailAndGoAdmin.UtilityStatic.DateAndTime.GetDaysToDate(item.BookedFor)</span></h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <label class="text-center"><i class="fa fa-face-sad-tear"></i><br /> NO APPROVED BOOKINGS</label>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-check"></i> </label><label class="text-warning">&nbsp; COMPLETED</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.FinishedBookings.Count > 0)
+                {
+                    foreach (var item in Model.FinishedBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card accepted-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-success"> COMPLETED <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO COMPLETED BOOKINGS</label>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-skull-crossbones"></i> </label><label class="text-warning">&nbsp; DECLINED</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.DeclinedBookings.Count > 0)
+                {
+                    foreach (var item in Model.DeclinedBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card declined-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-danger"> DECLINED <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO DECLINED BOOKINGS</label>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-4">
+    <div class="welcome">
+        <label><i class="fa fa-user-xmark"></i> </label><label class="text-warning">&nbsp; CANCELLED BY CUSTOMER</label>
+        <a class="btn btn-sm btn-outline-warning" style="float: right; margin-bottom: 5px;"><i class="fa fa-arrow-right"></i> VIEW ALL</a>
+        <hr />
+        <div class="content rounded-3 p-3">
+            <div class="row" style="margin-top: 5px;">
+                @if (Model.CancelledBookings.Count > 0)
+                {
+                    foreach (var item in Model.CancelledBookings)
+                    {
+                        <div class="col-sm-3" style="margin-bottom: 10px;">
+                            <a asp-page="JobDetail" asp-route-id="@item.Id" style="text-decoration: none !important;">
+                                <div class="card declined-booking" style="background-color: rgba(0, 0, 0, 0.2); min-height: 100%;">
+                                    <div class="card-body text-center">
+                                        <h4 class="text-light"><label style="font-size: 12px;" class="text-danger"> CANCELLED <label style="font-size: 30px;">|</label> </label> #@item.Id</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <label class="text-center"><i class="fa fa-face-smile"></i><br /> NO CANCELLED BOOKINGS</label>
+                }
+            </div>
+        </div>
+    </div>
+</div>

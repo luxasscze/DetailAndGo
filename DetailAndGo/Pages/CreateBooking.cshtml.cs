@@ -3,6 +3,7 @@ using DetailAndGo.Services;
 using DetailAndGo.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using Stripe;
 
 namespace DetailAndGo.Pages
@@ -39,7 +40,8 @@ namespace DetailAndGo.Pages
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
         public List<int> AvailableTimes { get; set; }
-        public List<string> AvailableTimesString { get; set; }       
+        public List<string> AvailableTimesString { get; set; }  
+        public bool HasActiveBooking { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -48,7 +50,7 @@ namespace DetailAndGo.Pages
             CustomerCars = await _carService.GetCustomerCars(Customer.AspNetUserId);
             CarHistory = await _carService.GetCarHistoryByCarId(CustomerCar.Id);
             AllMainServices = await _serviceService.GetAllMainServices();
-
+            HasActiveBooking = await _bookingService.HasActiveBooking(Customer.AspNetUserId);
             AllBookings = "";
             AllSubServices = await _serviceService.GetAllSubServices();
             SelectedServiceNames = new List<string>();
@@ -146,5 +148,26 @@ namespace DetailAndGo.Pages
                 return new JsonResult("IT FAILED!!!");
             }
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> OnPostCreateBooking(string booking)
+        {
+            CreateBooking? createBooking = JsonConvert.DeserializeObject<CreateBooking>(booking);
+
+            Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
+            await _bookingService.CreateBooking(createBooking, Customer.AspNetUserId);
+            Booking activeBooking = await _bookingService.GetCustomerActiveBooking(Customer.AspNetUserId);
+            BookingHistory history = new BookingHistory()
+            {
+                BookingId = activeBooking.Id,
+                Created = DateTime.Now,
+                Description = "Booking has been created",
+                Status = Models.Enums.BookingStatus.Created
+            };
+            await _bookingService.AddToBookingHistory(history);
+            return new JsonResult(true);            
+        }
+
     }
 }

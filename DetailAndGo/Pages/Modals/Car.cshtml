@@ -32,17 +32,26 @@
                                 int count = 0;
                                 int selectedCarIndex = 0;
 
-                                foreach (var car in Model.CustomerCars)
+                                if (Model.CustomerCars != null)
                                 {
-                                    string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
-                                    string act = count > 0 ? "" : "active";
-                                    <div class="carousel-item @act">
-                                        <a href="#"><img class="d-block w-50 m-auto" src="@carImg" alt="car" id="carImage-@car.Id"></a>
-                                        <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
-                                        <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
-                                        <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
-                                    </div>
-                                    count++;
+                                    foreach (var car in Model.CustomerCars)
+                                    {
+                                        string carImg = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={car.CarModel.Replace(" ", "%20")}&modelFamily={car.CarFamily.Replace(" ", "%20")}";
+                                        string act = count > 0 ? "" : "active";
+                                        <div class="carousel-item @act">
+                                            <a id="select-car-@car.Id"><img class="d-block w-50 m-auto" src="@carImg" alt="car" id="carImage-@car.Id"></a>
+                                            <i class="fa fa-star text-secondary" style="font-size: 250px; position: absolute; top: 15%; left: 30%; z-index: -5; display: none;"></i>
+                                            <p class="text-center text-light" style="font-size: 20px;">@car.CarModel @car.CarFamily</p>
+                                            <p class="text-center text-muted" style="font-size: 14px;">Added @car.Created.ToString("dd/MM/yyyy")</p>
+                                        </div>
+                                        count++;
+
+                                        <script>
+                                            $('#select-car-@car.Id').on('clicked', function () {
+                                                console.log('selected car: @car.Id')
+                                            });
+                                        </script>
+                                    }
                                 }
                                 <div class="" style="position: absolute; top: 0; left: 0; width: 100%; z-index: 50;">                                    
 
@@ -121,5 +130,5 @@
     $('#cancelAddNewCarBtn').on('click', function () {
         $('#addCarModal').modal('hide');
         $('#carsModal').modal('show');
-    });
+    });    
 </script>

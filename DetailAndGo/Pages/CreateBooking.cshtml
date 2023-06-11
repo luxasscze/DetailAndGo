@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Create New Booking";
     Layout = "~/Pages/Shared/_Layout.cshtml";
-}
 
+}
 <partial name="~/Pages/Modals/Car.cshtml" />
 <partial name="~/Pages/Modals/Services.cshtml" />
 <partial name="~/Pages/Modals/DateTime.cshtml" />
@@ -48,294 +48,342 @@
         }
 </style>
 
-<div class="row" style="margin-top: 20px;">
-    <div class="col">
-        <h1>Create New Booking</h1>
-    </div>
-</div>
-<hr class="bg-light" />
+@if (Model.HasActiveBooking)
+{
+    <label class="text-light" style="font-size: 48px;">ACTIVE BOOKING IN PROGRESS</label>
+}
+else
+{
 
-<div class="row">
-    <div class="col-lg-3">
-        <div class="card text-light booking-card">
-            <div class="card-header">
-                <h2><i class="fa fa-check text-success"></i> CAR</h2>
-            </div>
-            <div class="card-body">
-                @{
-                    string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
-                }
-                <img src="@carImage" height="200" style="margin-top: -57px; margin-left: -15px;" id="carImage" />
-                <h6 id="carText">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
-                <label class="badge bg-warning text-dark" id="sizeText" style="font-size: 18px;">@Model.CustomerCar.CarSize.ToString()</label>
-            </div>
-            <a href="" data-bs-toggle="modal" data-bs-target="#carsModal">
-                <div class="card-button">
-                    <i class="fa fa-arrows-rotate"></i> Change
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card text-light booking-card">
-            <div class="card-header">
-                <h2 class="text-muted">SERVICES</h2>
-            </div>
-            <div class="card-body" style="overflow: hidden;">
-
-
-                <div class="text-muted" style="margin: 78px auto;" id="noServicesText">
-                    <i class="fa fa-list" style="font-size: 24px;"></i>
-                    <h6>No services selected...</h6>
-                </div>
-
-                <div id="servicesList" style="display: none; height: auto; align-items: center; margin:  50px auto;">
-                    <div class="" style="" id="selSer">
-                    </div>
-                    
-                    <div class="row bg-warning text-dark" style="margin-top: 7px;">
-                        <label style="font-size: 24px;"><b>Total: £<span id="totalP">0.00</span></b></label>
-                    </div>
-                    <div class="row text-end" style="margin-top: 20px; margin-bottom: -20px;">
-                        <label>With additional services - <i class="fa fa-wand-magic-sparkles text-warning"></i></label>
-                    </div>
-                </div>
-
-            </div>
-            <a href="" data-bs-toggle="modal" data-bs-target="#servicesModal">
-                <div class="card-button">
-                    <i class="fa fa-check"></i> Select
-                </div>
-            </a>
-
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card text-light booking-card">
-            <div class="card-header">
-                <h2 class="text-muted" id="dateTimeCaption"><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
-            </div>
-            <div class="card-body">
-                <div class="text-muted" id="dateTimeSubCaption" style="margin: 78px auto;">
-                    <i class="fa fa-calendar" style="font-size: 24px;"></i>
-                    <h6 id="dateTimeContent">No date&time selected...</h6>
-                </div>
-
-            </div>
-            <a href="" data-bs-toggle="modal" data-bs-target="#dateTimeModal">
-                <div class="card-button">
-                    <i class="fa fa-calendar"></i> Pick
-                </div>
-            </a>
-
-        </div>
-    </div>
-    <div class="col-lg-3">
-        <div class="card text-light booking-card">
-            <div class="card-header">
-                <h2><i class="fa fa-check text-success"></i> PAYMENT</h2>
-            </div>
-            <div class="card-body">
-                <div class="" style="margin: 78px auto;">
-                    <img src="~/images/creditcards/visa.png" height="30" />
-                    <h6 id="cardEndingIn">ending in @Model.Last4</h6>
-                </div>
-
-            </div>
-            <a href="" data-bs-toggle="modal" data-bs-target="#paymentModal">
-                <div class="card-button">
-                    <i class="fa fa-credit-card"></i> Manage
-                </div>
-            </a>
-
-        </div>
-    </div>
-</div>
-<div class="row" style="margin: 40px auto; width: 50%; display: none; cursor: pointer;" id="confirmButton">
-    <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
-        <div style="font-size: 32px;"><i class="fa fa-lock"></i> CONFIRM BOOKING </div>        
-    </div>
     <div class="row" style="margin-top: 20px;">
-        <h6 class="text-muted text-center">By confirming the booking you agree to our <a href="#">Terms&Conditions</a></h6>
+        <div class="col">
+            <h1>Create New Booking</h1>
+        </div>
     </div>
-</div>
+    <hr class="bg-light" />
 
-
-<script>
-    $(document).ready(function () { // CHECK IF TO SHOW THE CONFIRM BUTTON
-        $('.modal').on('hide.bs.modal', function () {
-            if (booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
-                $('#confirmButton').fadeIn(500);
-            }
-        });
-    });
-    let carImgUri;
-    const booking = {
-        carModel: '@Model.CustomerCar.CarModel',
-        carFamily: '@Model.CustomerCar.CarFamily',
-        carSize: '@Model.CustomerCar.CarSize',
-        services: {
-
-        },
-        subServices: {
-
-        },
-        totalPrice: 0,
-        dateTime: new Date(),
-        paymentMethod: '@Model.DefaultPaymentMethod',
-        carSelected: true,
-        servicesSelected: false,
-        dateTimeSelected: false,
-        paymentSelected: true
-    };
-
-    @foreach (var car in Model.CustomerCars)
-    {
-        <text>
-            $('#carImage-@car.Id').on('click', function () {
-                booking.carModel = '@car.CarModel';
-                booking.carFamily = '@car.CarFamily';
-                booking.carSize = '@car.CarSize';
-                carImgUri = 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + booking.carModel + '&modelFamily=' + booking.carFamily;
-                $('#carImage').attr('src', carImgUri);
-                $('#carText').text(booking.carModel + " " + booking.carFamily);
-                $('#sizeText').text(booking.carSize);
-                $('#carsModal').modal('hide');
-                console.log(booking);
-            });
-        </text>
-    }
-
-        $(document).ready(function () {
-            $('#servicesModal').on('hidden.bs.modal', function () {
-                let testicek = decodeServices(booking.services, booking.subServices);
-                let iconColor;
-                console.table(testicek);
-                $('#selSer').html('');
-                $('#totalP').text(totalPrice.toFixed(2));
-                for (x = 0; x < testicek.length; x++) {
-                    if(testicek[x].subServices.length > 0) {
-                        iconColor = 'text-warning';
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="card text-light booking-card">
+                <div class="card-header">
+                    <h2><i class="fa fa-check text-success"></i> CAR</h2>
+                </div>
+                <div class="card-body">
+                    @{
+                        string carImage = $"https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make={Model.CustomerCar.CarModel.Replace(" ", "%20")}&modelFamily={Model.CustomerCar.CarFamily.Replace(" ", "%20")}";
                     }
-                    else {
-                        iconColor = 'text-dark';
-                    }
-                    $('#selSer').append(`
-                                <div class="row bg-dark text-light text-start" style="margin-bottom: 5px;">
-                                        <div class="col-lg-10">
-                                                <label style="font-size: 20px;">` + getServiceName(testicek[x].service) + `</label>
-                                        </div>
-                                        <div class="col-lg-2">
-                                            <i class="fa fa-wand-magic-sparkles ` + iconColor + `" style="font-size: 24px; margin-top: 6px;"></i>
-                                        </div>
-                                </div>
-                    `);
-                }               
-            });
-        });
+                    <img src="@carImage" height="200" style="margin-top: -57px; margin-left: -15px;" id="carImage" />
+                    <h6 id="carText">@Model.CustomerCar.CarModel @Model.CustomerCar.CarFamily</h6>
+                    <label class="badge bg-warning text-dark" id="sizeText" style="font-size: 18px;">@Model.CustomerCar.CarSize.ToString()</label>
+                </div>
+                <a href="" data-bs-toggle="modal" data-bs-target="#carsModal">
+                    <div class="card-button">
+                        <i class="fa fa-arrows-rotate"></i> Change
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card text-light booking-card">
+                <div class="card-header">
+                    <h2 class="text-muted">SERVICES</h2>
+                </div>
+                <div class="card-body" style="overflow: hidden;">
 
-    $('#confirmButton').on('click', function () {
-        console.table(booking);
-        console.table(decodeServices(booking.services, booking.subServices));
-    });
 
-    function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
-        console.log(services, subServices);
-        console.log('subservices: ' + subServices.length / 2);
+                    <div class="text-muted" style="margin: 78px auto;" id="noServicesText">
+                        <i class="fa fa-list" style="font-size: 24px;"></i>
+                        <h6>No services selected...</h6>
+                    </div>
 
-        let res = [];
-        let result = {};
+                    <div id="servicesList" style="display: none; height: auto; align-items: center; margin:  50px auto;">
+                        <div class="" style="" id="selSer">
+                        </div>
 
-        for (i = 0; i < services.length; i++) {
-            result = {
-                service: services[i],
-                subServices: getSubServicesForService(services[i])
-            };
-            res.push(result);
-        }
+                        <div class="row bg-warning text-dark" style="margin-top: 7px;">
+                            <label style="font-size: 24px;"><b>Total: £<span id="totalP">0.00</span></b></label>
+                        </div>
+                        <div class="row text-end" style="margin-top: 20px; margin-bottom: -20px;">
+                            <label>With additional services - <i class="fa fa-wand-magic-sparkles text-warning"></i></label>
+                        </div>
+                    </div>
 
-        function getSubServicesForService(service) {
-            let re = [];
-            for (j = 0; j < subServices.length; j++) {
-                if (subServices[j] == service) {
-                    re.push(subServices[j + 1]);
+                </div>
+                <a href="" data-bs-toggle="modal" data-bs-target="#servicesModal">
+                    <div class="card-button">
+                        <i class="fa fa-check"></i> Select
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card text-light booking-card">
+                <div class="card-header">
+                    <h2 class="text-muted" id="dateTimeCaption"><i class="fa fa-check text-success" id="dateTimeCheck" style="display: none;"></i> DATE&TIME</h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-muted" id="dateTimeSubCaption" style="margin: 78px auto;">
+                        <i class="fa fa-calendar" style="font-size: 24px;"></i>
+                        <h6 id="dateTimeContent">No date&time selected...</h6>
+                    </div>
+
+                </div>
+                <a href="" data-bs-toggle="modal" data-bs-target="#dateTimeModal">
+                    <div class="card-button">
+                        <i class="fa fa-calendar"></i> Pick
+                    </div>
+                </a>
+
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="card text-light booking-card">
+                <div class="card-header">
+                    <h2><i class="fa fa-check text-success"></i> PAYMENT</h2>
+                </div>
+                <div class="card-body">
+                    <div class="" style="margin: 78px auto;">
+                        <img src="~/images/creditcards/visa.png" height="30" />
+                        <h6 id="cardEndingIn">ending in @Model.Last4</h6>
+                    </div>
+
+                </div>
+                <a href="" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                    <div class="card-button">
+                        <i class="fa fa-credit-card"></i> Manage
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 40px auto; width: 50%; display: none; cursor: pointer;" id="confirmButton">
+        <div class="card-button" style="border-radius: 5px; border: 1px solid #fff;">
+            <div style="font-size: 32px;"><i class="fa fa-lock"></i> CONFIRM BOOKING </div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <h6 class="text-muted text-center">By confirming the booking you agree to our <a href="#">Terms&Conditions</a></h6>
+        </div>
+    </div>
+
+
+    <script>
+        $(document).ready(function () { // CHECK IF TO SHOW THE CONFIRM BUTTON
+            $('.modal').on('hide.bs.modal', function () {
+                if (booking.carSelected && booking.servicesSelected && booking.dateTimeSelected && booking.paymentSelected) {
+                    $('#confirmButton').fadeIn(500);
                 }
-            }
-            return re;
+            });
+        });
+        let carImgUri;
+        const booking = {
+            carModel: '@Model.CustomerCar.CarModel',
+            carFamily: '@Model.CustomerCar.CarFamily',
+            carId: '@Model.CustomerCar.Id',
+            carSize: '@Model.CustomerCar.CarSize',
+            services: {
+
+            },
+            subServices: {
+
+            },
+            totalPrice: 0,
+            dateTime: new Date(),
+            paymentMethod: '@Model.DefaultPaymentMethod',
+            carSelected: true,
+            servicesSelected: false,
+            dateTimeSelected: false,
+            paymentSelected: true
+        };
+
+        @foreach (var car in Model.CustomerCars)
+        {
+            <text>
+                $('#carImage-@car.Id').on('click', function () {
+                    booking.carModel = '@car.CarModel';
+                    booking.carFamily = '@car.CarFamily';
+                    booking.carSize = '@car.CarSize';
+                    booking.carId = '@car.Id';
+                    carImgUri = 'https://cdn.imagin.studio/getImage?customer=gblukas-slivka&make=' + booking.carModel + '&modelFamily=' + booking.carFamily;
+                    $('#carImage').attr('src', carImgUri);
+                    $('#carText').text(booking.carModel + " " + booking.carFamily);
+                    $('#sizeText').text(booking.carSize);
+                    $('#carsModal').modal('hide');
+                    console.log(booking);
+                });
+            </text>
         }
 
-        return res;
-    }
+            $(document).ready(function () {
+                $('#servicesModal').on('hidden.bs.modal', function () {
+                    let testicek = decodeServices(booking.services, booking.subServices);
+                    let iconColor;
+                    console.table(testicek);
+                    //booking.totalPrice = totalPrice;
+                    $('#selSer').html('');
+                    $('#totalP').text(totalPrice.toFixed(2));
+                    for (x = 0; x < testicek.length; x++) {
+                        if (testicek[x].subServices.length > 0) {
+                            iconColor = 'text-warning';
+                        }
+                        else {
+                            iconColor = 'text-dark';
+                        }
+                        $('#selSer').append(`
+                                            <div class="row bg-dark text-light text-start" style="margin-bottom: 5px;">
+                                                    <div class="col-lg-10">
+                                                            <label style="font-size: 20px;">` + getServiceName(testicek[x].service) + `</label>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <i class="fa fa-wand-magic-sparkles ` + iconColor + `" style="font-size: 24px; margin-top: 6px;"></i>
+                                                    </div>
+                                            </div>
+                                `);
+                    }
+                });
+            });
 
-    function getServiceName(service) {
-        let serviceName;
-        $.ajax({
-            url: "/CreateBooking?handler=GetServiceName",
-            data: { service: service },
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
+        $('#confirmButton').on('click', function () {
+            console.table(booking);
+            if (booking.subServices.length < 1) {
+                booking.subServices = [0];
+            }
+            console.table(decodeServices(booking.services, booking.subServices));
+            createBooking(booking);
 
-            },
-            success: function (data) {
-                serviceName = data;
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            complete: function () {
-                console.log('finished...');
-            },
         });
-        return serviceName;
-    }
 
-    function getServiceSuperDescriptionText(service) {
-        let serviceSuperDescriptionText;
-        $.ajax({
-            url: "/CreateBooking?handler=GetServiceSuperDescriptionText",
-            data: { service: service },            
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
+        function decodeServices(services, subServices) { //This is quite a challenge!!! -- DONE!!!! :)
+            console.log(services, subServices);
+            console.log('subservices: ' + subServices.length / 2);
 
-            },
-            success: function (data) {
-                serviceSuperDescriptionText = data;
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            complete: function () {
-                console.log('finished...');
-            },
-        });
-        return serviceSuperDescriptionText;
-    }
+            let res = [];
+            let result = {};
 
-    function getServicePrice(service) {
-        let servicePrice;
-        $.ajax({
-            url: "/CreateBooking?handler=GetServicePrice",
-            data: { service: service },
-            type: "GET",
-            async: false,
-            cache: false,
-            beforeSend: function () {
+            for (i = 0; i < services.length; i++) {
+                result = {
+                    service: services[i],
+                    subServices: getSubServicesForService(services[i])
+                };
+                res.push(result);
+            }
 
-            },
-            success: function (data) {
-                servicePrice = data;
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            complete: function () {
-                console.log('finished...');
-            },
-        });
-        return servicePrice;
-    }
-</script>
+            function getSubServicesForService(service) {
+                let re = [];
+                for (j = 0; j < subServices.length; j++) {
+                    if (subServices[j] == service) {
+                        re.push(subServices[j + 1]);
+                    }
+                }
+                return re;
+            }
+
+            return res;
+        }
+
+        function getServiceName(service) {
+            let serviceName;
+            $.ajax({
+                url: "/CreateBooking?handler=GetServiceName",
+                data: { service: service },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    serviceName = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return serviceName;
+        }
+
+        function getServiceSuperDescriptionText(service) {
+            let serviceSuperDescriptionText;
+            $.ajax({
+                url: "/CreateBooking?handler=GetServiceSuperDescriptionText",
+                data: { service: service },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    serviceSuperDescriptionText = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return serviceSuperDescriptionText;
+        }
+
+        function getServicePrice(service) {
+            let servicePrice;
+            $.ajax({
+                url: "/CreateBooking?handler=GetServicePrice",
+                data: { service: service },
+                type: "GET",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+                    servicePrice = data;
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+            return servicePrice;
+        }
+
+        function createBooking(bookingC) {
+            $.ajax({
+                url: "/CreateBooking?handler=CreateBooking",
+                data: { __RequestVerificationToken: gettoken(), booking: JSON.stringify(bookingC) },
+                dataType: 'HTML',
+
+                type: "POST",
+                async: false,
+                cache: false,
+                beforeSend: function () {
+
+                },
+                success: function (data) {
+
+                    window.location = "./Index";
+
+                },
+                error: function (xhr) {
+                    console.log(xhr);
+                },
+                complete: function () {
+                    console.log('finished...');
+                },
+            });
+        }
+
+        function gettoken() {
+            var token = '@Html.AntiForgeryToken()';
+            token = $(token).val();
+            return token;
+        }
+    </script>
+}

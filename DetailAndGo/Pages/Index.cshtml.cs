@@ -34,23 +34,25 @@ namespace DetailAndGo.Pages
         public List<CarHistory> CarHistory { get; set; }
         public string AllBookings { get; set; }
         public List<string> SelectedServiceNames { get; set; }
-        public List<Service> AllServices { get; set; }   
+        public List<Service> AllServices { get; set; }
         public CreateBooking CreateBooking { get; set; }
         public string Greeting { get; set; }
         public string DefaultPaymentMethod { get; set; }
         public string Last4 { get; set; }
+        public Booking ActiveBooking { get; set; }
 
-        public void OnGetAsync()
+        public async Task OnGetAsync()
         {
             if (User.Identity.IsAuthenticated)
             {
                 GetGreeting();
-                AllBookings = _bookingService.GetAllActiveBookingsAsCalendarEvents().Result;                
+                AllBookings = _bookingService.GetAllActiveBookingsAsCalendarEvents().Result;
                 Customer = _customerService.GetCustomerByEmail(User.Identity.Name);
                 CustomerCar = _carService.GetCustomerActiveCar(Customer.AspNetUserId).Result;
                 CustomerCars = _carService.GetCustomerCars(Customer.AspNetUserId).Result;
                 CarHistory = _carService.GetCarHistoryByCarId(CustomerCar.Id).Result.Where(s => s.BookingDate < DateTime.Now).OrderByDescending(s => s.BookingDate).Take(3).ToList();
                 AllServices = _serviceService.GetAllServices().Result.Where(s => s.IsActive == true).ToList();
+                ActiveBooking = await _bookingService.GetCustomerActiveBooking(Customer.AspNetUserId);
 
                 string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
                 DefaultPaymentMethod = _stripeService.GetCustomerDefaultPaymentMethod(stripeId);
@@ -87,15 +89,15 @@ namespace DetailAndGo.Pages
 
         public void GetGreeting()
         {
-            if(DateTime.Now.Hour > 6 && DateTime.Now.Hour <= 12)
+            if (DateTime.Now.Hour > 6 && DateTime.Now.Hour <= 12)
             {
                 Greeting = "Good morning";
             }
-            else if(DateTime.Now.Hour > 12 && DateTime.Now.Hour <= 17)
+            else if (DateTime.Now.Hour > 12 && DateTime.Now.Hour <= 17)
             {
                 Greeting = "Good afternoon";
             }
-            else if(DateTime.Now.Hour > 17 && DateTime.Now.Hour < 23)
+            else if (DateTime.Now.Hour > 17 && DateTime.Now.Hour < 23)
             {
                 Greeting = "Good evening";
             }
@@ -168,10 +170,10 @@ namespace DetailAndGo.Pages
                 Image = "",
                 Notes = "",
                 PaymentMethodId = paymentMethodId,
-                Services = new List<Service>(),               
+                Services = new List<Service>(),
                 Status = Models.Enums.BookingStatus.Created
             };
-            await _bookingService.CreateBooking(booking);
+            //await _bookingService.CreateBooking(booking);
             return RedirectToAction("Get");
         }
 
@@ -196,18 +198,25 @@ namespace DetailAndGo.Pages
                 result.Add(services.FirstOrDefault(s => s.Id == Convert.ToInt32(serviceId)).Name);
             }
             SelectedServiceNames = result;
-            return new JsonResult(result);            
+            return new JsonResult(result);
         }
 
         [HttpGet]
         public async Task<JsonResult> OnGetPaymentMethodsAsync()
         {
             string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
-            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);            
+            StripeList<PaymentMethod> paymentMethods = await _stripeService.GetCustomerPaymentMethods(stripeId);
             return new JsonResult(paymentMethods);
         }
 
-        [HttpPost]
+        [HttpGet]
+        public async Task<JsonResult> OnGetCancelBooking(int bookingId)
+        {
+            await _bookingService.CancelBooking(bookingId, "Booking has been cancelled");
+            return new JsonResult(true);
+        }
+
+        /*[HttpPost]
         public async Task<ActionResult> OnPostChargeCustomerAsync(double amount)
         {
             Models.Customer customer = _customerService.GetCustomerByEmail(User.Identity.Name);
@@ -215,13 +224,13 @@ namespace DetailAndGo.Pages
             var test = await _stripeService.ChargeCustomerForBooking(customer, amountToCharge);
 
             return RedirectToAction("Get");
-        }
+        }*/
 
         [HttpPost]
         public async Task<ActionResult> OnPostChangePaymentMethodAsync(string paymentMethodId)
         {
             string stripeId = _customerService.GetCustomerByEmail(User.Identity.Name).StripeId;
-            await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethodId);           
+            await _stripeService.SetCustomerDefaultPaymentMethod(stripeId, paymentMethodId);
             return RedirectToAction("Get");
         }
 

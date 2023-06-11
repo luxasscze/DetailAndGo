@@ -18,6 +18,9 @@ namespace DetailAndGo.Services
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 //smtp.PickupDirectoryLocation = @"c:\maildump";
                 smtp.Host = _host;
+                //smtp.Port = 465;
+                //smtp.EnableSsl = true;
+                
                 smtp.Credentials = new NetworkCredential()
                 {
                     UserName = _userName,
@@ -31,7 +34,14 @@ namespace DetailAndGo.Services
                     IsBodyHtml = email.IsHtml
                 };
                 message.To.Add(email.To);
-                await smtp.SendMailAsync(message);
+                try
+                {
+                    await smtp.SendMailAsync(message);
+                }
+                catch(Exception ex)
+                {
+                    var result = ex;
+                }
             }
         }
     }

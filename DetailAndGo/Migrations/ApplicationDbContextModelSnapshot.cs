@@ -55,12 +55,52 @@ namespace DetailAndGo.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ServicesArray")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StatusChanged")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SubServicesArray")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("TotalAmount")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bookings");
+                });
+
+            modelBuilder.Entity("DetailAndGo.Models.BookingHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bookings");
+                    b.ToTable("BookingHistories");
                 });
 
             modelBuilder.Entity("DetailAndGo.Models.Car", b =>
@@ -360,7 +400,6 @@ namespace DetailAndGo.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SuperDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TimeToFinishMinsL")

@@ -57,8 +57,26 @@ namespace DetailAndGo.Services
             return services;
         }
 
+        public async Task<List<Service>> GetSubServicesFromIdArray(string Ids)
+        {
+            List<Service> services = new List<Service>();
+            string[] ids = Ids.Split(',');
+            //ids.Where((x, i) => i %  == 0);
+
+            foreach (string id in ids)
+            {
+                services.Add(await _context.Services.FirstOrDefaultAsync(s => s.Id == Convert.ToInt32(id)));
+            }
+
+            return services;
+        }
+
         public string GetServiceNameById(int id)
         {
+            if(_context.Services.FirstOrDefault(x => x.Id == id) == null)
+            {
+                return "";
+            }
             return _context.Services.FirstOrDefault(x => x.Id == id).Name;
         }
 

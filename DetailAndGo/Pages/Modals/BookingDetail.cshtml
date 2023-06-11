@@ -1,0 +1,41 @@
+﻿<!-- Booking Detail Modal -->
+<div class="modal fade" id="bookingDetailModal" tabindex="-1" role="dialog" aria-labelledby="BookingDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content" style="background-color: rgba(50, 50, 50, 0.0); border: none;">
+            <div class="modal-body">
+                <div class="row">
+                    @if (Model.ActiveBooking != null)
+                    {
+                        <h2 class="text-light text-center" id="carsModalLabel" style="font-size: 24px;">Your Booking #@Model.ActiveBooking.Id</h2>
+                    }
+                    <hr class="text-light" />
+                </div>
+               <div class="row text-light">
+                   <div class="col-sm-12">
+                        @if (Model.ActiveBooking != null)
+                        {
+                            <label class="badge bg-warning text-dark"> status - @Model.ActiveBooking.Status</label> <br />
+                            <label class="badge bg-info" style="font-size: 18px;"> status changed on - @Model.ActiveBooking.StatusChanged</label> <br />
+                            <label>created - @Model.ActiveBooking.Created</label><br />
+                            <label>booked for - @Model.ActiveBooking.BookedFor</label><br />
+                            <label> card ID - @Model.ActiveBooking.CarId</label><br />
+                            <label>Services - @Model.ActiveBooking.ServicesArray</label><br />
+                            <label>SubServices - @Model.ActiveBooking.SubServicesArray</label><br />
+                            <label>notes - @Model.ActiveBooking.Notes</label><br />
+                            <label>£ @((decimal)Model.ActiveBooking.TotalAmount / 100)</label><br />
+                        }
+                        else
+                        {
+                            <label>NO ACTIVE BOOKING</label>
+                        }                        
+                    </div>
+               </div>
+                <div class="row" style="margin: 20px auto; width: 50%;">                    
+                    <a class="btn btn-outline-secondary" style="margin-top: 20px;" data-bs-dismiss="modal" id="cancelServicesBtn">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

@@ -95,7 +95,7 @@ a:hover {
 
     .move-car:hover {
         transform: translateX(-20px);
-        transform: scale(1.08);
+        transform: scale(1.00);
     }
 
 .zoom-on-hover {
@@ -143,5 +143,25 @@ very-big-modal {
 .modal.fade.show {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+}
+
+.rotate-animation {
+    animation-name: rotate-anim;
+    animation-duration: 10s;
+    animation-timing-function: ease-out;
+    animation-iteration-count: infinite;
+}
+
+@keyframes rotate-anim {
+    0% {
+        transform: rotate(0deg);
+    }   
+    50% {
+        transform: rotate(360deg);
+    }    
+    100% {
+        transform: rotate(0deg);
+    }
+
 }
 

@@ -4,7 +4,7 @@
     {
         Unknown = 0,
         Created,
-        Accepted,
+        Approved,
         Rejected,
         Pending,
         Idle,
@@ -13,6 +13,11 @@
         Finished,
         PartlyFinished,
         OnTheWay,
-        InProgress
+        InProgress,
+        AwaitingApproval,
+        Declined,
+        Reinstated,
+        CardDeclined,
+        Cancelled
     }
 }

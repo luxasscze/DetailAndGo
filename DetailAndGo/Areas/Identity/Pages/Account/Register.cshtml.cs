@@ -198,7 +198,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    _userManager.Options.SignIn.RequireConfirmedEmail = true;
+                    _userManager.Options.SignIn.RequireConfirmedEmail = false; // TODO: Return back to true when Email service will be ready...
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -226,6 +226,7 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     try
                     {
                         await _emailService.SendSingleEmail(email);
+                        _userManager.Options.SignIn.RequireConfirmedEmail = false; // WITHOUT EMAIL CONFIRMATION
                     }
                     catch(Exception ex)
                     {
@@ -272,14 +273,19 @@ namespace DetailAndGo.Areas.Identity.Pages.Account
                     customerToRegister.StripeId = stripeId;
                     await _customerService.RegisterCustomerAsync(customerToRegister);
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount) // REQUIRES EMAIL CONFIRMATION
+                    if (false) // change to _userManager.Options.SignIn.RequireConfirmedAccount when email service ready
                     {
                         return RedirectToPage("/Account/RegisterConfirmation", pageHandler: null, new { area = "Identity", email = Input.Email });
                     }
                     else
                     {
+                        _signInManager.Options.SignIn.RequireConfirmedEmail = false;
+                        await _userManager.ConfirmEmailAsync(user, code);
+                        string redirectTo = Url.PageLink("/Index");
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToPage("Index");
+                        //return RedirectToPage("/Index", null, new { area = "default" });
+                        return Redirect(redirectTo);
+                        
                     }                    
                 }
                 foreach (var error in result.Errors)
