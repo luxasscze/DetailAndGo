@@ -27,7 +27,7 @@
         </div>
         @if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.AwaitingApproval)
         {
-            <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <span style="font-size: 14px;"><i class="fa fa-pound-sign"></i>@((decimal)Model.booking.TotalAmount / 100) will be charged</span></label>
+            <label class="badge bg-warning text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;"><i class="fa fa-hourglass"></i>@Model.booking.Status | <span style="font-size: 14px;"><i class="fa fa-pound-sign"></i>@((decimal)Model.booking.TotalAmount / 100) will be charged</span></label>
         }
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Declined)
         {
@@ -41,7 +41,7 @@
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Approved)
         {
             <div class="row">
-                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">@Model.booking.Status | <label style="font-size: 14px;">@Model.booking.StatusChanged.ToString("dd/MM/yyyy HH:mm:ss")</label></label>
+                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;"><i class="fa fa-check"></i> @Model.booking.Status | <label style="font-size: 14px;">@Model.booking.StatusChanged.ToString("dd/MM/yyyy HH:mm:ss")</label></label>
             </div>
             <div class="row">
                 <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 2px auto; font-size: 16px;"><i class="fa fa-pound-sign"></i> @((decimal)Model.booking.TotalAmount / 100) PAID</label>
@@ -56,13 +56,25 @@
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.OnTheWay)
         {
             <div class="row">
-                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">On the way</label>
+                <label class="badge bg-info text-dark" style="max-width: fit-content; margin: 0px auto; font-size: 18px;"><i class="fa fa-car"></i> On the way</label>
             </div>
         }
         else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.InProgress)
         {
             <div class="row">
-                <label class="badge bg-primary text-light" style="max-width: fit-content; margin: 0px auto; font-size: 18px;">In Progress</label>
+                <label class="badge bg-primary text-light" style="max-width: fit-content; margin: 0px auto; font-size: 18px;"><i class="fa fa-hourglass"></i> In Progress</label>
+            </div>
+        }
+        else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Finished)
+        {
+            <div class="row">
+                <label class="badge bg-success text-light" style="max-width: fit-content; margin: 0px auto; font-size: 18px;"><i class="fa fa-star"></i> Finished</label>
+            </div>
+        }
+        else if (Model.booking.Status == DetailAndGo.Models.Enums.BookingStatus.Cancelled)
+        {
+            <div class="row">
+                <label class="badge bg-danger text-light" style="max-width: fit-content; margin: 0px auto; font-size: 18px;"><i class="fa fa-times"></i> Cancelled By Customer</label>
             </div>
         }
     </div>
@@ -125,11 +137,9 @@
             </div>
             <div class="card-body" style="max-height: 200px; overflow: scroll;">
                 @if (Model.History.Count > 0)
-                {
-                    
+                {                    
                     foreach (var hist in Model.History)
-                    {
-                        
+                    {                        
                         string circleColor = hist.Status == DetailAndGo.Models.Enums.BookingStatus.Created ?
                         "text-white" : hist.Status == DetailAndGo.Models.Enums.BookingStatus.Approved || 
                         hist.Status == DetailAndGo.Models.Enums.BookingStatus.Finished ?
