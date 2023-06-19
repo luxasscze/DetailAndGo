@@ -49,16 +49,10 @@ namespace DetailAndGoAdmin.Pages.Jobs
 
         public async Task<ActionResult> OnGetDeclineBooking(int bookingId,string reason)
         {
+            booking = await _bookingService.GetBookingById(bookingId);
+            DetailAndGo.Models.Customer customer = _customerService.GetCustomerById(booking.AspNetUserId);
             await _bookingService.DeclineBooking(bookingId, reason);
-            Email email = new Email()
-            {
-                Body = "You sucks, your booking has been declined!<br /> Reason: <br /> " + reason,
-                From = "admin@detailandgo.co.uk",
-                IsHtml = true,
-                Subject = "Detail&Go booking has been declined!",
-                To = "lukas2slivka@gmail.com"
-            };
-            await _emailService.SendSingleEmail(email);
+            await _emailService.SendBookingDeclinedEmail(customer.Email, reason);
             return RedirectToPage("JobDetail", new { id = bookingId});
         }
 

@@ -17,8 +17,9 @@ namespace DetailAndGo.Pages
         private readonly IBookingService _bookingService;
         private readonly IDAGService _serviceService;
         private readonly IStripeService _stripeService;
+        private readonly IEmailService _emailService;
 
-        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService)
+        public IndexModel(ILogger<IndexModel> logger, ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService, IEmailService emailService)
         {
             _logger = logger;
             _customerService = customerService;
@@ -26,6 +27,7 @@ namespace DetailAndGo.Pages
             _bookingService = bookingService;
             _serviceService = serviceService;
             _stripeService = stripeService;
+            _emailService = emailService;
         }
 
         public DetailAndGo.Models.Customer Customer { get; set; }
@@ -213,6 +215,30 @@ namespace DetailAndGo.Pages
         public async Task<JsonResult> OnGetCancelBooking(int bookingId)
         {
             await _bookingService.CancelBooking(bookingId, "Booking has been cancelled");
+            Email email = new Email()
+            {
+                Body = "You cancelled your booking #" + bookingId,
+                From = "admin@detailandgo.co.uk",
+                IsHtml = true,
+                Subject = "Detail&Go - Booking #" + bookingId + " has been cancelled",
+                To = User.Identity.Name
+            };
+            await _emailService.SendSingleEmail(email);
+            return new JsonResult(true);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> OnGetSendTestingEmail()
+        {
+            Email email = new Email()
+            {
+                Body = "Babe, I want to fuck you!",
+                From = "admin@detailandgo.co.uk",
+                IsHtml = true,
+                Subject = "To my love!",
+                To = "lukas2slivka@gmail.com"
+            };
+            await _emailService.SendSingleEmail(email);
             return new JsonResult(true);
         }
 
