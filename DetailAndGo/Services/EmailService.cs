@@ -2,17 +2,27 @@
 using System.Net.Mail;
 using System.Net;
 using DetailAndGo.Models;
+using DetailAndGo.Migrations;
+using Microsoft.AspNetCore.Hosting;
+using System.Security.Policy;
 
 namespace DetailAndGo.Services
 {
 
     public class EmailService : IEmailService
     {
+        private IWebHostEnvironment _webHostEnvironment;
         private string _host = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Host"];
         private string _userName = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Username"];
         private string _password = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Password"];
         private string _ssl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["SSL"];
         private string _port = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Port"];
+
+        public EmailService(IWebHostEnvironment webHostEnvironment)
+        {
+            _webHostEnvironment = webHostEnvironment;
+        }
+
         public async Task<bool> SendSingleEmail(Email email)
         {
             if (string.IsNullOrEmpty(email.From))
@@ -54,6 +64,19 @@ namespace DetailAndGo.Services
             }
         }
 
+        public async Task<bool> SendBookingCreatedEmail(string emailTo, Booking booking)
+        {
+            Email email = new Email()
+            {
+                From = _userName,
+                Body = "",
+                IsHtml = true,
+                Subject = "DETAIL&GO Booking has been created",
+                To = emailTo
+            };
+            return await SendSingleEmail(email);
+        }
+
         public async Task<bool> SendBookingDeclinedEmail(string mailTo, string reason)
         {
             Email email = new Email()
@@ -64,6 +87,21 @@ namespace DetailAndGo.Services
                 IsHtml = true,
                 To = mailTo
             };
+            return await SendSingleEmail(email);
+        }
+
+        public async Task<bool> SendBookingApprovedEmail(string emailTo, Booking booking)
+        {
+            Email email = new Email();            
+            using (StreamReader reader = File.OpenText(_webHostEnvironment.WebRootPath + "/Email/booking/approved.html"))
+            {
+                string emailBody = reader.ReadToEnd();                
+                email.From = _userName;
+                email.Body = emailBody;                    
+                email.IsHtml = true;
+                email.Subject = "DETAIL&GO booking has been approved!";
+                email.To = emailTo;
+            }
             return await SendSingleEmail(email);
         }
 

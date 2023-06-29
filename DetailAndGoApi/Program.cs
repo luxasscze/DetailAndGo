@@ -73,7 +73,7 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(option => option.UseSqlServer("Server=88.208.214.244;Initial Catalog=DetailAndGo;User ID=sa;Password=Gordon2Freeman1*;TrustServerCertificate=true;"));
-builder.Services.AddTransient<ICustomerService, CustomerService>();
+//builder.Services.AddTransient<ICustomerService, CustomerService>();
 builder.Services.AddTransient<IJobService, JobService>();
 var app = builder.Build();
 
