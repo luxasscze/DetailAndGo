@@ -90,6 +90,7 @@ namespace DetailAndGoAdmin.Pages.Jobs
                 if (paymentIntent.Status == "succeeded")
                 {
                     await _bookingService.AcceptBooking(bookingId);
+                    await _emailService.SendBookingApprovedEmail(customer.Email, booking);
                 }
                 else if (paymentIntent.Status == "requires_action")
                 {

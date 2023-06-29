@@ -133,8 +133,8 @@
                                     }
                                     else
                                     {
-                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined 
-                                        || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled 
+                                        if (Model.ActiveBooking.Status == Models.Enums.BookingStatus.Declined
+                                        || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Cancelled
                                         || Model.ActiveBooking.Status == Models.Enums.BookingStatus.Finished)
                                         {
                                             <div class="row">
@@ -355,7 +355,7 @@
             });
         });
 
-        $('#bookingDetailBtn').on('click', function () {            
+        $('#bookingDetailBtn').on('click', function () {
             $('#bookingDetailModal').modal('show');
         });
 
@@ -728,7 +728,7 @@
                 });
             });
 
-            
+
 
             $('#testChargeBtn').on('click', function () {
                 $.ajax({
@@ -766,7 +766,7 @@
             return this;
         };
 
-        
+
 
     </script>
 }
@@ -774,32 +774,19 @@ else
 {
     <link rel="stylesheet" href="~/css/LandingPage.css" />
     <section class="showcase">
-        <div class="video-container">
+        <div class="video-container" style="height: fit-content;">
             <video src="~/videos/background.mp4" autoplay muted loop></video>
         </div>
         <div class="content">
-            <div class="row" style="margin-left: -80px;">
-                <img src="~/images/logo.png" style="height: 400px; width: 400px;" />
+            <div class="row">
+                <img src="~/images/logo.png" class="landing-logo" />
             </div>
-            <div class="row" style="margin-top: -30px;">
-                <a asp-area="Identity" asp-page="Account/Login" class="btn" style="max-width: 250px;">LOGIN</a>
-                <a asp-area="Identity" asp-page="Account/Register" class="btn" style="max-width: 250px;">REGISTER</a>
+            <div class="row">
+                <a asp-area="Identity" asp-page="Account/Login" class="btn btn-outline-warning" style="max-width: 250px; margin: 0px auto;">LOGIN</a> 
             </div>
-        </div>
-    </section>
-
-    <section id="about">
-        <h1 class="text-light">About</h1>
-        <p class="text-light">
-            Detail&Go is fine detailing and valeting service for you car.
-            We are here to make you proud of your car!
-        </p>
-
-        <h2 class="text-secondary">Follow Detail&Go On Social Media</h2>
-
-        <div class="social">
-            <a href="https://facebook.com/" target="_blank"><i class="fa fa-facebook"></i></a>
-            <a href="https://www.youtube.com/" target="_blank"><i class="fa fa-youtube"></i></a>
+            <div class="row" style="margin-top: 20px;">
+                <a asp-area="Identity" asp-page="Account/Register" class="btn btn-outline-warning" style="max-width: 250px; margin: 0px auto;">REGISTER</a>
+            </div>
         </div>
     </section>
 
