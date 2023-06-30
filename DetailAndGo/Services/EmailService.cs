@@ -1,26 +1,28 @@
-﻿using DetailAndGo.Services.Interfaces;
-using System.Net.Mail;
+﻿using DetailAndGo.Models;
+using DetailAndGo.Services.Interfaces;
+using DetailAndGo.Utility;
 using System.Net;
-using DetailAndGo.Models;
-using DetailAndGo.Migrations;
-using Microsoft.AspNetCore.Hosting;
-using System.Security.Policy;
+using System.Net.Mail;
 
 namespace DetailAndGo.Services
 {
 
     public class EmailService : IEmailService
-    {
+    {        
         private IWebHostEnvironment _webHostEnvironment;
+        private ICustomerService _customerService;
+        private GeneralUtility _generalUtility;
         private string _host = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Host"];
         private string _userName = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Username"];
         private string _password = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Password"];
         private string _ssl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["SSL"];
         private string _port = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Port"];
 
-        public EmailService(IWebHostEnvironment webHostEnvironment)
+        public EmailService(IWebHostEnvironment webHostEnvironment, ICustomerService customerService)
         {
             _webHostEnvironment = webHostEnvironment;
+            _customerService = customerService;
+            _generalUtility = new GeneralUtility();
         }
 
         public async Task<bool> SendSingleEmail(Email email)
@@ -91,17 +93,20 @@ namespace DetailAndGo.Services
         }
 
         public async Task<bool> SendBookingApprovedEmail(string emailTo, Booking booking)
-        {
-            Email email = new Email();            
-            using (StreamReader reader = File.OpenText(_webHostEnvironment.WebRootPath + "/Email/booking/approved.html"))
-            {
-                string emailBody = reader.ReadToEnd();                
-                email.From = _userName;
-                email.Body = emailBody;                    
-                email.IsHtml = true;
-                email.Subject = "DETAIL&GO booking has been approved!";
-                email.To = emailTo;
-            }
+        {            
+            string firstName = _customerService.GetCustomerByEmail(emailTo).FirstName;
+            Email email = new Email();
+            string emailBody = File.ReadAllText(_webHostEnvironment.WebRootPath + "/Email/booking/approved.html");
+
+            email.Body = emailBody.Replace("{bookingId}", booking.Id.ToString()).Replace("{firstName}", firstName).
+                Replace("{amountPaid}", _generalUtility.ConvertPriceToDecimal(booking.TotalAmount).ToString()).
+                Replace("{bookedFor}", booking.BookedFor.ToString("dd/MM/yyyy HH:mm"))
+                ;
+            email.From = _userName;            
+            email.IsHtml = true;
+            email.Subject = "DETAIL&GO booking has been approved!";
+            email.To = emailTo;
+
             return await SendSingleEmail(email);
         }
 
