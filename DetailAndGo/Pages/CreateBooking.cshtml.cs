@@ -16,8 +16,9 @@ namespace DetailAndGo.Pages
         private readonly IDAGService _serviceService;
         private readonly IStripeService _stripeService;
         private readonly IJobService _jobService;
+        private readonly IEmailService _emailService;
 
-        public CreateBookingModel(ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService, IJobService jobService)
+        public CreateBookingModel(ICustomerService customerService, ICarService carService, IBookingService bookingService, IDAGService serviceService, IStripeService stripeService, IJobService jobService, IEmailService emailService)
         {
             _customerService = customerService;
             _carService = carService;
@@ -25,6 +26,7 @@ namespace DetailAndGo.Pages
             _serviceService = serviceService;
             _stripeService = stripeService;
             _jobService = jobService;
+            _emailService = emailService;
         }
 
         public Models.Customer Customer { get; set; }
@@ -162,10 +164,11 @@ namespace DetailAndGo.Pages
             {
                 BookingId = activeBooking.Id,
                 Created = DateTime.Now,
-                Description = "Booking has been created",
+                Description = "Booking has been created and email has been sent to " + Customer.Email,
                 Status = Models.Enums.BookingStatus.Created
             };
             await _bookingService.AddToBookingHistory(history);
+            await _emailService.SendBookingCreatedEmail(Customer.Email, activeBooking);
             return new JsonResult(true);            
         }
 

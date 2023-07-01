@@ -11,6 +11,7 @@ namespace DetailAndGo.Services
     {        
         private IWebHostEnvironment _webHostEnvironment;
         private ICustomerService _customerService;
+        private IDAGService _serviceService;
         private GeneralUtility _generalUtility;
         private string _host = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Host"];
         private string _userName = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Username"];
@@ -18,11 +19,12 @@ namespace DetailAndGo.Services
         private string _ssl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["SSL"];
         private string _port = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("BrevoEmail")["Port"];
 
-        public EmailService(IWebHostEnvironment webHostEnvironment, ICustomerService customerService)
+        public EmailService(IWebHostEnvironment webHostEnvironment, ICustomerService customerService, IDAGService serviceService)
         {
             _webHostEnvironment = webHostEnvironment;
             _customerService = customerService;
             _generalUtility = new GeneralUtility();
+            _serviceService = serviceService;
         }
 
         public async Task<bool> SendSingleEmail(Email email)
@@ -68,10 +70,17 @@ namespace DetailAndGo.Services
 
         public async Task<bool> SendBookingCreatedEmail(string emailTo, Booking booking)
         {
+            string firstName = _customerService.GetCustomerByEmail(emailTo).FirstName;
+            string emailBody = File.ReadAllText(_webHostEnvironment.WebRootPath + "/Email/booking/created.html");
+            List<Service> allMainServices = await _serviceService.GetServicesFromIdArray(booking.ServicesArray);
+
             Email email = new Email()
             {
                 From = _userName,
-                Body = "",
+                Body = emailBody.Replace("{firstName}", firstName).Replace("{bookingId}", booking.Id.ToString()).
+                Replace("{amountPaid}", _generalUtility.ConvertPriceToDecimal(booking.TotalAmount).ToString()).
+                Replace("{bookedFor}", booking.BookedFor.ToString("dd/MM/yyyy HH:mm")).
+                Replace("{services}", _generalUtility.GetServiceNamesForEmail(allMainServices, booking)),
                 IsHtml = true,
                 Subject = "DETAIL&GO Booking has been created",
                 To = emailTo
@@ -93,19 +102,21 @@ namespace DetailAndGo.Services
         }
 
         public async Task<bool> SendBookingApprovedEmail(string emailTo, Booking booking)
-        {            
+        {
             string firstName = _customerService.GetCustomerByEmail(emailTo).FirstName;
-            Email email = new Email();
             string emailBody = File.ReadAllText(_webHostEnvironment.WebRootPath + "/Email/booking/approved.html");
 
-            email.Body = emailBody.Replace("{bookingId}", booking.Id.ToString()).Replace("{firstName}", firstName).
+            Email email = new Email()
+            {
+                Body = emailBody.Replace("{bookingId}", booking.Id.ToString()).Replace("{firstName}", firstName).
                 Replace("{amountPaid}", _generalUtility.ConvertPriceToDecimal(booking.TotalAmount).ToString()).
-                Replace("{bookedFor}", booking.BookedFor.ToString("dd/MM/yyyy HH:mm"))
-                ;
-            email.From = _userName;            
-            email.IsHtml = true;
-            email.Subject = "DETAIL&GO booking has been approved!";
-            email.To = emailTo;
+                Replace("{bookedFor}", booking.BookedFor.ToString("dd/MM/yyyy HH:mm")).
+                Replace("{services}", booking.ServicesArray),
+                From = _userName,
+                IsHtml = true,
+                Subject = "DETAIL&GO booking has been approved!",
+                To = emailTo
+            };
 
             return await SendSingleEmail(email);
         }

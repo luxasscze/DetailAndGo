@@ -43,8 +43,8 @@ namespace DetailAndGoAdmin.Pages.Jobs
         }
 
         public async Task<List<Service>> GetServicesFromArray(string array)
-        {
-           return await _serviceService.GetServicesFromIdArray(array);
+        {            
+            return await _serviceService.GetServicesFromIdArray(array);
         }
 
         public async Task<ActionResult> OnGetDeclineBooking(int bookingId,string reason)
