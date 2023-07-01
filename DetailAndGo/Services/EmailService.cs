@@ -1,6 +1,7 @@
 ﻿using DetailAndGo.Models;
 using DetailAndGo.Services.Interfaces;
 using DetailAndGo.Utility;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mail;
 
@@ -88,15 +89,17 @@ namespace DetailAndGo.Services
             return await SendSingleEmail(email);
         }
 
-        public async Task<bool> SendBookingDeclinedEmail(string mailTo, string reason)
+        public async Task<bool> SendBookingDeclinedEmail(string emailTo, string reason)
         {
+            string firstName = _customerService.GetCustomerByEmail(emailTo).FirstName;
+            string emailBody = File.ReadAllText(_webHostEnvironment.WebRootPath + "/Email/booking/declined.html");
             Email email = new Email()
             {
-                Body = "Your booking has been declined. <br/> Please, Read the reason below: <br/> Reason: " + reason,
+                Body = emailBody.Replace("{firstName}", firstName).Replace("{reason}", reason),
                 From = _userName,
                 Subject = "DETAIL&GO booking has been declined!",
                 IsHtml = true,
-                To = mailTo
+                To = emailTo
             };
             return await SendSingleEmail(email);
         }

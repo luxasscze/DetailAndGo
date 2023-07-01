@@ -10,7 +10,7 @@ namespace DetailAndGo.Utility
         }
 
         public string GetServiceNamesForEmail(List<Service> services, Booking booking)
-        {
+        {                                                                               
             string output = String.Empty;
             
             if(services == null)
